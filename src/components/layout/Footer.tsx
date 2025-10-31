@@ -62,10 +62,12 @@ const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
           {/* Company Info */}
           <div className="lg:col-span-2">
-            <Link href="/" className="flex items-center space-x-2 mb-4">
-              <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-primary-600 to-primary-700 rounded-lg">
-                <span className="text-2xl font-bold text-white">S</span>
-              </div>
+            <Link href="/" className="flex items-center space-x-3 mb-4">
+              <img
+                src="/logo-color.svg"
+                alt="Sagena"
+                className="h-12 w-auto"
+              />
               <span className="text-2xl font-bold text-white">Sagena</span>
             </Link>
             <p className="text-gray-400 mb-4">

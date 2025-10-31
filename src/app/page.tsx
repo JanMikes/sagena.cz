@@ -1,230 +1,532 @@
-import React from 'react';
-import { Package, Layout, Lock, ArrowRight } from 'lucide-react';
-import Button from '@/components/ui/Button';
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import { Heart, Activity, Stethoscope, Users, MapPin, ArrowUp, FileText, Briefcase, Calendar, Mail, Phone, DoorOpen } from 'lucide-react';
+
+// Import all components
+import Modal from '@/components/interactive/Modal';
+import Collapse from '@/components/interactive/Collapse';
+import Alert from '@/components/interactive/Alert';
+import CardsWithDescription from '@/components/content/CardsWithDescription';
+import FullWidthCards from '@/components/content/FullWidthCards';
+import Documents from '@/components/content/Documents';
+import Video from '@/components/content/Video';
+import Actuality from '@/components/content/Actuality';
+import WorkOpportunity from '@/components/content/WorkOpportunity';
+import ContactForm from '@/components/forms/ContactForm';
+import Select from '@/components/forms/Select';
+import Checkbox from '@/components/forms/Checkbox';
+import Radio from '@/components/forms/Radio';
+import MarketingArguments from '@/components/marketing/MarketingArguments';
+import Timeline from '@/components/marketing/Timeline';
+import Slider from '@/components/marketing/Slider';
+import PhotoGallery from '@/components/media/PhotoGallery';
+import GallerySlider from '@/components/media/GallerySlider';
+import LinksList from '@/components/navigation/LinksList';
+import Breadcrumb from '@/components/navigation/Breadcrumb';
+import Heading from '@/components/typography/Heading';
+import RichText from '@/components/typography/RichText';
+import Doctor from '@/components/people/Doctor';
+import Contact from '@/components/people/Contact';
+import HowToFindUs from '@/components/layout/HowToFindUs';
+import Breaker from '@/components/layout/Breaker';
+import ButtonRow from '@/components/layout/ButtonRow';
 import Badge from '@/components/ui/Badge';
 import Card from '@/components/ui/Card';
+import PartnerLogos from '@/components/content/PartnerLogos';
+import { insuranceProviders, medicalPartners } from '@/data/partners';
 
-export default function HomePage() {
-  const previewPages = [
-    {
-      title: 'Komponenty',
-      description: 'Kompletní knihovna všech dostupných komponent včetně ukázek použití.',
-      icon: Package,
-      href: '/komponenty',
-      badge: '30+ komponent',
-      highlights: [
-        'Interaktivní komponenty',
-        'Formuláře a vstupy',
-        'Marketing a média',
-        'Typografie a layout',
-      ],
-    },
-    {
-      title: 'S panelem',
-      description: 'Ukázka layoutu stránky s postranním panelem pro rychlé odkazy a informace.',
-      icon: Layout,
-      href: '/s-panelem',
-      badge: 'Sticky panel',
-      highlights: [
-        'Layout 2/3 + 1/3',
-        'Sticky postranní panel',
-        'Responsivní design',
-        'Kontextový obsah',
-      ],
-    },
-    {
-      title: 'Intranet',
-      description: 'Mockup interního systému s přihlašovací stránkou a dashboardem.',
-      icon: Lock,
-      href: '/intranet',
-      badge: 'Mockup',
-      highlights: [
-        'Přihlašovací stránka',
-        'Intranet navigace',
-        'Dashboard s metrikami',
-        'Personalizované rozhraní',
-      ],
-    },
-  ];
+export default function KomponentyPage() {
+  const [modalOpen, setModalOpen] = useState(false);
+
+  // Show modal on page load
+  useEffect(() => {
+    const timer = setTimeout(() => setModalOpen(true), 500);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
-      {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 text-white py-24">
-        {/* Decorative blobs */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-primary-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-primary-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000" />
+    <div className="min-h-screen bg-gray-50">
+      {/* Modal - Shows on page load */}
+      <Modal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        title="Vítejte na stránce komponent"
+        size="md"
+      >
+        <p className="text-gray-600 mb-4">
+          Tato stránka obsahuje přehled všech dostupných komponent, které můžete použít při tvorbě obsahu.
+        </p>
+        <button
+          onClick={() => setModalOpen(false)}
+          className="w-full py-2 px-4 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors"
+        >
+          Rozumím
+        </button>
+      </Modal>
 
-        <div className="container-custom relative z-10">
-          <div className="max-w-4xl mx-auto text-center">
-            <Badge variant="info" className="mb-6 bg-white/20 text-white border-white/30">
-              Sagena Component System
-            </Badge>
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
-              Knihovna komponent
-            </h1>
-            <p className="text-xl md:text-2xl text-primary-100 mb-8 leading-relaxed">
-              Kompletní systém komponent pro tvorbu moderních webových stránek.
-              Prozkoumejte všechny dostupné komponenty a jejich možnosti využití.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button href="/komponenty" size="lg" className="bg-white text-primary-600 hover:bg-primary-50">
-                Zobrazit komponenty
-              </Button>
-              <Button
-                href="/s-panelem"
-                size="lg"
-                variant="outline"
-                className="border-white text-white hover:bg-white/10"
-              >
-                Ukázky layoutů
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Preview Pages Grid */}
-      <section className="section-padding">
+      {/* Header */}
+      <div className="bg-gradient-to-r from-primary-600 to-primary-700 text-white py-16">
         <div className="container-custom">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Náhledy stránek
-            </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Prozkoumejte tři různé typy stránek, které demonstrují využití komponent v praxi
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {previewPages.map((page, index) => {
-              const IconComponent = page.icon;
-              return (
-                <Card
-                  key={index}
-                  hover
-                  className="h-full flex flex-col"
-                  padding="lg"
-                >
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center justify-center w-14 h-14 bg-primary-100 rounded-xl">
-                      <IconComponent className="w-7 h-7 text-primary-600" />
-                    </div>
-                    <Badge variant="primary">{page.badge}</Badge>
-                  </div>
-
-                  <h3 className="text-2xl font-bold text-gray-900 mb-3">
-                    {page.title}
-                  </h3>
-
-                  <p className="text-gray-600 mb-6 leading-relaxed flex-grow">
-                    {page.description}
-                  </p>
-
-                  <ul className="space-y-2 mb-6">
-                    {page.highlights.map((highlight, idx) => (
-                      <li key={idx} className="flex items-center text-sm text-gray-600">
-                        <div className="w-1.5 h-1.5 bg-primary-600 rounded-full mr-2" />
-                        {highlight}
-                      </li>
-                    ))}
-                  </ul>
-
-                  <Button
-                    href={page.href}
-                    variant="outline"
-                    className="w-full group"
-                  >
-                    <span>Zobrazit náhled</span>
-                    <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                  </Button>
-                </Card>
-              );
-            })}
-          </div>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">Knihovna komponent</h1>
+          <p className="text-xl text-primary-100">Přehled všech dostupných komponent pro tvorbu obsahu</p>
         </div>
-      </section>
+      </div>
 
-      {/* Features Section */}
-      <section className="section-padding bg-primary-50/50">
-        <div className="container-custom">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
-              Co najdete v knihovně
-            </h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <Card>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                  Interaktivní komponenty
-                </h3>
-                <p className="text-gray-600 text-sm">
-                  Modály, alertykolapsy a další interaktivní prvky pro lepší UX
-                </p>
-              </Card>
-
-              <Card>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                  Formuláře
-                </h3>
-                <p className="text-gray-600 text-sm">
-                  Kompletní sada formulářových prvků s validací a zpracováním
-                </p>
-              </Card>
-
-              <Card>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                  Marketing & média
-                </h3>
-                <p className="text-gray-600 text-sm">
-                  Slidery, galerie, video, argumenty a další marketingové komponenty
-                </p>
-              </Card>
-
-              <Card>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                  Layout & typografie
-                </h3>
-                <p className="text-gray-600 text-sm">
-                  Layoutové komponenty, panely, nadpisy a formátovaný text
-                </p>
-              </Card>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="section-padding">
-        <div className="container-custom">
-          <Card className="max-w-4xl mx-auto bg-gradient-to-br from-primary-600 to-primary-700 border-none text-white text-center" padding="lg">
-            <Package className="w-16 h-16 mx-auto mb-6 opacity-90" />
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Připraveni začít?
-            </h2>
-            <p className="text-xl text-primary-100 mb-8 max-w-2xl mx-auto">
-              Prozkoumejte všechny komponenty a zjistěte, jak je můžete využít pro tvorbu vašich stránek.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button
-                href="/komponenty"
-                size="lg"
-                className="bg-white text-primary-600 hover:bg-primary-50"
-              >
-                Knihovna komponent
-              </Button>
-              <Button
-                href="/s-panelem"
-                size="lg"
-                variant="outline"
-                className="border-white text-white hover:bg-white/10"
-              >
-                Ukázky layoutů
-              </Button>
-            </div>
+      <div className="container-custom py-12 space-y-16">
+        {/* Breadcrumb */}
+        <section>
+          <h2 className="text-2xl font-bold mb-4">Breadcrumb (Navigace)</h2>
+          <Card>
+            <Breadcrumb items={[{ label: 'Komponenty', href: '/komponenty' }, { label: 'Aktuální stránka' }]} />
           </Card>
-        </div>
-      </section>
+        </section>
+
+        <Breaker style="gradient" />
+
+        {/* Alerts */}
+        <section>
+          <h2 className="text-2xl font-bold mb-6">Upozornění (Alerts)</h2>
+          <div className="space-y-4">
+            <Alert variant="info" title="Informace">
+              Toto je informační upozornění pro uživatele.
+            </Alert>
+            <Alert variant="success" title="Úspěch">
+              Operace byla úspěšně dokončena.
+            </Alert>
+            <Alert variant="warning" title="Varování">
+              Tato akce vyžaduje vaši pozornost.
+            </Alert>
+            <Alert variant="error" title="Chyba">
+              Něco se pokazilo. Zkuste to prosím znovu.
+            </Alert>
+          </div>
+        </section>
+
+        <Breaker />
+
+        {/* Cards with Description */}
+        <section>
+          <h2 className="text-2xl font-bold mb-6">Karty s popisem</h2>
+          <CardsWithDescription
+            columns={3}
+            cards={[
+              { icon: Heart, title: 'Kardiologie', description: 'Péče o vaše srdce', linkText: 'Zjistit více', linkUrl: '#' },
+              { icon: Activity, title: 'Rehabilitace', description: 'Moderní rehabilitační metody', linkText: 'Zjistit více', linkUrl: '#' },
+              { icon: Stethoscope, title: 'Ordinace', description: 'Široká nabídka ordinací', linkText: 'Zjistit více', linkUrl: '#' },
+            ]}
+          />
+        </section>
+
+        <Breaker />
+
+        {/* Full Width Cards */}
+        <section>
+          <h2 className="text-2xl font-bold mb-6">Karty na celou šířku</h2>
+          <FullWidthCards
+            cards={[
+              { icon: Calendar, title: 'Objednání', description: 'Objednejte se online', url: '#' },
+              { icon: FileText, title: 'Dokumenty', description: 'Stáhněte si potřebné formuláře', url: '#' },
+              { icon: Users, title: 'Náš tým', description: 'Seznamte se s našimi lékaři', url: '#' },
+            ]}
+          />
+        </section>
+
+        <Breaker />
+
+        {/* Documents */}
+        <section>
+          <h2 className="text-2xl font-bold mb-6">Dokumenty</h2>
+          <Documents
+            documents={[
+              { name: 'Registrační formulář', url: '#', size: '245 KB', extension: 'pdf' },
+              { name: 'Informovaný souhlas', url: '#', size: '180 KB', extension: 'pdf' },
+              { name: 'Ceník služeb', url: '#', size: '125 KB', extension: 'xlsx' },
+            ]}
+          />
+        </section>
+
+        <Breaker />
+
+        {/* Video */}
+        <section>
+          <h2 className="text-2xl font-bold mb-6">Video</h2>
+          <Video youtubeId="dQw4w9WgXcQ" title="Představení našeho centra" />
+        </section>
+
+        <Breaker />
+
+        {/* Actuality */}
+        <section>
+          <h2 className="text-2xl font-bold mb-6">Aktuality</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <Actuality
+              title="Nové ordinační hodiny"
+              date="2025-01-15"
+              text="Od února rozšiřujeme ordinační hodiny naší kardiologie o víkendové pohotovosti..."
+              readMoreUrl="#"
+            />
+            <Actuality
+              title="Moderní MR přístroj"
+              date="2025-01-10"
+              text="Do našeho centra dorazil nejmodernější magnetický rezonance..."
+              image="https://images.unsplash.com/photo-1516549655169-df83a0774514?w=400"
+              readMoreUrl="#"
+            />
+          </div>
+        </section>
+
+        <Breaker />
+
+        {/* Work Opportunity */}
+        <section>
+          <h2 className="text-2xl font-bold mb-6">Pracovní příležitost</h2>
+          <WorkOpportunity
+            title="Všeobecná sestra"
+            description="Hledáme zkušenou všeobecnou sestru do našeho týmu. Nabízíme moderní pracoviště a příjemný kolektiv."
+            department="Kardiologie"
+            type="Plný úvazek"
+            location="Frýdek-Místek"
+            ctaUrl="#"
+          />
+        </section>
+
+        <Breaker />
+
+        {/* Form Components */}
+        <section>
+          <h2 className="text-2xl font-bold mb-6">Formuláře</h2>
+          <Card>
+            <ContactForm />
+          </Card>
+        </section>
+
+        <Breaker />
+
+        {/* Form Elements */}
+        <section>
+          <h2 className="text-2xl font-bold mb-6">Formulářové prvky</h2>
+          <div className="space-y-6 max-w-2xl">
+            <Select
+              label="Vyberte oddělení"
+              name="department"
+              options={[
+                { value: 'kardio', label: 'Kardiologie' },
+                { value: 'neuro', label: 'Neurologie' },
+                { value: 'ortho', label: 'Ortopedie' },
+              ]}
+            />
+            <Checkbox label="Souhlasím s obchodními podmínkami" name="terms" />
+            <Radio
+              label="Vyberte způsob kontaktu"
+              name="contact"
+              options={[
+                { value: 'email', label: 'E-mail' },
+                { value: 'phone', label: 'Telefon' },
+              ]}
+            />
+          </div>
+        </section>
+
+        <Breaker />
+
+        {/* Marketing Arguments */}
+        <section>
+          <h2 className="text-2xl font-bold mb-6">Marketingové argumenty</h2>
+          <MarketingArguments
+            columns={3}
+            arguments={[
+              { icon: Users, title: 'Zkušený tým', description: '50+ lékařů a specialistů' },
+              { icon: Heart, title: 'Moderní vybavení', description: 'Nejnovější zdravotnická technika' },
+              { number: '15+', title: 'Let zkušeností', description: 'V péči o vaše zdraví' },
+            ]}
+          />
+        </section>
+
+        <Breaker />
+
+        {/* Timeline */}
+        <section>
+          <h2 className="text-2xl font-bold mb-6">Časová osa</h2>
+          <Timeline
+            items={[
+              { number: '1', title: 'Objednání', description: 'Objednejte se online nebo telefonicky' },
+              { number: '2', title: 'Vyšetření', description: 'Přijďte na termín vyšetření' },
+              { number: '3', title: 'Výsledky', description: 'Získejte výsledky a doporučení' },
+            ]}
+          />
+        </section>
+
+        <Breaker />
+
+        {/* Slider */}
+        <section>
+          <h2 className="text-2xl font-bold mb-6">Slider</h2>
+          <Slider
+            slides={[
+              {
+                title: 'Moderní zdravotní péče',
+                description: 'Poskytujeme komplexní služby s využitím nejnovější technologie',
+                linkText: 'Zjistit více',
+                linkUrl: '#',
+              },
+              {
+                title: 'Zkušený tým',
+                description: 'Naši lékaři mají dlouholeté zkušenosti ve svých oborech',
+                linkText: 'Náš tým',
+                linkUrl: '#',
+              },
+            ]}
+          />
+        </section>
+
+        <Breaker />
+
+        {/* Photo Gallery */}
+        <section>
+          <h2 className="text-2xl font-bold mb-6">Fotogalerie</h2>
+          <PhotoGallery
+            columns={3}
+            photos={[
+              { url: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=400', alt: 'Čekárna' },
+              { url: 'https://images.unsplash.com/photo-1538108149393-fbbd81895907?w=400', alt: 'Ordinace' },
+              { url: 'https://images.unsplash.com/photo-1516549655169-df83a0774514?w=400', alt: 'MR přístroj' },
+              { url: 'https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=400', alt: 'Lékař' },
+            ]}
+          />
+        </section>
+
+        <Breaker />
+
+        {/* Gallery Slider */}
+        <section>
+          <h2 className="text-2xl font-bold mb-6">Galerie slider</h2>
+          <GallerySlider
+            photos={[
+              { url: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=600', alt: 'Čekárna' },
+              { url: 'https://images.unsplash.com/photo-1538108149393-fbbd81895907?w=600', alt: 'Ordinace' },
+              { url: 'https://images.unsplash.com/photo-1516549655169-df83a0774514?w=600', alt: 'MR přístroj' },
+              { url: 'https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=600', alt: 'Lékař' },
+              { url: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=600', alt: 'Čekárna 2' },
+              { url: 'https://images.unsplash.com/photo-1538108149393-fbbd81895907?w=600', alt: 'Ordinace 2' },
+            ]}
+          />
+        </section>
+
+        <Breaker />
+
+        {/* Links List */}
+        <section>
+          <h2 className="text-2xl font-bold mb-6">Seznam odkazů</h2>
+          <LinksList
+            links={[
+              { title: 'Kardiologie', url: '#' },
+              { title: 'Neurologie', url: '#' },
+              { title: 'Ortopedie - plná kapacita', url: '#', disabled: true, disabledReason: 'Momentálně nepřijímáme nové pacienty' },
+            ]}
+          />
+        </section>
+
+        <Breaker />
+
+        {/* Typography */}
+        <section>
+          <h2 className="text-2xl font-bold mb-6">Nadpisy</h2>
+          <div className="space-y-4">
+            <Heading level={2}>Nadpis úrovně 2</Heading>
+            <Heading level={3}>Nadpis úrovně 3</Heading>
+            <Heading level={4}>Nadpis úrovně 4</Heading>
+            <Heading level={5}>Nadpis úrovně 5</Heading>
+            <Heading level={6}>Nadpis úrovně 6</Heading>
+          </div>
+        </section>
+
+        <Breaker />
+
+        {/* Rich Text */}
+        <section>
+          <h2 className="text-2xl font-bold mb-6">Formátovaný text</h2>
+          <Card>
+            <RichText
+              content={`
+                <h3>O našem centru</h3>
+                <p>Centrum Zdraví Sagena poskytuje <strong>komplexní zdravotní péči</strong> již více než 15 let.</p>
+                <ul>
+                  <li>Moderní vybavení</li>
+                  <li>Zkušený tým lékařů</li>
+                  <li>Široká nabídka služeb</li>
+                </ul>
+              `}
+            />
+          </Card>
+        </section>
+
+        <Breaker />
+
+        {/* Doctor Cards */}
+        <section>
+          <h2 className="text-2xl font-bold mb-6">Karta lékaře</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <Doctor
+              name="MUDr. Jan Novák"
+              department="Kardiologie"
+              positions={['Kardiolog', 'Interní lékařství']}
+              phones={['+420 553 030 810']}
+              emails={['novak@sagena.cz']}
+              openingHours={[
+                { day: 'Pondělí', time: '8:00 - 16:00' },
+                { day: 'Středa', time: '8:00 - 16:00' },
+                { day: 'Pátek', time: '8:00 - 14:00' },
+              ]}
+            />
+            <Doctor
+              ambulanceTitle="Neurologie"
+              name="MUDr. Marie Dvořáková"
+              department="Neurologie"
+              positions={['Neurolog']}
+              phones={['+420 553 030 820']}
+              emails={['dvorakova@sagena.cz']}
+              holiday={{ from: '2025-02-01', to: '2025-02-14' }}
+              openingHours={[
+                { day: 'Úterý', time: '9:00 - 17:00' },
+                { day: 'Čtvrtek', time: '9:00 - 17:00' },
+              ]}
+            />
+          </div>
+        </section>
+
+        <Breaker />
+
+        {/* Contact Cards */}
+        <section>
+          <h2 className="text-2xl font-bold mb-6">Kontaktní karty</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <Contact name="Jan Novák" email="novak@sagena.cz" phone="+420 553 030 800" />
+            <Contact name="Marie Svobodová" email="svobodova@sagena.cz" phone="+420 553 030 801" />
+          </div>
+        </section>
+
+        <Breaker />
+
+        {/* How To Find Us */}
+        <section>
+          <h2 className="text-2xl font-bold mb-6">Jak nás najít</h2>
+          <HowToFindUs
+            instructions={[
+              { icon: DoorOpen, floor: '1. patro', text: 'Vstupte hlavním vchodem a pokračujte k recepci' },
+              { icon: ArrowUp, floor: '2. patro', text: 'Jděte po schodech nebo výtahem do 2. patra' },
+              { icon: MapPin, floor: '2. patro, č. 215', text: 'Najdete nás na konci chodby vpravo, dveře číslo 215' },
+            ]}
+          />
+        </section>
+
+        <Breaker />
+
+        {/* Buttons */}
+        <section>
+          <h2 className="text-2xl font-bold mb-6">Tlačítka</h2>
+          <div className="space-y-6">
+            <ButtonRow
+              buttons={[
+                { text: 'Primární tlačítko', variant: 'primary' },
+                { text: 'Sekundární tlačítko', variant: 'secondary' },
+                { text: 'Outline tlačítko', variant: 'outline' },
+                { text: 'Ghost tlačítko', variant: 'ghost' },
+              ]}
+            />
+            <ButtonRow
+              alignment="center"
+              buttons={[
+                { text: 'Malé', variant: 'primary', size: 'sm' },
+                { text: 'Střední', variant: 'primary', size: 'md' },
+                { text: 'Velké', variant: 'primary', size: 'lg' },
+              ]}
+            />
+          </div>
+        </section>
+
+        <Breaker />
+
+        {/* Collapse */}
+        <section>
+          <h2 className="text-2xl font-bold mb-6">Rozbalovací sekce</h2>
+          <div className="space-y-4">
+            <Collapse
+              title="Ordinační hodiny"
+              description="Naše ordinace je otevřena v následujících hodinách."
+              contact={{ name: 'Dr. Jan Novák', email: 'novak@sagena.cz', phone: '+420 553 030 800' }}
+            />
+            <Collapse
+              title="Dokumenty ke stažení"
+              description="Zde najdete všechny potřebné formuláře."
+              files={[
+                { name: 'Registrační formulář.pdf', url: '#', size: '245 KB' },
+                { name: 'Informovaný souhlas.pdf', url: '#', size: '180 KB' },
+              ]}
+            />
+          </div>
+        </section>
+
+        <Breaker style="gradient" />
+
+        {/* Badges */}
+        <section>
+          <h2 className="text-2xl font-bold mb-6">Štítky (Badges)</h2>
+          <div className="flex flex-wrap gap-3">
+            <Badge variant="primary">Primary</Badge>
+            <Badge variant="secondary">Secondary</Badge>
+            <Badge variant="success">Success</Badge>
+            <Badge variant="info">Info</Badge>
+            <Badge variant="primary" size="sm">Malý štítek</Badge>
+            <Badge variant="primary" size="md">Velký štítek</Badge>
+          </div>
+        </section>
+
+        <Breaker />
+
+        {/* Partner Logos */}
+        <section>
+          <h2 className="text-2xl font-bold mb-6">Loga partnerů</h2>
+
+          {/* Insurance providers - 6 columns, grayscale */}
+          <div className="mb-12">
+            <h3 className="text-lg font-semibold mb-4 text-gray-700">Zdravotní pojišťovny (6 sloupců, grayscale)</h3>
+            <div className="bg-white p-8 rounded-lg border border-gray-200">
+              <PartnerLogos
+                partners={insuranceProviders}
+                columns={6}
+                gap="md"
+                grayscale={true}
+              />
+            </div>
+          </div>
+
+          {/* Insurance providers - 4 columns, color */}
+          <div className="mb-12">
+            <h3 className="text-lg font-semibold mb-4 text-gray-700">Zdravotní pojišťovny (4 sloupce, barevné)</h3>
+            <div className="bg-white p-8 rounded-lg border border-gray-200">
+              <PartnerLogos
+                partners={insuranceProviders}
+                columns={4}
+                gap="lg"
+                grayscale={false}
+              />
+            </div>
+          </div>
+
+          {/* Medical partners - 3 columns */}
+          <div>
+            <h3 className="text-lg font-semibold mb-4 text-gray-700">Mediální partneři (3 sloupce)</h3>
+            <div className="bg-gray-50 p-8 rounded-lg">
+              <PartnerLogos
+                partners={medicalPartners}
+                columns={3}
+                gap="lg"
+              />
+            </div>
+          </div>
+        </section>
+      </div>
     </div>
   );
 }

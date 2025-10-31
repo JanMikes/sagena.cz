@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Calendar, FileText, Users, TrendingUp, Clock, Activity, Heart, AlertCircle } from 'lucide-react';
+import { Calendar, FileText, Users, TrendingUp, Clock, Activity, AlertCircle } from 'lucide-react';
 import LoginPage from '@/components/intranet/LoginPage';
 import IntranetNav from '@/components/intranet/IntranetNav';
 import Card from '@/components/ui/Card';
@@ -9,6 +9,9 @@ import Alert from '@/components/interactive/Alert';
 import LinksList from '@/components/navigation/LinksList';
 import Documents from '@/components/content/Documents';
 import Contact from '@/components/people/Contact';
+import MarketingArguments from '@/components/marketing/MarketingArguments';
+import Actuality from '@/components/content/Actuality';
+import RichText from '@/components/typography/RichText';
 
 export default function IntranetPage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -36,55 +39,15 @@ export default function IntranetPage() {
         </Alert>
 
         {/* Stats Overview */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <Card>
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600 mb-1">Dnešní pacienti</p>
-                <p className="text-3xl font-bold text-gray-900">12</p>
-              </div>
-              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                <Users className="w-6 h-6 text-blue-600" />
-              </div>
-            </div>
-          </Card>
-
-          <Card>
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600 mb-1">Čekající úkoly</p>
-                <p className="text-3xl font-bold text-gray-900">5</p>
-              </div>
-              <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
-                <Clock className="w-6 h-6 text-yellow-600" />
-              </div>
-            </div>
-          </Card>
-
-          <Card>
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600 mb-1">Nové zprávy</p>
-                <p className="text-3xl font-bold text-gray-900">8</p>
-              </div>
-              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                <FileText className="w-6 h-6 text-green-600" />
-              </div>
-            </div>
-          </Card>
-
-          <Card>
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600 mb-1">Výkon měsíce</p>
-                <p className="text-3xl font-bold text-gray-900">94%</p>
-              </div>
-              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-                <TrendingUp className="w-6 h-6 text-purple-600" />
-              </div>
-            </div>
-          </Card>
-        </div>
+        <MarketingArguments
+          columns={4}
+          arguments={[
+            { icon: Users, number: '12', title: 'Dnešní pacienti', description: 'Naplánované návštěvy' },
+            { icon: Clock, number: '5', title: 'Čekající úkoly', description: 'K vyřízení dnes' },
+            { icon: FileText, number: '8', title: 'Nové zprávy', description: 'Nepřečtené' },
+            { icon: TrendingUp, number: '94%', title: 'Výkon měsíce', description: 'Splnění plánu' },
+          ]}
+        />
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Content */}
@@ -111,35 +74,17 @@ export default function IntranetPage() {
                 <Calendar className="w-5 h-5 text-primary-600 mr-2" />
                 Dnešní rozvrh
               </h2>
-              <div className="space-y-3">
-                {[
-                  { time: '08:00', patient: 'Jan Svoboda', type: 'Kontrola' },
-                  { time: '09:00', patient: 'Marie Nová', type: 'První vyšetření' },
-                  { time: '10:30', patient: 'Petr Dvořák', type: 'Následná péče' },
-                  { time: '13:00', patient: 'Obědová pauza', type: '-' },
-                  { time: '14:00', patient: 'Eva Malá', type: 'Konzultace' },
-                ].map((appointment, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
-                  >
-                    <div className="flex items-center space-x-3">
-                      <div className="text-primary-600 font-semibold text-sm">
-                        {appointment.time}
-                      </div>
-                      <div>
-                        <p className="font-medium text-gray-900">{appointment.patient}</p>
-                        <p className="text-sm text-gray-600">{appointment.type}</p>
-                      </div>
-                    </div>
-                    {appointment.type !== '-' && (
-                      <button className="text-sm text-primary-600 hover:text-primary-700 font-medium">
-                        Detail
-                      </button>
-                    )}
-                  </div>
-                ))}
-              </div>
+              <RichText
+                content={`
+                  <ul>
+                    <li><strong>08:00</strong> - Jan Svoboda (Kontrola)</li>
+                    <li><strong>09:00</strong> - Marie Nová (První vyšetření)</li>
+                    <li><strong>10:30</strong> - Petr Dvořák (Následná péče)</li>
+                    <li><strong>13:00</strong> - Obědová pauza</li>
+                    <li><strong>14:00</strong> - Eva Malá (Konzultace)</li>
+                  </ul>
+                `}
+              />
             </Card>
 
             {/* Recent Activity */}
@@ -148,29 +93,15 @@ export default function IntranetPage() {
                 <Activity className="w-5 h-5 text-primary-600 mr-2" />
                 Nedávná aktivita
               </h2>
-              <div className="space-y-3">
-                <div className="flex items-start space-x-3 pb-3 border-b border-gray-100">
-                  <div className="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
-                  <div>
-                    <p className="text-sm text-gray-900">Vyšetření pacienta dokončeno</p>
-                    <p className="text-xs text-gray-500">před 15 minutami</p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-3 pb-3 border-b border-gray-100">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full mt-2"></div>
-                  <div>
-                    <p className="text-sm text-gray-900">Nový pacient se objednal</p>
-                    <p className="text-xs text-gray-500">před 1 hodinou</p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-3 pb-3 border-b border-gray-100">
-                  <div className="w-2 h-2 bg-yellow-500 rounded-full mt-2"></div>
-                  <div>
-                    <p className="text-sm text-gray-900">Výsledky laboratorních testů připraveny</p>
-                    <p className="text-xs text-gray-500">před 2 hodinami</p>
-                  </div>
-                </div>
-              </div>
+              <RichText
+                content={`
+                  <ul>
+                    <li>Vyšetření pacienta dokončeno <em>(před 15 minutami)</em></li>
+                    <li>Nový pacient se objednal <em>(před 1 hodinou)</em></li>
+                    <li>Výsledky laboratorních testů připraveny <em>(před 2 hodinami)</em></li>
+                  </ul>
+                `}
+              />
             </Card>
           </div>
 
@@ -191,6 +122,7 @@ export default function IntranetPage() {
             <Card>
               <h3 className="text-lg font-bold text-gray-900 mb-4">Dokumenty</h3>
               <Documents
+                columns={1}
                 documents={[
                   { name: 'Protokol Q1', url: '#', size: '1.2 MB', extension: 'pdf' },
                   { name: 'Směrnice', url: '#', size: '890 KB', extension: 'pdf' },

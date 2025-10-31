@@ -653,6 +653,16 @@ For rebuilding Sagena with a modern component-based approach, the following comp
 - Full address
 - Map integration (future enhancement)
 
+**11. PartnerLogos**
+- Partner/insurance provider logo grid
+- Responsive column layout (2-6 columns)
+- Configurable gap spacing (sm/md/lg)
+- External link support for each logo
+- Optional grayscale filter with hover effect
+- Image height normalization
+- Hover scale animation
+- Accessible alt text support
+
 ### Article/News Components
 
 **1. ArticleCard**
@@ -810,11 +820,12 @@ For rebuilding Sagena with a modern component-based approach, the following comp
 - Responsive sizing
 - Link to homepage
 
-**5. LogoGrid**
+**5. LogoGrid** (Implemented as `PartnerLogos` in `/components/content/`)
 - Partner/insurance logo grid
-- Responsive columns
-- Equal height/width treatment
-- Grayscale option
+- Responsive columns (2-6 configurable)
+- Equal height/width treatment (max-height: 60px)
+- Grayscale option with hover transition
+- External link support
 
 ### Utility Components
 
@@ -1134,6 +1145,139 @@ Focus on:
 - Rehabilitation services + location
 - MRI/diagnostic services + location
 - Insurance provider partnerships
+
+---
+
+## Component Implementation Examples
+
+### PartnerLogos Component
+
+**Location:** `src/components/content/PartnerLogos.tsx`
+
+**Purpose:** Displays a responsive grid of partner or insurance provider logos with external links.
+
+#### Props Interface
+
+```typescript
+interface Partner {
+  id: string;          // Unique identifier
+  name: string;        // Partner name
+  logo: string;        // Image URL or path
+  url: string;         // External link URL
+  alt?: string;        // Optional alt text (defaults to name)
+}
+
+interface PartnerLogosProps {
+  partners: Partner[];          // Array of partner data
+  className?: string;           // Additional CSS classes
+  grayscale?: boolean;          // Apply grayscale filter (default: false)
+  columns?: 2 | 3 | 4 | 5 | 6; // Number of columns (default: 6)
+  gap?: 'sm' | 'md' | 'lg';    // Gap spacing (default: 'md')
+}
+```
+
+#### Basic Usage
+
+```typescript
+import PartnerLogos from '@/components/content/PartnerLogos';
+import { insuranceProviders } from '@/data/partners';
+
+// Simple usage with defaults (6 columns, medium gap, color)
+<PartnerLogos partners={insuranceProviders} />
+```
+
+#### Advanced Usage Examples
+
+```typescript
+// 1. Grayscale with hover effect (common for partner sections)
+<PartnerLogos
+  partners={insuranceProviders}
+  grayscale={true}
+  columns={6}
+  gap="lg"
+  className="py-12"
+/>
+
+// 2. Fewer columns for featured partners
+<PartnerLogos
+  partners={medicalPartners}
+  columns={3}
+  gap="lg"
+/>
+
+// 3. Compact layout with small gap
+<PartnerLogos
+  partners={insuranceProviders}
+  columns={4}
+  gap="sm"
+  className="bg-gray-50 p-8 rounded-lg"
+/>
+```
+
+#### Sample Data Structure
+
+Sample partner data is available at `src/data/partners.ts`:
+
+```typescript
+import { insuranceProviders, medicalPartners } from '@/data/partners';
+
+// Insurance providers (VZP, ČPZP, RBP, ZPMV, OZP, VOZP)
+console.log(insuranceProviders); // 6 Czech health insurance providers
+
+// Medical partners (placeholder examples)
+console.log(medicalPartners); // 3 sample partners
+```
+
+**Note:** Demo images use [placehold.co](https://placehold.co) placeholder service.
+
+#### Integration Example (Footer)
+
+```typescript
+import PartnerLogos from '@/components/content/PartnerLogos';
+import { insuranceProviders } from '@/data/partners';
+
+const Footer = () => {
+  return (
+    <footer className="bg-white border-t border-gray-200">
+      <div className="container-custom section-padding">
+        {/* Other footer content */}
+
+        <div className="mt-12">
+          <h3 className="heading-4 text-center mb-8">
+            Spolupracujeme s pojišťovnami
+          </h3>
+          <PartnerLogos
+            partners={insuranceProviders}
+            grayscale={true}
+            columns={6}
+            gap="md"
+          />
+        </div>
+      </div>
+    </footer>
+  );
+};
+```
+
+#### Features
+
+- **Responsive Grid:** Automatically adjusts columns for mobile (2 cols), tablet (3-5 cols), desktop (up to 6 cols)
+- **Hover Effects:** Scale animation (1.05x) on hover, optional grayscale-to-color transition
+- **Accessibility:** Opens external links in new tab with `rel="noopener noreferrer"`
+- **Image Normalization:** Constrains logos to max-height: 60px while maintaining aspect ratio
+- **Flexible Layout:** Configurable columns (2-6), gap spacing (sm/md/lg)
+- **SEO Friendly:** Proper alt text support for all images
+
+#### Styling Customization
+
+```typescript
+// Add custom styling via className
+<PartnerLogos
+  partners={insuranceProviders}
+  className="bg-primary-50 p-8 rounded-xl border border-primary-100"
+  grayscale={false}
+/>
+```
 
 ---
 

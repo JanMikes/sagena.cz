@@ -8,7 +8,6 @@ import {
   FileText,
   Users,
   Settings,
-  Bell,
   LogOut,
 } from 'lucide-react';
 
@@ -22,19 +21,18 @@ const IntranetNav: React.FC<IntranetNavProps> = ({
   activeItem = 'dashboard',
 }) => {
   const navItems = [
-    { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, href: '#' },
+    { id: 'dashboard', label: 'Aktuality', icon: LayoutDashboard, href: '#' },
     { id: 'calendar', label: 'Kalendář', icon: Calendar, href: '#' },
     { id: 'documents', label: 'Dokumenty', icon: FileText, href: '#' },
     { id: 'colleagues', label: 'Kolegové', icon: Users, href: '#' },
-    { id: 'settings', label: 'Nastavení', icon: Settings, href: '#' },
   ];
 
   return (
     <div className="bg-primary-700 text-white shadow-lg">
       <div className="container-custom">
-        <div className="flex items-center justify-between h-14">
+        <div className="flex items-center justify-between py-3 md:py-0 md:h-14">
           {/* Navigation Items */}
-          <nav className="hidden md:flex items-center space-x-1">
+          <nav className="hidden md:flex items-center space-x-1 flex-1">
             {navItems.map((item) => {
               const IconComponent = item.icon;
               const isActive = item.id === activeItem;
@@ -42,7 +40,7 @@ const IntranetNav: React.FC<IntranetNavProps> = ({
                 <Link
                   key={item.id}
                   href={item.href}
-                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors ${
+                  className={`flex items-center space-x-2 px-3 lg:px-4 py-2 rounded-lg transition-colors ${
                     isActive
                       ? 'bg-primary-800 text-white'
                       : 'text-primary-100 hover:bg-primary-600 hover:text-white'
@@ -56,22 +54,13 @@ const IntranetNav: React.FC<IntranetNavProps> = ({
           </nav>
 
           {/* User Actions */}
-          <div className="flex items-center space-x-4">
-            <button
-              className="p-2 text-primary-100 hover:text-white hover:bg-primary-600 rounded-lg transition-colors relative"
-              aria-label="Oznámení"
-            >
-              <Bell className="w-5 h-5" />
-              <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
-            </button>
-
-            <div className="hidden sm:flex items-center space-x-3 pl-4 border-l border-primary-600">
-              <div className="text-right">
+          <div className="flex items-center space-x-2 md:space-x-4">
+            <div className="flex items-center space-x-2 md:space-x-3">
+              <div className="hidden md:block text-right">
                 <p className="text-sm font-medium">{userName}</p>
-                <p className="text-xs text-primary-200">Lékař</p>
               </div>
               <div className="w-8 h-8 bg-primary-600 rounded-full flex items-center justify-center">
-                <span className="text-sm font-semibold">
+                <span className="text-xs md:text-sm font-semibold">
                   {userName
                     .split(' ')
                     .map((n) => n[0])
@@ -84,29 +73,29 @@ const IntranetNav: React.FC<IntranetNavProps> = ({
               className="p-2 text-primary-100 hover:text-white hover:bg-primary-600 rounded-lg transition-colors"
               aria-label="Odhlásit se"
             >
-              <LogOut className="w-5 h-5" />
+              <LogOut className="w-4 h-4 md:w-5 md:h-5" />
             </button>
           </div>
         </div>
 
         {/* Mobile Navigation */}
-        <nav className="md:hidden py-2 border-t border-primary-600">
-          <div className="flex justify-around">
-            {navItems.slice(0, 4).map((item) => {
+        <nav className="md:hidden border-t border-primary-600">
+          <div className="grid grid-cols-5 gap-1">
+            {navItems.map((item) => {
               const IconComponent = item.icon;
               const isActive = item.id === activeItem;
               return (
                 <Link
                   key={item.id}
                   href={item.href}
-                  className={`flex flex-col items-center space-y-1 px-2 py-2 rounded-lg transition-colors ${
+                  className={`flex flex-col items-center justify-center py-3 transition-colors ${
                     isActive
-                      ? 'text-white'
-                      : 'text-primary-200 hover:text-white'
+                      ? 'text-white bg-primary-800'
+                      : 'text-primary-200 hover:text-white hover:bg-primary-600'
                   }`}
                 >
                   <IconComponent className="w-5 h-5" />
-                  <span className="text-xs">{item.label}</span>
+                  <span className="text-[10px] sm:text-xs mt-1">{item.label}</span>
                 </Link>
               );
             })}

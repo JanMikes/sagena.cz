@@ -11,9 +11,10 @@ interface Document {
 
 interface DocumentsProps {
   documents: Document[];
+  columns?: 1 | 2 | 3; // Number of columns (1, 2, or 3)
 }
 
-const Documents: React.FC<DocumentsProps> = ({ documents }) => {
+const Documents: React.FC<DocumentsProps> = ({ documents, columns = 3 }) => {
   const getExtensionColor = (ext: string) => {
     const lowerExt = ext.toLowerCase();
     if (lowerExt === 'pdf') return 'bg-red-100 text-red-700';
@@ -25,8 +26,14 @@ const Documents: React.FC<DocumentsProps> = ({ documents }) => {
     return 'bg-gray-100 text-gray-700';
   };
 
+  const getGridClass = () => {
+    if (columns === 1) return 'grid grid-cols-1 gap-4';
+    if (columns === 2) return 'grid grid-cols-1 md:grid-cols-2 gap-4';
+    return 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4';
+  };
+
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div className={getGridClass()}>
       {documents.map((doc, index) => (
         <a
           key={index}

@@ -159,6 +159,7 @@ export default function SPanelemPage() {
             <Card>
               <h3 className="text-lg font-bold text-gray-900 mb-4">Dokumenty ke stažení</h3>
               <Documents
+                columns={1}
                 documents={[
                   { name: 'Registrace', url: '#', size: '245 KB', extension: 'pdf' },
                   { name: 'Ceník', url: '#', size: '180 KB', extension: 'pdf' },

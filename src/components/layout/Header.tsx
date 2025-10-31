@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Menu, X, Phone, Search, Globe } from 'lucide-react';
 import Button from '@/components/ui/Button';
 
@@ -9,11 +10,12 @@ const Header: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [currentLang, setCurrentLang] = useState<'cs' | 'en'>('cs');
+  const pathname = usePathname();
 
   const navigation = [
-    { name: 'Komponenty', href: '/komponenty' },
-    { name: 'S panelem', href: '/s-panelem' },
-    { name: 'Intranet', href: '/intranet' },
+    { name: 'Komponenty', href: '/' },
+    { name: 'S panelem', href: '/s-panelem/' },
+    { name: 'Intranet', href: '/intranet/' },
   ];
 
   // Handle scroll to collapse first row
@@ -40,10 +42,12 @@ const Header: React.FC = () => {
           }`}
         >
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2">
-            <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-primary-600 to-primary-700 rounded-lg">
-              <span className="text-2xl font-bold text-white">S</span>
-            </div>
+          <Link href="/" className="flex items-center space-x-3">
+            <img
+              src="/logo-color.svg"
+              alt="Sagena"
+              className="h-12 w-auto"
+            />
             <span className="text-2xl font-bold text-gray-900">Sagena</span>
           </Link>
 
@@ -64,9 +68,11 @@ const Header: React.FC = () => {
           {/* Mobile logo only */}
           <div className="lg:hidden">
             <Link href="/" className="flex items-center space-x-2">
-              <div className="flex items-center justify-center w-8 h-8 bg-gradient-to-br from-primary-600 to-primary-700 rounded-lg">
-                <span className="text-lg font-bold text-white">S</span>
-              </div>
+              <img
+                src="/logo-color.svg"
+                alt="Sagena"
+                className="h-10 w-auto"
+              />
             </Link>
           </div>
         </div>
@@ -80,23 +86,32 @@ const Header: React.FC = () => {
               isScrolled ? 'opacity-100' : 'opacity-0 pointer-events-none'
             } hidden lg:flex`}
           >
-            <div className="flex items-center justify-center w-8 h-8 bg-gradient-to-br from-primary-600 to-primary-700 rounded-lg">
-              <span className="text-lg font-bold text-white">S</span>
-            </div>
+            <img
+              src="/logo-color.svg"
+              alt="Sagena"
+              className="h-10 w-auto"
+            />
             <span className="text-xl font-bold text-gray-900">Sagena</span>
           </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center space-x-1 flex-1 justify-center">
-            {navigation.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors duration-200"
-              >
-                {item.name}
-              </Link>
-            ))}
+            {navigation.map((item) => {
+              const isActive = pathname === item.href;
+              return (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200 ${
+                    isActive
+                      ? 'text-primary-600 bg-primary-50'
+                      : 'text-gray-700 hover:text-primary-600 hover:bg-primary-50'
+                  }`}
+                >
+                  {item.name}
+                </Link>
+              );
+            })}
           </div>
 
           {/* Search & Language Switcher */}
@@ -134,16 +149,23 @@ const Header: React.FC = () => {
         {mobileMenuOpen && (
           <div className="lg:hidden py-4 border-t border-gray-200">
             <div className="flex flex-col space-y-2">
-              {navigation.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className="px-4 py-3 text-base font-medium text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {item.name}
-                </Link>
-              ))}
+              {navigation.map((item) => {
+                const isActive = pathname === item.href;
+                return (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    className={`px-4 py-3 text-base font-medium rounded-lg transition-colors ${
+                      isActive
+                        ? 'text-primary-600 bg-primary-50'
+                        : 'text-gray-700 hover:text-primary-600 hover:bg-primary-50'
+                    }`}
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    {item.name}
+                  </Link>
+                );
+              })}
               <button
                 className="flex items-center space-x-2 px-4 py-3 text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors text-left"
                 aria-label="Vyhledávání"
