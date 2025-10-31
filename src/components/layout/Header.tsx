@@ -5,11 +5,14 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, X, Phone, Search, Globe } from 'lucide-react';
 import Button from '@/components/ui/Button';
+import Modal from '@/components/interactive/Modal';
 
 const Header: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [currentLang, setCurrentLang] = useState<'cs' | 'en'>('cs');
+  const [searchModalOpen, setSearchModalOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const pathname = usePathname();
 
   const navigation = [
@@ -60,7 +63,7 @@ const Header: React.FC = () => {
               <Phone className="w-5 h-5" />
               <span className="font-medium">+420 553 030 800</span>
             </a>
-            <Button href="/objednat" size="sm">
+            <Button href="#" size="sm">
               Objednat se
             </Button>
           </div>
@@ -117,6 +120,7 @@ const Header: React.FC = () => {
           {/* Search & Language Switcher */}
           <div className="hidden lg:flex items-center space-x-3">
             <button
+              onClick={() => setSearchModalOpen(true)}
               className="p-2 text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
               aria-label="Vyhledávání"
             >
@@ -167,6 +171,10 @@ const Header: React.FC = () => {
                 );
               })}
               <button
+                onClick={() => {
+                  setSearchModalOpen(true);
+                  setMobileMenuOpen(false);
+                }}
                 className="flex items-center space-x-2 px-4 py-3 text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors text-left"
                 aria-label="Vyhledávání"
               >
@@ -188,7 +196,7 @@ const Header: React.FC = () => {
                 <span className="font-medium">+420 553 030 800</span>
               </a>
               <div className="px-4 pt-2">
-                <Button href="/objednat" className="w-full">
+                <Button href="#" className="w-full">
                   Objednat se
                 </Button>
               </div>
@@ -196,6 +204,82 @@ const Header: React.FC = () => {
           </div>
         )}
       </nav>
+
+      {/* Search Modal */}
+      <Modal
+        isOpen={searchModalOpen}
+        onClose={() => setSearchModalOpen(false)}
+        size="lg"
+      >
+        <div className="py-4">
+          {/* Large Search Input */}
+          <div className="relative mb-8">
+            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-6 h-6 text-gray-400" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Co hledáte?"
+              className="w-full pl-14 pr-4 py-4 text-lg border-2 border-gray-300 rounded-xl focus:border-primary-500 focus:ring-4 focus:ring-primary-100 outline-none transition-all"
+              autoFocus
+            />
+          </div>
+
+          {/* Common Searches */}
+          <div className="mb-6">
+            <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">
+              Nejčastější vyhledávání
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <button className="text-left px-4 py-3 bg-gray-50 hover:bg-primary-50 hover:text-primary-700 rounded-lg transition-colors group">
+                <span className="font-medium">Kardiologie</span>
+              </button>
+              <button className="text-left px-4 py-3 bg-gray-50 hover:bg-primary-50 hover:text-primary-700 rounded-lg transition-colors group">
+                <span className="font-medium">Neurologie</span>
+              </button>
+              <button className="text-left px-4 py-3 bg-gray-50 hover:bg-primary-50 hover:text-primary-700 rounded-lg transition-colors group">
+                <span className="font-medium">Ortopedická ordinace</span>
+              </button>
+              <button className="text-left px-4 py-3 bg-gray-50 hover:bg-primary-50 hover:text-primary-700 rounded-lg transition-colors group">
+                <span className="font-medium">MRI vyšetření</span>
+              </button>
+              <button className="text-left px-4 py-3 bg-gray-50 hover:bg-primary-50 hover:text-primary-700 rounded-lg transition-colors group">
+                <span className="font-medium">Rehabilitace</span>
+              </button>
+              <button className="text-left px-4 py-3 bg-gray-50 hover:bg-primary-50 hover:text-primary-700 rounded-lg transition-colors group">
+                <span className="font-medium">Lékárna</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Quick Links */}
+          <div>
+            <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">
+              Rychlé odkazy
+            </h3>
+            <div className="space-y-2">
+              <Link
+                href="#"
+                className="block px-4 py-2 text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
+              >
+                Ordinační hodiny
+              </Link>
+              <Link
+                href="#"
+                className="block px-4 py-2 text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
+              >
+                Objednání pacienta
+              </Link>
+              <Link
+                href="#"
+                className="block px-4 py-2 text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
+              >
+                Kontakty
+              </Link>
+            </div>
+          </div>
+        </div>
+      </Modal>
     </header>
   );
 };
