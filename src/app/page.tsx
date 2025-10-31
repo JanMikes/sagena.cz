@@ -159,14 +159,6 @@ export default function HomePage() {
     { id: 'vozp', name: 'VOZP', logo: 'https://placehold.co/150x80/2563eb/ffffff?text=VOZP', url: '#', alt: 'VOZP' }
   ];
 
-  const aboutContent = `
-    <p>Zdravotnické středisko <strong>Sagena</strong> je moderní zdravotnické zařízení poskytující komplexní zdravotní péči již více než 25 let. Naše centrum se nachází v dobře dostupné lokalitě a nabízí široké spektrum ambulantních služeb pod jednou střechou.</p>
-
-    <p>Disponujeme moderním vybavením včetně MRI pracoviště, plně vybaveného rehabilitačního centra a vlastní lékárny. Náš tým tvoří více než 50 zkušených lékařů a zdravotnických pracovníků, kteří se věnují pacientům s maximální péčí a profesionalitou.</p>
-
-    <p>Naším cílem je poskytovat kvalitní zdravotní péči s důrazem na individuální přístup, preventivní medicínu a využití moderních diagnostických a léčebných metod. Péči poskytujeme v klidném a příjemném prostředí s důrazem na pohodlí a soukromí pacientů.</p>
-  `;
-
   return (
     <div className="min-h-screen">
       {/* Hero Section with Slider */}
@@ -174,43 +166,42 @@ export default function HomePage() {
         <Slider slides={sliderSlides} autoplay />
       </div>
 
-      {/* Quick Actions */}
-      <div className="bg-white shadow-soft">
-        <div className="container-custom py-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <Button variant="primary" size="lg" className="w-full" href="#objednat">
-              <Calendar className="w-5 h-5 mr-2" />
-              Objednat se online
-            </Button>
-            <Button variant="secondary" size="lg" className="w-full" href="tel:+420553030800">
-              <Phone className="w-5 h-5 mr-2" />
-              +420 553 030 800
-            </Button>
-            <Button variant="outline" size="lg" className="w-full" href="#sluzby">
-              <Stethoscope className="w-5 h-5 mr-2" />
-              Naše služby
-            </Button>
-          </div>
+        {/* Why Choose Us Section */}
+        <div className="bg-primary-50 py-16">
+            <div className="container-custom">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <Card padding="lg" className="text-center bg-white">
+                        <Award className="w-12 h-12 text-medical-green mx-auto mb-4" />
+                        <h3 className="text-xl font-bold text-primary-700 mb-2">
+                            Kvalitní péče
+                        </h3>
+                        <p className="text-neutral-600">
+                            Certifikované pracoviště splňující nejvyšší standardy kvality
+                        </p>
+                    </Card>
+
+                    <Card padding="lg" className="text-center bg-white">
+                        <Shield className="w-12 h-12 text-medical-green mx-auto mb-4" />
+                        <h3 className="text-xl font-bold text-primary-700 mb-2">
+                            Moderní vybavení
+                        </h3>
+                        <p className="text-neutral-600">
+                            Investujeme do nejnovějších diagnostických a léčebných technologií
+                        </p>
+                    </Card>
+
+                    <Card padding="lg" className="text-center bg-white">
+                        <Users className="w-12 h-12 text-medical-green mx-auto mb-4" />
+                        <h3 className="text-xl font-bold text-primary-700 mb-2">
+                            Zkušený tým
+                        </h3>
+                        <p className="text-neutral-600">
+                            Více než 50 odborníků s dlouholetou praxí ve svých oborech
+                        </p>
+                    </Card>
+                </div>
+            </div>
         </div>
-      </div>
-
-      {/* About Section */}
-      <div className="container-custom py-16">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-primary-700 mb-4">
-            Vítejte v Sageně
-          </h1>
-          <p className="text-xl text-neutral-600 max-w-3xl mx-auto">
-            Moderní zdravotnické centrum s tradicí a komplexní péčí
-          </p>
-        </div>
-
-        <Card padding="lg">
-          <RichText content={aboutContent} />
-        </Card>
-      </div>
-
-      <Breaker style="gradient" spacing="lg" />
 
       {/* Services Section */}
       <div id="sluzby" className="container-custom py-16">
@@ -235,8 +226,6 @@ export default function HomePage() {
         </div>
       </div>
 
-      <Breaker />
-
       {/* Why Choose Us Section */}
       <div className="bg-primary-50 py-16">
         <div className="container-custom">
@@ -250,38 +239,6 @@ export default function HomePage() {
           </div>
 
           <MarketingArguments arguments={whyChooseUs} columns={4} />
-
-          <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Card padding="lg" className="text-center bg-white">
-              <Award className="w-12 h-12 text-medical-green mx-auto mb-4" />
-              <h3 className="text-xl font-bold text-primary-700 mb-2">
-                Kvalitní péče
-              </h3>
-              <p className="text-neutral-600">
-                Certifikované pracoviště splňující nejvyšší standardy kvality
-              </p>
-            </Card>
-
-            <Card padding="lg" className="text-center bg-white">
-              <Shield className="w-12 h-12 text-medical-green mx-auto mb-4" />
-              <h3 className="text-xl font-bold text-primary-700 mb-2">
-                Moderní vybavení
-              </h3>
-              <p className="text-neutral-600">
-                Investujeme do nejnovějších diagnostických a léčebných technologií
-              </p>
-            </Card>
-
-            <Card padding="lg" className="text-center bg-white">
-              <Users className="w-12 h-12 text-medical-green mx-auto mb-4" />
-              <h3 className="text-xl font-bold text-primary-700 mb-2">
-                Zkušený tým
-              </h3>
-              <p className="text-neutral-600">
-                Více než 50 odborníků s dlouholetou praxí ve svých oborech
-              </p>
-            </Card>
-          </div>
         </div>
       </div>
 
@@ -291,7 +248,7 @@ export default function HomePage() {
       <div className="container-custom py-16">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-primary-700 mb-4">
-            Náš tým lékařů
+            Praktický lékař
           </h2>
           <p className="text-lg text-neutral-600 max-w-2xl mx-auto">
             Seznamte se s některými z našich zkušených odborníků
@@ -405,76 +362,6 @@ export default function HomePage() {
         </div>
 
         <PhotoGallery photos={galleryImages} columns={3} />
-      </div>
-
-      <Breaker />
-
-      {/* Contact Information */}
-      <div className="container-custom py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <Card padding="lg">
-            <div className="flex items-center gap-3 mb-6">
-              <Clock className="w-8 h-8 text-primary-600" />
-              <h3 className="text-2xl font-bold text-primary-700">
-                Otevírací doba
-              </h3>
-            </div>
-            <div className="space-y-4">
-              <div>
-                <h4 className="font-semibold text-neutral-700 mb-2">Ambulance</h4>
-                <p className="text-neutral-600">Po-Pá: 7:00 - 18:00</p>
-                <p className="text-neutral-600">So-Ne: Zavřeno</p>
-              </div>
-              <div>
-                <h4 className="font-semibold text-neutral-700 mb-2">Rehabilitace</h4>
-                <p className="text-neutral-600">Po-Pá: 7:00 - 19:00</p>
-                <p className="text-neutral-600">So: 8:00 - 12:00</p>
-              </div>
-              <div>
-                <h4 className="font-semibold text-neutral-700 mb-2">Lékárna</h4>
-                <p className="text-neutral-600">Po-Pá: 7:00 - 18:00</p>
-                <p className="text-neutral-600">So: 8:00 - 12:00</p>
-              </div>
-            </div>
-          </Card>
-
-          <Card padding="lg">
-            <div className="flex items-center gap-3 mb-6">
-              <MapPin className="w-8 h-8 text-primary-600" />
-              <h3 className="text-2xl font-bold text-primary-700">
-                Kontakt
-              </h3>
-            </div>
-            <div className="space-y-4">
-              <div>
-                <p className="text-sm text-neutral-500 mb-1">Telefon</p>
-                <a href="tel:+420553030800" className="text-lg font-medium text-primary-600 hover:text-primary-700">
-                  +420 553 030 800
-                </a>
-              </div>
-              <div>
-                <p className="text-sm text-neutral-500 mb-1">Email</p>
-                <a href="mailto:info@sagena.cz" className="text-lg font-medium text-primary-600 hover:text-primary-700">
-                  info@sagena.cz
-                </a>
-              </div>
-              <div>
-                <p className="text-sm text-neutral-500 mb-1">Adresa</p>
-                <p className="text-lg text-neutral-700">
-                  Zdravotnické středisko Sagena<br />
-                  Janáčkova 11<br />
-                  602 00 Brno
-                </p>
-              </div>
-              <div className="pt-4">
-                <Button variant="primary" className="w-full" href="#objednat">
-                  <Calendar className="w-5 h-5 mr-2" />
-                  Objednat se online
-                </Button>
-              </div>
-            </div>
-          </Card>
-        </div>
       </div>
 
       <Breaker style="gradient" spacing="lg" />
