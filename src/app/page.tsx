@@ -292,6 +292,8 @@ export default function KomponentyPage() {
               { url: 'https://images.unsplash.com/photo-1538108149393-fbbd81895907?w=400', alt: 'Ordinace' },
               { url: 'https://images.unsplash.com/photo-1516549655169-df83a0774514?w=400', alt: 'MR přístroj' },
               { url: 'https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=400', alt: 'Lékař' },
+              { url: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=400', alt: 'Čekárna' },
+              { url: 'https://images.unsplash.com/photo-1538108149393-fbbd81895907?w=400', alt: 'Ordinace' },
             ]}
           />
         </section>
