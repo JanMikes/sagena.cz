@@ -1,5 +1,8 @@
 import React from 'react';
-import { Activity, Zap, Waves, Sparkles, Heart, Briefcase, Phone, Mail, Clock, FileText, AlertCircle, ChevronRight } from 'lucide-react';
+import {
+    Activity, Zap, Waves, Sparkles, Heart, Briefcase, Phone, Mail, Clock, FileText, AlertCircle, ChevronRight,
+    DoorOpen, ArrowUp, MapPin
+} from 'lucide-react';
 import Card from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
 import Breadcrumb from '@/components/navigation/Breadcrumb';
@@ -14,6 +17,8 @@ import LinksList from '@/components/navigation/LinksList';
 import Collapse from '@/components/interactive/Collapse';
 import RichText from '@/components/typography/RichText';
 import Breaker from '@/components/layout/Breaker';
+import HowToFindUs from "@/components/layout/HowToFindUs";
+import Doctor from "@/components/people/Doctor";
 
 export default function Priklad2Page() {
   const breadcrumbItems = [
@@ -140,14 +145,30 @@ export default function Priklad2Page() {
             <Breadcrumb items={breadcrumbItems} />
 
             {/* Introduction */}
-            <Card padding="lg">
+            <div>
               <RichText content={introContent} />
               <div className="mt-6">
                 <Button variant="primary" size="lg" href="#objednat">
                   Objednat se na rehabilitaci
                 </Button>
               </div>
-            </Card>
+            </div>
+
+              {/* Alert */}
+              <Alert variant="info" title="Důležitá informace">
+                  Pro první vyšetření je nutné doporučení od lékaře. Akutní stavy řešíme přednostně.
+              </Alert>
+
+          {/* How To Find Us */}
+          <section>
+              <HowToFindUs
+                  instructions={[
+                      { icon: DoorOpen, floor: '1. patro', text: 'Vstupte hlavním vchodem a pokračujte k recepci' },
+                      { icon: ArrowUp, floor: '2. patro', text: 'Jděte po schodech nebo výtahem do 2. patra' },
+                      { icon: MapPin, floor: '2. patro, č. 215', text: 'Najdete nás na konci chodby vpravo, dveře číslo 215' },
+                  ]}
+              />
+          </section>
 
             {/* Services */}
             <div>
@@ -156,6 +177,40 @@ export default function Priklad2Page() {
               </h2>
               <FullWidthCards cards={services} />
             </div>
+
+              <Breaker />
+
+              {/* Doctor Cards */}
+              <section>
+                  <h2 className="text-2xl font-bold mb-6">Karta lékaře</h2>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <Doctor
+                          name="MUDr. Jan Novák"
+                          department="Kardiologie"
+                          positions={['Kardiolog', 'Interní lékařství']}
+                          phones={['+420 553 030 810']}
+                          emails={['novak@sagena.cz']}
+                          openingHours={[
+                              { day: 'Pondělí', time: '8:00 - 16:00' },
+                              { day: 'Středa', time: '8:00 - 16:00' },
+                              { day: 'Pátek', time: '8:00 - 14:00' },
+                          ]}
+                      />
+                      <Doctor
+                          name="MUDr. Marie Dvořáková"
+                          department="Neurologie"
+                          positions={['Neurolog']}
+                          phones={['+420 553 030 820']}
+                          emails={['dvorakova@sagena.cz']}
+                          holiday={{ from: '2025-02-01', to: '2025-02-14' }}
+                          openingHours={[
+                              { day: 'Úterý', time: '9:00 - 17:00' },
+                              { day: 'Čtvrtek', time: '9:00 - 17:00' },
+                          ]}
+                      />
+                  </div>
+              </section>
+
 
             <Breaker />
 
@@ -185,62 +240,6 @@ export default function Priklad2Page() {
             </Card>
 
             <Breaker />
-
-            {/* News */}
-            <div>
-              <h2 className="text-3xl font-bold text-primary-700 mb-6">
-                Aktuality z rehabilitace
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <Actuality
-                  title="Nová laserová terapie"
-                  date="2025-01-20"
-                  text="Od února nabízíme nejmodernější laserovou terapii pro léčbu bolesti a urychlení hojení tkání..."
-                  image="https://images.unsplash.com/photo-1579154204601-01588f351e67?w=400"
-                  readMoreUrl="#"
-                />
-                <Actuality
-                  title="Rozšířené ordinační hodiny"
-                  date="2025-01-15"
-                  text="Díky velkému zájmu rozšiřujeme ordinační hodiny. Nově jsme k dispozici i v sobotu dopoledne..."
-                  readMoreUrl="#"
-                />
-                <Actuality
-                  title="Workshop správného držení těla"
-                  date="2025-01-10"
-                  text="V březnu pořádáme bezplatný workshop zaměřený na prevenci bolestí zad a správné držení těla při práci..."
-                  image="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400"
-                  readMoreUrl="#"
-                />
-              </div>
-            </div>
-
-            <Breaker />
-
-            {/* Work Opportunities */}
-            <div>
-              <h2 className="text-3xl font-bold text-primary-700 mb-6">
-                Pracovní příležitosti
-              </h2>
-              <div className="space-y-4">
-                <WorkOpportunity
-                  title="Fyzioterapeut/ka"
-                  description="Hledáme zkušeného fyzioterapeuta do našeho týmu. Nabízíme moderní pracoviště, příjemný kolektiv a možnost profesního růstu."
-                  department="Rehabilitace"
-                  type="Plný úvazek / Částečný úvazek"
-                  location="Brno"
-                  ctaUrl="#"
-                />
-                <WorkOpportunity
-                  title="Masér/ka"
-                  description="Rozšiřujeme tým a hledáme kvalifikovaného maséra. Požadujeme praxi v oblasti klasické a sportovní masáže."
-                  department="Rehabilitace"
-                  type="Plný úvazek"
-                  location="Brno"
-                  ctaUrl="#"
-                />
-              </div>
-            </div>
 
             {/* CTA Section */}
             <Card padding="lg" className="bg-primary-50">
@@ -308,11 +307,6 @@ export default function Priklad2Page() {
               </div>
               <Documents documents={documents} columns={1} />
             </Card>
-
-            {/* Alert */}
-            <Alert variant="info" title="Důležitá informace">
-              Pro první vyšetření je nutné doporučení od lékaře. Akutní stavy řešíme přednostně.
-            </Alert>
 
             {/* Quick Links */}
             <Card padding="lg">
