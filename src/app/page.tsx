@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import { Heart, Activity, Stethoscope, Brain, Bone, Waves, Eye, Pill, Calendar, Clock, Phone, Award, Shield, Users, MapPin } from 'lucide-react';
 import Card from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
@@ -166,40 +167,68 @@ export default function HomePage() {
         <Slider slides={sliderSlides} autoplay />
       </div>
 
-        {/* Why Choose Us Section */}
-        <div className="bg-primary-50 py-16">
-            <div className="container-custom">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <Card padding="lg" className="text-center bg-white">
-                        <Award className="w-12 h-12 text-primary-700 mx-auto mb-4" />
+        {/* Quick links */}
+        <div className="bg-primary-50 py-16 px-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
+                <Link href="#ordinace" className="block">
+                    <Card padding="lg" className="text-center bg-white hover:shadow-lg transition-shadow duration-200">
+                        <Stethoscope className="w-12 h-12 text-primary-700 mx-auto mb-4" />
                         <h3 className="text-xl font-bold text-primary-700 mb-2">
-                            Kvalitní péče
+                            Ordinace
                         </h3>
                         <p className="text-neutral-600">
-                            Certifikované pracoviště splňující nejvyšší standardy kvality
+                            Široké spektrum odborných ambulancí pro komplexní zdravotní péči
                         </p>
                     </Card>
+                </Link>
 
-                    <Card padding="lg" className="text-center bg-white">
-                        <Shield className="w-12 h-12 text-primary-700 mx-auto mb-4" />
+                <Link href="#rehabilitace" className="block">
+                    <Card padding="lg" className="text-center bg-white hover:shadow-lg transition-shadow duration-200">
+                        <Activity className="w-12 h-12 text-primary-700 mx-auto mb-4" />
                         <h3 className="text-xl font-bold text-primary-700 mb-2">
-                            Moderní vybavení
+                            Rehabilitace
                         </h3>
                         <p className="text-neutral-600">
-                            Investujeme do nejnovějších diagnostických a léčebných technologií
+                            Fyzioterapie, masáže a moderní rehabilitační metody
                         </p>
                     </Card>
+                </Link>
 
-                    <Card padding="lg" className="text-center bg-white">
-                        <Users className="w-12 h-12 text-primary-700 mx-auto mb-4" />
+                <Link href="#magneticka-rezonance" className="block">
+                    <Card padding="lg" className="text-center bg-white hover:shadow-lg transition-shadow duration-200">
+                        <Waves className="w-12 h-12 text-primary-700 mx-auto mb-4" />
                         <h3 className="text-xl font-bold text-primary-700 mb-2">
-                            Zkušený tým
+                            Magnetická rezonance
                         </h3>
                         <p className="text-neutral-600">
-                            Více než 50 odborníků s dlouholetou praxí ve svých oborech
+                            Přesná diagnostika celého těla s rychlým vyhodnocením
                         </p>
                     </Card>
-                </div>
+                </Link>
+
+                <Link href="#magneticka-rezonance-3t" className="block">
+                    <Card padding="lg" className="text-center bg-white hover:shadow-lg transition-shadow duration-200">
+                        <Brain className="w-12 h-12 text-primary-700 mx-auto mb-4" />
+                        <h3 className="text-xl font-bold text-primary-700 mb-2">
+                            Magnetická rezonance 3T
+                        </h3>
+                        <p className="text-neutral-600">
+                            Nejmodernější 3T přístroj pro detailní zobrazení
+                        </p>
+                    </Card>
+                </Link>
+
+                <Link href="#lekarna" className="block">
+                    <Card padding="lg" className="text-center bg-white hover:shadow-lg transition-shadow duration-200">
+                        <Pill className="w-12 h-12 text-primary-700 mx-auto mb-4" />
+                        <h3 className="text-xl font-bold text-primary-700 mb-2">
+                            Lékárna
+                        </h3>
+                        <p className="text-neutral-600">
+                            Plně vybavená lékárna s širokým sortimentem léků a pomůcek
+                        </p>
+                    </Card>
+                </Link>
             </div>
         </div>
 
