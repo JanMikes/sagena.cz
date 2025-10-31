@@ -16,7 +16,9 @@ const Header: React.FC = () => {
   const pathname = usePathname();
 
   const navigation = [
-    { name: 'Komponenty', href: '/' },
+    { name: 'Příklad 1', href: '/' },
+    { name: 'Příklad 2', href: '/priklad-2/' },
+    { name: 'Komponenty', href: '/komponenty/' },
     { name: 'S panelem', href: '/s-panelem/' },
     { name: 'Intranet', href: '/intranet/' },
   ];
@@ -82,7 +84,7 @@ const Header: React.FC = () => {
 
         {/* Row 2: Navigation, Search, Language Switcher - Always visible */}
         <div className="flex items-center justify-between h-16">
-          {/* Logo (visible when scrolled) */}
+          {/* Logo (visible when scrolled) - Desktop */}
           <Link
             href="/"
             className={`flex items-center space-x-2 transition-opacity duration-300 ${
@@ -95,6 +97,20 @@ const Header: React.FC = () => {
               className="h-10 w-auto"
             />
             <span className="text-xl font-bold text-gray-900">Sagena</span>
+          </Link>
+
+          {/* Logo (visible when scrolled) - Mobile */}
+          <Link
+            href="/"
+            className={`flex items-center space-x-2 transition-opacity duration-300 lg:hidden ${
+              isScrolled ? 'opacity-100' : 'opacity-0 pointer-events-none'
+            }`}
+          >
+            <img
+              src="/logo-color.svg"
+              alt="Sagena"
+              className="h-8 w-auto"
+            />
           </Link>
 
           {/* Desktop Navigation */}
