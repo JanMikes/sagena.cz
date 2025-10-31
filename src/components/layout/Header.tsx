@@ -16,8 +16,9 @@ const Header: React.FC = () => {
   const pathname = usePathname();
 
   const navigation = [
-    { name: 'Příklad 1', href: '/' },
-    { name: 'Příklad 2', href: '/priklad-2/' },
+    { name: 'Homepage', href: '/' },
+    { name: 'Rehabilitace', href: '/rehabilitace/' },
+    { name: 'Ordinace', href: '/ordinace/' },
     { name: 'Komponenty', href: '/komponenty/' },
     { name: 'S panelem', href: '/s-panelem/' },
     { name: 'Intranet', href: '/intranet/' },
