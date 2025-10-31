@@ -171,7 +171,7 @@ export default function HomePage() {
             <div className="container-custom">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <Card padding="lg" className="text-center bg-white">
-                        <Award className="w-12 h-12 text-medical-green mx-auto mb-4" />
+                        <Award className="w-12 h-12 text-primary-700 mx-auto mb-4" />
                         <h3 className="text-xl font-bold text-primary-700 mb-2">
                             Kvalitní péče
                         </h3>
@@ -181,7 +181,7 @@ export default function HomePage() {
                     </Card>
 
                     <Card padding="lg" className="text-center bg-white">
-                        <Shield className="w-12 h-12 text-medical-green mx-auto mb-4" />
+                        <Shield className="w-12 h-12 text-primary-700 mx-auto mb-4" />
                         <h3 className="text-xl font-bold text-primary-700 mb-2">
                             Moderní vybavení
                         </h3>
@@ -191,7 +191,7 @@ export default function HomePage() {
                     </Card>
 
                     <Card padding="lg" className="text-center bg-white">
-                        <Users className="w-12 h-12 text-medical-green mx-auto mb-4" />
+                        <Users className="w-12 h-12 text-primary-700 mx-auto mb-4" />
                         <h3 className="text-xl font-bold text-primary-700 mb-2">
                             Zkušený tým
                         </h3>
@@ -207,7 +207,7 @@ export default function HomePage() {
       <div id="sluzby" className="container-custom py-16">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-primary-700 mb-4">
-            Naše služby
+            Ordinace
           </h2>
           <p className="text-lg text-neutral-600 max-w-2xl mx-auto">
             Poskytujeme komplexní spektrum zdravotních služeb na jednom místě
@@ -241,8 +241,6 @@ export default function HomePage() {
           <MarketingArguments arguments={whyChooseUs} columns={4} />
         </div>
       </div>
-
-      <Breaker style="gradient" spacing="lg" />
 
       {/* Featured Doctors */}
       <div className="container-custom py-16">
@@ -305,7 +303,7 @@ export default function HomePage() {
         </div>
       </div>
 
-      <Breaker />
+        <Breaker style="gradient" spacing="lg" />
 
       {/* News Section */}
       <div className="container-custom py-16">
