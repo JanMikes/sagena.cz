@@ -11,22 +11,22 @@ const config: Config = {
       colors: {
         // Healthcare-focused color palette
         primary: {
-          50: '#eff6ff',
-          100: '#dbeafe',
-          200: '#bfdbfe',
-          300: '#93c5fd',
-          400: '#60a5fa',
-          500: '#3b82f6',
-          600: '#2563eb',
-          700: '#1d4ed8',
-          800: '#1e40af',
-          900: '#1e3a8a',
-          950: '#172554',
+          50: '#e6f2f9',   // Very light tint for backgrounds
+          100: '#cce5f3',  // Light tint for hover backgrounds
+          200: '#99cbe7',  // Light blue
+          300: '#65bde6',  // Brand accent color (light)
+          400: '#3398ce',  // Intermediate
+          500: '#0070b8',  // Brand secondary color (medium)
+          600: '#005086',  // Brand primary color (main)
+          700: '#004069',  // Darker for text on light backgrounds
+          800: '#00304d',  // Even darker for headers
+          900: '#002030',  // Very dark for high contrast
+          950: '#001018',  // Nearly black
         },
         medical: {
-          blue: '#2563eb',
-          'blue-light': '#60a5fa',
-          'blue-dark': '#1e40af',
+          blue: '#005086',        // Updated to match new primary
+          'blue-light': '#0070b8', // Updated to match new secondary
+          'blue-dark': '#004069',  // Updated to match darker shade
           green: '#10b981',
           'green-light': '#34d399',
         },

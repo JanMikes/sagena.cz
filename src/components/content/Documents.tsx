@@ -18,7 +18,7 @@ const Documents: React.FC<DocumentsProps> = ({ documents, columns = 3 }) => {
   const getExtensionColor = (ext: string) => {
     const lowerExt = ext.toLowerCase();
     if (lowerExt === 'pdf') return 'bg-red-100 text-red-700';
-    if (['doc', 'docx'].includes(lowerExt)) return 'bg-blue-100 text-blue-700';
+    if (['doc', 'docx'].includes(lowerExt)) return 'bg-primary-100 text-primary-700';
     if (['xls', 'xlsx'].includes(lowerExt))
       return 'bg-green-100 text-green-700';
     if (['jpg', 'jpeg', 'png', 'gif'].includes(lowerExt))

@@ -17,7 +17,7 @@ const Badge: React.FC<BadgeProps> = ({
     primary: 'bg-primary-100 text-primary-700',
     secondary: 'bg-gray-100 text-gray-700',
     success: 'bg-medical-green/10 text-medical-green',
-    info: 'bg-blue-100 text-blue-700',
+    info: 'bg-primary-100 text-primary-700',
   };
 
   const sizeStyles = {

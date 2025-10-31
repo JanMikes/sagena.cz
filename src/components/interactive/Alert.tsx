@@ -25,10 +25,10 @@ const Alert: React.FC<AlertProps> = ({
 }) => {
   const variantConfig = {
     info: {
-      containerClass: 'bg-blue-50 border-blue-200',
-      iconClass: 'text-blue-600',
-      titleClass: 'text-blue-900',
-      textClass: 'text-blue-800',
+      containerClass: 'bg-primary-50 border-primary-200',
+      iconClass: 'text-primary-600',
+      titleClass: 'text-primary-900',
+      textClass: 'text-primary-800',
       Icon: Info,
     },
     success: {
