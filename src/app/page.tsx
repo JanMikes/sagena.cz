@@ -226,6 +226,31 @@ export default function HomePage() {
         </div>
       </div>
 
+      {/* Services Links Only Section */}
+      <div className="bg-neutral-50 py-16">
+        <div className="container-custom">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-primary-700 mb-4">
+              Rehabilitace
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-5xl mx-auto">
+            {services.map((service, index) => (
+              <a
+                key={index}
+                href={service.linkUrl}
+                className="text-center p-4 rounded-lg bg-white hover:bg-primary-50 transition-colors duration-200 border border-neutral-200 hover:border-primary-300"
+              >
+                <span className="text-primary-700 font-semibold hover:text-primary-800">
+                  {service.title}
+                </span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+
       {/* Why Choose Us Section */}
       <div className="bg-primary-50 py-16">
         <div className="container-custom">
