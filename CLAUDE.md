@@ -4,28 +4,53 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Sagena is a **Next.js 15 static healthcare website** built with TypeScript, Tailwind CSS, and Lucide React. The project is configured for **static site generation (SSG)** and deploys to GitHub Pages. It contains a comprehensive component library with 36 reusable components organized by domain/function.
+Sagena is a **monorepo healthcare platform** with:
+- **Frontend** (`/frontend`): Next.js 15 static website built with TypeScript, Tailwind CSS, and Lucide React
+- **Backend** (`/strapi`): Strapi 5.30.1 CMS with PostgreSQL database
+- **Deployment**: Docker Compose orchestration with three services (frontend, strapi, postgres)
+
+The frontend is configured for **static site generation (SSG)** and deploys to GitHub Pages. It contains a comprehensive component library with 36 reusable components organized by domain/function.
 
 **Key Characteristics:**
-- Static export (`output: 'export'` in next.config.js)
-- App Router (not Pages Router)
-- No server-side runtime or API routes
-- Custom component library (not using Shadcn, MUI, etc.)
-- Healthcare-focused design system
+- **Monorepo structure**: Two independent applications in `/frontend` and `/strapi`
+- **Frontend**: Static export (`output: 'export'` in next.config.js), App Router, no SSR
+- **Backend**: Strapi CMS with PostgreSQL, TypeScript, content management API
+- **Orchestration**: Docker Compose with health checks and persistent volumes
+- **Custom component library**: 36 components in frontend, not using Shadcn or MUI
+- **Healthcare-focused design system**
 
 ## Development Commands
 
-### Common Commands
+### Docker Commands (Recommended)
 ```bash
+docker compose up           # Start all services (frontend:8080, strapi:1337, postgres:5432)
+docker compose up -d        # Start in background
+docker compose logs -f      # View logs
+docker compose down         # Stop all services
+docker compose build        # Rebuild after changes
+```
+
+### Frontend Commands (Local Development)
+```bash
+cd frontend
 npm run dev          # Start development server on localhost:3000
 npm run build        # Build static site (outputs to /out/ directory)
 npm start            # Start production server (not used for static export)
 npm run lint         # Run ESLint
 ```
 
-### Testing Changes
-Always build the static site before pushing to verify it works correctly:
+### Strapi Commands (Local Development)
 ```bash
+cd strapi
+npm run develop      # Start Strapi in development mode on localhost:1337
+npm run start        # Start Strapi in production mode
+npm run build        # Build Strapi admin panel
+```
+
+### Testing Changes
+Always build the frontend before pushing to verify it works correctly:
+```bash
+cd frontend
 npm run build        # Should generate /out/ with 22 pages
 ```
 
@@ -53,12 +78,37 @@ The project uses Next.js static export with specific configuration:
 - Image optimization (images are unoptimized)
 - Server actions
 
-### Component Organization
+### Monorepo Structure
 
-Components are organized by **domain/function** (not by type):
+The repository contains two independent applications:
 
 ```
-src/components/
+sagena/
+├── frontend/                    # Next.js static website
+│   ├── src/
+│   │   ├── app/                 # Next.js pages (App Router)
+│   │   └── components/          # 36 reusable components
+│   ├── public/                  # Static assets
+│   ├── package.json
+│   ├── next.config.js
+│   ├── Dockerfile               # Multi-stage build with Nginx
+│   └── nginx.conf
+├── strapi/                      # Strapi CMS
+│   ├── config/                  # Strapi configuration
+│   ├── src/                     # API and business logic
+│   ├── public/                  # Uploaded media
+│   ├── package.json
+│   └── Dockerfile
+├── compose.yaml                 # Docker Compose orchestration
+└── .env.example                 # Environment variables template
+```
+
+### Component Organization (Frontend)
+
+Components in `frontend/src/components/` are organized by **domain/function** (not by type):
+
+```
+frontend/src/components/
 ├── ui/              # Base primitives (Button, Card, Badge, Input)
 ├── layout/          # Layout structure (Header, Footer, SidePanel)
 ├── forms/           # Form components (ContactForm, Select, Checkbox, Radio)
@@ -150,7 +200,7 @@ export default ComponentName;
 Pages use **App Router** with file-based routing:
 
 ```
-src/app/
+frontend/src/app/
 ├── layout.tsx           # Root layout (Header/Footer wrapper)
 ├── page.tsx             # Homepage (/)
 ├── komponenty/page.tsx  # Component showcase (/komponenty/)
@@ -159,24 +209,24 @@ src/app/
 ```
 
 **Creating a new page:**
-1. Create directory: `src/app/new-route/`
+1. Create directory: `frontend/src/app/new-route/`
 2. Add `page.tsx` file
 3. Build will automatically generate static route
 
 **Layout hierarchy:**
-- All pages are wrapped by `src/app/layout.tsx` (provides Header/Footer)
+- All pages are wrapped by `frontend/src/app/layout.tsx` (provides Header/Footer)
 - Pages can define additional nested layouts
 
-## Path Alias
+## Path Alias (Frontend)
 
-Use `@/` for importing from `src/`:
+Use `@/` for importing from `src/` within the frontend:
 
 ```typescript
 import Button from '@/components/ui/Button';
 import { Doctor } from '@/components/people/Doctor';
 ```
 
-Configured in `tsconfig.json`:
+Configured in `frontend/tsconfig.json`:
 ```json
 {
   "compilerOptions": {
@@ -214,10 +264,10 @@ This is a medical facility website for **Sagena Healthcare Center** in Czech Rep
 
 ## Common Development Tasks
 
-### Adding a New Component
+### Adding a New Component (Frontend)
 
 1. **Choose category** based on function (e.g., `/forms/` for form component)
-2. **Create file**: `src/components/[category]/ComponentName.tsx`
+2. **Create file**: `frontend/src/components/[category]/ComponentName.tsx`
 3. **Define TypeScript interface** for props
 4. **Use Tailwind utilities** for styling
 5. **Export default**
@@ -225,7 +275,7 @@ This is a medical facility website for **Sagena Healthcare Center** in Czech Rep
 
 Example:
 ```typescript
-// src/components/ui/Alert.tsx
+// frontend/src/components/ui/Alert.tsx
 interface AlertProps {
   variant?: 'info' | 'warning' | 'error' | 'success';
   children: React.ReactNode;
@@ -283,10 +333,10 @@ import Doctor from '@/components/people/Doctor';
 />
 ```
 
-### Modifying Styles
+### Modifying Styles (Frontend)
 
-**Global styles**: Edit `src/app/globals.css`
-**Theme colors**: Edit `tailwind.config.ts`
+**Global styles**: Edit `frontend/src/app/globals.css`
+**Theme colors**: Edit `frontend/tailwind.config.ts`
 **Component styles**: Use Tailwind classes in component files
 
 ### Client vs Server Components
@@ -340,8 +390,6 @@ Automatic deployment configured in `.github/workflows/deploy.yml`:
 - Build must complete without errors
 
 ### Manual Deployment
-
-If deploying elsewhere (Vercel, Netlify, etc.), see `DEPLOYMENT.md` for platform-specific instructions.
 
 **Build output:**
 - Directory: `out/`
@@ -433,5 +481,4 @@ For detailed component documentation including props, variants, and usage exampl
 ## Additional Documentation
 
 - **README.md**: Project overview, features, setup instructions
-- **DEPLOYMENT.md**: Comprehensive deployment guide for 7+ platforms
 - **COMPONENTS.md**: Exhaustive component analysis with examples
