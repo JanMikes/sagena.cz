@@ -3,12 +3,10 @@
  * Any modifications made will be discarded.
  */
 import usersPermissions from "@strapi/plugin-users-permissions/strapi-admin";
-import strapiCloud from "@strapi/plugin-cloud/strapi-admin";
 import { renderAdmin } from "@strapi/strapi/admin";
 
 renderAdmin(document.getElementById("strapi"), {
   plugins: {
     "users-permissions": usersPermissions,
-    "strapi-cloud": strapiCloud,
   },
 });
