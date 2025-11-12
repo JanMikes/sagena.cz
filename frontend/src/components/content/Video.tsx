@@ -2,14 +2,14 @@ import React from 'react';
 
 interface VideoProps {
   youtubeId: string;
-  title?: string;
   aspectRatio?: 'Ratio 16/9' | 'Ratio 4/3' | 'Ratio 1/1';
+  className?: string;
 }
 
 const Video: React.FC<VideoProps> = ({
   youtubeId,
-  title,
   aspectRatio = 'Ratio 16/9',
+  className = '',
 }) => {
   const ratioClass = {
     'Ratio 16/9': 'aspect-video',
@@ -18,14 +18,11 @@ const Video: React.FC<VideoProps> = ({
   };
 
   return (
-    <div className="w-full">
-      {title && (
-        <h3 className="text-lg font-semibold text-gray-900 mb-3">{title}</h3>
-      )}
+    <div className={`w-full ${className}`}>
       <div className={`w-full ${ratioClass[aspectRatio]} rounded-xl overflow-hidden shadow-lg`}>
         <iframe
           src={`https://www.youtube.com/embed/${youtubeId}`}
-          title={title || 'YouTube video'}
+          title="YouTube video"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
           className="w-full h-full"

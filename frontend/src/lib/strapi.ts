@@ -259,9 +259,7 @@ export async function fetchNavigation(
   const items: NavigationItem[] = [];
 
   for (const nav of filteredData) {
-    console.log('Processing nav:', JSON.stringify(nav, null, 2));
     const link = nav.link;
-    console.log('Link:', JSON.stringify(link, null, 2));
 
     const resolvedLink = resolveLink(link);
 
@@ -302,6 +300,7 @@ export async function fetchPageBySlug(
             'components.heading': { populate: '*' },
             'components.text': { populate: '*' },
             'components.alert': { populate: '*' },
+            'components.video': { populate: '*' },
             'components.links-list': {
               populate: {
                 links: {

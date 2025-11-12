@@ -10,6 +10,7 @@ import Heading from '@/components/typography/Heading';
 import RichText from '@/components/typography/RichText';
 import Alert from '@/components/interactive/Alert';
 import LinksList from '@/components/navigation/LinksList';
+import Video from '@/components/content/Video';
 import {
   PageContentComponent,
   PageSidebarComponent,
@@ -17,6 +18,7 @@ import {
   ComponentsText,
   ComponentsAlert,
   ComponentsLinksList,
+  ComponentsVideo,
   ElementsTextLink,
   StrapiMedia,
 } from '@/types/strapi';
@@ -167,6 +169,17 @@ function renderComponent(
         <LinksList
           key={`${__component}-${component.id || index}`}
           links={links}
+        />
+      );
+    }
+
+    case 'components.video': {
+      const videoComponent = component as ComponentsVideo;
+      return (
+        <Video
+          key={`${__component}-${component.id || index}`}
+          youtubeId={videoComponent.youtube_id}
+          aspectRatio={videoComponent.aspect_ratio}
         />
       );
     }

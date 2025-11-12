@@ -123,6 +123,18 @@ export interface ComponentsLinksList {
   links: ElementsTextLink[];
 }
 
+/**
+ * Components: Video
+ * Location: strapi/src/components/components/video.json
+ * Usage: YouTube video embed with configurable aspect ratio
+ */
+export interface ComponentsVideo {
+  id: number;
+  __component: 'components.video';
+  youtube_id: string;
+  aspect_ratio: 'Ratio 16/9' | 'Ratio 4/3' | 'Ratio 1/1';
+}
+
 // ============================================================================
 // Strapi Elements (embedded in other components, never standalone)
 // ============================================================================
@@ -168,7 +180,7 @@ export interface ElementsTextLink {
 /**
  * Page content dynamic zone - all components that can appear in page content area
  */
-export type PageContentComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsLinksList;
+export type PageContentComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsLinksList | ComponentsVideo;
 
 /**
  * Page sidebar dynamic zone - all components that can appear in page sidebar
