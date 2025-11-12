@@ -1,0 +1,29 @@
+{
+  "collectionName": "components_components_headings",
+  "info": {
+    "displayName": "heading",
+    "icon": "hashtag"
+  },
+  "options": {},
+  "attributes": {
+    "text": {
+      "type": "string",
+      "required": true
+    },
+    "type": {
+      "type": "enumeration",
+      "required": true,
+      "enum": [
+        "h2",
+        "h3",
+        "h4",
+        "h5",
+        "h6"
+      ]
+    },
+    "anchor": {
+      "type": "string"
+    }
+  },
+  "config": {}
+}

@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_components_texts",
+  "info": {
+    "displayName": "text",
+    "icon": "bold"
+  },
+  "options": {},
+  "attributes": {
+    "text": {
+      "type": "richtext",
+      "required": true
+    }
+  },
+  "config": {}
+}
