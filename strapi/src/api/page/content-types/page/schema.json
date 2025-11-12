@@ -58,7 +58,8 @@
         "components.text",
         "components.heading",
         "components.alert",
-        "components.links-list"
+        "components.links-list",
+        "components.video"
       ],
       "required": true
     },

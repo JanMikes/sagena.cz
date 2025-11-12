@@ -1,4 +1,4 @@
-# Frontend Dockerfile for Next.js static site
+# Frontend Dockerfile for Next.js SSR application
 FROM node:20-alpine AS base
 
 # Install dependencies only when needed
@@ -31,22 +31,25 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Build Next.js static export
+# Build Next.js application
 RUN npm run build
 
-# Production image - serve static files
-FROM nginx:alpine AS prod
-WORKDIR /usr/share/nginx/html
+# Production image - run Next.js server
+FROM base AS prod
+RUN apk add --no-cache libc6-compat
+WORKDIR /app
 
-# Remove default nginx static assets
-RUN rm -rf ./*
+# Copy built application
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/next.config.js ./next.config.js
 
-# Copy static assets from builder
-COPY --from=builder /app/out .
+# Set environment to production
+ENV NODE_ENV=production
 
-# Copy nginx configuration
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+EXPOSE 3000
 
-EXPOSE 8080
-
-CMD ["nginx", "-g", "daemon off;"]
+# Start Next.js production server
+CMD ["npm", "run", "start"]

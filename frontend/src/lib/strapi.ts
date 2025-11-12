@@ -197,7 +197,7 @@ export function resolveLink(link: ElementsLink): ResolvedLink | null {
   // File download
   // Strapi returns file relation directly (not wrapped in .data)
   if (link.file) {
-    const fileUrl = link.file.url;
+    const fileUrl = link.file.attributes.url;
     return {
       href: getStrapiURL(fileUrl),
       target: '_blank',

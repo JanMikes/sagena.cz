@@ -1,0 +1,24 @@
+{
+  "collectionName": "components_components_videos",
+  "info": {
+    "displayName": "video",
+    "icon": "slideshow"
+  },
+  "options": {},
+  "attributes": {
+    "youtube_id": {
+      "type": "string",
+      "required": true
+    },
+    "aspect_ratio": {
+      "type": "enumeration",
+      "required": true,
+      "enum": [
+        "Ratio 16/9",
+        "Ratio 4/3",
+        "Ratio 1/1"
+      ]
+    }
+  },
+  "config": {}
+}

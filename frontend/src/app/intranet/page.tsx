@@ -34,9 +34,11 @@ export default function IntranetPage() {
 
       <div className="container-custom py-8 space-y-8">
         {/* Welcome Alert */}
-        <Alert variant="info" title="Vítejte zpět, Jan Novák!">
-          Dnes je {new Date().toLocaleDateString('cs-CZ', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
-        </Alert>
+        <Alert
+          type="info"
+          title="Vítejte zpět, Jan Novák!"
+          text={`Dnes je ${new Date().toLocaleDateString('cs-CZ', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}`}
+        />
 
         {/* Stats Overview */}
         <MarketingArguments
@@ -59,12 +61,16 @@ export default function IntranetPage() {
                 Důležitá upozornění
               </h2>
               <div className="space-y-4">
-                <Alert variant="warning" title="Systémová údržba">
-                  V neděli 28.1. od 22:00 do 24:00 bude probíhat plánovaná údržba systému.
-                </Alert>
-                <Alert variant="info" title="Nová verze aplikace">
-                  K dispozici je nová verze mobilní aplikace s vylepšeními.
-                </Alert>
+                <Alert
+                  type="warning"
+                  title="Systémová údržba"
+                  text="V neděli 28.1. od 22:00 do 24:00 bude probíhat plánovaná údržba systému."
+                />
+                <Alert
+                  type="info"
+                  title="Nová verze aplikace"
+                  text="K dispozici je nová verze mobilní aplikace s vylepšeními."
+                />
               </div>
             </Card>
 
@@ -140,9 +146,11 @@ export default function IntranetPage() {
               />
             </Card>
 
-            <Alert variant="success" title="Systém aktivní">
-              Všechny systémy fungují bez problémů.
-            </Alert>
+            <Alert
+              type="success"
+              title="Systém aktivní"
+              text="Všechny systémy fungují bez problémů."
+            />
           </div>
         </div>
       </div>

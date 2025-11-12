@@ -50,9 +50,11 @@ export default function SPanelemPage() {
               />
             </Card>
 
-            <Alert variant="info" title="Responsivní design">
-              Na mobilních zařízeních se panel automaticky přesouvá pod hlavní obsah.
-            </Alert>
+            <Alert
+              type="info"
+              title="Responsivní design"
+              text="Na mobilních zařízeních se panel automaticky přesouvá pod hlavní obsah."
+            />
 
             <Heading level={3}>Ukázka aktualit</Heading>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -176,9 +178,11 @@ export default function SPanelemPage() {
               />
             </Card>
 
-            <Alert variant="success" title="Online objednávání">
-              Nově můžete objednat termín online 24/7.
-            </Alert>
+            <Alert
+              type="success"
+              title="Online objednávání"
+              text="Nově můžete objednat termín online 24/7."
+            />
           </SidePanel>
         </div>
       </div>

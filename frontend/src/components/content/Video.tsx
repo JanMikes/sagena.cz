@@ -3,18 +3,18 @@ import React from 'react';
 interface VideoProps {
   youtubeId: string;
   title?: string;
-  aspectRatio?: '16/9' | '4/3' | '1/1';
+  aspectRatio?: 'Ratio 16/9' | 'Ratio 4/3' | 'Ratio 1/1';
 }
 
 const Video: React.FC<VideoProps> = ({
   youtubeId,
   title,
-  aspectRatio = '16/9',
+  aspectRatio = 'Ratio 16/9',
 }) => {
   const ratioClass = {
-    '16/9': 'aspect-video',
-    '4/3': 'aspect-[4/3]',
-    '1/1': 'aspect-square',
+    'Ratio 16/9': 'aspect-video',
+    'Ratio 4/3': 'aspect-[4/3]',
+    'Ratio 1/1': 'aspect-square',
   };
 
   return (

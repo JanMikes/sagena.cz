@@ -60,6 +60,21 @@ export interface ComponentsText extends Struct.ComponentSchema {
   };
 }
 
+export interface ComponentsVideo extends Struct.ComponentSchema {
+  collectionName: 'components_components_videos';
+  info: {
+    displayName: 'video';
+    icon: 'slideshow';
+  };
+  attributes: {
+    aspect_ratio: Schema.Attribute.Enumeration<
+      ['Ratio 16/9', 'Ratio 4/3', 'Ratio 1/1']
+    > &
+      Schema.Attribute.Required;
+    youtube_id: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
 export interface ElementsLink extends Struct.ComponentSchema {
   collectionName: 'components_elements_links';
   info: {
@@ -97,6 +112,7 @@ declare module '@strapi/strapi' {
       'components.heading': ComponentsHeading;
       'components.links-list': ComponentsLinksList;
       'components.text': ComponentsText;
+      'components.video': ComponentsVideo;
       'elements.link': ElementsLink;
       'elements.text-link': ElementsTextLink;
     }

@@ -310,9 +310,11 @@ export default function Priklad2Page() {
             </Card>
 
             {/* Alert */}
-            <Alert variant="info" title="Důležitá informace">
-              Pro první vyšetření je nutné doporučení od lékaře. Akutní stavy řešíme přednostně.
-            </Alert>
+            <Alert
+              type="info"
+              title="Důležitá informace"
+              text="Pro první vyšetření je nutné doporučení od lékaře. Akutní stavy řešíme přednostně."
+            />
 
             {/* Quick Links */}
             <Card padding="lg">

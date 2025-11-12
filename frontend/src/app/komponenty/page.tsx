@@ -88,18 +88,26 @@ export default function KomponentyPage() {
         <section>
           <h2 className="text-2xl font-bold mb-6">Upozornění (Alerts)</h2>
           <div className="space-y-4">
-            <Alert variant="info" title="Informace">
-              Toto je informační upozornění pro uživatele.
-            </Alert>
-            <Alert variant="success" title="Úspěch">
-              Operace byla úspěšně dokončena.
-            </Alert>
-            <Alert variant="warning" title="Varování">
-              Tato akce vyžaduje vaši pozornost.
-            </Alert>
-            <Alert variant="error" title="Chyba">
-              Něco se pokazilo. Zkuste to prosím znovu.
-            </Alert>
+            <Alert
+              type="info"
+              title="Informace"
+              text="Toto je informační upozornění pro uživatele."
+            />
+            <Alert
+              type="success"
+              title="Úspěch"
+              text="Operace byla úspěšně dokončena."
+            />
+            <Alert
+              type="warning"
+              title="Varování"
+              text="Tato akce vyžaduje vaši pozornost."
+            />
+            <Alert
+              type="error"
+              title="Chyba"
+              text="Něco se pokazilo. Zkuste to prosím znovu."
+            />
           </div>
         </section>
 

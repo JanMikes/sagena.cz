@@ -19,26 +19,16 @@ import SidePanel from '@/components/layout/SidePanel';
 import Breadcrumb from '@/components/navigation/Breadcrumb';
 
 interface PageProps {
-  params: {
+  params: Promise<{
     slug: string[];
-  };
+  }>;
 }
 
 /**
- * Generate static params for all Strapi pages at build time
+ * Force dynamic rendering - do not pre-render at build time
+ * All pages will be rendered on-demand via SSR
  */
-export async function generateStaticParams() {
-  try {
-    const slugs = await fetchAllPageSlugs();
-
-    return slugs.map((slug) => ({
-      slug: slug.split('/').filter(Boolean), // Convert "parent/child" to ["parent", "child"]
-    }));
-  } catch (error) {
-    console.error('Failed to generate static params:', error);
-    return [];
-  }
-}
+export const dynamic = 'force-dynamic';
 
 /**
  * Generate metadata for SEO
@@ -46,7 +36,8 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
-  const slug = params.slug.join('/');
+  const { slug: slugArray } = await params;
+  const slug = slugArray.join('/');
   const page = await fetchPageBySlug(slug);
 
   if (!page) {
@@ -65,7 +56,8 @@ export async function generateMetadata({
  * Page component
  */
 export default async function Page({ params }: PageProps) {
-  const slug = params.slug.join('/');
+  const { slug: slugArray } = await params;
+  const slug = slugArray.join('/');
   const page = await fetchPageBySlug(slug);
 
   // Show 404 if page not found
