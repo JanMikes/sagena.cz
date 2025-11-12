@@ -99,6 +99,19 @@ export interface ComponentsText {
   text: string; // Rich text HTML content
 }
 
+/**
+ * Components: Alert
+ * Location: strapi/src/components/components/alert.json
+ * Usage: Alert/notification box with type, title, and optional description
+ */
+export interface ComponentsAlert {
+  id: number;
+  __component: 'components.alert';
+  type: 'info' | 'success' | 'warning' | 'error';
+  title: string;
+  text?: string;
+}
+
 // ============================================================================
 // Strapi Elements (embedded in other components, never standalone)
 // ============================================================================
@@ -126,12 +139,12 @@ export interface ElementsLink {
 /**
  * Page content dynamic zone - all components that can appear in page content area
  */
-export type PageContentComponent = ComponentsHeading | ComponentsText;
+export type PageContentComponent = ComponentsHeading | ComponentsText | ComponentsAlert;
 
 /**
  * Page sidebar dynamic zone - all components that can appear in page sidebar
  */
-export type PageSidebarComponent = ComponentsHeading | ComponentsText;
+export type PageSidebarComponent = ComponentsHeading | ComponentsText | ComponentsAlert;
 
 // ============================================================================
 // Content Types

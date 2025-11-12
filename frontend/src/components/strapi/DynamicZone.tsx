@@ -8,11 +8,13 @@
 import React from 'react';
 import Heading from '@/components/typography/Heading';
 import RichText from '@/components/typography/RichText';
+import Alert from '@/components/interactive/Alert';
 import {
   PageContentComponent,
   PageSidebarComponent,
   ComponentsHeading,
   ComponentsText,
+  ComponentsAlert,
 } from '@/types/strapi';
 
 interface DynamicZoneProps {
@@ -58,6 +60,19 @@ function renderComponent(
         <RichText
           key={`${__component}-${component.id || index}`}
           content={textComponent.text}
+          className="mb-6"
+        />
+      );
+    }
+
+    case 'components.alert': {
+      const alertComponent = component as ComponentsAlert;
+      return (
+        <Alert
+          key={`${__component}-${component.id || index}`}
+          type={alertComponent.type}
+          title={alertComponent.title}
+          text={alertComponent.text}
           className="mb-6"
         />
       );

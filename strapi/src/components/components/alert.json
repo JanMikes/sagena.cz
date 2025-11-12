@@ -1,0 +1,29 @@
+{
+  "collectionName": "components_components_alerts",
+  "info": {
+    "displayName": "alert",
+    "icon": "bell"
+  },
+  "options": {},
+  "attributes": {
+    "type": {
+      "type": "enumeration",
+      "required": true,
+      "default": "info",
+      "enum": [
+        "info",
+        "success",
+        "warning",
+        "error"
+      ]
+    },
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "text": {
+      "type": "text"
+    }
+  },
+  "config": {}
+}

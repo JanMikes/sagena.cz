@@ -243,8 +243,6 @@ export async function fetchNavigation(
 
   const response = await fetchAPI<any>('/navigations', params);
 
-  console.log('Navigation response:', JSON.stringify(response, null, 2));
-
   // Filter by navbar/footer in code
   // Strapi returns data directly in array, NOT wrapped in attributes
   let filteredData = response.data;
@@ -257,8 +255,6 @@ export async function fetchNavigation(
     filteredData = filteredData.filter((nav: any) => nav.footer === footer);
   }
 
-  console.log('Filtered data:', JSON.stringify(filteredData, null, 2));
-
   // Transform to NavigationItem format
   const items: NavigationItem[] = [];
 
@@ -268,7 +264,6 @@ export async function fetchNavigation(
     console.log('Link:', JSON.stringify(link, null, 2));
 
     const resolvedLink = resolveLink(link);
-    console.log('Resolved link:', resolvedLink);
 
     if (resolvedLink) {
       items.push({
@@ -279,7 +274,6 @@ export async function fetchNavigation(
     }
   }
 
-  console.log('Final navigation items:', items);
   return items;
 }
 

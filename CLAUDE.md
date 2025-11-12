@@ -391,12 +391,52 @@ elements.link             → (embedded, not rendered directly)
 ```
 
 **Adding New Strapi Components:**
+
+**CRITICAL**: Every new Strapi component MUST be added to DynamicZone renderer, or it will fail silently with "Unknown component type" warning!
+
 1. Create component in Strapi admin or `strapi/src/components/`
 2. Add to dynamic zone in page content type
 3. Check generated types in `strapi/types/generated/components.d.ts`
-4. Add TypeScript interface to `frontend/src/types/strapi.ts`
-5. Add case to `DynamicZone.tsx` switch statement
+4. **Add TypeScript interface to `frontend/src/types/strapi.ts`**:
+   - Create `ComponentsXxx` interface with `__component: 'components.xxx'`
+   - Add to `PageContentComponent` and/or `PageSidebarComponent` union types
+5. **Update `frontend/src/components/strapi/DynamicZone.tsx`** (CRITICAL):
+   - Import the React component
+   - Import the TypeScript type
+   - Add `case 'components.xxx':` to the switch statement
+   - Map Strapi props to React component props
 6. Create or adapt React component in `frontend/src/components/`
+
+**Example workflow for Alert component:**
+```typescript
+// 1. frontend/src/types/strapi.ts - Add interface and union type
+export interface ComponentsAlert {
+  id: number;
+  __component: 'components.alert';
+  type: 'info' | 'success' | 'warning' | 'error';
+  title: string;
+  text?: string;
+}
+export type PageContentComponent = ... | ComponentsAlert;
+
+// 2. frontend/src/components/strapi/DynamicZone.tsx - Add imports
+import Alert from '@/components/interactive/Alert';
+import { ComponentsAlert } from '@/types/strapi';
+
+// 3. frontend/src/components/strapi/DynamicZone.tsx - Add case
+case 'components.alert': {
+  const alertComponent = component as ComponentsAlert;
+  return (
+    <Alert
+      key={`${__component}-${component.id || index}`}
+      type={alertComponent.type}
+      title={alertComponent.title}
+      text={alertComponent.text}
+      className="mb-6"
+    />
+  );
+}
+```
 
 **Navigation Integration:**
 - Navbar items fetched from Strapi in root layout

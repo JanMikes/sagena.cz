@@ -1,26 +1,22 @@
 import React from 'react';
 import {
-  AlertCircle,
   CheckCircle,
   Info,
   XCircle,
   AlertTriangle,
-  LucideIcon,
 } from 'lucide-react';
 
 interface AlertProps {
-  variant?: 'info' | 'success' | 'warning' | 'error';
-  icon?: LucideIcon;
-  title?: string;
-  children: React.ReactNode;
+  type?: 'info' | 'success' | 'warning' | 'error';
+  title: string;
+  text?: string;
   className?: string;
 }
 
 const Alert: React.FC<AlertProps> = ({
-  variant = 'info',
-  icon: CustomIcon,
+  type = 'info',
   title,
-  children,
+  text,
   className = '',
 }) => {
   const variantConfig = {
@@ -54,8 +50,8 @@ const Alert: React.FC<AlertProps> = ({
     },
   };
 
-  const config = variantConfig[variant];
-  const IconComponent = CustomIcon || config.Icon;
+  const config = variantConfig[type];
+  const IconComponent = config.Icon;
 
   return (
     <div
@@ -67,12 +63,12 @@ const Alert: React.FC<AlertProps> = ({
           <IconComponent className={`w-5 h-5 ${config.iconClass}`} />
         </div>
         <div className="ml-3 flex-1">
-          {title && (
-            <h3 className={`text-sm font-medium ${config.titleClass} mb-1`}>
-              {title}
-            </h3>
+          <h3 className={`text-sm font-medium ${config.titleClass} mb-1`}>
+            {title}
+          </h3>
+          {text && (
+            <div className={`text-sm ${config.textClass}`}>{text}</div>
           )}
-          <div className={`text-sm ${config.textClass}`}>{children}</div>
         </div>
       </div>
     </div>

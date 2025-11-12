@@ -506,7 +506,7 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
   };
   attributes: {
     content: Schema.Attribute.DynamicZone<
-      ['components.text', 'components.heading']
+      ['components.text', 'components.heading', 'components.alert']
     > &
       Schema.Attribute.Required &
       Schema.Attribute.SetPluginOptions<{
@@ -528,7 +528,7 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
     parent: Schema.Attribute.Relation<'oneToOne', 'api::page.page'>;
     publishedAt: Schema.Attribute.DateTime;
     sidebar: Schema.Attribute.DynamicZone<
-      ['components.text', 'components.heading']
+      ['components.text', 'components.heading', 'components.alert']
     > &
       Schema.Attribute.SetPluginOptions<{
         i18n: {

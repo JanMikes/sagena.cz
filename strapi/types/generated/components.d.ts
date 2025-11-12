@@ -1,5 +1,22 @@
 import type { Schema, Struct } from '@strapi/strapi';
 
+export interface ComponentsAlert extends Struct.ComponentSchema {
+  collectionName: 'components_components_alerts';
+  info: {
+    displayName: 'alert';
+    icon: 'bell';
+  };
+  attributes: {
+    text: Schema.Attribute.Text;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    type: Schema.Attribute.Enumeration<
+      ['info', 'success', 'warning', 'error']
+    > &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'info'>;
+  };
+}
+
 export interface ComponentsHeading extends Struct.ComponentSchema {
   collectionName: 'components_components_headings';
   info: {
@@ -42,6 +59,7 @@ export interface ElementsLink extends Struct.ComponentSchema {
 declare module '@strapi/strapi' {
   export module Public {
     export interface ComponentSchemas {
+      'components.alert': ComponentsAlert;
       'components.heading': ComponentsHeading;
       'components.text': ComponentsText;
       'elements.link': ElementsLink;
