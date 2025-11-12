@@ -3,7 +3,7 @@ import type { Schema, Struct } from '@strapi/strapi';
 export interface ComponentsHeading extends Struct.ComponentSchema {
   collectionName: 'components_components_headings';
   info: {
-    displayName: 'heading';
+    displayName: 'Nadpis';
     icon: 'hashtag';
   };
   attributes: {
@@ -17,7 +17,7 @@ export interface ComponentsHeading extends Struct.ComponentSchema {
 export interface ComponentsText extends Struct.ComponentSchema {
   collectionName: 'components_components_texts';
   info: {
-    displayName: 'text';
+    displayName: 'Text';
     icon: 'bold';
   };
   attributes: {
@@ -28,7 +28,7 @@ export interface ComponentsText extends Struct.ComponentSchema {
 export interface ElementsLink extends Struct.ComponentSchema {
   collectionName: 'components_elements_links';
   info: {
-    displayName: 'link';
+    displayName: 'Odkaz';
     icon: 'attachment';
   };
   attributes: {
