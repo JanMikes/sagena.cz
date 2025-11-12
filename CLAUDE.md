@@ -195,6 +195,215 @@ export default ComponentName;
 </div>
 ```
 
+### Strapi CMS Integration
+
+The frontend is integrated with Strapi CMS for dynamic content management.
+
+**Environment Configuration:**
+
+CRITICAL: Docker networking requires different URLs for server-side and client-side communication.
+
+```bash
+# For Docker (compose.override.yaml) - not versioned
+services:
+  frontend:
+    environment:
+      # Server-side URL (build time, SSG) - uses Docker service name
+      STRAPI_URL: http://strapi:1337
+      # Client-side URL (browser) - uses localhost or production URL
+      NEXT_PUBLIC_STRAPI_URL: http://localhost:1337
+      STRAPI_API_TOKEN: <your-api-token>
+
+# For local development without Docker (.env.local) - not versioned
+STRAPI_URL=http://localhost:1337
+NEXT_PUBLIC_STRAPI_URL=http://localhost:1337
+STRAPI_API_TOKEN=<your-api-token>
+```
+
+**Why Two URLs?**
+- **Static Site Generation (SSG)**: Next.js fetches data at BUILD TIME on the server
+- **Docker networking**: Services communicate using service names (e.g., `strapi:1337`), not `localhost`
+- **Browser access**: Browsers use `localhost:1337` to access Strapi from host machine
+- `STRAPI_URL`: Server-side only, used during build/SSG
+- `NEXT_PUBLIC_STRAPI_URL`: Exposed to browser, used for client-side requests (if any)
+
+**Critical Concepts:**
+
+1. **Components vs Elements**
+   - **Components** (`strapi/src/components/components/`): Standalone UI components used in dynamic zones
+     - Example: `components.heading`, `components.text`
+     - Can be added directly to pages via Strapi admin
+   - **Elements** (`strapi/src/components/elements/`): Never standalone, always embedded within other components
+     - Example: `elements.link` (used within navigation, buttons, etc.)
+     - Cannot be added directly to dynamic zones
+
+2. **Page Structure**
+   - Core content type: `Page` (`strapi/src/api/page/content-types/page/schema.json`)
+   - Two dynamic zones:
+     - `content`: Main content area (required)
+     - `sidebar`: Optional sidebar content
+   - If `sidebar` has components, layout renders with `<SidePanel>`
+   - If `sidebar` is empty, layout renders full-width
+
+3. **Strapi Population & Query Building (CRITICAL)**
+
+   **Key Rule: `populate=*` only goes ONE level deep!**
+
+   Read: https://docs.strapi.io/cms/api/rest/populate-select#population
+
+   **Query String Format:**
+   Strapi uses the `qs` library for parsing nested objects. Use bracket notation:
+   ```
+   // Correct format (qs-style)
+   ?populate[link][populate][0]=page&populate[link][populate][1]=file&locale=cs-CZ
+
+   // Wrong format (JSON.stringify)
+   ?populate={"link":{"populate":["page","file"]}}&locale=cs-CZ
+   ```
+
+   Our `buildQueryString()` function in `strapi.ts` handles this conversion automatically.
+
+   **Understanding Depth Levels:**
+   - Level 0: Just the entity itself (no relations/components)
+   - Level 1: `populate=*` - populates immediate relations/components
+   - Level 2+: Must explicitly populate nested relations
+
+   **Examples:**
+
+   ```javascript
+   // ❌ WRONG - This won't populate page/file inside link component
+   { populate: '*' }
+
+   // ✅ CORRECT - Navigation with nested link relations
+   {
+     populate: {
+       link: {
+         populate: ['page', 'file']  // Explicitly populate nested relations
+       }
+     }
+   }
+
+   // ✅ CORRECT - Page with dynamic zones
+   {
+     populate: {
+       content: {
+         populate: '*'  // Populate all fields in content components
+       },
+       sidebar: {
+         populate: '*'  // Populate all fields in sidebar components
+       },
+       parent: true
+     }
+   }
+   ```
+
+   **When to use what:**
+   - Simple relation (one level): `populate: 'fieldName'` or `populate: '*'`
+   - Component with relations: `populate: { component: { populate: ['relation1', 'relation2'] } }`
+   - Dynamic zone: `populate: { dynamicZone: { populate: '*' } }`
+
+   **Always verify in Strapi response that nested relations are included!**
+
+4. **Type Safety**
+   - Strapi generates types in `strapi/types/generated/components.d.ts`
+   - Frontend types in `frontend/src/types/strapi.ts` mirror Strapi structure
+   - Always verify types match after Strapi schema changes
+
+**Strapi Response Structure:**
+
+**CRITICAL**: Strapi returns data directly, NOT wrapped in `attributes`!
+
+The `attributes` key in `schema.json` is Strapi's internal structure definition.
+The REST API returns properties directly:
+
+```json
+{
+  "data": [
+    {
+      "id": 1,
+      "title": "Home",
+      "navbar": true,
+      "link": { ... }
+    }
+  ],
+  "meta": { }
+}
+```
+
+**Access patterns:**
+- ✅ CORRECT: `nav.title`, `nav.navbar`, `page.slug`
+- ❌ WRONG: `nav.attributes.title`, `page.attributes.slug`
+
+**Relations (page, file, etc.):**
+- ✅ CORRECT: `link.page.slug`, `link.file.url`
+- ❌ WRONG: `link.page.data.attributes.slug`, `link.file.data.attributes.url`
+
+**Key insight:** Relations are returned directly - no `.data` wrapper, no `.attributes`!
+
+**Example from actual response:**
+```json
+{
+  "link": {
+    "id": 5,
+    "page": {              // ← Direct, not "data": { "attributes": { ... } }
+      "id": 1,
+      "slug": "test"       // ← Direct property
+    }
+  }
+}
+```
+
+**Integration Architecture:**
+
+```
+Strapi CMS (strapi:1337)
+    ↓ API calls with auth token
+Strapi Client (frontend/src/lib/strapi.ts)
+    ↓ Typed responses
+Page Components (frontend/src/app/)
+    ↓ Dynamic zone data
+DynamicZone Renderer (frontend/src/components/strapi/DynamicZone.tsx)
+    ↓ Component switching
+React Components (Heading, RichText, etc.)
+```
+
+**File Structure:**
+```
+frontend/src/
+├── types/
+│   └── strapi.ts              # TypeScript types for Strapi data
+├── lib/
+│   └── strapi.ts              # Strapi client with fetch functions
+├── components/
+│   └── strapi/
+│       └── DynamicZone.tsx    # Dynamic zone component renderer
+└── app/
+    └── [...slug]/
+        └── page.tsx           # Catch-all route for dynamic pages
+```
+
+**Component Mapping:**
+```
+Strapi Component          → Frontend Component
+components.heading        → typography/Heading
+components.text           → typography/RichText
+elements.link             → (embedded, not rendered directly)
+```
+
+**Adding New Strapi Components:**
+1. Create component in Strapi admin or `strapi/src/components/`
+2. Add to dynamic zone in page content type
+3. Check generated types in `strapi/types/generated/components.d.ts`
+4. Add TypeScript interface to `frontend/src/types/strapi.ts`
+5. Add case to `DynamicZone.tsx` switch statement
+6. Create or adapt React component in `frontend/src/components/`
+
+**Navigation Integration:**
+- Navbar items fetched from Strapi in root layout
+- Filter by `navbar: true` for header navigation
+- Filter by `footer: true` for footer navigation
+- Links resolve: page relation > external URL > file > anchor
+
 ### Routing and Pages
 
 Pages use **App Router** with file-based routing:

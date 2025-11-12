@@ -6,23 +6,25 @@ import { usePathname } from 'next/navigation';
 import { Menu, X, Phone, Search, Globe } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import Modal from '@/components/interactive/Modal';
+import { NavigationItem } from '@/types/strapi';
 
-const Header: React.FC = () => {
+interface HeaderProps {
+  navigation?: NavigationItem[];
+}
+
+const Header: React.FC<HeaderProps> = ({ navigation = [] }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [currentLang, setCurrentLang] = useState<'cs' | 'en'>('cs');
+  const [currentLang, setCurrentLang] = useState<'cs-CZ' | 'en'>('cs-CZ');
   const [searchModalOpen, setSearchModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const pathname = usePathname();
 
-  const navigation = [
-    { name: 'Homepage', href: '/' },
-    { name: 'Ordinace', href: '/ordinace/' },
-    { name: 'Rehabilitace', href: '/rehabilitace/' },
-    { name: 'Komponenty', href: '/komponenty/' },
-    { name: 'S panelem', href: '/s-panelem/' },
-    { name: 'Intranet', href: '/intranet/' },
-  ];
+  // Normalize path for comparison (remove trailing slash for consistency)
+  const normalizePath = (path: string) => {
+    if (path === '/') return path;
+    return path.endsWith('/') ? path.slice(0, -1) : path;
+  };
 
   // Handle scroll to collapse first row
   useEffect(() => {
@@ -35,7 +37,7 @@ const Header: React.FC = () => {
   }, []);
 
   const toggleLanguage = () => {
-    setCurrentLang(currentLang === 'cs' ? 'en' : 'cs');
+    setCurrentLang(currentLang === 'cs-CZ' ? 'en' : 'cs-CZ');
   };
 
   return (
@@ -117,7 +119,7 @@ const Header: React.FC = () => {
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center space-x-1 flex-1 justify-center">
             {navigation.map((item) => {
-              const isActive = pathname === item.href;
+              const isActive = normalizePath(pathname) === normalizePath(item.href);
               return (
                 <Link
                   key={item.name}
@@ -171,7 +173,7 @@ const Header: React.FC = () => {
           <div className="lg:hidden py-4 border-t border-gray-200">
             <div className="flex flex-col space-y-2">
               {navigation.map((item) => {
-                const isActive = pathname === item.href;
+                const isActive = normalizePath(pathname) === normalizePath(item.href);
                 return (
                   <Link
                     key={item.name}
@@ -203,7 +205,7 @@ const Header: React.FC = () => {
                 className="flex items-center space-x-2 px-4 py-3 text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors text-left"
               >
                 <Globe className="w-5 h-5" />
-                <span className="font-medium uppercase">{currentLang} / {currentLang === 'cs' ? 'en' : 'cs'}</span>
+                <span className="font-medium uppercase">{currentLang} / {currentLang === 'cs-CZ' ? 'en' : 'cs-CZ'}</span>
               </button>
               <a
                 href="tel:+420553030800"

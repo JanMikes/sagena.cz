@@ -5,27 +5,12 @@ import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 
 const Footer: React.FC = () => {
-  const footerNavigation = {
-    services: [
-      { name: 'Ordinace', href: '/ordinace' },
-      { name: 'Rehabilitace', href: '/rehabilitace' },
-      { name: 'MR Vyšetření', href: '/magneticka-rezonance' },
-      { name: 'Infuzní Centrum', href: '/infuzni-centrum' },
-      { name: 'Lékárna', href: '/lekarna' },
-    ],
-    company: [
-      { name: 'O Nás', href: '/o-nas' },
-      { name: 'Náš Tým', href: '/nas-tym' },
-      { name: 'Aktuality', href: '/aktuality' },
-      { name: 'Kariéra', href: '/kariera' },
-    ],
-    support: [
-      { name: 'Kontakt', href: '/kontakt' },
-      { name: 'FAQ', href: '/faq' },
-      { name: 'Podmínky Používání', href: '/podminky' },
-      { name: 'Ochrana Osobních Údajů', href: '/ochrana-udaju' },
-    ],
-  };
+  // Demo links moved from navbar
+  const demoLinks = [
+    { name: 'Komponenty', href: '/komponenty/' },
+    { name: 'S panelem', href: '/s-panelem/' },
+    { name: 'Intranet', href: '/intranet/' },
+  ];
 
   const insuranceProviders = [
     'VZP', 'ČPZP', 'RBP', 'ZPMV', 'OZP', 'VOZP'
@@ -59,7 +44,7 @@ const Footer: React.FC = () => {
 
       {/* Main Footer Content */}
       <div className="container-custom py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           {/* Company Info */}
           <div className="lg:col-span-2">
             <Link href="/" className="flex items-center space-x-3 mb-4">
@@ -95,45 +80,34 @@ const Footer: React.FC = () => {
             </div>
           </div>
 
-          {/* Services */}
+          {/* Quick Links (Static pages) */}
           <div>
-            <h4 className="text-white font-semibold mb-4">Služby</h4>
+            <h4 className="text-white font-semibold mb-4">Rychlé odkazy</h4>
             <ul className="space-y-2">
-              {footerNavigation.services.map((item) => (
-                <li key={item.name}>
-                  <Link
-                    href={item.href}
-                    className="text-gray-400 hover:text-white transition-colors"
-                  >
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
+              <li>
+                <Link
+                  href="/ordinace/"
+                  className="text-gray-400 hover:text-white transition-colors"
+                >
+                  Ordinace
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/rehabilitace/"
+                  className="text-gray-400 hover:text-white transition-colors"
+                >
+                  Rehabilitace
+                </Link>
+              </li>
             </ul>
           </div>
 
-          {/* Company */}
+          {/* Demo Pages */}
           <div>
-            <h4 className="text-white font-semibold mb-4">Společnost</h4>
+            <h4 className="text-white font-semibold mb-4">Demo stránky</h4>
             <ul className="space-y-2">
-              {footerNavigation.company.map((item) => (
-                <li key={item.name}>
-                  <Link
-                    href={item.href}
-                    className="text-gray-400 hover:text-white transition-colors"
-                  >
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Support */}
-          <div>
-            <h4 className="text-white font-semibold mb-4">Podpora</h4>
-            <ul className="space-y-2">
-              {footerNavigation.support.map((item) => (
+              {demoLinks.map((item) => (
                 <li key={item.name}>
                   <Link
                     href={item.href}

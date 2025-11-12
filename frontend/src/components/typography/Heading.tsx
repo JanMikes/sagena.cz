@@ -4,12 +4,14 @@ interface HeadingProps {
   level: 2 | 3 | 4 | 5 | 6;
   children: React.ReactNode;
   className?: string;
+  id?: string; // For anchor links
 }
 
 const Heading: React.FC<HeadingProps> = ({
   level,
   children,
   className = '',
+  id,
 }) => {
   const baseClasses = 'font-bold text-gray-900';
 
@@ -24,7 +26,10 @@ const Heading: React.FC<HeadingProps> = ({
   const Tag = `h${level}` as keyof JSX.IntrinsicElements;
 
   return (
-    <Tag className={`${baseClasses} ${levelClasses[level]} ${className}`}>
+    <Tag
+      id={id}
+      className={`${baseClasses} ${levelClasses[level]} ${className}`}
+    >
       {children}
     </Tag>
   );

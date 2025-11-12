@@ -167,6 +167,90 @@ This will start:
 - Create your admin user account
 - Start creating content types and entries
 
+### Strapi Integration Setup
+
+The frontend is integrated with Strapi CMS for dynamic content. To connect them:
+
+1. **Create API Token in Strapi**
+   - Login to Strapi admin (http://localhost:1337/admin)
+   - Go to Settings → API Tokens → Create new API Token
+   - Type: Read-Only (for production) or Full Access (for development)
+   - Copy the generated token
+
+2. **Configure Frontend Environment**
+
+   **For local development without Docker**, create `frontend/.env.local` (not versioned):
+   ```bash
+   STRAPI_URL=http://localhost:1337
+   NEXT_PUBLIC_STRAPI_URL=http://localhost:1337
+   STRAPI_API_TOKEN=<your-api-token-here>
+   ```
+
+3. **Configure Docker Environment**
+
+   **For Docker**, create `compose.override.yaml` in project root (not versioned):
+   ```yaml
+   services:
+     frontend:
+       environment:
+         # Server-side URL (build time) - uses Docker service name
+         STRAPI_URL: http://strapi:1337
+         # Client-side URL (browser) - uses localhost for local dev
+         NEXT_PUBLIC_STRAPI_URL: http://localhost:1337
+         STRAPI_API_TOKEN: <your-api-token-here>
+   ```
+
+   **IMPORTANT - Docker Networking:**
+   - `STRAPI_URL`: Used by Next.js during build (SSG). Must use Docker service name `strapi:1337`
+   - `NEXT_PUBLIC_STRAPI_URL`: Used by browser. Use `localhost:1337` for local development
+   - Without correct `STRAPI_URL`, you'll get `ECONNREFUSED 127.0.0.1:1337` errors
+
+4. **Create Content in Strapi**
+
+   The integration supports:
+   - **Navigation**: Menu items for navbar and footer
+   - **Pages**: Dynamic pages with content and optional sidebar
+   - **Components**: Heading and RichText blocks
+
+   Example: Create a navigation item
+   - Go to Content Manager → Navigation (Collection Type)
+   - Create new entry with title, link, and navbar/footer flags
+
+   Example: Create a page
+   - Go to Content Manager → Page (Collection Type)
+   - Add title, slug, and content blocks (Heading, Text)
+   - Optionally add sidebar content
+
+5. **Rebuild Frontend**
+   ```bash
+   docker compose restart frontend
+   # or for local development:
+   cd frontend && npm run dev
+   ```
+
+### Frontend-Strapi Component Mapping
+
+| Strapi Component | Frontend Component | Location |
+|-----------------|-------------------|----------|
+| `components.heading` | `<Heading>` | `frontend/src/components/typography/Heading.tsx` |
+| `components.text` | `<RichText>` | `frontend/src/components/typography/RichText.tsx` |
+| `elements.link` | Embedded in navigation | Used within other components |
+
+**Dynamic Pages:**
+- Catch-all route: `frontend/src/app/[...slug]/page.tsx`
+- Fetches pages by slug from Strapi
+- Renders content using `<DynamicZone>` component
+- Shows sidebar when sidebar content exists
+
+**Adding New Strapi Components:**
+1. Create component in Strapi (`strapi/src/components/`)
+2. Update `strapi/types/generated/components.d.ts` (auto-generated)
+3. Add TypeScript type to `frontend/src/types/strapi.ts`
+4. Add render case to `frontend/src/components/strapi/DynamicZone.tsx`
+5. Create React component in `frontend/src/components/`
+
+For detailed integration patterns, see `CLAUDE.md`.
+
 ### Local Development (without Docker)
 
 #### Frontend Development
