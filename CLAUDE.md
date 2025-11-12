@@ -439,7 +439,7 @@ elements.link             → (embedded, not rendered directly)
 
 **Adding New Strapi Components:**
 
-**CRITICAL**: Every new Strapi component MUST be added to DynamicZone renderer, or it will fail silently with "Unknown component type" warning!
+**CRITICAL**: Every new Strapi component requires THREE mandatory updates, or it will fail silently!
 
 1. Create component in Strapi admin or `strapi/src/components/`
 2. Add to dynamic zone in page content type
@@ -447,43 +447,73 @@ elements.link             → (embedded, not rendered directly)
 4. **Add TypeScript interface to `frontend/src/types/strapi.ts`**:
    - Create `ComponentsXxx` interface with `__component: 'components.xxx'`
    - Add to `PageContentComponent` and/or `PageSidebarComponent` union types
-5. **Update `frontend/src/components/strapi/DynamicZone.tsx`** (CRITICAL):
+5. **Update `frontend/src/lib/strapi.ts` population (CRITICAL - NEVER FORGET THIS!)**:
+   - In `fetchPageBySlug()` function, add component to populate configuration
+   - For content zone: Add `'components.xxx': { populate: '*' }` to `content.on` object
+   - For sidebar zone: Add `'components.xxx': { populate: '*' }` to `sidebar.on` object
+   - **Without this step, Strapi will NOT return the component data!**
+6. **Update `frontend/src/components/strapi/DynamicZone.tsx`** (CRITICAL):
    - Import the React component
    - Import the TypeScript type
    - Add `case 'components.xxx':` to the switch statement
    - Map Strapi props to React component props
-6. Create or adapt React component in `frontend/src/components/`
+7. Create or adapt React component in `frontend/src/components/`
 
-**Example workflow for Alert component:**
+**Example workflow for Video component:**
 ```typescript
 // 1. frontend/src/types/strapi.ts - Add interface and union type
-export interface ComponentsAlert {
+export interface ComponentsVideo {
   id: number;
-  __component: 'components.alert';
-  type: 'info' | 'success' | 'warning' | 'error';
-  title: string;
-  text?: string;
+  __component: 'components.video';
+  youtube_id: string;
+  aspect_ratio: 'Ratio 16/9' | 'Ratio 4/3' | 'Ratio 1/1';
 }
-export type PageContentComponent = ... | ComponentsAlert;
+export type PageContentComponent = ... | ComponentsVideo;
 
-// 2. frontend/src/components/strapi/DynamicZone.tsx - Add imports
-import Alert from '@/components/interactive/Alert';
-import { ComponentsAlert } from '@/types/strapi';
+// 2. frontend/src/lib/strapi.ts - Update fetchPageBySlug population (CRITICAL!)
+const response = await fetchAPI<StrapiCollectionResponse<Page>>('/pages', {
+  locale,
+  populate: {
+    content: {
+      on: {
+        'components.heading': { populate: '*' },
+        'components.text': { populate: '*' },
+        'components.alert': { populate: '*' },
+        'components.video': { populate: '*' },  // ← ADD THIS LINE!
+        'components.links-list': {
+          populate: {
+            links: { populate: ['page', 'file'] },
+          },
+        },
+      },
+    },
+    sidebar: {
+      on: {
+        // Add here if component goes in sidebar too
+      },
+    },
+    parent: true,
+  },
+});
 
-// 3. frontend/src/components/strapi/DynamicZone.tsx - Add case
-case 'components.alert': {
-  const alertComponent = component as ComponentsAlert;
+// 3. frontend/src/components/strapi/DynamicZone.tsx - Add imports
+import Video from '@/components/content/Video';
+import { ComponentsVideo } from '@/types/strapi';
+
+// 4. frontend/src/components/strapi/DynamicZone.tsx - Add case
+case 'components.video': {
+  const videoComponent = component as ComponentsVideo;
   return (
-    <Alert
+    <Video
       key={`${__component}-${component.id || index}`}
-      type={alertComponent.type}
-      title={alertComponent.title}
-      text={alertComponent.text}
-      className="mb-6"
+      youtubeId={videoComponent.youtube_id}
+      aspectRatio={videoComponent.aspect_ratio}
     />
   );
 }
 ```
+
+**Common mistake:** Forgetting step 2 (population update) means Strapi returns empty array for that component type, causing silent failure with no error message!
 
 **Navigation Integration:**
 - Navbar items fetched from Strapi in root layout

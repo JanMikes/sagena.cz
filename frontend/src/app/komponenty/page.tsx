@@ -159,7 +159,7 @@ export default function KomponentyPage() {
         {/* Video */}
         <section>
           <h2 className="text-2xl font-bold mb-6">Video</h2>
-          <Video youtubeId="dQw4w9WgXcQ" title="Představení našeho centra" />
+          <Video youtubeId="dQw4w9WgXcQ" />
         </section>
 
         <Breaker />

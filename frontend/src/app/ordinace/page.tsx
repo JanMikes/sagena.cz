@@ -230,7 +230,6 @@ export default function Priklad2Page() {
               </h2>
               <Video
                 youtubeId="dQw4w9WgXcQ"
-                title="Prohlídka rehabilitačního centra"
               />
             </div>
 
