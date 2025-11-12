@@ -9,17 +9,87 @@ import React from 'react';
 import Heading from '@/components/typography/Heading';
 import RichText from '@/components/typography/RichText';
 import Alert from '@/components/interactive/Alert';
+import LinksList from '@/components/navigation/LinksList';
 import {
   PageContentComponent,
   PageSidebarComponent,
   ComponentsHeading,
   ComponentsText,
   ComponentsAlert,
+  ComponentsLinksList,
+  ElementsTextLink,
+  StrapiMedia,
 } from '@/types/strapi';
 
 interface DynamicZoneProps {
   components: (PageContentComponent | PageSidebarComponent)[];
   className?: string;
+}
+
+/**
+ * Resolve ElementsTextLink to href and disabled state
+ * Priority: page > url > file > anchor
+ */
+function resolveTextLink(link: ElementsTextLink): {
+  url: string;
+  external: boolean;
+  disabled: boolean;
+  disabledReason?: string;
+} {
+  // Check if link is explicitly disabled
+  if (link.disabled) {
+    return {
+      url: '#',
+      external: false,
+      disabled: true,
+      disabledReason: 'Tento odkaz je momentálně nedostupný',
+    };
+  }
+
+  // Priority 1: Internal page
+  if (link.page?.slug) {
+    return {
+      url: `/${link.page.slug}`,
+      external: false,
+      disabled: false,
+    };
+  }
+
+  // Priority 2: External URL
+  if (link.url) {
+    return {
+      url: link.url,
+      external: link.url.startsWith('http'),
+      disabled: false,
+    };
+  }
+
+  // Priority 3: File
+  if (link.file) {
+    const fileData = link.file as StrapiMedia;
+    return {
+      url: fileData.attributes.url,
+      external: false,
+      disabled: false,
+    };
+  }
+
+  // Priority 4: Anchor only
+  if (link.anchor) {
+    return {
+      url: `#${link.anchor}`,
+      external: false,
+      disabled: false,
+    };
+  }
+
+  // Fallback: disabled if no valid target
+  return {
+    url: '#',
+    external: false,
+    disabled: true,
+    disabledReason: 'Odkaz nemá nastavenou cílovou stránku',
+  };
 }
 
 /**
@@ -74,6 +144,29 @@ function renderComponent(
           title={alertComponent.title}
           text={alertComponent.text}
           className="mb-6"
+        />
+      );
+    }
+
+    case 'components.links-list': {
+      const linksListComponent = component as ComponentsLinksList;
+
+      // Transform Strapi links to LinksList format
+      const links = linksListComponent.links.map((link) => {
+        const resolved = resolveTextLink(link);
+        return {
+          title: link.text,
+          url: resolved.url,
+          external: resolved.external,
+          disabled: resolved.disabled,
+          disabledReason: resolved.disabledReason,
+        };
+      });
+
+      return (
+        <LinksList
+          key={`${__component}-${component.id || index}`}
+          links={links}
         />
       );
     }

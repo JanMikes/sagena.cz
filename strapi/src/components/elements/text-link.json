@@ -1,0 +1,40 @@
+{
+  "collectionName": "components_elements_text_links",
+  "info": {
+    "displayName": "Textový odkaz",
+    "icon": "code"
+  },
+  "options": {},
+  "attributes": {
+    "text": {
+      "type": "string",
+      "required": true
+    },
+    "page": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::page.page"
+    },
+    "anchor": {
+      "type": "string"
+    },
+    "url": {
+      "type": "string"
+    },
+    "file": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "disabled": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "config": {}
+}

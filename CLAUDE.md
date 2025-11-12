@@ -283,16 +283,47 @@ STRAPI_API_TOKEN=<your-api-token>
      }
    }
 
-   // ✅ CORRECT - Page with dynamic zones
+   // ❌ WRONG - Dynamic zones with nested targeting
+   // This will fail with: "Invalid nested population query detected"
    {
      populate: {
        content: {
-         populate: '*'  // Populate all fields in content components
+         populate: {
+           links: { populate: ['page', 'file'] }  // Cannot target specific fields in polymorphic structures
+         }
+       }
+     }
+   }
+
+   // ✅ CORRECT - Dynamic zones with 'on' syntax for deep population
+   // Use 'on' to target specific component types within polymorphic dynamic zones
+   {
+     populate: {
+       content: {
+         on: {
+           'components.heading': { populate: '*' },
+           'components.text': { populate: '*' },
+           'components.alert': { populate: '*' },
+           'components.links-list': {
+             populate: {
+               links: {
+                 populate: ['page', 'file'],  // Deep populate relations in nested elements
+               },
+             },
+           },
+         },
        },
        sidebar: {
-         populate: '*'  // Populate all fields in sidebar components
+         on: {
+           'components.heading': { populate: '*' },
+           'components.links-list': {
+             populate: {
+               links: { populate: ['page', 'file'] },
+             },
+           },
+         },
        },
-       parent: true
+       parent: true,
      }
    }
    ```
@@ -300,7 +331,23 @@ STRAPI_API_TOKEN=<your-api-token>
    **When to use what:**
    - Simple relation (one level): `populate: 'fieldName'` or `populate: '*'`
    - Component with relations: `populate: { component: { populate: ['relation1', 'relation2'] } }`
-   - Dynamic zone: `populate: { dynamicZone: { populate: '*' } }`
+   - Dynamic zone (shallow): `populate: { dynamicZone: { populate: '*' } }`
+   - **Dynamic zone (deep - RECOMMENDED)**: Use `on` syntax to target each component type and deeply populate nested relations
+
+   **Dynamic Zone Population (CRITICAL):**
+
+   Dynamic zones are **polymorphic structures** in Strapi. When components within dynamic zones have nested relations, you MUST use the `on` syntax:
+
+   1. **Why `on` is needed**: Dynamic zones can contain multiple component types. Using `populate: '*'` only goes one level deep and doesn't populate nested relations within components.
+
+   2. **Using `on` syntax**:
+      - Target each component type explicitly: `'components.component-name'`
+      - Define population strategy per component type
+      - Can deeply populate nested relations (e.g., `links.populate: ['page', 'file']`)
+
+   3. **Common pitfall**: Trying to use `populate: { specificField: ... }` within a dynamic zone will fail with: *"Invalid nested population query detected. When using 'populate' within polymorphic structures, its value must be '*'"*
+
+   4. **Solution**: Use `on` to specify per-component population strategies instead of trying to target fields directly
 
    **Always verify in Strapi response that nested relations are included!**
 

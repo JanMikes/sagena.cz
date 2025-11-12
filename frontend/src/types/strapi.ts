@@ -112,6 +112,17 @@ export interface ComponentsAlert {
   text?: string;
 }
 
+/**
+ * Components: Links List
+ * Location: strapi/src/components/components/links-list.json
+ * Usage: List of text links (navigation, quick links, etc.)
+ */
+export interface ComponentsLinksList {
+  id: number;
+  __component: 'components.links-list';
+  links: ElementsTextLink[];
+}
+
 // ============================================================================
 // Strapi Elements (embedded in other components, never standalone)
 // ============================================================================
@@ -132,6 +143,24 @@ export interface ElementsLink {
   file?: StrapiMedia;  // File download (returned directly, not wrapped)
 }
 
+/**
+ * Elements: Text Link
+ * Location: strapi/src/components/elements/text-link.json
+ * Usage: Link with display text, supporting internal pages, external URLs, anchors, files, and disabled state
+ *
+ * IMPORTANT: Strapi returns relations directly (no .data wrapper)
+ */
+export interface ElementsTextLink {
+  id: number;
+  __component?: 'elements.text-link';
+  text: string;        // Display text for the link
+  page?: Page;         // Internal page reference (returned directly, not wrapped)
+  anchor?: string | null;  // Anchor/hash for URL (#section)
+  url?: string | null;     // External URL
+  file?: StrapiMedia;  // File download (returned directly, not wrapped)
+  disabled?: boolean;  // Whether link is disabled
+}
+
 // ============================================================================
 // Dynamic Zone Union Types
 // ============================================================================
@@ -139,12 +168,12 @@ export interface ElementsLink {
 /**
  * Page content dynamic zone - all components that can appear in page content area
  */
-export type PageContentComponent = ComponentsHeading | ComponentsText | ComponentsAlert;
+export type PageContentComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsLinksList;
 
 /**
  * Page sidebar dynamic zone - all components that can appear in page sidebar
  */
-export type PageSidebarComponent = ComponentsHeading | ComponentsText | ComponentsAlert;
+export type PageSidebarComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsLinksList;
 
 // ============================================================================
 // Content Types

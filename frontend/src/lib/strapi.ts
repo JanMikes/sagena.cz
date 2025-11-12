@@ -291,18 +291,39 @@ export async function fetchPageBySlug(
   locale: string = 'cs-CZ'
 ): Promise<Page | null> {
   try {
-    // IMPORTANT: Dynamic zones need explicit population
-    // populate=* only goes ONE level deep
-    // content and sidebar are dynamic zones containing components
-    // We need to populate the dynamic zones themselves
+    // IMPORTANT: Dynamic zones are polymorphic structures
+    // We use the 'on' syntax to target specific components within dynamic zones
+    // This allows us to deeply populate relations within each component type
     const response = await fetchAPI<StrapiCollectionResponse<Page>>('/pages', {
       locale,
       populate: {
         content: {
-          populate: '*', // Populate all fields in content components
+          on: {
+            'components.heading': { populate: '*' },
+            'components.text': { populate: '*' },
+            'components.alert': { populate: '*' },
+            'components.links-list': {
+              populate: {
+                links: {
+                  populate: ['page', 'file'],
+                },
+              },
+            },
+          },
         },
         sidebar: {
-          populate: '*', // Populate all fields in sidebar components
+          on: {
+            'components.heading': { populate: '*' },
+            'components.text': { populate: '*' },
+            'components.alert': { populate: '*' },
+            'components.links-list': {
+              populate: {
+                links: {
+                  populate: ['page', 'file'],
+                },
+              },
+            },
+          },
         },
         parent: true, // Populate parent relation
       },

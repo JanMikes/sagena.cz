@@ -3,7 +3,7 @@ import type { Schema, Struct } from '@strapi/strapi';
 export interface ComponentsAlert extends Struct.ComponentSchema {
   collectionName: 'components_components_alerts';
   info: {
-    displayName: 'alert';
+    displayName: 'Alert';
     icon: 'bell';
   };
   attributes: {
@@ -28,6 +28,24 @@ export interface ComponentsHeading extends Struct.ComponentSchema {
     text: Schema.Attribute.String & Schema.Attribute.Required;
     type: Schema.Attribute.Enumeration<['h2', 'h3', 'h4', 'h5', 'h6']> &
       Schema.Attribute.Required;
+  };
+}
+
+export interface ComponentsLinksList extends Struct.ComponentSchema {
+  collectionName: 'components_components_links_lists';
+  info: {
+    displayName: 'List odkaz\u016F';
+    icon: 'apps';
+  };
+  attributes: {
+    links: Schema.Attribute.Component<'elements.text-link', true> &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMax<
+        {
+          min: 1;
+        },
+        number
+      >;
   };
 }
 
@@ -56,13 +74,31 @@ export interface ElementsLink extends Struct.ComponentSchema {
   };
 }
 
+export interface ElementsTextLink extends Struct.ComponentSchema {
+  collectionName: 'components_elements_text_links';
+  info: {
+    displayName: 'Textov\u00FD odkaz';
+    icon: 'code';
+  };
+  attributes: {
+    anchor: Schema.Attribute.String;
+    disabled: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    file: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    page: Schema.Attribute.Relation<'oneToOne', 'api::page.page'>;
+    text: Schema.Attribute.String & Schema.Attribute.Required;
+    url: Schema.Attribute.String;
+  };
+}
+
 declare module '@strapi/strapi' {
   export module Public {
     export interface ComponentSchemas {
       'components.alert': ComponentsAlert;
       'components.heading': ComponentsHeading;
+      'components.links-list': ComponentsLinksList;
       'components.text': ComponentsText;
       'elements.link': ElementsLink;
+      'elements.text-link': ElementsTextLink;
     }
   }
 }

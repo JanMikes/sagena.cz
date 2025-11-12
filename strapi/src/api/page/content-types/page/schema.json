@@ -57,7 +57,8 @@
       "components": [
         "components.text",
         "components.heading",
-        "components.alert"
+        "components.alert",
+        "components.links-list"
       ],
       "required": true
     },
@@ -71,7 +72,8 @@
       "components": [
         "components.text",
         "components.heading",
-        "components.alert"
+        "components.alert",
+        "components.links-list"
       ]
     }
   }
