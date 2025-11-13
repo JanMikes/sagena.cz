@@ -1,9 +1,10 @@
 import React from 'react';
 import Link from 'next/link';
-import { LucideIcon, ArrowRight } from 'lucide-react';
+import Image from 'next/image';
+import { ArrowRight } from 'lucide-react';
 
 interface CardItem {
-  icon: LucideIcon;
+  icon?: string | null;  // Icon image URL from Strapi
   title: string;
   description?: string;
   link?: {
@@ -30,15 +31,22 @@ const ServiceCards: React.FC<ServiceCardsProps> = ({
   return (
     <div className={`grid grid-cols-1 ${gridCols[columns]} gap-6`}>
       {cards.map((card, index) => {
-        const IconComponent = card.icon;
         return (
           <div
             key={index}
             className="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
           >
-            <div className="flex items-center justify-center w-14 h-14 bg-primary-100 rounded-xl mb-4">
-              <IconComponent className="w-7 h-7 text-primary-600" />
-            </div>
+            {card.icon && (
+              <div className="flex items-center justify-center w-14 h-14 bg-primary-100 rounded-xl mb-4">
+                <Image
+                  src={card.icon}
+                  alt=""
+                  width={28}
+                  height={28}
+                  className="w-7 h-7 object-contain"
+                />
+              </div>
+            )}
             <h3 className="text-xl font-bold text-gray-900 mb-2">
               {card.title}
             </h3>

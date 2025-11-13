@@ -16,7 +16,14 @@ import {
   NavigationItem,
   ElementsLink,
   ResolvedLink,
+  Icon,
 } from '@/types/strapi';
+
+// ============================================================================
+// In-Memory Icon Cache (per-request for SSG)
+// ============================================================================
+
+let iconsCache: Map<number, Icon> | null = null;
 
 // ============================================================================
 // Configuration
@@ -161,6 +168,64 @@ async function fetchAPI<T>(
  * Always verify in Strapi response that data is populated!
  * Missing population = null data = broken links/content
  */
+
+// ============================================================================
+// Icon Cache Management
+// ============================================================================
+
+/**
+ * Fetch all icons from Strapi and cache them in memory
+ * This is called once per request to avoid multiple API calls
+ */
+async function fetchAndCacheIcons(): Promise<Map<number, Icon>> {
+  if (iconsCache) {
+    return iconsCache;
+  }
+
+  try {
+    const response = await fetchAPI<StrapiCollectionResponse<Icon>>('/icons', {
+      populate: {
+        image: {
+          fields: ['url', 'alternativeText', 'width', 'height'],
+        },
+      },
+      pagination: {
+        pageSize: 100, // Adjust based on expected icon count
+      },
+    });
+
+    iconsCache = new Map();
+    for (const icon of response.data) {
+      iconsCache.set(icon.id, icon);
+    }
+
+    return iconsCache;
+  } catch (error) {
+    console.error('Failed to fetch icons:', error);
+    return new Map();
+  }
+}
+
+/**
+ * Get icon by ID from cache
+ * If cache is not loaded, fetch all icons first
+ */
+export async function getIconById(id: number): Promise<Icon | null> {
+  const cache = await fetchAndCacheIcons();
+  return cache.get(id) || null;
+}
+
+/**
+ * Get icon URL by ID
+ * Returns the image URL or null if not found
+ */
+export async function getIconUrlById(id: number): Promise<string | null> {
+  const icon = await getIconById(id);
+  if (!icon?.image?.url) {
+    return null;
+  }
+  return getStrapiMediaURL(icon.image.url);
+}
 
 // ============================================================================
 // Link Resolution
@@ -312,6 +377,19 @@ export async function fetchPageBySlug(
               populate: {
                 cards: {
                   populate: {
+                    icon: {
+                      fields: ['id'],
+                      populate: {
+                        icon: {
+                          fields: ['name'],
+                          populate: {
+                            image: {
+                              fields: ['url', 'alternativeText'],
+                            },
+                          },
+                        },
+                      },
+                    },
                     link: {
                       populate: ['page', 'file'],
                     },
@@ -323,6 +401,19 @@ export async function fetchPageBySlug(
               populate: {
                 cards: {
                   populate: {
+                    icon: {
+                      fields: ['id'],
+                      populate: {
+                        icon: {
+                          fields: ['name'],
+                          populate: {
+                            image: {
+                              fields: ['url', 'alternativeText'],
+                            },
+                          },
+                        },
+                      },
+                    },
                     link: {
                       populate: ['page', 'file'],
                     },
@@ -348,6 +439,19 @@ export async function fetchPageBySlug(
               populate: {
                 cards: {
                   populate: {
+                    icon: {
+                      fields: ['id'],
+                      populate: {
+                        icon: {
+                          fields: ['name'],
+                          populate: {
+                            image: {
+                              fields: ['url', 'alternativeText'],
+                            },
+                          },
+                        },
+                      },
+                    },
                     link: {
                       populate: ['page', 'file'],
                     },
@@ -359,6 +463,19 @@ export async function fetchPageBySlug(
               populate: {
                 cards: {
                   populate: {
+                    icon: {
+                      fields: ['id'],
+                      populate: {
+                        icon: {
+                          fields: ['name'],
+                          populate: {
+                            image: {
+                              fields: ['url', 'alternativeText'],
+                            },
+                          },
+                        },
+                      },
+                    },
                     link: {
                       populate: ['page', 'file'],
                     },
@@ -454,11 +571,20 @@ export async function fetchAllPages(locale: string = 'cs-CZ'): Promise<Page[]> {
 /**
  * Get full URL for Strapi media
  * @param url - Relative or absolute URL from Strapi
+ *
+ * IMPORTANT: Media files are shared via Docker volume mount between Strapi and Frontend.
+ * The uploads directory is mounted to frontend at /app/public/uploads, so we can
+ * serve media directly from the frontend without proxying through Strapi.
+ *
+ * This is more efficient and avoids CORS issues.
  */
 export function getStrapiMediaURL(url: string): string {
   if (!url) return '';
+  // If already absolute URL, return as-is
   if (url.startsWith('http')) return url;
-  return getStrapiURL(url);
+  // Return relative path for browser to fetch from frontend public directory
+  // Strapi returns URLs like "/uploads/..." which map to /app/public/uploads in frontend
+  return url;
 }
 
 /**

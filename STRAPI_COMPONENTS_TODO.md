@@ -143,7 +143,7 @@ These components are already implemented in the dynamic zone:
 | Field Name | Type | Required | Nullable | Options/Notes |
 |------------|------|----------|----------|---------------|
 | `display_type` | Enumeration 🎨 | ✓ | ✗ | Icon, Number |
-| `icon` | Enumeration 🎨 | ✗ | ✓ | Users, Heart, Activity, Shield, Award, TrendingUp, Target, Clock, CheckCircle (required if display_type = Icon) |
+| `icon` | Relation 🔗 | ✗ | ✓ | oneToOne to api::icon.icon (required if display_type = Icon) |
 | `number` | Text (short) | ✗ | ✓ | e.g., "15+", "100%" (required if display_type = Number) |
 | `title` | Text (short) | ✓ | ✗ | |
 | `description` | Text (long) | ✓ | ✗ | |
@@ -173,7 +173,7 @@ These components are already implemented in the dynamic zone:
 | Field Name | Type | Required | Nullable | Options/Notes |
 |------------|------|----------|----------|---------------|
 | `display_type` | Enumeration 🎨 | ✓ | ✗ | Icon, Number |
-| `icon` | Enumeration 🎨 | ✗ | ✓ | Calendar, CheckCircle, ClipboardCheck, FileText, UserCheck, Phone, Mail, Activity (required if display_type = Icon) |
+| `icon` | Relation 🔗 | ✗ | ✓ | oneToOne to api::icon.icon (required if display_type = Icon) |
 | `number` | Text (short) | ✗ | ✓ | e.g., "1", "2", "3" (required if display_type = Number) |
 | `title` | Text (short) | ✓ | ✗ | |
 | `description` | Text (long) | ✓ | ✗ | |
@@ -335,7 +335,7 @@ These components are already implemented in the dynamic zone:
 
 | Field Name | Type | Required | Nullable | Options |
 |------------|------|----------|----------|---------|
-| `icon` | Enumeration 🎨 | ✓ | ✗ | DoorOpen, ArrowUp, ArrowDown, MapPin, Building, Stairs, Elevator, ArrowRight |
+| `icon` | Relation 🔗 | ✗ | ✓ | oneToOne to api::icon.icon |
 | `floor` | Text (short) | ✗ | ✓ | e.g., "1. patro", "2. patro, č. 215" |
 | `text` | Text (long) | ✓ | ✗ | Instruction text |
 
@@ -479,38 +479,31 @@ These components are already implemented in the dynamic zone:
 
 ### Icon Field Implementation in Strapi
 
-For icon fields, create an **Enumeration** type with the following values:
+For icon fields, use a **oneToOne relation** to the `api::icon.icon` content type:
 
-**Healthcare/General Icons:**
-- Heart
-- Activity
-- Stethoscope
-- Users
-- Calendar
-- FileText
-- Building
-- Shield
-- Clock
-- CheckCircle
-- Phone
-- Mail
-- MapPin
-- Briefcase
-- Award
-- TrendingUp
-- Target
-- UserCheck
-- ClipboardCheck
+```json
+{
+  "icon": {
+    "type": "relation",
+    "relation": "oneToOne",
+    "target": "api::icon.icon"
+  }
+}
+```
 
-**Navigation Icons:**
-- DoorOpen
-- ArrowUp
-- ArrowDown
-- ArrowRight
-- Stairs
-- Elevator
+**Icon Content Type Structure** (`api::icon.icon`):
+- `name` (string, required) - Icon identifier for CMS management
+- `image` (media, required) - Icon image file (SVG/PNG recommended)
 
-These map to `lucide-react` icon components in the frontend.
+**Why this approach:**
+- ✅ Allows custom icon uploads without code changes
+- ✅ Full control over icon design and branding
+- ✅ Better performance with optimized image formats
+- ✅ No dependency on external icon libraries
+- ✅ Supports SVG, PNG, and other image formats
+
+**Frontend handling:**
+Icons are rendered as `<Image>` components using Next.js Image optimization, with the URL extracted from `icon.image.attributes.url`.
 
 ---
 

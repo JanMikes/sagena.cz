@@ -80,12 +80,28 @@
 | `string` | `string` | Short text (titles, names) |
 | `text` | `string` | Long text (descriptions) |
 | `richtext` | `string` | HTML content |
-| `enumeration` | `'option1' \| 'option2'` | Icon names, variants |
+| `enumeration` | `'option1' \| 'option2'` | Variants, options (not for icons) |
 | `boolean` | `boolean` | Flags (disabled, visible) |
 | `date` | `string` | ISO date strings |
 | `media` | `StrapiMedia` | Images, files |
 | `component` | `Elements*` | Nested components |
-| `relation` | `Page` | Links to other content |
+| `relation` | `Page \| Icon` | Links to other content |
+
+**Icon field structure:**
+For icon fields, use a **oneToOne relation** to `api::icon.icon`:
+```json
+{
+  "icon": {
+    "type": "relation",
+    "relation": "oneToOne",
+    "target": "api::icon.icon"
+  }
+}
+```
+
+The Icon content type (`api::icon.icon`) has:
+- `name` (string, required) - Icon identifier
+- `image` (media, required) - Icon image file (SVG/PNG recommended)
 
 **Naming rules:**
 - **Collection name:** `components_elements_YOUR_NAME_plural`
@@ -243,13 +259,13 @@ You should see your component's TypeScript interface.
 ```tsx
 import React from 'react';
 import Link from 'next/link';
-import { LucideIcon } from 'lucide-react';
+import Image from 'next/image';
 
 /**
  * Card item from Strapi (for CMS-driven pages)
  */
 interface StrapiCardItem {
-  icon: LucideIcon;
+  icon?: string | null;  // Icon image URL from Strapi
   title: string;
   description: string;
   link: {
@@ -266,7 +282,6 @@ const FullWidthCards: React.FC<FullWidthCardsProps> = ({ cards }) => {
   return (
     <div className="space-y-4">
       {cards.map((card, index) => {
-        const IconComponent = card.icon;
         const url = card.link.url;
 
         return (
@@ -275,9 +290,17 @@ const FullWidthCards: React.FC<FullWidthCardsProps> = ({ cards }) => {
             href={url}
             className="flex items-center space-x-4 p-6 bg-white border border-gray-200 rounded-xl hover:border-primary-300 hover:shadow-md hover:bg-primary-50/30 transition-all duration-300 group w-full"
           >
-            <div className="flex items-center justify-center w-12 h-12 bg-primary-100 rounded-lg flex-shrink-0 group-hover:bg-primary-600 transition-colors">
-              <IconComponent className="w-6 h-6 text-primary-600 group-hover:text-white transition-colors" />
-            </div>
+            {card.icon && (
+              <div className="flex items-center justify-center w-12 h-12 bg-primary-100 rounded-lg flex-shrink-0 group-hover:bg-primary-600 transition-colors">
+                <Image
+                  src={card.icon}
+                  alt=""
+                  width={24}
+                  height={24}
+                  className="w-6 h-6 object-contain"
+                />
+              </div>
+            )}
             <div className="flex-1">
               <h3 className="text-lg font-semibold text-gray-900 group-hover:text-primary-600 transition-colors">
                 {card.title}
@@ -304,7 +327,7 @@ export default FullWidthCards;
 - ⚠️ Prefer server components (static export compatible)
 
 **Icon handling:**
-Icons are mapped from Strapi enum strings to Lucide React components using the `getIconComponent()` helper function in `frontend/src/lib/icons.ts`.
+Icons are stored as Strapi media (images) using the `api::icon.icon` content type. Each icon has a `name` field and an `image` field. Components reference icons via a oneToOne relation, and the frontend renders them as `<img>` tags using the Strapi media URL.
 
 ---
 
@@ -326,7 +349,7 @@ Icons are mapped from Strapi enum strings to Lucide React components using the `
 export interface ElementsFullWidthCard {
   id: number;
   __component?: 'elements.full-width-card';
-  icon: 'Calendar' | 'FileText' | 'Users' | 'Phone' | 'Mail' | 'MapPin' | 'Briefcase' | 'Heart' | 'Activity' | 'Stethoscope' | 'Building';
+  icon?: Icon;  // Optional icon relation (oneToOne to api::icon.icon)
   title: string;
   description: string;
   link: ElementsTextLink;  // Required link
@@ -409,14 +432,16 @@ function renderComponent(
 
       // Transform Strapi data to component props
       const cards = fullWidthCardsComponent.cards.map((card) => {
-        // Get icon component from string enum
-        const IconComponent = getIconComponent(card.icon);
+        // Extract icon URL from Strapi media relation
+        const iconUrl = card.icon?.image?.attributes?.url
+          ? getStrapiMediaURL(card.icon.image.attributes.url)
+          : null;
 
         // Resolve link (required for full-width cards)
         const resolved = resolveTextLink(card.link);
 
         return {
-          icon: IconComponent,
+          icon: iconUrl,
           title: card.title,
           description: card.description,
           link: {
@@ -463,10 +488,13 @@ case 'components.with-icons': {
   const withIconsComponent = component as ComponentsWithIcons;
 
   const items = withIconsComponent.items.map((item) => {
-    const IconComponent = getIconComponent(item.icon);
+    // Extract icon URL from Strapi media relation
+    const iconUrl = item.icon?.image?.attributes?.url
+      ? getStrapiMediaURL(item.icon.image.attributes.url)
+      : null;
 
     return {
-      icon: IconComponent,
+      icon: iconUrl,
       title: item.title,
       description: item.description,
     };
@@ -563,6 +591,9 @@ export async function fetchPageBySlug(
               populate: {
                 cards: {
                   populate: {
+                    icon: {
+                      populate: ['image'],
+                    },
                     link: {
                       populate: ['page', 'file'],
                     },
@@ -574,6 +605,9 @@ export async function fetchPageBySlug(
               populate: {
                 cards: {
                   populate: {
+                    icon: {
+                      populate: ['image'],
+                    },
                     link: {
                       populate: ['page', 'file'],
                     },

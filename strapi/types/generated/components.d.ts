@@ -111,22 +111,7 @@ export interface ElementsFullWidthCard extends Struct.ComponentSchema {
   };
   attributes: {
     description: Schema.Attribute.Text & Schema.Attribute.Required;
-    icon: Schema.Attribute.Enumeration<
-      [
-        'Calendar',
-        'FileText',
-        'Users',
-        'Phone',
-        'Mail',
-        'MapPin',
-        'Briefcase',
-        'Heart',
-        'Activity',
-        'Stethoscope',
-        'Building',
-      ]
-    > &
-      Schema.Attribute.Required;
+    icon: Schema.Attribute.Component<'elements.icon', false>;
     link: Schema.Attribute.Component<'elements.text-link', false> &
       Schema.Attribute.Required;
     title: Schema.Attribute.String & Schema.Attribute.Required;
@@ -166,25 +151,7 @@ export interface ElementsServiceCard extends Struct.ComponentSchema {
   };
   attributes: {
     description: Schema.Attribute.Text;
-    icon: Schema.Attribute.Enumeration<
-      [
-        'Heart',
-        'Activity',
-        'Stethoscope',
-        'Users',
-        'Calendar',
-        'FileText',
-        'Building',
-        'Shield',
-        'Clock',
-        'CheckCircle',
-        'Phone',
-        'Mail',
-        'MapPin',
-        'Briefcase',
-      ]
-    > &
-      Schema.Attribute.Required;
+    icon: Schema.Attribute.Component<'elements.icon', false>;
     link: Schema.Attribute.Component<'elements.text-link', false>;
     title: Schema.Attribute.String & Schema.Attribute.Required;
   };

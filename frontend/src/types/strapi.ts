@@ -72,6 +72,31 @@ export interface StrapiMediaFormat {
 // Removed StrapiRelation - Strapi returns relations directly without wrapper
 
 // ============================================================================
+// Icon Content Type
+// ============================================================================
+
+/**
+ * Icon content type
+ * Location: strapi/src/api/icon/content-types/icon/schema.json
+ * Usage: Reusable icon images for components
+ *
+ * NOTE: Strapi returns media directly without .attributes wrapper for populated relations
+ */
+export interface Icon {
+  id: number;
+  name: string;
+  image: {
+    id: number;
+    name: string;
+    alternativeText?: string | null;
+    url: string;
+    width?: number;
+    height?: number;
+    mime: string;
+  };
+}
+
+// ============================================================================
 // Strapi Components (standalone UI components in dynamic zones)
 // ============================================================================
 
@@ -197,16 +222,27 @@ export interface ElementsTextLink {
 }
 
 /**
+ * Elements: Icon Component
+ * Location: strapi/src/components/elements/icon.json
+ * Usage: Icon component wrapper containing a relation to Icon content type
+ */
+export interface ElementsIcon {
+  id: number;
+  __component?: 'elements.icon';
+  icon: Icon;  // Relation to api::icon.icon
+}
+
+/**
  * Elements: Service Card
  * Location: strapi/src/components/elements/service-card.json
  * Usage: Individual service card with icon, title, description, and optional link
  *
- * IMPORTANT: Strapi returns relations directly (no .data wrapper)
+ * IMPORTANT: Icon is now a component (elements.icon) containing a relation to Icon content type
  */
 export interface ElementsServiceCard {
   id: number;
   __component?: 'elements.service-card';
-  icon: 'Heart' | 'Activity' | 'Stethoscope' | 'Users' | 'Calendar' | 'FileText' | 'Building' | 'Shield' | 'Clock' | 'CheckCircle' | 'Phone' | 'Mail' | 'MapPin' | 'Briefcase';
+  icon?: ElementsIcon;  // Optional icon component (elements.icon)
   title: string;
   description?: string;
   link?: ElementsTextLink;  // Optional link (not required)
@@ -217,12 +253,12 @@ export interface ElementsServiceCard {
  * Location: strapi/src/components/elements/full-width-card.json
  * Usage: Individual full-width card with icon, title, description, and required link
  *
- * IMPORTANT: Strapi returns relations directly (no .data wrapper)
+ * IMPORTANT: Icon is now a component (elements.icon) containing a relation to Icon content type
  */
 export interface ElementsFullWidthCard {
   id: number;
   __component?: 'elements.full-width-card';
-  icon: 'Calendar' | 'FileText' | 'Users' | 'Phone' | 'Mail' | 'MapPin' | 'Briefcase' | 'Heart' | 'Activity' | 'Stethoscope' | 'Building';
+  icon?: ElementsIcon;  // Optional icon component (elements.icon)
   title: string;
   description: string;
   link: ElementsTextLink;  // Required link

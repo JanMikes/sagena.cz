@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Heart, Activity, Stethoscope, Users, MapPin, ArrowUp, FileText, Briefcase, Calendar, Mail, Phone, DoorOpen } from 'lucide-react';
+import { MapPin, ArrowUp, Briefcase, Mail, Phone, DoorOpen } from 'lucide-react';
 
 // Import all components
 import Modal from '@/components/interactive/Modal';
@@ -119,9 +119,9 @@ export default function KomponentyPage() {
           <ServiceCards
             columns={3}
             cards={[
-              { icon: Heart, title: 'Kardiologie', description: 'Péče o vaše srdce', link: { text: 'Zjistit více', url: '#' } },
-              { icon: Activity, title: 'Rehabilitace', description: 'Moderní rehabilitační metody', link: { text: 'Zjistit více', url: '#' } },
-              { icon: Stethoscope, title: 'Ordinace', description: 'Široká nabídka ordinací', link: { text: 'Zjistit více', url: '#' } },
+              { icon: null, title: 'Kardiologie', description: 'Péče o vaše srdce', link: { text: 'Zjistit více', url: '#' } },
+              { icon: null, title: 'Rehabilitace', description: 'Moderní rehabilitační metody', link: { text: 'Zjistit více', url: '#' } },
+              { icon: null, title: 'Ordinace', description: 'Široká nabídka ordinací', link: { text: 'Zjistit více', url: '#' } },
             ]}
           />
         </section>
@@ -133,9 +133,9 @@ export default function KomponentyPage() {
           <h2 className="text-2xl font-bold mb-6">Karty na celou šířku</h2>
           <FullWidthCards
             cards={[
-              { icon: Calendar, title: 'Objednání', description: 'Objednejte se online', url: '#' },
-              { icon: FileText, title: 'Dokumenty', description: 'Stáhněte si potřebné formuláře', url: '#' },
-              { icon: Users, title: 'Náš tým', description: 'Seznamte se s našimi lékaři', url: '#' },
+              { icon: null, title: 'Objednání', description: 'Objednejte se online', url: '#' },
+              { icon: null, title: 'Dokumenty', description: 'Stáhněte si potřebné formuláře', url: '#' },
+              { icon: null, title: 'Náš tým', description: 'Seznamte se s našimi lékaři', url: '#' },
             ]}
           />
         </section>
@@ -244,8 +244,8 @@ export default function KomponentyPage() {
           <MarketingArguments
             columns={3}
             arguments={[
-              { icon: Users, title: 'Zkušený tým', description: '50+ lékařů a specialistů' },
-              { icon: Heart, title: 'Moderní vybavení', description: 'Nejnovější zdravotnická technika' },
+              { icon: null, title: 'Zkušený tým', description: '50+ lékařů a specialistů' },
+              { icon: null, title: 'Moderní vybavení', description: 'Nejnovější zdravotnická technika' },
               { number: '15+', title: 'Let zkušeností', description: 'V péči o vaše zdraví' },
             ]}
           />
@@ -423,9 +423,9 @@ export default function KomponentyPage() {
           <h2 className="text-2xl font-bold mb-6">Jak nás najít</h2>
           <Directions
             instructions={[
-              { icon: DoorOpen, floor: '1. patro', text: 'Vstupte hlavním vchodem a pokračujte k recepci' },
-              { icon: ArrowUp, floor: '2. patro', text: 'Jděte po schodech nebo výtahem do 2. patra' },
-              { icon: MapPin, floor: '2. patro, č. 215', text: 'Najdete nás na konci chodby vpravo, dveře číslo 215' },
+              { icon: null, floor: '1. patro', text: 'Vstupte hlavním vchodem a pokračujte k recepci' },
+              { icon: null, floor: '2. patro', text: 'Jděte po schodech nebo výtahem do 2. patra' },
+              { icon: null, floor: '2. patro, č. 215', text: 'Najdete nás na konci chodby vpravo, dveře číslo 215' },
             ]}
           />
         </section>

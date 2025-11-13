@@ -13,7 +13,7 @@ import LinksList from '@/components/navigation/LinksList';
 import Video from '@/components/content/Video';
 import ServiceCards from '@/components/content/ServiceCards';
 import FullWidthCards from '@/components/content/FullWidthCards';
-import { getIconComponent } from '@/lib/icons';
+import { getStrapiMediaURL, getIconUrlById } from '@/lib/strapi';
 import {
   PageContentComponent,
   PageSidebarComponent,
@@ -102,10 +102,10 @@ function resolveTextLink(link: ElementsTextLink): {
 /**
  * Render a single component from the dynamic zone
  */
-function renderComponent(
+async function renderComponent(
   component: PageContentComponent | PageSidebarComponent,
   index: number
-): React.ReactNode {
+): Promise<React.ReactNode> {
   const { __component } = component;
 
   switch (__component) {
@@ -193,9 +193,12 @@ function renderComponent(
       const serviceCardsComponent = component as ComponentsServiceCards;
 
       // Transform Strapi data to ServiceCards component props
-      const cards = serviceCardsComponent.cards.map((card) => {
-        // Get icon component from string enum
-        const IconComponent = getIconComponent(card.icon);
+      const cards = await Promise.all(serviceCardsComponent.cards.map(async (card) => {
+        // Get icon URL from cache by ID
+        // Structure: card.icon (component) → icon (relation) → icon.id
+        const iconUrl = card.icon?.icon?.id
+          ? await getIconUrlById(card.icon.icon.id)
+          : null;
 
         // Resolve link if provided
         let link: { text: string; url: string } | undefined;
@@ -210,12 +213,12 @@ function renderComponent(
         }
 
         return {
-          icon: IconComponent,
+          icon: iconUrl,
           title: card.title,
           description: card.description,
           link,
         };
-      });
+      }));
 
       // Convert column enum to number
       const columnMap: Record<string, 2 | 3 | 4> = {
@@ -238,15 +241,18 @@ function renderComponent(
       const fullWidthCardsComponent = component as ComponentsFullWidthCards;
 
       // Transform Strapi data to FullWidthCards component props
-      const cards = fullWidthCardsComponent.cards.map((card) => {
-        // Get icon component from string enum
-        const IconComponent = getIconComponent(card.icon);
+      const cards = await Promise.all(fullWidthCardsComponent.cards.map(async (card) => {
+        // Get icon URL from cache by ID
+        // Structure: card.icon (component) → icon (relation) → icon.id
+        const iconUrl = card.icon?.icon?.id
+          ? await getIconUrlById(card.icon.icon.id)
+          : null;
 
         // Resolve link (required for full-width cards)
         const resolved = resolveTextLink(card.link);
 
         return {
-          icon: IconComponent,
+          icon: iconUrl,
           title: card.title,
           description: card.description,
           link: {
@@ -254,7 +260,7 @@ function renderComponent(
             url: resolved.url,
           },
         };
-      });
+      }));
 
       return (
         <FullWidthCards
@@ -274,7 +280,7 @@ function renderComponent(
 /**
  * DynamicZone component renders an array of Strapi components
  */
-const DynamicZone: React.FC<DynamicZoneProps> = ({
+const DynamicZone: React.FC<DynamicZoneProps> = async ({
   components,
   className = '',
 }) => {
@@ -282,9 +288,14 @@ const DynamicZone: React.FC<DynamicZoneProps> = ({
     return null;
   }
 
+  // Render all components in parallel
+  const renderedComponents = await Promise.all(
+    components.map((component, index) => renderComponent(component, index))
+  );
+
   return (
     <div className={className}>
-      {components.map((component, index) => renderComponent(component, index))}
+      {renderedComponents}
     </div>
   );
 };

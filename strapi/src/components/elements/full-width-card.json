@@ -7,21 +7,9 @@
   "options": {},
   "attributes": {
     "icon": {
-      "type": "enumeration",
-      "required": true,
-      "enum": [
-        "Calendar",
-        "FileText",
-        "Users",
-        "Phone",
-        "Mail",
-        "MapPin",
-        "Briefcase",
-        "Heart",
-        "Activity",
-        "Stethoscope",
-        "Building"
-      ]
+      "type": "component",
+      "component": "elements.icon",
+      "repeatable": false
     },
     "title": {
       "type": "string",

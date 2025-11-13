@@ -29,25 +29,25 @@ export default function Priklad2Page() {
 
   const services = [
     {
-      icon: Activity,
+      icon: null,
       title: 'Fyzioterapie',
       description: 'Individuální cvičení s fyzioterapeutem, léčebná tělesná výchova, pohybová terapie',
       url: '#'
     },
     {
-      icon: Waves,
+      icon: null,
       title: 'Masáže',
       description: 'Klasická masáž, reflexní masáž, lymfatická drenáž, sportovní masáž',
       url: '#'
     },
     {
-      icon: Zap,
+      icon: null,
       title: 'Elektroléčba',
       description: 'TENS, ultrazvuk, magnetoterapie, laserová terapie, iontoforéza',
       url: '#'
     },
     {
-      icon: Sparkles,
+      icon: null,
       title: 'Speciální metody',
       description: 'Kinesiotaping, suchá jehla, baňkování, McKenzie metoda, Vojtova metoda',
       url: '#'
@@ -165,9 +165,9 @@ export default function Priklad2Page() {
           <section>
               <Directions
                   instructions={[
-                      { icon: DoorOpen, floor: '1. patro', text: 'Vstupte hlavním vchodem a pokračujte k recepci' },
-                      { icon: ArrowUp, floor: '2. patro', text: 'Jděte po schodech nebo výtahem do 2. patra' },
-                      { icon: MapPin, floor: '2. patro, č. 215', text: 'Najdete nás na konci chodby vpravo, dveře číslo 215' },
+                      { icon: null, floor: '1. patro', text: 'Vstupte hlavním vchodem a pokračujte k recepci' },
+                      { icon: null, floor: '2. patro', text: 'Jděte po schodech nebo výtahem do 2. patra' },
+                      { icon: null, floor: '2. patro, č. 215', text: 'Najdete nás na konci chodby vpravo, dveře číslo 215' },
                   ]}
               />
           </section>

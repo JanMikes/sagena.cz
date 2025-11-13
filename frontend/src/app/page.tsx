@@ -17,56 +17,56 @@ import Slider from '@/components/marketing/Slider';
 export default function HomePage() {
   const services = [
     {
-      icon: Heart,
+      icon: null,
       title: 'Kardiologie',
       description: 'Komplexní péče o vaše srdce a cévy. EKG, echokardiografie, holter monitoring a preventivní vyšetření.',
       linkText: 'Zjistit více',
       linkUrl: '/priklad-1/'
     },
     {
-      icon: Brain,
+      icon: null,
       title: 'Neurologie',
       description: 'Diagnostika a léčba onemocnění nervového systému, bolesti hlavy, závrať a neurologická vyšetření.',
       linkText: 'Zjistit více',
       linkUrl: '#'
     },
     {
-      icon: Bone,
+      icon: null,
       title: 'Ortopedie',
       description: 'Péče o pohybový aparát, léčba úrazů, kloubní problémy a rehabilitační programy.',
       linkText: 'Zjistit více',
       linkUrl: '#'
     },
     {
-      icon: Activity,
+      icon: null,
       title: 'Rehabilitace',
       description: 'Fyzioterapie, masáže, elektroléčba a komplexní rehabilitační péče pod vedením odborníků.',
       linkText: 'Zjistit více',
       linkUrl: '/priklad-2/'
     },
     {
-      icon: Waves,
+      icon: null,
       title: 'MRI vyšetření',
       description: 'Moderní magnetická rezonance pro přesnou diagnostiku celého těla s možností objednání online.',
       linkText: 'Zjistit více',
       linkUrl: '#'
     },
     {
-      icon: Eye,
+      icon: null,
       title: 'Oftalmologie',
       description: 'Komplexní péče o vaše oči včetně preventivních prohlídek a diagnostiky očních onemocnění.',
       linkText: 'Zjistit více',
       linkUrl: '#'
     },
     {
-      icon: Stethoscope,
+      icon: null,
       title: 'Všeobecné lékařství',
       description: 'Registrace k praktickému lékaři, preventivní prohlídky a základní zdravotní péče pro celou rodinu.',
       linkText: 'Zjistit více',
       linkUrl: '#'
     },
     {
-      icon: Pill,
+      icon: null,
       title: 'Lékárna',
       description: 'Plně vybavená lékárna s širokým sortimentem léků, doplňků stravy a zdravotnických pomůcek.',
       linkText: 'Zjistit více',

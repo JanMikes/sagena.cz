@@ -44,10 +44,10 @@ export default function IntranetPage() {
         <MarketingArguments
           columns={4}
           arguments={[
-            { icon: Users, number: '12', title: 'Dnešní pacienti', description: 'Naplánované návštěvy' },
-            { icon: Clock, number: '5', title: 'Čekající úkoly', description: 'K vyřízení dnes' },
-            { icon: FileText, number: '8', title: 'Nové zprávy', description: 'Nepřečtené' },
-            { icon: TrendingUp, number: '94%', title: 'Výkon měsíce', description: 'Splnění plánu' },
+            { icon: null, number: '12', title: 'Dnešní pacienti', description: 'Naplánované návštěvy' },
+            { icon: null, number: '5', title: 'Čekající úkoly', description: 'K vyřízení dnes' },
+            { icon: null, number: '8', title: 'Nové zprávy', description: 'Nepřečtené' },
+            { icon: null, number: '94%', title: 'Výkon měsíce', description: 'Splnění plánu' },
           ]}
         />
 

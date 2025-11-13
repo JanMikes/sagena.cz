@@ -24,25 +24,25 @@ export default function Priklad2Page() {
 
   const services = [
     {
-      icon: Activity,
+      icon: null,
       title: 'Fyzioterapie',
       description: 'Individuální cvičení s fyzioterapeutem, léčebná tělesná výchova, pohybová terapie',
       url: '#'
     },
     {
-      icon: Waves,
+      icon: null,
       title: 'Masáže',
       description: 'Klasická masáž, reflexní masáž, lymfatická drenáž, sportovní masáž',
       url: '#'
     },
     {
-      icon: Zap,
+      icon: null,
       title: 'Elektroléčba',
       description: 'TENS, ultrazvuk, magnetoterapie, laserová terapie, iontoforéza',
       url: '#'
     },
     {
-      icon: Sparkles,
+      icon: null,
       title: 'Speciální metody',
       description: 'Kinesiotaping, suchá jehla, baňkování, McKenzie metoda, Vojtova metoda',
       url: '#'

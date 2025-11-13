@@ -1,8 +1,8 @@
 import React from 'react';
-import { LucideIcon } from 'lucide-react';
+import Image from 'next/image';
 
 interface Argument {
-  icon?: LucideIcon;
+  icon?: string | null;  // Icon image URL
   number?: string;
   title: string;
   description: string;
@@ -26,17 +26,22 @@ const MarketingArguments: React.FC<MarketingArgumentsProps> = ({
   return (
     <div className={`grid grid-cols-1 ${gridCols[columns]} gap-8`}>
       {args.map((arg, index) => {
-        const IconComponent = arg.icon;
         return (
           <div key={index} className="text-center">
             {/* Icon or Number */}
             <div className="flex items-center justify-center mb-4">
-              {IconComponent && (
+              {arg.icon && (
                 <div className="flex items-center justify-center w-16 h-16 bg-primary-600 rounded-2xl">
-                  <IconComponent className="w-8 h-8 text-white" />
+                  <Image
+                    src={arg.icon}
+                    alt=""
+                    width={32}
+                    height={32}
+                    className="w-8 h-8 object-contain brightness-0 invert"
+                  />
                 </div>
               )}
-              {arg.number && !IconComponent && (
+              {arg.number && !arg.icon && (
                 <div className="text-5xl font-bold text-primary-600">
                   {arg.number}
                 </div>
