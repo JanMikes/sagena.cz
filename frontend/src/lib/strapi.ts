@@ -308,6 +308,17 @@ export async function fetchPageBySlug(
                 },
               },
             },
+            'components.service-cards': {
+              populate: {
+                cards: {
+                  populate: {
+                    link: {
+                      populate: ['page', 'file'],
+                    },
+                  },
+                },
+              },
+            },
           },
         },
         sidebar: {
@@ -319,6 +330,17 @@ export async function fetchPageBySlug(
               populate: {
                 links: {
                   populate: ['page', 'file'],
+                },
+              },
+            },
+            'components.service-cards': {
+              populate: {
+                cards: {
+                  populate: {
+                    link: {
+                      populate: ['page', 'file'],
+                    },
+                  },
                 },
               },
             },

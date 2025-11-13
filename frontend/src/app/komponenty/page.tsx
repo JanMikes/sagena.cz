@@ -119,9 +119,9 @@ export default function KomponentyPage() {
           <ServiceCards
             columns={3}
             cards={[
-              { icon: Heart, title: 'Kardiologie', description: 'Péče o vaše srdce', linkText: 'Zjistit více', linkUrl: '#' },
-              { icon: Activity, title: 'Rehabilitace', description: 'Moderní rehabilitační metody', linkText: 'Zjistit více', linkUrl: '#' },
-              { icon: Stethoscope, title: 'Ordinace', description: 'Široká nabídka ordinací', linkText: 'Zjistit více', linkUrl: '#' },
+              { icon: Heart, title: 'Kardiologie', description: 'Péče o vaše srdce', link: { text: 'Zjistit více', url: '#' } },
+              { icon: Activity, title: 'Rehabilitace', description: 'Moderní rehabilitační metody', link: { text: 'Zjistit více', url: '#' } },
+              { icon: Stethoscope, title: 'Ordinace', description: 'Široká nabídka ordinací', link: { text: 'Zjistit více', url: '#' } },
             ]}
           />
         </section>
@@ -411,8 +411,8 @@ export default function KomponentyPage() {
         <section>
           <h2 className="text-2xl font-bold mb-6">Kontaktní karty</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <ContactCardname="Jan Novák" email="novak@sagena.cz" phone="+420 553 030 800" />
-            <ContactCardname="Marie Svobodová" email="svobodova@sagena.cz" phone="+420 553 030 801" />
+            <ContactCard name="Jan Novák" email="novak@sagena.cz" phone="+420 553 030 800" />
+            <ContactCard name="Marie Svobodová" email="svobodova@sagena.cz" phone="+420 553 030 801" />
           </div>
         </section>
 

@@ -512,6 +512,7 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
         'components.alert',
         'components.links-list',
         'components.video',
+        'components.service-cards',
       ]
     > &
       Schema.Attribute.Required &

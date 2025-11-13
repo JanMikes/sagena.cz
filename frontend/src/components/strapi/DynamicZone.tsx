@@ -11,6 +11,8 @@ import RichText from '@/components/typography/RichText';
 import Alert from '@/components/interactive/Alert';
 import LinksList from '@/components/navigation/LinksList';
 import Video from '@/components/content/Video';
+import ServiceCards from '@/components/content/ServiceCards';
+import { getIconComponent } from '@/lib/icons';
 import {
   PageContentComponent,
   PageSidebarComponent,
@@ -19,6 +21,7 @@ import {
   ComponentsAlert,
   ComponentsLinksList,
   ComponentsVideo,
+  ComponentsServiceCards,
   ElementsTextLink,
   StrapiMedia,
 } from '@/types/strapi';
@@ -180,6 +183,51 @@ function renderComponent(
           key={`${__component}-${component.id || index}`}
           youtubeId={videoComponent.youtube_id}
           aspectRatio={videoComponent.aspect_ratio}
+        />
+      );
+    }
+
+    case 'components.service-cards': {
+      const serviceCardsComponent = component as ComponentsServiceCards;
+
+      // Transform Strapi data to ServiceCards component props
+      const cards = serviceCardsComponent.cards.map((card) => {
+        // Get icon component from string enum
+        const IconComponent = getIconComponent(card.icon);
+
+        // Resolve link if provided
+        let link: { text: string; url: string } | undefined;
+        if (card.link) {
+          const resolved = resolveTextLink(card.link);
+          if (!resolved.disabled) {
+            link = {
+              text: card.link.text,
+              url: resolved.url,
+            };
+          }
+        }
+
+        return {
+          icon: IconComponent,
+          title: card.title,
+          description: card.description,
+          link,
+        };
+      });
+
+      // Convert column enum to number
+      const columnMap: Record<string, 2 | 3 | 4> = {
+        'Two columns': 2,
+        'Three columns': 3,
+        'Four columns': 4,
+      };
+      const columns = columnMap[serviceCardsComponent.columns] || 3;
+
+      return (
+        <ServiceCards
+          key={`${__component}-${component.id || index}`}
+          cards={cards}
+          columns={columns}
         />
       );
     }

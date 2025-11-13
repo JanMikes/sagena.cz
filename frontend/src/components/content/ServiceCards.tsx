@@ -6,8 +6,10 @@ interface CardItem {
   icon: LucideIcon;
   title: string;
   description?: string;
-  linkText: string;
-  linkUrl: string;
+  link?: {
+    text: string;
+    url: string;
+  };
 }
 
 interface ServiceCardsProps {
@@ -45,13 +47,15 @@ const ServiceCards: React.FC<ServiceCardsProps> = ({
                 {card.description}
               </p>
             )}
-            <Link
-              href={card.linkUrl}
-              className="inline-flex items-center space-x-2 text-primary-600 hover:text-primary-700 font-medium group"
-            >
-              <span>{card.linkText}</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Link>
+            {card.link && (
+              <Link
+                href={card.link.url}
+                className="inline-flex items-center space-x-2 text-primary-600 hover:text-primary-700 font-medium group"
+              >
+                <span>{card.link.text}</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </Link>
+            )}
           </div>
         );
       })}

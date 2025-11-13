@@ -49,8 +49,7 @@ These components are already implemented in the dynamic zone:
 | `icon` | Enumeration 🎨 | ✓ | ✗ | Heart, Activity, Stethoscope, Users, Calendar, FileText, Building, Shield, Clock, CheckCircle, Phone, Mail, MapPin, Briefcase |
 | `title` | Text (short) | ✓ | ✗ | |
 | `description` | Text (long) | ✗ | ✓ | |
-| `link_text` | Text (short) | ✓ | ✗ | e.g., "Zjistit více" |
-| `link` | Component (single) | ✓ | ✗ | Use `elements.text-link` |
+| `link` | Component (single) | ✓ | ✗ | Use `elements.text-link` (includes text + target) |
 
 **Settings:**
 
@@ -77,7 +76,7 @@ These components are already implemented in the dynamic zone:
 | `icon` | Enumeration 🎨 | ✓ | ✗ | Calendar, FileText, Users, Phone, Mail, MapPin, Briefcase, Heart, Activity, Stethoscope, Building |
 | `title` | Text (short) | ✓ | ✗ | |
 | `description` | Text (long) | ✓ | ✗ | |
-| `link` | Component (single) | ✓ | ✗ | Use `elements.text-link` |
+| `link` | Component (single) | ✓ | ✗ | Use `elements.text-link` (includes text + target) |
 
 ---
 
@@ -121,8 +120,7 @@ These components are already implemented in the dynamic zone:
 | `date` | Date | ✓ | ✗ | Publication date |
 | `text` | Text (long) | ✓ | ✗ | Article excerpt/preview |
 | `image` | Media (single) | ✗ | ✓ | Featured image |
-| `read_more_link` | Component (single) | ✓ | ✗ | Use `elements.text-link` |
-| `read_more_text` | Text (short) | ✗ | ✓ | Default: "Číst více" |
+| `read_more_link` | Component (single) | ✓ | ✗ | Use `elements.text-link` (includes text + target, default text: "Číst více") |
 
 ---
 
@@ -140,8 +138,7 @@ These components are already implemented in the dynamic zone:
 | `department` | Text (short) | ✓ | ✗ | e.g., "Kardiologie" |
 | `employment_type` | Text (short) | ✓ | ✗ | e.g., "Plný úvazek", "Částečný úvazek" |
 | `location` | Text (short) | ✓ | ✗ | e.g., "Frýdek-Místek" |
-| `cta_text` | Text (short) | ✗ | ✓ | Default: "Zobrazit pozici" |
-| `cta_link` | Component (single) | ✓ | ✗ | Use `elements.text-link` |
+| `cta_link` | Component (single) | ✓ | ✗ | Use `elements.text-link` (includes text + target, default text: "Zobrazit pozici") |
 
 ---
 
@@ -249,8 +246,7 @@ These components are already implemented in the dynamic zone:
 |------------|------|----------|----------|-------|
 | `title` | Text (short) | ✓ | ✗ | Slide headline |
 | `description` | Text (long) | ✓ | ✗ | Slide content |
-| `link_text` | Text (short) | ✗ | ✓ | Button text |
-| `link` | Component (single) | ✗ | ✓ | Use `elements.text-link` |
+| `link` | Component (single) | ✗ | ✓ | Use `elements.text-link` (includes text + target) |
 | `image` | Media (single) | ✗ | ✓ | Foreground image |
 | `background_image` | Media (single) | ✗ | ✓ | Background image |
 
@@ -422,8 +418,7 @@ These components are already implemented in the dynamic zone:
 
 | Field Name | Type | Required | Nullable | Options |
 |------------|------|----------|----------|---------|
-| `text` | Text (short) | ✓ | ✗ | Button label |
-| `link` | Component (single) | ✗ | ✓ | Use `elements.text-link` |
+| `link` | Component (single) | ✓ | ✗ | Use `elements.text-link` (includes text + target) |
 | `variant` | Enumeration 🎨 | ✗ | ✗ | Primary, Secondary, Outline, Ghost (default: Primary) |
 | `size` | Enumeration 🎨 | ✗ | ✗ | Small, Medium, Large (default: Medium) |
 
@@ -496,6 +491,22 @@ These components are already implemented in the dynamic zone:
 
 ## 📝 Implementation Notes
 
+### Text Link Element Structure
+
+**`elements.text-link`** is a reusable component that combines clickable text with a link target. It includes:
+
+**Fields:**
+- `text` (string, required) - The clickable text displayed to user
+- `page` (relation, optional) - Link to internal page (priority 1)
+- `url` (string, optional) - External URL (priority 2)
+- `file` (media, optional) - File download (priority 3)
+- `anchor` (string, optional) - Anchor/hash only (priority 4)
+- `disabled` (boolean, default: false) - Disable the link
+
+**Usage:** Whenever a component needs a clickable link with text, use `elements.text-link` instead of separate `text` + `link` fields. This provides consistent link handling across all components.
+
+---
+
 ### Icon Field Implementation in Strapi
 
 For icon fields, create an **Enumeration** type with the following values:
@@ -537,7 +548,7 @@ These map to `lucide-react` icon components in the frontend.
 
 Before creating the main components, define these reusable elements:
 
-1. **elements.text-link** - Already exists (used by links-list)
+1. **elements.text-link** - Already exists ✅ (text + link target: page/url/file/anchor + disabled flag)
 2. **elements.service-card** - For service cards component
 3. **elements.full-width-card** - For full-width cards
 4. **elements.document-item** - For documents component

@@ -135,6 +135,18 @@ export interface ComponentsVideo {
   aspect_ratio: 'Ratio 16/9' | 'Ratio 4/3' | 'Ratio 1/1';
 }
 
+/**
+ * Components: Service Cards
+ * Location: strapi/src/components/components/service-cards.json
+ * Usage: Grid of service cards with icons, titles, descriptions, and optional links
+ */
+export interface ComponentsServiceCards {
+  id: number;
+  __component: 'components.service-cards';
+  cards: ElementsServiceCard[];
+  columns: 'Two columns' | 'Three columns' | 'Four columns';
+}
+
 // ============================================================================
 // Strapi Elements (embedded in other components, never standalone)
 // ============================================================================
@@ -173,6 +185,22 @@ export interface ElementsTextLink {
   disabled?: boolean;  // Whether link is disabled
 }
 
+/**
+ * Elements: Service Card
+ * Location: strapi/src/components/elements/service-card.json
+ * Usage: Individual service card with icon, title, description, and optional link
+ *
+ * IMPORTANT: Strapi returns relations directly (no .data wrapper)
+ */
+export interface ElementsServiceCard {
+  id: number;
+  __component?: 'elements.service-card';
+  icon: 'Heart' | 'Activity' | 'Stethoscope' | 'Users' | 'Calendar' | 'FileText' | 'Building' | 'Shield' | 'Clock' | 'CheckCircle' | 'Phone' | 'Mail' | 'MapPin' | 'Briefcase';
+  title: string;
+  description?: string;
+  link?: ElementsTextLink;  // Optional link (not required)
+}
+
 // ============================================================================
 // Dynamic Zone Union Types
 // ============================================================================
@@ -180,12 +208,12 @@ export interface ElementsTextLink {
 /**
  * Page content dynamic zone - all components that can appear in page content area
  */
-export type PageContentComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsLinksList | ComponentsVideo;
+export type PageContentComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsLinksList | ComponentsVideo | ComponentsServiceCards;
 
 /**
  * Page sidebar dynamic zone - all components that can appear in page sidebar
  */
-export type PageSidebarComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsLinksList;
+export type PageSidebarComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsLinksList | ComponentsServiceCards;
 
 // ============================================================================
 // Content Types

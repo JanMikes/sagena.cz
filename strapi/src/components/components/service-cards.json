@@ -1,0 +1,26 @@
+{
+  "collectionName": "components_components_service_cards",
+  "info": {
+    "displayName": "service-cards",
+    "icon": "dashboard"
+  },
+  "options": {},
+  "attributes": {
+    "cards": {
+      "type": "component",
+      "component": "elements.service-card",
+      "repeatable": true,
+      "required": true
+    },
+    "columns": {
+      "type": "enumeration",
+      "default": "Three columns",
+      "enum": [
+        "Two columns",
+        "Three columns",
+        "Four columns"
+      ]
+    }
+  },
+  "config": {}
+}

@@ -49,6 +49,22 @@ export interface ComponentsLinksList extends Struct.ComponentSchema {
   };
 }
 
+export interface ComponentsServiceCards extends Struct.ComponentSchema {
+  collectionName: 'components_components_service_cards';
+  info: {
+    displayName: 'service-cards';
+    icon: 'dashboard';
+  };
+  attributes: {
+    cards: Schema.Attribute.Component<'elements.service-card', true> &
+      Schema.Attribute.Required;
+    columns: Schema.Attribute.Enumeration<
+      ['Two columns', 'Three columns', 'Four columns']
+    > &
+      Schema.Attribute.DefaultTo<'Three columns'>;
+  };
+}
+
 export interface ComponentsText extends Struct.ComponentSchema {
   collectionName: 'components_components_texts';
   info: {
@@ -89,6 +105,38 @@ export interface ElementsLink extends Struct.ComponentSchema {
   };
 }
 
+export interface ElementsServiceCard extends Struct.ComponentSchema {
+  collectionName: 'components_elements_service_cards';
+  info: {
+    displayName: 'service-card';
+    icon: 'bulletList';
+  };
+  attributes: {
+    description: Schema.Attribute.Text;
+    icon: Schema.Attribute.Enumeration<
+      [
+        'Heart',
+        'Activity',
+        'Stethoscope',
+        'Users',
+        'Calendar',
+        'FileText',
+        'Building',
+        'Shield',
+        'Clock',
+        'CheckCircle',
+        'Phone',
+        'Mail',
+        'MapPin',
+        'Briefcase',
+      ]
+    > &
+      Schema.Attribute.Required;
+    link: Schema.Attribute.Component<'elements.text-link', false>;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
 export interface ElementsTextLink extends Struct.ComponentSchema {
   collectionName: 'components_elements_text_links';
   info: {
@@ -111,9 +159,11 @@ declare module '@strapi/strapi' {
       'components.alert': ComponentsAlert;
       'components.heading': ComponentsHeading;
       'components.links-list': ComponentsLinksList;
+      'components.service-cards': ComponentsServiceCards;
       'components.text': ComponentsText;
       'components.video': ComponentsVideo;
       'elements.link': ElementsLink;
+      'elements.service-card': ElementsServiceCard;
       'elements.text-link': ElementsTextLink;
     }
   }
