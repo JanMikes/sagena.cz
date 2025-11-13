@@ -33,9 +33,8 @@ These components are already implemented in the dynamic zone:
 
 #### 1. Service Cards (components.service-cards)
 
-**Current name:** CardsWithDescription
-**Proposed rename:** "Service Cards" - more descriptive for healthcare services
-**Location:** `/frontend/src/components/content/CardsWithDescription.tsx`
+**Component name:** ServiceCards ✅ RENAMED
+**Location:** `/frontend/src/components/content/ServiceCards.tsx`
 
 **Fields:**
 
@@ -111,9 +110,8 @@ These components are already implemented in the dynamic zone:
 
 #### 4. News Article (components.news-article)
 
-**Current name:** Actuality
-**Proposed rename:** "News Article" - clearer English business term
-**Location:** `/frontend/src/components/content/Actuality.tsx`
+**Component name:** NewsArticle ✅ RENAMED
+**Location:** `/frontend/src/components/content/NewsArticle.tsx`
 
 **Fields:**
 
@@ -130,9 +128,8 @@ These components are already implemented in the dynamic zone:
 
 #### 5. Job Posting (components.job-posting)
 
-**Current name:** WorkOpportunity
-**Proposed rename:** "Job Posting" - clearer business term
-**Location:** `/frontend/src/components/content/WorkOpportunity.tsx`
+**Component name:** JobPosting ✅ RENAMED
+**Location:** `/frontend/src/components/content/JobPosting.tsx`
 
 **Fields:**
 
@@ -323,10 +320,9 @@ These components are already implemented in the dynamic zone:
 
 #### 12. Doctor Profile (components.doctor-profile) ⚠️
 
-**Current name:** Doctor
-**Proposed rename:** "Doctor Profile" - clearer purpose
+**Component name:** DoctorProfile ✅ RENAMED
 **Client Component:** Uses React hooks for collapsible sections
-**Location:** `/frontend/src/components/people/Doctor.tsx`
+**Location:** `/frontend/src/components/people/DoctorProfile.tsx`
 
 **Fields:**
 
@@ -356,9 +352,8 @@ These components are already implemented in the dynamic zone:
 
 #### 13. Contact Card (components.contact-card)
 
-**Current name:** Contact
-**Proposed rename:** "Contact Card" - clearer purpose
-**Location:** `/frontend/src/components/people/Contact.tsx`
+**Component name:** ContactCard ✅ RENAMED
+**Location:** `/frontend/src/components/people/ContactCard.tsx`
 
 **Fields:**
 
@@ -377,9 +372,8 @@ These components are already implemented in the dynamic zone:
 
 #### 14. Directions (components.directions)
 
-**Current name:** HowToFindUs
-**Proposed rename:** "Directions" - shorter, clearer
-**Location:** `/frontend/src/components/layout/HowToFindUs.tsx`
+**Component name:** Directions ✅ RENAMED
+**Location:** `/frontend/src/components/layout/Directions.tsx`
 
 **Fields:**
 
@@ -400,9 +394,8 @@ These components are already implemented in the dynamic zone:
 
 #### 15. Section Divider (components.section-divider)
 
-**Current name:** Breaker
-**Proposed rename:** "Section Divider" - clearer business term
-**Location:** `/frontend/src/components/layout/Breaker.tsx`
+**Component name:** SectionDivider ✅ RENAMED
+**Location:** `/frontend/src/components/layout/SectionDivider.tsx`
 
 **Fields:**
 
@@ -416,9 +409,8 @@ These components are already implemented in the dynamic zone:
 
 #### 16. Button Group (components.button-group)
 
-**Current name:** ButtonRow
-**Proposed rename:** "Button Group" - clearer purpose
-**Location:** `/frontend/src/components/layout/ButtonRow.tsx`
+**Component name:** ButtonGroup ✅ RENAMED
+**Location:** `/frontend/src/components/layout/ButtonGroup.tsx`
 
 **Fields:**
 
@@ -450,10 +442,9 @@ These components are already implemented in the dynamic zone:
 
 #### 17. Expandable Section (components.expandable-section) ⚠️
 
-**Current name:** Collapse
-**Proposed rename:** "Expandable Section" - clearer business term
+**Component name:** ExpandableSection ✅ RENAMED
 **Client Component:** Uses React hooks for expand/collapse
-**Location:** `/frontend/src/components/interactive/Collapse.tsx`
+**Location:** `/frontend/src/components/interactive/ExpandableSection.tsx`
 
 **Fields:**
 
