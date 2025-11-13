@@ -17,6 +17,18 @@ export interface ComponentsAlert extends Struct.ComponentSchema {
   };
 }
 
+export interface ComponentsFullWidthCards extends Struct.ComponentSchema {
+  collectionName: 'components_components_full_width_cards';
+  info: {
+    displayName: 'full-width-cards';
+    icon: 'apps';
+  };
+  attributes: {
+    cards: Schema.Attribute.Component<'elements.full-width-card', true> &
+      Schema.Attribute.Required;
+  };
+}
+
 export interface ComponentsHeading extends Struct.ComponentSchema {
   collectionName: 'components_components_headings';
   info: {
@@ -91,6 +103,47 @@ export interface ComponentsVideo extends Struct.ComponentSchema {
   };
 }
 
+export interface ElementsFullWidthCard extends Struct.ComponentSchema {
+  collectionName: 'components_elements_full_width_cards';
+  info: {
+    displayName: 'full-width-card';
+    icon: 'apps';
+  };
+  attributes: {
+    description: Schema.Attribute.Text & Schema.Attribute.Required;
+    icon: Schema.Attribute.Enumeration<
+      [
+        'Calendar',
+        'FileText',
+        'Users',
+        'Phone',
+        'Mail',
+        'MapPin',
+        'Briefcase',
+        'Heart',
+        'Activity',
+        'Stethoscope',
+        'Building',
+      ]
+    > &
+      Schema.Attribute.Required;
+    link: Schema.Attribute.Component<'elements.text-link', false> &
+      Schema.Attribute.Required;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface ElementsIcon extends Struct.ComponentSchema {
+  collectionName: 'components_elements_icons';
+  info: {
+    displayName: 'icon';
+    icon: 'picture';
+  };
+  attributes: {
+    icon: Schema.Attribute.Relation<'oneToOne', 'api::icon.icon'>;
+  };
+}
+
 export interface ElementsLink extends Struct.ComponentSchema {
   collectionName: 'components_elements_links';
   info: {
@@ -157,11 +210,14 @@ declare module '@strapi/strapi' {
   export module Public {
     export interface ComponentSchemas {
       'components.alert': ComponentsAlert;
+      'components.full-width-cards': ComponentsFullWidthCards;
       'components.heading': ComponentsHeading;
       'components.links-list': ComponentsLinksList;
       'components.service-cards': ComponentsServiceCards;
       'components.text': ComponentsText;
       'components.video': ComponentsVideo;
+      'elements.full-width-card': ElementsFullWidthCard;
+      'elements.icon': ElementsIcon;
       'elements.link': ElementsLink;
       'elements.service-card': ElementsServiceCard;
       'elements.text-link': ElementsTextLink;

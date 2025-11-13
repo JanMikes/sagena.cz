@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_elements_icons",
+  "info": {
+    "displayName": "icon",
+    "icon": "picture"
+  },
+  "options": {},
+  "attributes": {
+    "icon": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::icon.icon"
+    }
+  },
+  "config": {}
+}

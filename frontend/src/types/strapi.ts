@@ -147,6 +147,17 @@ export interface ComponentsServiceCards {
   columns: 'Two columns' | 'Three columns' | 'Four columns';
 }
 
+/**
+ * Components: Full Width Cards
+ * Location: strapi/src/components/components/full-width-cards.json
+ * Usage: Vertical list of full-width cards with icons, titles, descriptions, and links
+ */
+export interface ComponentsFullWidthCards {
+  id: number;
+  __component: 'components.full-width-cards';
+  cards: ElementsFullWidthCard[];
+}
+
 // ============================================================================
 // Strapi Elements (embedded in other components, never standalone)
 // ============================================================================
@@ -201,6 +212,22 @@ export interface ElementsServiceCard {
   link?: ElementsTextLink;  // Optional link (not required)
 }
 
+/**
+ * Elements: Full Width Card
+ * Location: strapi/src/components/elements/full-width-card.json
+ * Usage: Individual full-width card with icon, title, description, and required link
+ *
+ * IMPORTANT: Strapi returns relations directly (no .data wrapper)
+ */
+export interface ElementsFullWidthCard {
+  id: number;
+  __component?: 'elements.full-width-card';
+  icon: 'Calendar' | 'FileText' | 'Users' | 'Phone' | 'Mail' | 'MapPin' | 'Briefcase' | 'Heart' | 'Activity' | 'Stethoscope' | 'Building';
+  title: string;
+  description: string;
+  link: ElementsTextLink;  // Required link
+}
+
 // ============================================================================
 // Dynamic Zone Union Types
 // ============================================================================
@@ -208,7 +235,7 @@ export interface ElementsServiceCard {
 /**
  * Page content dynamic zone - all components that can appear in page content area
  */
-export type PageContentComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsLinksList | ComponentsVideo | ComponentsServiceCards;
+export type PageContentComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsLinksList | ComponentsVideo | ComponentsServiceCards | ComponentsFullWidthCards;
 
 /**
  * Page sidebar dynamic zone - all components that can appear in page sidebar

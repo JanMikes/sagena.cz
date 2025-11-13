@@ -12,6 +12,7 @@ import Alert from '@/components/interactive/Alert';
 import LinksList from '@/components/navigation/LinksList';
 import Video from '@/components/content/Video';
 import ServiceCards from '@/components/content/ServiceCards';
+import FullWidthCards from '@/components/content/FullWidthCards';
 import { getIconComponent } from '@/lib/icons';
 import {
   PageContentComponent,
@@ -22,6 +23,7 @@ import {
   ComponentsLinksList,
   ComponentsVideo,
   ComponentsServiceCards,
+  ComponentsFullWidthCards,
   ElementsTextLink,
   StrapiMedia,
 } from '@/types/strapi';
@@ -228,6 +230,36 @@ function renderComponent(
           key={`${__component}-${component.id || index}`}
           cards={cards}
           columns={columns}
+        />
+      );
+    }
+
+    case 'components.full-width-cards': {
+      const fullWidthCardsComponent = component as ComponentsFullWidthCards;
+
+      // Transform Strapi data to FullWidthCards component props
+      const cards = fullWidthCardsComponent.cards.map((card) => {
+        // Get icon component from string enum
+        const IconComponent = getIconComponent(card.icon);
+
+        // Resolve link (required for full-width cards)
+        const resolved = resolveTextLink(card.link);
+
+        return {
+          icon: IconComponent,
+          title: card.title,
+          description: card.description,
+          link: {
+            text: card.link.text,
+            url: resolved.url,
+          },
+        };
+      });
+
+      return (
+        <FullWidthCards
+          key={`${__component}-${component.id || index}`}
+          cards={cards}
         />
       );
     }

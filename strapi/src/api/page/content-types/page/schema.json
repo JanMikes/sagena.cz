@@ -60,7 +60,8 @@
         "components.alert",
         "components.links-list",
         "components.video",
-        "components.service-cards"
+        "components.service-cards",
+        "components.full-width-cards"
       ],
       "required": true
     },

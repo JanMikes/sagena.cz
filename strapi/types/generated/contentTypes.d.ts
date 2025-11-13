@@ -430,6 +430,32 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiIconIcon extends Struct.CollectionTypeSchema {
+  collectionName: 'icons';
+  info: {
+    displayName: 'icon';
+    pluralName: 'icons';
+    singularName: 'icon';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    image: Schema.Attribute.Media<'images'> & Schema.Attribute.Required;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::icon.icon'> &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiNavigationNavigation extends Struct.CollectionTypeSchema {
   collectionName: 'navigations';
   info: {
@@ -513,6 +539,7 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
         'components.links-list',
         'components.video',
         'components.service-cards',
+        'components.full-width-cards',
       ]
     > &
       Schema.Attribute.Required &
@@ -1077,6 +1104,7 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
+      'api::icon.icon': ApiIconIcon;
       'api::navigation.navigation': ApiNavigationNavigation;
       'api::page.page': ApiPagePage;
       'plugin::content-releases.release': PluginContentReleasesRelease;

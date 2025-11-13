@@ -1,0 +1,42 @@
+{
+  "collectionName": "components_elements_full_width_cards",
+  "info": {
+    "displayName": "full-width-card",
+    "icon": "apps"
+  },
+  "options": {},
+  "attributes": {
+    "icon": {
+      "type": "enumeration",
+      "required": true,
+      "enum": [
+        "Calendar",
+        "FileText",
+        "Users",
+        "Phone",
+        "Mail",
+        "MapPin",
+        "Briefcase",
+        "Heart",
+        "Activity",
+        "Stethoscope",
+        "Building"
+      ]
+    },
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text",
+      "required": true
+    },
+    "link": {
+      "type": "component",
+      "component": "elements.text-link",
+      "repeatable": false,
+      "required": true
+    }
+  },
+  "config": {}
+}

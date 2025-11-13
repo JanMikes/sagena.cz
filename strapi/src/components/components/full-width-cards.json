@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_components_full_width_cards",
+  "info": {
+    "displayName": "full-width-cards",
+    "icon": "apps"
+  },
+  "options": {},
+  "attributes": {
+    "cards": {
+      "type": "component",
+      "component": "elements.full-width-card",
+      "repeatable": true,
+      "required": true
+    }
+  },
+  "config": {}
+}
