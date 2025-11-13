@@ -9,13 +9,13 @@ interface ButtonItem {
   size?: 'sm' | 'md' | 'lg';
 }
 
-interface ButtonRowProps {
+interface ButtonGroupProps {
   buttons: ButtonItem[];
   alignment?: 'left' | 'center' | 'right';
   spacing?: 'sm' | 'md' | 'lg';
 }
 
-const ButtonRow: React.FC<ButtonRowProps> = ({
+const ButtonGroup: React.FC<ButtonGroupProps> = ({
   buttons,
   alignment = 'left',
   spacing = 'md',
@@ -51,4 +51,4 @@ const ButtonRow: React.FC<ButtonRowProps> = ({
   );
 };
 
-export default ButtonRow;
+export default ButtonGroup;

@@ -2,7 +2,7 @@ import React from 'react';
 import { MapPin, Briefcase, Clock } from 'lucide-react';
 import Button from '@/components/ui/Button';
 
-interface WorkOpportunityProps {
+interface JobPostingProps {
   title: string;
   description: string;
   department: string;
@@ -12,7 +12,7 @@ interface WorkOpportunityProps {
   ctaUrl: string;
 }
 
-const WorkOpportunity: React.FC<WorkOpportunityProps> = ({
+const JobPosting: React.FC<JobPostingProps> = ({
   title,
   description,
   department,
@@ -52,4 +52,4 @@ const WorkOpportunity: React.FC<WorkOpportunityProps> = ({
   );
 };
 
-export default WorkOpportunity;
+export default JobPosting;

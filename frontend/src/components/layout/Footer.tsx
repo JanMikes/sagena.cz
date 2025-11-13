@@ -53,7 +53,6 @@ const Footer: React.FC = () => {
                 alt="Sagena"
                 className="h-12 w-auto"
               />
-              <span className="text-2xl font-bold text-white">Sagena</span>
             </Link>
             <p className="text-gray-400 mb-4">
               Centrum zdraví poskytující komplexní zdravotní péči desítkám tisíc spokojených klientů.

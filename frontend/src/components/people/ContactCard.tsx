@@ -1,14 +1,14 @@
 import React from 'react';
 import { Mail, Phone } from 'lucide-react';
 
-interface ContactProps {
+interface ContactCardProps {
   name: string;
   email?: string;
   phone?: string;
   photo?: string;
 }
 
-const Contact: React.FC<ContactProps> = ({ name, email, phone, photo }) => {
+const ContactCard: React.FC<ContactCardProps> = ({ name, email, phone, photo }) => {
   const getInitials = (name: string) => {
     return name
       .split(' ')
@@ -61,4 +61,4 @@ const Contact: React.FC<ContactProps> = ({ name, email, phone, photo }) => {
   );
 };
 
-export default Contact;
+export default ContactCard;

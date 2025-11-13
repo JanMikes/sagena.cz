@@ -8,9 +8,9 @@ import Card from '@/components/ui/Card';
 import Alert from '@/components/interactive/Alert';
 import LinksList from '@/components/navigation/LinksList';
 import Documents from '@/components/content/Documents';
-import Contact from '@/components/people/Contact';
+import ContactCard from '@/components/people/ContactCard';
 import MarketingArguments from '@/components/marketing/MarketingArguments';
-import Actuality from '@/components/content/Actuality';
+import NewsArticle from '@/components/content/NewsArticle';
 import RichText from '@/components/typography/RichText';
 
 export default function IntranetPage() {
@@ -139,7 +139,7 @@ export default function IntranetPage() {
 
             <Card>
               <h3 className="text-lg font-bold text-gray-900 mb-4">Kolega na službě</h3>
-              <Contact
+              <ContactCard
                 name="Dr. Marie Svobodová"
                 email="svobodova@sagena.cz"
                 phone="+420 553 030 801"

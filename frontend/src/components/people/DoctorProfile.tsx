@@ -14,7 +14,7 @@ interface Holiday {
   to: string;
 }
 
-interface DoctorProps {
+interface DoctorProfileProps {
   ambulanceTitle?: string;
   photo?: string;
   name: string;
@@ -26,7 +26,7 @@ interface DoctorProps {
   holiday?: Holiday;
 }
 
-const Doctor: React.FC<DoctorProps> = ({
+const DoctorProfile: React.FC<DoctorProfileProps> = ({
   ambulanceTitle,
   photo,
   name,
@@ -176,4 +176,4 @@ const Doctor: React.FC<DoctorProps> = ({
   );
 };
 
-export default Doctor;
+export default DoctorProfile;

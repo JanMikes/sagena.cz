@@ -5,14 +5,14 @@ import { Heart, Activity, Stethoscope, Users, MapPin, ArrowUp, FileText, Briefca
 
 // Import all components
 import Modal from '@/components/interactive/Modal';
-import Collapse from '@/components/interactive/Collapse';
+import ExpandableSection from '@/components/interactive/ExpandableSection';
 import Alert from '@/components/interactive/Alert';
-import CardsWithDescription from '@/components/content/CardsWithDescription';
+import ServiceCards from '@/components/content/ServiceCards';
 import FullWidthCards from '@/components/content/FullWidthCards';
 import Documents from '@/components/content/Documents';
 import Video from '@/components/content/Video';
-import Actuality from '@/components/content/Actuality';
-import WorkOpportunity from '@/components/content/WorkOpportunity';
+import NewsArticle from '@/components/content/NewsArticle';
+import JobPosting from '@/components/content/JobPosting';
 import ContactForm from '@/components/forms/ContactForm';
 import Select from '@/components/forms/Select';
 import Checkbox from '@/components/forms/Checkbox';
@@ -26,11 +26,11 @@ import LinksList from '@/components/navigation/LinksList';
 import Breadcrumb from '@/components/navigation/Breadcrumb';
 import Heading from '@/components/typography/Heading';
 import RichText from '@/components/typography/RichText';
-import Doctor from '@/components/people/Doctor';
-import Contact from '@/components/people/Contact';
-import HowToFindUs from '@/components/layout/HowToFindUs';
-import Breaker from '@/components/layout/Breaker';
-import ButtonRow from '@/components/layout/ButtonRow';
+import DoctorProfile from '@/components/people/DoctorProfile';
+import ContactCard from '@/components/people/ContactCard';
+import Directions from '@/components/layout/Directions';
+import SectionDivider from '@/components/layout/SectionDivider';
+import ButtonGroup from '@/components/layout/ButtonGroup';
 import Badge from '@/components/ui/Badge';
 import Card from '@/components/ui/Card';
 import PartnerLogos from '@/components/content/PartnerLogos';
@@ -82,7 +82,7 @@ export default function KomponentyPage() {
           </Card>
         </section>
 
-        <Breaker style="gradient" />
+        <SectionDivider style="gradient" />
 
         {/* Alerts */}
         <section>
@@ -111,12 +111,12 @@ export default function KomponentyPage() {
           </div>
         </section>
 
-        <Breaker />
+        <SectionDivider />
 
         {/* Cards with Description */}
         <section>
           <h2 className="text-2xl font-bold mb-6">Karty s popisem</h2>
-          <CardsWithDescription
+          <ServiceCards
             columns={3}
             cards={[
               { icon: Heart, title: 'Kardiologie', description: 'Péče o vaše srdce', linkText: 'Zjistit více', linkUrl: '#' },
@@ -126,7 +126,7 @@ export default function KomponentyPage() {
           />
         </section>
 
-        <Breaker />
+        <SectionDivider />
 
         {/* Full Width Cards */}
         <section>
@@ -140,7 +140,7 @@ export default function KomponentyPage() {
           />
         </section>
 
-        <Breaker />
+        <SectionDivider />
 
         {/* Documents */}
         <section>
@@ -154,7 +154,7 @@ export default function KomponentyPage() {
           />
         </section>
 
-        <Breaker />
+        <SectionDivider />
 
         {/* Video */}
         <section>
@@ -162,19 +162,19 @@ export default function KomponentyPage() {
           <Video youtubeId="dQw4w9WgXcQ" />
         </section>
 
-        <Breaker />
+        <SectionDivider />
 
         {/* Actuality */}
         <section>
           <h2 className="text-2xl font-bold mb-6">Aktuality</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <Actuality
+            <NewsArticle
               title="Nové ordinační hodiny"
               date="2025-01-15"
               text="Od února rozšiřujeme ordinační hodiny naší kardiologie o víkendové pohotovosti..."
               readMoreUrl="#"
             />
-            <Actuality
+            <NewsArticle
               title="Moderní MR přístroj"
               date="2025-01-10"
               text="Do našeho centra dorazil nejmodernější magnetický rezonance..."
@@ -184,12 +184,12 @@ export default function KomponentyPage() {
           </div>
         </section>
 
-        <Breaker />
+        <SectionDivider />
 
         {/* Work Opportunity */}
         <section>
           <h2 className="text-2xl font-bold mb-6">Pracovní příležitost</h2>
-          <WorkOpportunity
+          <JobPosting
             title="Všeobecná sestra"
             description="Hledáme zkušenou všeobecnou sestru do našeho týmu. Nabízíme moderní pracoviště a příjemný kolektiv."
             department="Kardiologie"
@@ -199,7 +199,7 @@ export default function KomponentyPage() {
           />
         </section>
 
-        <Breaker />
+        <SectionDivider />
 
         {/* Form Components */}
         <section>
@@ -209,7 +209,7 @@ export default function KomponentyPage() {
           </Card>
         </section>
 
-        <Breaker />
+        <SectionDivider />
 
         {/* Form Elements */}
         <section>
@@ -236,7 +236,7 @@ export default function KomponentyPage() {
           </div>
         </section>
 
-        <Breaker />
+        <SectionDivider />
 
         {/* Marketing Arguments */}
         <section>
@@ -251,7 +251,7 @@ export default function KomponentyPage() {
           />
         </section>
 
-        <Breaker />
+        <SectionDivider />
 
         {/* Timeline */}
         <section>
@@ -265,7 +265,7 @@ export default function KomponentyPage() {
           />
         </section>
 
-        <Breaker />
+        <SectionDivider />
 
         {/* Slider */}
         <section>
@@ -288,7 +288,7 @@ export default function KomponentyPage() {
           />
         </section>
 
-        <Breaker />
+        <SectionDivider />
 
         {/* Photo Gallery */}
         <section>
@@ -306,7 +306,7 @@ export default function KomponentyPage() {
           />
         </section>
 
-        <Breaker />
+        <SectionDivider />
 
         {/* Gallery Slider */}
         <section>
@@ -323,7 +323,7 @@ export default function KomponentyPage() {
           />
         </section>
 
-        <Breaker />
+        <SectionDivider />
 
         {/* Links List */}
         <section>
@@ -337,7 +337,7 @@ export default function KomponentyPage() {
           />
         </section>
 
-        <Breaker />
+        <SectionDivider />
 
         {/* Typography */}
         <section>
@@ -351,7 +351,7 @@ export default function KomponentyPage() {
           </div>
         </section>
 
-        <Breaker />
+        <SectionDivider />
 
         {/* Rich Text */}
         <section>
@@ -371,13 +371,13 @@ export default function KomponentyPage() {
           </Card>
         </section>
 
-        <Breaker />
+        <SectionDivider />
 
         {/* Doctor Cards */}
         <section>
           <h2 className="text-2xl font-bold mb-6">Karta lékaře</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <Doctor
+            <DoctorProfile
               name="MUDr. Jan Novák"
               department="Kardiologie"
               positions={['Kardiolog', 'Interní lékařství']}
@@ -389,7 +389,7 @@ export default function KomponentyPage() {
                 { day: 'Pátek', time: '8:00 - 14:00' },
               ]}
             />
-            <Doctor
+            <DoctorProfile
               ambulanceTitle="Neurologie"
               name="MUDr. Marie Dvořáková"
               department="Neurologie"
@@ -405,23 +405,23 @@ export default function KomponentyPage() {
           </div>
         </section>
 
-        <Breaker />
+        <SectionDivider />
 
         {/* Contact Cards */}
         <section>
           <h2 className="text-2xl font-bold mb-6">Kontaktní karty</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Contact name="Jan Novák" email="novak@sagena.cz" phone="+420 553 030 800" />
-            <Contact name="Marie Svobodová" email="svobodova@sagena.cz" phone="+420 553 030 801" />
+            <ContactCardname="Jan Novák" email="novak@sagena.cz" phone="+420 553 030 800" />
+            <ContactCardname="Marie Svobodová" email="svobodova@sagena.cz" phone="+420 553 030 801" />
           </div>
         </section>
 
-        <Breaker />
+        <SectionDivider />
 
         {/* How To Find Us */}
         <section>
           <h2 className="text-2xl font-bold mb-6">Jak nás najít</h2>
-          <HowToFindUs
+          <Directions
             instructions={[
               { icon: DoorOpen, floor: '1. patro', text: 'Vstupte hlavním vchodem a pokračujte k recepci' },
               { icon: ArrowUp, floor: '2. patro', text: 'Jděte po schodech nebo výtahem do 2. patra' },
@@ -430,13 +430,13 @@ export default function KomponentyPage() {
           />
         </section>
 
-        <Breaker />
+        <SectionDivider />
 
         {/* Buttons */}
         <section>
           <h2 className="text-2xl font-bold mb-6">Tlačítka</h2>
           <div className="space-y-6">
-            <ButtonRow
+            <ButtonGroup
               buttons={[
                 { text: 'Primární tlačítko', variant: 'primary' },
                 { text: 'Sekundární tlačítko', variant: 'secondary' },
@@ -444,7 +444,7 @@ export default function KomponentyPage() {
                 { text: 'Ghost tlačítko', variant: 'ghost' },
               ]}
             />
-            <ButtonRow
+            <ButtonGroup
               alignment="center"
               buttons={[
                 { text: 'Malé', variant: 'primary', size: 'sm' },
@@ -455,18 +455,18 @@ export default function KomponentyPage() {
           </div>
         </section>
 
-        <Breaker />
+        <SectionDivider />
 
         {/* Collapse */}
         <section>
           <h2 className="text-2xl font-bold mb-6">Rozbalovací sekce</h2>
           <div className="space-y-4">
-            <Collapse
+            <ExpandableSection
               title="Ordinační hodiny"
               description="Naše ordinace je otevřena v následujících hodinách."
               contact={{ name: 'Dr. Jan Novák', email: 'novak@sagena.cz', phone: '+420 553 030 800' }}
             />
-            <Collapse
+            <ExpandableSection
               title="Dokumenty ke stažení"
               description="Zde najdete všechny potřebné formuláře."
               files={[
@@ -477,7 +477,7 @@ export default function KomponentyPage() {
           </div>
         </section>
 
-        <Breaker style="gradient" />
+        <SectionDivider style="gradient" />
 
         {/* Badges */}
         <section>
@@ -492,7 +492,7 @@ export default function KomponentyPage() {
           </div>
         </section>
 
-        <Breaker />
+        <SectionDivider />
 
         {/* Partner Logos */}
         <section>

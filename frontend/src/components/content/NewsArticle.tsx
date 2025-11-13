@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Calendar, ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 
-interface ActualityProps {
+interface NewsArticleProps {
   title: string;
   date: string;
   text: string;
@@ -12,7 +12,7 @@ interface ActualityProps {
   readMoreText?: string;
 }
 
-const Actuality: React.FC<ActualityProps> = ({
+const NewsArticle: React.FC<NewsArticleProps> = ({
   title,
   date,
   text,
@@ -54,4 +54,4 @@ const Actuality: React.FC<ActualityProps> = ({
   );
 };
 
-export default Actuality;
+export default NewsArticle;

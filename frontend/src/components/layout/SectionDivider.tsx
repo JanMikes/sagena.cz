@@ -1,12 +1,12 @@
 import React from 'react';
 
-interface BreakerProps {
+interface SectionDividerProps {
   spacing?: 'sm' | 'md' | 'lg';
   style?: 'solid' | 'dashed' | 'dotted' | 'double' | 'gradient';
   color?: 'gray' | 'primary';
 }
 
-const Breaker: React.FC<BreakerProps> = ({
+const SectionDivider: React.FC<SectionDividerProps> = ({
   spacing = 'md',
   style = 'solid',
   color = 'gray',
@@ -44,4 +44,4 @@ const Breaker: React.FC<BreakerProps> = ({
   );
 };
 
-export default Breaker;
+export default SectionDivider;

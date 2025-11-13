@@ -3,14 +3,14 @@ import Link from 'next/link';
 import { Heart, Activity, Stethoscope, Brain, Bone, Waves, Eye, Pill, Calendar, Clock, Phone, Award, Shield, Users, MapPin } from 'lucide-react';
 import Card from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
-import Doctor from '@/components/people/Doctor';
-import CardsWithDescription from '@/components/content/CardsWithDescription';
+import DoctorProfile from '@/components/people/DoctorProfile';
+import ServiceCards from '@/components/content/ServiceCards';
 import MarketingArguments from '@/components/marketing/MarketingArguments';
-import Actuality from '@/components/content/Actuality';
+import NewsArticle from '@/components/content/NewsArticle';
 import PhotoGallery from '@/components/media/PhotoGallery';
 import ContactForm from '@/components/forms/ContactForm';
 import PartnerLogos from '@/components/content/PartnerLogos';
-import Breaker from '@/components/layout/Breaker';
+import SectionDivider from '@/components/layout/SectionDivider';
 import RichText from '@/components/typography/RichText';
 import Slider from '@/components/marketing/Slider';
 
@@ -243,7 +243,7 @@ export default function HomePage() {
           </p>
         </div>
 
-        <CardsWithDescription cards={services} columns={4} />
+        <ServiceCards cards={services} columns={4} />
 
         <div className="text-center mt-12">
           <p className="text-neutral-600 mb-6">
@@ -308,7 +308,7 @@ export default function HomePage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <Doctor
+          <DoctorProfile
             name="MUDr. Jana Nováková"
             department="Kardiologie"
             positions={['Kardiologie', 'Interní medicína']}
@@ -323,7 +323,7 @@ export default function HomePage() {
             ]}
           />
 
-          <Doctor
+          <DoctorProfile
             name="MUDr. Petr Svoboda"
             department="Neurologie"
             positions={['Neurologie']}
@@ -336,7 +336,7 @@ export default function HomePage() {
             ]}
           />
 
-          <Doctor
+          <DoctorProfile
             name="MUDr. Martin Dvořák"
             department="Ortopedie"
             positions={['Ortopedie', 'Sportovní medicína']}
@@ -357,7 +357,7 @@ export default function HomePage() {
         </div>
       </div>
 
-        <Breaker style="gradient" spacing="lg" />
+        <SectionDivider style="gradient" spacing="lg" />
 
       {/* News Section */}
       <div className="container-custom py-16">
@@ -371,21 +371,21 @@ export default function HomePage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <Actuality
+          <NewsArticle
             title="Nové MRI pracoviště zahájilo provoz"
             date="2025-01-20"
             text="S radostí oznamujeme, že jsme uvedli do provozu nový moderní MRI přístroj nejnovější generace. Díky tomu můžeme pacientům nabídnout ještě přesnější diagnostiku..."
             image="https://images.unsplash.com/photo-1516549655169-df83a0774514?w=400"
             readMoreUrl="#"
           />
-          <Actuality
+          <NewsArticle
             title="Rozšíření rehabilitačních služeb"
             date="2025-01-15"
             text="Od února rozšiřujeme nabídku našeho rehabilitačního centra o nové terapeutické metody včetně laserové terapie a magnetoterapie..."
             image="https://images.unsplash.com/photo-1579154204601-01588f351e67?w=400"
             readMoreUrl="/priklad-2/"
           />
-          <Actuality
+          <NewsArticle
             title="Víkendové pohotovosti kardiologie"
             date="2025-01-10"
             text="Kardiologická ambulance nově poskytuje služby i o víkendech pro urgentní případy. Objednání je možné telefonicky na čísle +420 553 030 810..."
@@ -400,7 +400,7 @@ export default function HomePage() {
         </div>
       </div>
 
-      <Breaker style="gradient" spacing="lg" />
+      <SectionDivider style="gradient" spacing="lg" />
 
       {/* Photo Gallery */}
       <div className="container-custom py-16">
@@ -416,7 +416,7 @@ export default function HomePage() {
         <PhotoGallery photos={galleryImages} columns={3} />
       </div>
 
-      <Breaker style="gradient" spacing="lg" />
+      <SectionDivider style="gradient" spacing="lg" />
 
       {/* Contact Form */}
       <div id="objednat" className="bg-neutral-50 py-16">

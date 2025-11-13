@@ -15,7 +15,7 @@ interface Contact {
   phone?: string;
 }
 
-interface CollapseProps {
+interface ExpandableSectionProps {
   title: string;
   description?: string;
   contact?: Contact;
@@ -23,7 +23,7 @@ interface CollapseProps {
   defaultOpen?: boolean;
 }
 
-const Collapse: React.FC<CollapseProps> = ({
+const ExpandableSection: React.FC<ExpandableSectionProps> = ({
   title,
   description,
   contact,
@@ -115,4 +115,4 @@ const Collapse: React.FC<CollapseProps> = ({
   );
 };
 
-export default Collapse;
+export default ExpandableSection;

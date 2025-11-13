@@ -7,12 +7,12 @@ import Card from '@/components/ui/Card';
 import Heading from '@/components/typography/Heading';
 import RichText from '@/components/typography/RichText';
 import Alert from '@/components/interactive/Alert';
-import Actuality from '@/components/content/Actuality';
+import NewsArticle from '@/components/content/NewsArticle';
 import LinksList from '@/components/navigation/LinksList';
-import Contact from '@/components/people/Contact';
+import ContactCard from '@/components/people/ContactCard';
 import Breadcrumb from '@/components/navigation/Breadcrumb';
 import Documents from '@/components/content/Documents';
-import Breaker from '@/components/layout/Breaker';
+import SectionDivider from '@/components/layout/SectionDivider';
 
 export default function SPanelemPage() {
   return (
@@ -58,14 +58,14 @@ export default function SPanelemPage() {
 
             <Heading level={3}>Ukázka aktualit</Heading>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <Actuality
+              <NewsArticle
                 title="Nové služby v nabídce"
                 date="2025-01-20"
                 text="Rozšiřujeme naši nabídku o další specializované služby..."
                 image="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=400"
                 readMoreUrl="#"
               />
-              <Actuality
+              <NewsArticle
                 title="Víkendové ordinační hodiny"
                 date="2025-01-18"
                 text="Od února jsme k dispozici i během víkendů..."
@@ -73,7 +73,7 @@ export default function SPanelemPage() {
               />
             </div>
 
-            <Breaker />
+            <SectionDivider />
 
             <Card>
               <Heading level={3} className="mb-4">Více obsahu</Heading>
@@ -171,7 +171,7 @@ export default function SPanelemPage() {
 
             <Card>
               <h3 className="text-lg font-bold text-gray-900 mb-4">Kontaktní osoba</h3>
-              <Contact
+              <ContactCard
                 name="Jan Novák"
                 email="novak@sagena.cz"
                 phone="+420 553 030 800"

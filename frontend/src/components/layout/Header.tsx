@@ -56,7 +56,6 @@ const Header: React.FC<HeaderProps> = ({ navigation = [] }) => {
               alt="Sagena"
               className="h-12 w-auto"
             />
-            <span className="text-2xl font-bold text-gray-900">Sagena</span>
           </Link>
 
           {/* Phone & CTA */}
@@ -99,7 +98,6 @@ const Header: React.FC<HeaderProps> = ({ navigation = [] }) => {
               alt="Sagena"
               className="h-10 w-auto"
             />
-            <span className="text-xl font-bold text-gray-900">Sagena</span>
           </Link>
 
           {/* Logo (visible when scrolled) - Mobile */}

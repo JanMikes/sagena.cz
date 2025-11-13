@@ -9,16 +9,16 @@ import Breadcrumb from '@/components/navigation/Breadcrumb';
 import SidePanel from '@/components/layout/SidePanel';
 import FullWidthCards from '@/components/content/FullWidthCards';
 import Video from '@/components/content/Video';
-import Actuality from '@/components/content/Actuality';
-import WorkOpportunity from '@/components/content/WorkOpportunity';
+import NewsArticle from '@/components/content/NewsArticle';
+import JobPosting from '@/components/content/JobPosting';
 import Documents from '@/components/content/Documents';
 import Alert from '@/components/interactive/Alert';
 import LinksList from '@/components/navigation/LinksList';
-import Collapse from '@/components/interactive/Collapse';
+import ExpandableSection from '@/components/interactive/ExpandableSection';
 import RichText from '@/components/typography/RichText';
-import Breaker from '@/components/layout/Breaker';
-import HowToFindUs from "@/components/layout/HowToFindUs";
-import Doctor from "@/components/people/Doctor";
+import SectionDivider from '@/components/layout/SectionDivider';
+import Directions from "@/components/layout/Directions";
+import DoctorProfile from "@/components/people/DoctorProfile";
 
 export default function Priklad2Page() {
   const breadcrumbItems = [
@@ -163,7 +163,7 @@ export default function Priklad2Page() {
 
           {/* How To Find Us */}
           <section>
-              <HowToFindUs
+              <Directions
                   instructions={[
                       { icon: DoorOpen, floor: '1. patro', text: 'Vstupte hlavním vchodem a pokračujte k recepci' },
                       { icon: ArrowUp, floor: '2. patro', text: 'Jděte po schodech nebo výtahem do 2. patra' },
@@ -180,13 +180,13 @@ export default function Priklad2Page() {
               <FullWidthCards cards={services} />
             </div>
 
-              <Breaker />
+              <SectionDivider />
 
               {/* Doctor Cards */}
               <section>
                   <h2 className="text-2xl font-bold mb-6">Karta lékaře</h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <Doctor
+                      <DoctorProfile
                           name="MUDr. Jan Novák"
                           department="Kardiologie"
                           positions={['Kardiolog', 'Interní lékařství']}
@@ -198,7 +198,7 @@ export default function Priklad2Page() {
                               { day: 'Pátek', time: '8:00 - 14:00' },
                           ]}
                       />
-                      <Doctor
+                      <DoctorProfile
                           name="MUDr. Marie Dvořáková"
                           department="Neurologie"
                           positions={['Neurolog']}
@@ -214,14 +214,14 @@ export default function Priklad2Page() {
               </section>
 
 
-            <Breaker />
+            <SectionDivider />
 
             {/* Who is it for */}
             <Card padding="lg">
               <RichText content={whoIsItForContent} />
             </Card>
 
-            <Breaker />
+            <SectionDivider />
 
             {/* Video */}
             <div>
@@ -233,14 +233,14 @@ export default function Priklad2Page() {
               />
             </div>
 
-            <Breaker />
+            <SectionDivider />
 
             {/* Process */}
             <Card padding="lg">
               <RichText content={processContent} />
             </Card>
 
-            <Breaker />
+            <SectionDivider />
 
             {/* CTA Section */}
             <Card padding="lg" className="bg-primary-50">
@@ -289,7 +289,7 @@ export default function Priklad2Page() {
             </Card>
 
             {/* Opening Hours */}
-            <Collapse
+            <ExpandableSection
               title="Ordinační hodiny"
               description="Rehabilitační centrum je otevřeno 6 dní v týdnu"
               contact={{

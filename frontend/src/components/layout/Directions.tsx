@@ -7,12 +7,12 @@ interface Instruction {
   text: string;
 }
 
-interface HowToFindUsProps {
+interface DirectionsProps {
   title?: string;
   instructions: Instruction[];
 }
 
-const HowToFindUs: React.FC<HowToFindUsProps> = ({
+const Directions: React.FC<DirectionsProps> = ({
   title = 'Jak nás najít',
   instructions,
 }) => {
@@ -45,4 +45,4 @@ const HowToFindUs: React.FC<HowToFindUsProps> = ({
   );
 };
 
-export default HowToFindUs;
+export default Directions;

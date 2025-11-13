@@ -6,14 +6,14 @@ import Breadcrumb from '@/components/navigation/Breadcrumb';
 import SidePanel from '@/components/layout/SidePanel';
 import FullWidthCards from '@/components/content/FullWidthCards';
 import Video from '@/components/content/Video';
-import Actuality from '@/components/content/Actuality';
-import WorkOpportunity from '@/components/content/WorkOpportunity';
+import NewsArticle from '@/components/content/NewsArticle';
+import JobPosting from '@/components/content/JobPosting';
 import Documents from '@/components/content/Documents';
 import Alert from '@/components/interactive/Alert';
 import LinksList from '@/components/navigation/LinksList';
-import Collapse from '@/components/interactive/Collapse';
+import ExpandableSection from '@/components/interactive/ExpandableSection';
 import RichText from '@/components/typography/RichText';
-import Breaker from '@/components/layout/Breaker';
+import SectionDivider from '@/components/layout/SectionDivider';
 
 export default function Priklad2Page() {
   const breadcrumbItems = [
@@ -157,14 +157,14 @@ export default function Priklad2Page() {
               <FullWidthCards cards={services} />
             </div>
 
-            <Breaker />
+            <SectionDivider />
 
             {/* Who is it for */}
             <Card padding="lg">
               <RichText content={whoIsItForContent} />
             </Card>
 
-            <Breaker />
+            <SectionDivider />
 
             {/* Video */}
             <div>
@@ -176,14 +176,14 @@ export default function Priklad2Page() {
               />
             </div>
 
-            <Breaker />
+            <SectionDivider />
 
             {/* Process */}
             <Card padding="lg">
               <RichText content={processContent} />
             </Card>
 
-            <Breaker />
+            <SectionDivider />
 
             {/* News */}
             <div>
@@ -191,20 +191,20 @@ export default function Priklad2Page() {
                 Aktuality z rehabilitace
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <Actuality
+                <NewsArticle
                   title="Nová laserová terapie"
                   date="2025-01-20"
                   text="Od února nabízíme nejmodernější laserovou terapii pro léčbu bolesti a urychlení hojení tkání..."
                   image="https://images.unsplash.com/photo-1579154204601-01588f351e67?w=400"
                   readMoreUrl="#"
                 />
-                <Actuality
+                <NewsArticle
                   title="Rozšířené ordinační hodiny"
                   date="2025-01-15"
                   text="Díky velkému zájmu rozšiřujeme ordinační hodiny. Nově jsme k dispozici i v sobotu dopoledne..."
                   readMoreUrl="#"
                 />
-                <Actuality
+                <NewsArticle
                   title="Workshop správného držení těla"
                   date="2025-01-10"
                   text="V březnu pořádáme bezplatný workshop zaměřený na prevenci bolestí zad a správné držení těla při práci..."
@@ -214,7 +214,7 @@ export default function Priklad2Page() {
               </div>
             </div>
 
-            <Breaker />
+            <SectionDivider />
 
             {/* Work Opportunities */}
             <div>
@@ -222,7 +222,7 @@ export default function Priklad2Page() {
                 Pracovní příležitosti
               </h2>
               <div className="space-y-4">
-                <WorkOpportunity
+                <JobPosting
                   title="Fyzioterapeut/ka"
                   description="Hledáme zkušeného fyzioterapeuta do našeho týmu. Nabízíme moderní pracoviště, příjemný kolektiv a možnost profesního růstu."
                   department="Rehabilitace"
@@ -230,7 +230,7 @@ export default function Priklad2Page() {
                   location="Brno"
                   ctaUrl="#"
                 />
-                <WorkOpportunity
+                <JobPosting
                   title="Masér/ka"
                   description="Rozšiřujeme tým a hledáme kvalifikovaného maséra. Požadujeme praxi v oblasti klasické a sportovní masáže."
                   department="Rehabilitace"
@@ -288,7 +288,7 @@ export default function Priklad2Page() {
             </Card>
 
             {/* Opening Hours */}
-            <Collapse
+            <ExpandableSection
               title="Ordinační hodiny"
               description="Rehabilitační centrum je otevřeno 6 dní v týdnu"
               contact={{

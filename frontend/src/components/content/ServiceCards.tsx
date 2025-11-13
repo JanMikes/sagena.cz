@@ -10,12 +10,12 @@ interface CardItem {
   linkUrl: string;
 }
 
-interface CardsWithDescriptionProps {
+interface ServiceCardsProps {
   cards: CardItem[];
   columns?: 2 | 3 | 4;
 }
 
-const CardsWithDescription: React.FC<CardsWithDescriptionProps> = ({
+const ServiceCards: React.FC<ServiceCardsProps> = ({
   cards,
   columns = 3,
 }) => {
@@ -59,4 +59,4 @@ const CardsWithDescription: React.FC<CardsWithDescriptionProps> = ({
   );
 };
 
-export default CardsWithDescription;
+export default ServiceCards;
