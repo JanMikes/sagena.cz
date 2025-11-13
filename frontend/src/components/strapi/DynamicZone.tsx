@@ -13,6 +13,7 @@ import LinksList from '@/components/navigation/LinksList';
 import Video from '@/components/content/Video';
 import ServiceCards from '@/components/content/ServiceCards';
 import FullWidthCards from '@/components/content/FullWidthCards';
+import Documents from '@/components/content/Documents';
 import { getStrapiMediaURL, getIconUrlById } from '@/lib/strapi';
 import {
   PageContentComponent,
@@ -24,6 +25,7 @@ import {
   ComponentsVideo,
   ComponentsServiceCards,
   ComponentsFullWidthCards,
+  ComponentsDocuments,
   ElementsTextLink,
   StrapiMedia,
 } from '@/types/strapi';
@@ -266,6 +268,58 @@ async function renderComponent(
         <FullWidthCards
           key={`${__component}-${component.id || index}`}
           cards={cards}
+        />
+      );
+    }
+
+    case 'components.documents': {
+      const documentsComponent = component as ComponentsDocuments;
+
+      // Transform Strapi data to Documents component props
+      const documents = documentsComponent.documents.map((doc) => {
+        // Extract file data from Strapi media (Strapi v5 - no attributes wrapper)
+        // URL is used directly thanks to Docker volume (same as images)
+        const fileUrl = doc.file?.url || '#';
+
+        // Extract extension from file.ext (e.g., ".pdf" -> "pdf")
+        const extension = doc.file?.ext
+          ? doc.file.ext.replace(/^\./, '')
+          : 'file';
+
+        // Format file size from KB to human-readable (Strapi returns size in KB)
+        const sizeInKB = doc.file?.size;
+        let formattedSize: string | undefined;
+        if (sizeInKB !== undefined && sizeInKB !== null) {
+          if (sizeInKB < 1) {
+            formattedSize = `${Math.round(sizeInKB * 1024)} B`;
+          } else if (sizeInKB < 1024) {
+            formattedSize = `${Math.round(sizeInKB)} KB`;
+          } else {
+            formattedSize = `${(sizeInKB / 1024).toFixed(1)} MB`;
+          }
+        }
+
+        return {
+          name: doc.name,
+          file: fileUrl,
+          size: formattedSize,
+          extension: extension,
+        };
+      });
+
+      // Convert column enum to number
+      const columnMap: Record<string, 1 | 2 | 3> = {
+        'Single column': 1,
+        'Two columns': 2,
+        'Three columns': 3,
+      };
+      const columns = columnMap[documentsComponent.columns] || 3;
+
+      return (
+        <Documents
+          key={`${__component}-${component.id || index}`}
+          documents={documents}
+          columns={columns}
         />
       );
     }

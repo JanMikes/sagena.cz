@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_elements_document_items",
+  "info": {
+    "displayName": "document-item",
+    "icon": "fileText"
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "file": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": ["files", "images", "videos", "audios"]
+    }
+  },
+  "config": {}
+}

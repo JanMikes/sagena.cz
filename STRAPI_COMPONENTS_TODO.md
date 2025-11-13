@@ -13,7 +13,7 @@
 
 ---
 
-## ✅ Currently Integrated Components (7)
+## ✅ Currently Integrated Components (8)
 
 These components are already implemented in the dynamic zone:
 
@@ -24,43 +24,17 @@ These components are already implemented in the dynamic zone:
 5. **components.video** → Video
 6. **components.service-cards** → ServiceCards (uses `elements.service-card`)
 7. **components.full-width-cards** → FullWidthCards (uses `elements.full-width-card`)
+8. **components.documents** → Documents (uses `elements.document-item`)
 
 ---
 
-## 🎯 Priority Components to Add (18)
+## 🎯 Priority Components to Add (17)
 
-### 📄 CONTENT COMPONENTS (4)
-
----
-
-#### 1. Documents (components.documents)
-
-**Location:** `/frontend/src/components/content/Documents.tsx`
-
-**Fields:**
-
-| Field Name | Type | Required | Nullable | Notes |
-|------------|------|----------|----------|-------|
-| `documents` | Component (repeatable) 📦 | ✓ | ✗ | Array of document items |
-
-**Repeatable Component: `elements.document-item`**
-
-| Field Name | Type | Required | Nullable | Options |
-|------------|------|----------|----------|---------|
-| `name` | Text (short) | ✓ | ✗ | Display name |
-| `file` | Media (single) | ✓ | ✗ | The actual file |
-| `size` | Text (short) | ✗ | ✓ | e.g., "245 KB" (can be auto-calculated) |
-| `extension` | Text (short) | ✓ | ✗ | e.g., "pdf", "docx", "xlsx" |
-
-**Settings:**
-
-| Field Name | Type | Required | Nullable | Options |
-|------------|------|----------|----------|---------|
-| `columns` | Enumeration 🎨 | ✗ | ✗ | Single column, Two columns, Three columns (default: Three columns) |
+### 📄 CONTENT COMPONENTS (3)
 
 ---
 
-#### 2. News Article (components.news-article)
+#### 1. News Article (components.news-article)
 
 **Component name:** NewsArticle ✅ RENAMED
 **Location:** `/frontend/src/components/content/NewsArticle.tsx`
@@ -72,12 +46,12 @@ These components are already implemented in the dynamic zone:
 | `title` | Text (short) | ✓ | ✗ | Article headline |
 | `date` | Date | ✓ | ✗ | Publication date |
 | `text` | Text (long) | ✓ | ✗ | Article excerpt/preview |
-| `image` | Media (single) | ✗ | ✓ | Featured image |
+| `image` | Media (single) | ✗ | ✓ | Featured image (Strapi provides alt text, dimensions, url) |
 | `read_more_link` | Component (single) | ✓ | ✗ | Use `elements.text-link` (includes text + target, default text: "Číst více") |
 
 ---
 
-#### 3. Job Posting (components.job-posting)
+#### 2. Job Posting (components.job-posting)
 
 **Component name:** JobPosting ✅ RENAMED
 **Location:** `/frontend/src/components/content/JobPosting.tsx`
@@ -95,7 +69,7 @@ These components are already implemented in the dynamic zone:
 
 ---
 
-#### 4. Partner Logos (components.partner-logos)
+#### 3. Partner Logos (components.partner-logos)
 
 **Location:** `/frontend/src/components/content/PartnerLogos.tsx`
 
@@ -109,10 +83,9 @@ These components are already implemented in the dynamic zone:
 
 | Field Name | Type | Required | Nullable | Notes |
 |------------|------|----------|----------|-------|
-| `name` | Text (short) | ✓ | ✗ | Partner name |
-| `logo` | Media (single) | ✓ | ✗ | Logo image |
+| `name` | Text (short) | ✓ | ✗ | Partner name (for display & alt text) |
+| `logo` | Media (single) | ✓ | ✗ | Logo image (Strapi provides alt text, dimensions, url) |
 | `url` | Text (short) | ✓ | ✗ | Partner website |
-| `alt_text` | Text (short) | ✗ | ✓ | Alt text for accessibility |
 
 **Settings:**
 
@@ -200,8 +173,8 @@ These components are already implemented in the dynamic zone:
 | `title` | Text (short) | ✓ | ✗ | Slide headline |
 | `description` | Text (long) | ✓ | ✗ | Slide content |
 | `link` | Component (single) | ✗ | ✓ | Use `elements.text-link` (includes text + target) |
-| `image` | Media (single) | ✗ | ✓ | Foreground image |
-| `background_image` | Media (single) | ✗ | ✓ | Background image |
+| `image` | Media (single) | ✗ | ✓ | Foreground image (Strapi provides dimensions, url) |
+| `background_image` | Media (single) | ✗ | ✓ | Background image (Strapi provides dimensions, url) |
 
 **Settings:**
 
@@ -231,9 +204,7 @@ These components are already implemented in the dynamic zone:
 
 | Field Name | Type | Required | Nullable | Notes |
 |------------|------|----------|----------|-------|
-| `image` | Media (single) | ✓ | ✗ | Photo file |
-| `alt_text` | Text (short) | ✗ | ✓ | Alt text for accessibility |
-| `caption` | Text (short) | ✗ | ✓ | Photo caption |
+| `image` | Media (single) | ✓ | ✗ | Photo file (Strapi provides alt text, caption, dimensions, url) |
 
 **Settings:**
 
@@ -258,8 +229,7 @@ These components are already implemented in the dynamic zone:
 
 | Field Name | Type | Required | Nullable | Notes |
 |------------|------|----------|----------|-------|
-| `image` | Media (single) | ✓ | ✗ | Photo file |
-| `alt_text` | Text (short) | ✗ | ✓ | Alt text for accessibility |
+| `image` | Media (single) | ✓ | ✗ | Photo file (Strapi provides alt text, caption, dimensions, url) |
 
 ---
 
@@ -278,7 +248,7 @@ These components are already implemented in the dynamic zone:
 | Field Name | Type | Required | Nullable | Notes |
 |------------|------|----------|----------|-------|
 | `ambulance_title` | Text (short) | ✗ | ✓ | Alternative title |
-| `photo` | Media (single) | ✗ | ✓ | Doctor photo |
+| `photo` | Media (single) | ✗ | ✓ | Doctor photo (Strapi provides dimensions, url) |
 | `name` | Text (short) | ✓ | ✗ | Doctor name |
 | `department` | Text (short) | ✓ | ✗ | e.g., "Kardiologie" |
 | `positions` | Text (long) | ✓ | ✗ | Comma-separated or line-separated positions |
@@ -311,7 +281,7 @@ These components are already implemented in the dynamic zone:
 | `name` | Text (short) | ✓ | ✗ | Contact person name |
 | `email` | Email | ✗ | ✓ | Email address |
 | `phone` | Text (short) | ✗ | ✓ | Phone number |
-| `photo` | Media (single) | ✗ | ✓ | Contact photo |
+| `photo` | Media (single) | ✗ | ✓ | Contact photo (Strapi provides dimensions, url) |
 
 ---
 
@@ -410,9 +380,8 @@ These components are already implemented in the dynamic zone:
 
 | Field Name | Type | Required | Nullable | Notes |
 |------------|------|----------|----------|-------|
-| `name` | Text (short) | ✓ | ✗ | File display name |
-| `file` | Media (single) | ✓ | ✗ | The actual file |
-| `size` | Text (short) | ✗ | ✓ | e.g., "245 KB" |
+| `name` | Text (short) | ✓ | ✗ | File display name (human-friendly) |
+| `file` | Media (single) | ✓ | ✗ | The actual file (Strapi provides ext, size, url) |
 
 **Note:** Consider splitting contact info into a separate component for reusability.
 
@@ -464,6 +433,34 @@ These components are already implemented in the dynamic zone:
 
 **IMPORTANT:** All file and image uploads should use Strapi's native **Media (single)** or **Media (multiple)** field types directly. DO NOT create custom elements or components for file handling.
 
+**Strapi v5 Media Structure (No `attributes` wrapper):**
+```json
+{
+  "id": 1,
+  "documentId": "abc123",
+  "url": "/uploads/file.pdf",
+  "name": "file.pdf",
+  "ext": ".pdf",
+  "size": 1.27,          // In KB
+  "mime": "application/pdf",
+  "width": null,         // For images only
+  "height": null,        // For images only
+  "alternativeText": "", // Optional, from Strapi upload
+  "caption": ""          // Optional, from Strapi upload
+}
+```
+
+**DO NOT create redundant fields:**
+- ❌ `alt_text` - Already in media.alternativeText
+- ❌ `caption` - Already in media.caption
+- ❌ `size` - Already in media.size
+- ❌ `extension` - Already in media.ext
+- ❌ `width` / `height` - Already in media.width / media.height
+
+**Only create additional fields when:**
+- ✅ Human-friendly display name differs from filename (e.g., `name` field for documents)
+- ✅ Business-specific metadata not in Strapi media (e.g., `grayscale` boolean for logos)
+
 **Examples:**
 - ✅ `image` field → Media (single)
 - ✅ `file` field → Media (single)
@@ -514,16 +511,16 @@ Before creating the main components, define these reusable elements:
 1. **elements.text-link** - Already exists ✅ (text + link target: page/url/file/anchor + disabled flag)
 2. **elements.service-card** - Already exists ✅ (icon, title, description, link)
 3. **elements.full-width-card** - Already exists ✅ (icon, title, description, link - required)
-4. **elements.document-item** - For documents component
-5. **elements.partner-logo** - For partner logos
-6. **elements.marketing-argument** - For marketing arguments
-7. **elements.timeline-item** - For timeline
-8. **elements.slide** - For slider
-9. **elements.photo** - For photo gallery and gallery slider
-10. **elements.opening-hours** - For doctor profile
-11. **elements.direction-step** - For directions component
-12. **elements.button** - For button group
-13. **elements.file-attachment** - For expandable section
+4. **elements.document-item** - Already exists ✅ (name, file [media - ext & size auto-extracted])
+5. **elements.partner-logo** - For partner logos (name, logo [media], url)
+6. **elements.marketing-argument** - For marketing arguments (display_type, icon/number, title, description)
+7. **elements.timeline-item** - For timeline (display_type, icon/number, title, description)
+8. **elements.slide** - For slider (title, description, link, image [media], background_image [media])
+9. **elements.photo** - For photo gallery and gallery slider (image [media only])
+10. **elements.opening-hours** - For doctor profile (day, time)
+11. **elements.direction-step** - For directions (icon, floor, text)
+12. **elements.button** - For button group (link, variant, size)
+13. **elements.file-attachment** - For expandable section (name, file [media - ext & size auto-extracted])
 
 ---
 
@@ -531,8 +528,8 @@ Before creating the main components, define these reusable elements:
 
 **Phase 1 - Essential Content (Quick Wins):**
 1. ✅ Full Width Cards (COMPLETED)
-2. Section Divider (simplest)
-3. Documents
+2. ✅ Documents (COMPLETED)
+3. Section Divider (simplest)
 4. Contact Card
 5. News Article
 6. Marketing Arguments

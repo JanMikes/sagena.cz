@@ -4,7 +4,8 @@ import Badge from '@/components/ui/Badge';
 
 interface Document {
   name: string;
-  url: string;
+  url?: string;  // For legacy usage
+  file?: string; // For Strapi usage
   size?: string;
   extension: string;
 }
@@ -37,7 +38,7 @@ const Documents: React.FC<DocumentsProps> = ({ documents, columns = 3 }) => {
       {documents.map((doc, index) => (
         <a
           key={index}
-          href={doc.url}
+          href={doc.file || doc.url || '#'}
           download
           className="flex items-start space-x-4 p-4 bg-white border border-gray-200 rounded-lg hover:border-primary-300 hover:shadow-md transition-all duration-300 group"
         >

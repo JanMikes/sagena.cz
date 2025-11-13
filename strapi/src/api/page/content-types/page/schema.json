@@ -61,7 +61,8 @@
         "components.links-list",
         "components.video",
         "components.service-cards",
-        "components.full-width-cards"
+        "components.full-width-cards",
+        "components.documents"
       ],
       "required": true
     },

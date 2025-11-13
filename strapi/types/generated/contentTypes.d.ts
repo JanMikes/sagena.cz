@@ -540,6 +540,7 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
         'components.video',
         'components.service-cards',
         'components.full-width-cards',
+        'components.documents',
       ]
     > &
       Schema.Attribute.Required &

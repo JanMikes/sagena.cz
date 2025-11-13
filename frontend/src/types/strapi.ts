@@ -183,6 +183,18 @@ export interface ComponentsFullWidthCards {
   cards: ElementsFullWidthCard[];
 }
 
+/**
+ * Components: Documents
+ * Location: strapi/src/components/components/documents.json
+ * Usage: Grid of downloadable documents with configurable column layout
+ */
+export interface ComponentsDocuments {
+  id: number;
+  __component: 'components.documents';
+  documents: ElementsDocumentItem[];
+  columns: 'Single column' | 'Two columns' | 'Three columns';
+}
+
 // ============================================================================
 // Strapi Elements (embedded in other components, never standalone)
 // ============================================================================
@@ -264,6 +276,26 @@ export interface ElementsFullWidthCard {
   link: ElementsTextLink;  // Required link
 }
 
+/**
+ * Elements: Document Item
+ * Location: strapi/src/components/elements/document-item.json
+ * Usage: Individual document item with human-friendly name and file
+ * Note: Strapi v5 returns media directly without .attributes wrapper
+ */
+export interface ElementsDocumentItem {
+  id: number;
+  __component?: 'elements.document-item';
+  name: string;
+  file: {
+    id: number;
+    documentId: string;
+    url: string;
+    name: string;
+    ext: string;  // e.g., ".pdf", ".svg"
+    size: number; // Size in KB (e.g., 1.27)
+  };
+}
+
 // ============================================================================
 // Dynamic Zone Union Types
 // ============================================================================
@@ -271,7 +303,7 @@ export interface ElementsFullWidthCard {
 /**
  * Page content dynamic zone - all components that can appear in page content area
  */
-export type PageContentComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsLinksList | ComponentsVideo | ComponentsServiceCards | ComponentsFullWidthCards;
+export type PageContentComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsLinksList | ComponentsVideo | ComponentsServiceCards | ComponentsFullWidthCards | ComponentsDocuments;
 
 /**
  * Page sidebar dynamic zone - all components that can appear in page sidebar

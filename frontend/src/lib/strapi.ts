@@ -421,6 +421,17 @@ export async function fetchPageBySlug(
                 },
               },
             },
+            'components.documents': {
+              populate: {
+                documents: {
+                  populate: {
+                    file: {
+                      fields: ['url', 'name', 'ext', 'size'],
+                    },
+                  },
+                },
+              },
+            },
           },
         },
         sidebar: {

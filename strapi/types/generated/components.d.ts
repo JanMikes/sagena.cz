@@ -17,6 +17,22 @@ export interface ComponentsAlert extends Struct.ComponentSchema {
   };
 }
 
+export interface ComponentsDocuments extends Struct.ComponentSchema {
+  collectionName: 'components_components_documents';
+  info: {
+    displayName: 'documents';
+    icon: 'folder';
+  };
+  attributes: {
+    columns: Schema.Attribute.Enumeration<
+      ['Single column', 'Two columns', 'Three columns']
+    > &
+      Schema.Attribute.DefaultTo<'Three columns'>;
+    documents: Schema.Attribute.Component<'elements.document-item', true> &
+      Schema.Attribute.Required;
+  };
+}
+
 export interface ComponentsFullWidthCards extends Struct.ComponentSchema {
   collectionName: 'components_components_full_width_cards';
   info: {
@@ -103,6 +119,19 @@ export interface ComponentsVideo extends Struct.ComponentSchema {
   };
 }
 
+export interface ElementsDocumentItem extends Struct.ComponentSchema {
+  collectionName: 'components_elements_document_items';
+  info: {
+    displayName: 'document-item';
+    icon: 'fileText';
+  };
+  attributes: {
+    file: Schema.Attribute.Media<'files' | 'images' | 'videos' | 'audios'> &
+      Schema.Attribute.Required;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
 export interface ElementsFullWidthCard extends Struct.ComponentSchema {
   collectionName: 'components_elements_full_width_cards';
   info: {
@@ -177,12 +206,14 @@ declare module '@strapi/strapi' {
   export module Public {
     export interface ComponentSchemas {
       'components.alert': ComponentsAlert;
+      'components.documents': ComponentsDocuments;
       'components.full-width-cards': ComponentsFullWidthCards;
       'components.heading': ComponentsHeading;
       'components.links-list': ComponentsLinksList;
       'components.service-cards': ComponentsServiceCards;
       'components.text': ComponentsText;
       'components.video': ComponentsVideo;
+      'elements.document-item': ElementsDocumentItem;
       'elements.full-width-card': ElementsFullWidthCard;
       'elements.icon': ElementsIcon;
       'elements.link': ElementsLink;
