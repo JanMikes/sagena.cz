@@ -13,7 +13,7 @@
 
 ---
 
-## ✅ Currently Integrated Components (5)
+## ✅ Currently Integrated Components (6)
 
 These components are already implemented in the dynamic zone:
 
@@ -22,44 +22,17 @@ These components are already implemented in the dynamic zone:
 3. **components.alert** → Alert
 4. **components.links-list** → LinksList
 5. **components.video** → Video
+6. **components.service-cards** → ServiceCards (uses `elements.service-card`)
 
 ---
 
-## 🎯 Priority Components to Add (20)
+## 🎯 Priority Components to Add (19)
 
-### 📄 CONTENT COMPONENTS (6)
-
----
-
-#### 1. Service Cards (components.service-cards)
-
-**Component name:** ServiceCards ✅ RENAMED
-**Location:** `/frontend/src/components/content/ServiceCards.tsx`
-
-**Fields:**
-
-| Field Name | Type | Required | Nullable | Notes |
-|------------|------|----------|----------|-------|
-| `cards` | Component (repeatable) 📦 | ✓ | ✗ | Array of card items |
-
-**Repeatable Component: `elements.service-card`**
-
-| Field Name | Type | Required | Nullable | Options |
-|------------|------|----------|----------|---------|
-| `icon` | Enumeration 🎨 | ✓ | ✗ | Heart, Activity, Stethoscope, Users, Calendar, FileText, Building, Shield, Clock, CheckCircle, Phone, Mail, MapPin, Briefcase |
-| `title` | Text (short) | ✓ | ✗ | |
-| `description` | Text (long) | ✗ | ✓ | |
-| `link` | Component (single) | ✓ | ✗ | Use `elements.text-link` (includes text + target) |
-
-**Settings:**
-
-| Field Name | Type | Required | Nullable | Options |
-|------------|------|----------|----------|---------|
-| `columns` | Enumeration 🎨 | ✗ | ✗ | Two columns, Three columns, Four columns (default: Three columns) |
+### 📄 CONTENT COMPONENTS (5)
 
 ---
 
-#### 2. Full Width Cards (components.full-width-cards)
+#### 1. Full Width Cards (components.full-width-cards)
 
 **Location:** `/frontend/src/components/content/FullWidthCards.tsx`
 
@@ -80,7 +53,7 @@ These components are already implemented in the dynamic zone:
 
 ---
 
-#### 3. Documents (components.documents)
+#### 2. Documents (components.documents)
 
 **Location:** `/frontend/src/components/content/Documents.tsx`
 
@@ -107,7 +80,7 @@ These components are already implemented in the dynamic zone:
 
 ---
 
-#### 4. News Article (components.news-article)
+#### 3. News Article (components.news-article)
 
 **Component name:** NewsArticle ✅ RENAMED
 **Location:** `/frontend/src/components/content/NewsArticle.tsx`
@@ -124,7 +97,7 @@ These components are already implemented in the dynamic zone:
 
 ---
 
-#### 5. Job Posting (components.job-posting)
+#### 4. Job Posting (components.job-posting)
 
 **Component name:** JobPosting ✅ RENAMED
 **Location:** `/frontend/src/components/content/JobPosting.tsx`
@@ -142,7 +115,7 @@ These components are already implemented in the dynamic zone:
 
 ---
 
-#### 6. Partner Logos (components.partner-logos)
+#### 5. Partner Logos (components.partner-logos)
 
 **Location:** `/frontend/src/components/content/PartnerLogos.tsx`
 
@@ -175,7 +148,7 @@ These components are already implemented in the dynamic zone:
 
 ---
 
-#### 7. Marketing Arguments (components.marketing-arguments)
+#### 6. Marketing Arguments (components.marketing-arguments)
 
 **Location:** `/frontend/src/components/marketing/MarketingArguments.tsx`
 
@@ -205,7 +178,7 @@ These components are already implemented in the dynamic zone:
 
 ---
 
-#### 8. Timeline (components.timeline)
+#### 7. Timeline (components.timeline)
 
 **Location:** `/frontend/src/components/marketing/Timeline.tsx`
 
@@ -229,7 +202,7 @@ These components are already implemented in the dynamic zone:
 
 ---
 
-#### 9. Slider (components.slider) ⚠️
+#### 8. Slider (components.slider) ⚠️
 
 **Client Component:** Uses React hooks for navigation
 **Location:** `/frontend/src/components/marketing/Slider.tsx`
@@ -263,7 +236,7 @@ These components are already implemented in the dynamic zone:
 
 ---
 
-#### 10. Photo Gallery (components.photo-gallery) ⚠️
+#### 9. Photo Gallery (components.photo-gallery) ⚠️
 
 **Client Component:** Uses React hooks for lightbox
 **Location:** `/frontend/src/components/media/PhotoGallery.tsx`
@@ -290,7 +263,7 @@ These components are already implemented in the dynamic zone:
 
 ---
 
-#### 11. Gallery Slider (components.gallery-slider) ⚠️
+#### 10. Gallery Slider (components.gallery-slider) ⚠️
 
 **Client Component:** Uses React hooks for navigation
 **Location:** `/frontend/src/components/media/GallerySlider.tsx`
@@ -314,7 +287,7 @@ These components are already implemented in the dynamic zone:
 
 ---
 
-#### 12. Doctor Profile (components.doctor-profile) ⚠️
+#### 11. Doctor Profile (components.doctor-profile) ⚠️
 
 **Component name:** DoctorProfile ✅ RENAMED
 **Client Component:** Uses React hooks for collapsible sections
@@ -346,7 +319,7 @@ These components are already implemented in the dynamic zone:
 
 ---
 
-#### 13. Contact Card (components.contact-card)
+#### 12. Contact Card (components.contact-card)
 
 **Component name:** ContactCard ✅ RENAMED
 **Location:** `/frontend/src/components/people/ContactCard.tsx`
@@ -366,7 +339,7 @@ These components are already implemented in the dynamic zone:
 
 ---
 
-#### 14. Directions (components.directions)
+#### 13. Directions (components.directions)
 
 **Component name:** Directions ✅ RENAMED
 **Location:** `/frontend/src/components/layout/Directions.tsx`
@@ -388,7 +361,7 @@ These components are already implemented in the dynamic zone:
 
 ---
 
-#### 15. Section Divider (components.section-divider)
+#### 14. Section Divider (components.section-divider)
 
 **Component name:** SectionDivider ✅ RENAMED
 **Location:** `/frontend/src/components/layout/SectionDivider.tsx`
@@ -403,7 +376,7 @@ These components are already implemented in the dynamic zone:
 
 ---
 
-#### 16. Button Group (components.button-group)
+#### 15. Button Group (components.button-group)
 
 **Component name:** ButtonGroup ✅ RENAMED
 **Location:** `/frontend/src/components/layout/ButtonGroup.tsx`
@@ -435,7 +408,7 @@ These components are already implemented in the dynamic zone:
 
 ---
 
-#### 17. Expandable Section (components.expandable-section) ⚠️
+#### 16. Expandable Section (components.expandable-section) ⚠️
 
 **Component name:** ExpandableSection ✅ RENAMED
 **Client Component:** Uses React hooks for expand/collapse
@@ -507,6 +480,23 @@ These components are already implemented in the dynamic zone:
 
 ---
 
+### Media Field Implementation
+
+**IMPORTANT:** All file and image uploads should use Strapi's native **Media (single)** or **Media (multiple)** field types directly. DO NOT create custom elements or components for file handling.
+
+**Examples:**
+- ✅ `image` field → Media (single)
+- ✅ `file` field → Media (single)
+- ✅ `logo` field → Media (single)
+- ✅ `photo` field → Media (single)
+- ✅ `background_image` field → Media (single)
+- ❌ DO NOT create `elements.file` component
+- ❌ DO NOT create `elements.image` component
+
+**Why:** Strapi's Media library provides built-in file management, metadata extraction, and URL generation. Custom components would duplicate this functionality unnecessarily.
+
+---
+
 ### Icon Field Implementation in Strapi
 
 For icon fields, create an **Enumeration** type with the following values:
@@ -549,7 +539,7 @@ These map to `lucide-react` icon components in the frontend.
 Before creating the main components, define these reusable elements:
 
 1. **elements.text-link** - Already exists ✅ (text + link target: page/url/file/anchor + disabled flag)
-2. **elements.service-card** - For service cards component
+2. **elements.service-card** - Already exists ✅ (icon, title, description, link)
 3. **elements.full-width-card** - For full-width cards
 4. **elements.document-item** - For documents component
 5. **elements.partner-logo** - For partner logos
