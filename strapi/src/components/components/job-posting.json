@@ -1,0 +1,37 @@
+{
+  "collectionName": "components_components_job_postings",
+  "info": {
+    "displayName": "job-posting",
+    "icon": "briefcase"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text",
+      "required": true
+    },
+    "department": {
+      "type": "string",
+      "required": true
+    },
+    "employment_type": {
+      "type": "string",
+      "required": true
+    },
+    "location": {
+      "type": "string",
+      "required": true
+    },
+    "cta_link": {
+      "type": "component",
+      "component": "elements.text-link",
+      "repeatable": false,
+      "required": true
+    }
+  },
+  "config": {}
+}

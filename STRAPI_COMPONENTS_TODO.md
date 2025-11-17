@@ -13,7 +13,7 @@
 
 ---
 
-## ✅ Currently Integrated Components (8)
+## ✅ Currently Integrated Components (10)
 
 These components are already implemented in the dynamic zone:
 
@@ -25,12 +25,14 @@ These components are already implemented in the dynamic zone:
 6. **components.service-cards** → ServiceCards (uses `elements.service-card`)
 7. **components.full-width-cards** → FullWidthCards (uses `elements.full-width-card`)
 8. **components.documents** → Documents (uses `elements.document-item`)
+9. **components.job-posting** → JobPosting
+10. **components.partner-logos** → PartnerLogos (uses `elements.partner-logo`)
 
 ---
 
-## 🎯 Priority Components to Add (17)
+## 🎯 Priority Components to Add (15)
 
-### 📄 CONTENT COMPONENTS (3)
+### 📄 CONTENT COMPONENTS (1)
 
 ---
 
@@ -48,52 +50,6 @@ These components are already implemented in the dynamic zone:
 | `text` | Text (long) | ✓ | ✗ | Article excerpt/preview |
 | `image` | Media (single) | ✗ | ✓ | Featured image (Strapi provides alt text, dimensions, url) |
 | `read_more_link` | Component (single) | ✓ | ✗ | Use `elements.text-link` (includes text + target, default text: "Číst více") |
-
----
-
-#### 2. Job Posting (components.job-posting)
-
-**Component name:** JobPosting ✅ RENAMED
-**Location:** `/frontend/src/components/content/JobPosting.tsx`
-
-**Fields:**
-
-| Field Name | Type | Required | Nullable | Notes |
-|------------|------|----------|----------|-------|
-| `title` | Text (short) | ✓ | ✗ | Position title |
-| `description` | Text (long) | ✓ | ✗ | Job description |
-| `department` | Text (short) | ✓ | ✗ | e.g., "Kardiologie" |
-| `employment_type` | Text (short) | ✓ | ✗ | e.g., "Plný úvazek", "Částečný úvazek" |
-| `location` | Text (short) | ✓ | ✗ | e.g., "Frýdek-Místek" |
-| `cta_link` | Component (single) | ✓ | ✗ | Use `elements.text-link` (includes text + target, default text: "Zobrazit pozici") |
-
----
-
-#### 3. Partner Logos (components.partner-logos)
-
-**Location:** `/frontend/src/components/content/PartnerLogos.tsx`
-
-**Fields:**
-
-| Field Name | Type | Required | Nullable | Notes |
-|------------|------|----------|----------|-------|
-| `partners` | Component (repeatable) 📦 | ✓ | ✗ | Array of partner items |
-
-**Repeatable Component: `elements.partner-logo`**
-
-| Field Name | Type | Required | Nullable | Notes |
-|------------|------|----------|----------|-------|
-| `name` | Text (short) | ✓ | ✗ | Partner name (for display & alt text) |
-| `logo` | Media (single) | ✓ | ✗ | Logo image (Strapi provides alt text, dimensions, url) |
-| `url` | Text (short) | ✓ | ✗ | Partner website |
-
-**Settings:**
-
-| Field Name | Type | Required | Nullable | Options |
-|------------|------|----------|----------|---------|
-| `grayscale` | Boolean | ✗ | ✗ | Default: false (Color / Grayscale) |
-| `columns` | Enumeration 🎨 | ✗ | ✗ | Two columns, Three columns, Four columns, Five columns, Six columns (default: Six columns) |
-| `gap` | Enumeration 🎨 | ✗ | ✗ | Small spacing, Medium spacing, Large spacing (default: Medium spacing) |
 
 ---
 
@@ -512,7 +468,7 @@ Before creating the main components, define these reusable elements:
 2. **elements.service-card** - Already exists ✅ (icon, title, description, link)
 3. **elements.full-width-card** - Already exists ✅ (icon, title, description, link - required)
 4. **elements.document-item** - Already exists ✅ (name, file [media - ext & size auto-extracted])
-5. **elements.partner-logo** - For partner logos (name, logo [media], url)
+5. **elements.partner-logo** - Already exists ✅ (name, logo [media], url)
 6. **elements.marketing-argument** - For marketing arguments (display_type, icon/number, title, description)
 7. **elements.timeline-item** - For timeline (display_type, icon/number, title, description)
 8. **elements.slide** - For slider (title, description, link, image [media], background_image [media])
@@ -529,19 +485,19 @@ Before creating the main components, define these reusable elements:
 **Phase 1 - Essential Content (Quick Wins):**
 1. ✅ Full Width Cards (COMPLETED)
 2. ✅ Documents (COMPLETED)
-3. Section Divider (simplest)
-4. Contact Card
-5. News Article
-6. Marketing Arguments
-7. Partner Logos
-8. Button Group
-9. Photo Gallery
-10. Gallery Slider
-11. Slider
-12. Timeline
-13. Directions
-14. Doctor Profile
-15. Job Posting
+3. ✅ Job Posting (COMPLETED)
+4. ✅ Partner Logos (COMPLETED)
+5. Section Divider (simplest)
+6. Contact Card
+7. News Article
+8. Marketing Arguments
+9. Button Group
+10. Photo Gallery
+11. Gallery Slider
+12. Slider
+13. Timeline
+14. Directions
+15. Doctor Profile
 16. Expandable Section
 
 ---

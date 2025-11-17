@@ -226,17 +226,23 @@ export default function Priklad2Page() {
                   title="Fyzioterapeut/ka"
                   description="Hledáme zkušeného fyzioterapeuta do našeho týmu. Nabízíme moderní pracoviště, příjemný kolektiv a možnost profesního růstu."
                   department="Rehabilitace"
-                  type="Plný úvazek / Částečný úvazek"
+                  employment_type="Plný úvazek / Částečný úvazek"
                   location="Brno"
-                  ctaUrl="#"
+                  cta_link={{
+                    text: "Zobrazit pozici",
+                    url: "#"
+                  }}
                 />
                 <JobPosting
                   title="Masér/ka"
                   description="Rozšiřujeme tým a hledáme kvalifikovaného maséra. Požadujeme praxi v oblasti klasické a sportovní masáže."
                   department="Rehabilitace"
-                  type="Plný úvazek"
+                  employment_type="Plný úvazek"
                   location="Brno"
-                  ctaUrl="#"
+                  cta_link={{
+                    text: "Zobrazit pozici",
+                    url: "#"
+                  }}
                 />
               </div>
             </div>

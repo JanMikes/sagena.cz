@@ -193,9 +193,12 @@ export default function KomponentyPage() {
             title="Všeobecná sestra"
             description="Hledáme zkušenou všeobecnou sestru do našeho týmu. Nabízíme moderní pracoviště a příjemný kolektiv."
             department="Kardiologie"
-            type="Plný úvazek"
+            employment_type="Plný úvazek"
             location="Frýdek-Místek"
-            ctaUrl="#"
+            cta_link={{
+              text: "Zobrazit pozici",
+              url: "#"
+            }}
           />
         </section>
 
@@ -505,7 +508,7 @@ export default function KomponentyPage() {
               <PartnerLogos
                 partners={insuranceProviders}
                 columns={6}
-                gap="md"
+                gap="medium"
                 grayscale={true}
               />
             </div>
@@ -518,7 +521,7 @@ export default function KomponentyPage() {
               <PartnerLogos
                 partners={insuranceProviders}
                 columns={4}
-                gap="lg"
+                gap="large"
                 grayscale={false}
               />
             </div>
@@ -531,7 +534,7 @@ export default function KomponentyPage() {
               <PartnerLogos
                 partners={medicalPartners}
                 columns={3}
-                gap="lg"
+                gap="large"
               />
             </div>
           </div>

@@ -59,6 +59,23 @@ export interface ComponentsHeading extends Struct.ComponentSchema {
   };
 }
 
+export interface ComponentsJobPosting extends Struct.ComponentSchema {
+  collectionName: 'components_components_job_postings';
+  info: {
+    displayName: 'job-posting';
+    icon: 'briefcase';
+  };
+  attributes: {
+    cta_link: Schema.Attribute.Component<'elements.text-link', false> &
+      Schema.Attribute.Required;
+    department: Schema.Attribute.String & Schema.Attribute.Required;
+    description: Schema.Attribute.Text & Schema.Attribute.Required;
+    employment_type: Schema.Attribute.String & Schema.Attribute.Required;
+    location: Schema.Attribute.String & Schema.Attribute.Required;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
 export interface ComponentsLinksList extends Struct.ComponentSchema {
   collectionName: 'components_components_links_lists';
   info: {
@@ -74,6 +91,33 @@ export interface ComponentsLinksList extends Struct.ComponentSchema {
         },
         number
       >;
+  };
+}
+
+export interface ComponentsPartnerLogos extends Struct.ComponentSchema {
+  collectionName: 'components_components_partner_logos';
+  info: {
+    displayName: 'partner-logos';
+    icon: 'briefcase';
+  };
+  attributes: {
+    columns: Schema.Attribute.Enumeration<
+      [
+        'Two columns',
+        'Three columns',
+        'Four columns',
+        'Five columns',
+        'Six columns',
+      ]
+    > &
+      Schema.Attribute.DefaultTo<'Six columns'>;
+    gap: Schema.Attribute.Enumeration<
+      ['Small spacing', 'Medium spacing', 'Large spacing']
+    > &
+      Schema.Attribute.DefaultTo<'Medium spacing'>;
+    grayscale: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    partners: Schema.Attribute.Component<'elements.partner-logo', true> &
+      Schema.Attribute.Required;
   };
 }
 
@@ -172,6 +216,19 @@ export interface ElementsLink extends Struct.ComponentSchema {
   };
 }
 
+export interface ElementsPartnerLogo extends Struct.ComponentSchema {
+  collectionName: 'components_elements_partner_logos';
+  info: {
+    displayName: 'partner-logo';
+    icon: 'briefcase';
+  };
+  attributes: {
+    logo: Schema.Attribute.Media<'images'> & Schema.Attribute.Required;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    url: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
 export interface ElementsServiceCard extends Struct.ComponentSchema {
   collectionName: 'components_elements_service_cards';
   info: {
@@ -209,7 +266,9 @@ declare module '@strapi/strapi' {
       'components.documents': ComponentsDocuments;
       'components.full-width-cards': ComponentsFullWidthCards;
       'components.heading': ComponentsHeading;
+      'components.job-posting': ComponentsJobPosting;
       'components.links-list': ComponentsLinksList;
+      'components.partner-logos': ComponentsPartnerLogos;
       'components.service-cards': ComponentsServiceCards;
       'components.text': ComponentsText;
       'components.video': ComponentsVideo;
@@ -217,6 +276,7 @@ declare module '@strapi/strapi' {
       'elements.full-width-card': ElementsFullWidthCard;
       'elements.icon': ElementsIcon;
       'elements.link': ElementsLink;
+      'elements.partner-logo': ElementsPartnerLogo;
       'elements.service-card': ElementsServiceCard;
       'elements.text-link': ElementsTextLink;
     }

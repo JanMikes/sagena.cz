@@ -195,6 +195,36 @@ export interface ComponentsDocuments {
   columns: 'Single column' | 'Two columns' | 'Three columns';
 }
 
+/**
+ * Components: Job Posting
+ * Location: strapi/src/components/components/job-posting.json
+ * Usage: Job posting card with title, description, department, employment type, location, and CTA link
+ */
+export interface ComponentsJobPosting {
+  id: number;
+  __component: 'components.job-posting';
+  title: string;
+  description: string;
+  department: string;
+  employment_type: string;
+  location: string;
+  cta_link: ElementsTextLink;
+}
+
+/**
+ * Components: Partner Logos
+ * Location: strapi/src/components/components/partner-logos.json
+ * Usage: Grid of partner/client logos with configurable columns, spacing, and grayscale option
+ */
+export interface ComponentsPartnerLogos {
+  id: number;
+  __component: 'components.partner-logos';
+  partners: ElementsPartnerLogo[];
+  grayscale: boolean;
+  columns: 'Two columns' | 'Three columns' | 'Four columns' | 'Five columns' | 'Six columns';
+  gap: 'Small spacing' | 'Medium spacing' | 'Large spacing';
+}
+
 // ============================================================================
 // Strapi Elements (embedded in other components, never standalone)
 // ============================================================================
@@ -296,6 +326,29 @@ export interface ElementsDocumentItem {
   };
 }
 
+/**
+ * Elements: Partner Logo
+ * Location: strapi/src/components/elements/partner-logo.json
+ * Usage: Individual partner logo with name, logo image, and website URL
+ *
+ * IMPORTANT: Strapi returns media directly (no .data wrapper)
+ */
+export interface ElementsPartnerLogo {
+  id: number;
+  __component?: 'elements.partner-logo';
+  name: string;
+  logo: {
+    id: number;
+    documentId: string;
+    url: string;
+    name: string;
+    alternativeText?: string | null;
+    width?: number;
+    height?: number;
+  };
+  url: string;
+}
+
 // ============================================================================
 // Dynamic Zone Union Types
 // ============================================================================
@@ -303,7 +356,7 @@ export interface ElementsDocumentItem {
 /**
  * Page content dynamic zone - all components that can appear in page content area
  */
-export type PageContentComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsLinksList | ComponentsVideo | ComponentsServiceCards | ComponentsFullWidthCards | ComponentsDocuments;
+export type PageContentComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsLinksList | ComponentsVideo | ComponentsServiceCards | ComponentsFullWidthCards | ComponentsDocuments | ComponentsJobPosting | ComponentsPartnerLogos;
 
 /**
  * Page sidebar dynamic zone - all components that can appear in page sidebar

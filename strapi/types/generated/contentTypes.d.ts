@@ -541,6 +541,8 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
         'components.service-cards',
         'components.full-width-cards',
         'components.documents',
+        'components.job-posting',
+        'components.partner-logos',
       ]
     > &
       Schema.Attribute.Required &

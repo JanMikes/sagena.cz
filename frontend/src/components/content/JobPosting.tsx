@@ -1,51 +1,56 @@
 import React from 'react';
-import { MapPin, Briefcase, Clock } from 'lucide-react';
-import Button from '@/components/ui/Button';
+import Link from 'next/link';
 
+/**
+ * Job posting item from Strapi (for CMS-driven pages)
+ */
 interface JobPostingProps {
   title: string;
   description: string;
   department: string;
-  type: string;
+  employment_type: string;
   location: string;
-  ctaText?: string;
-  ctaUrl: string;
+  cta_link: {
+    text: string;
+    url: string;
+  };
 }
 
 const JobPosting: React.FC<JobPostingProps> = ({
   title,
   description,
   department,
-  type,
+  employment_type,
   location,
-  ctaText = 'Zobrazit pozici',
-  ctaUrl,
+  cta_link,
 }) => {
   return (
-    <div className="bg-gradient-to-br from-white to-primary-50/30 border border-gray-200 rounded-xl p-6 lg:p-8 hover:shadow-lg transition-all duration-300">
-      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+    <div className="bg-white border border-gray-200 rounded-xl p-6 hover:border-primary-300 hover:shadow-md transition-all duration-300">
+      <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
         <div className="flex-1">
-          <h3 className="text-2xl font-bold text-gray-900 mb-2">{title}</h3>
-          <p className="text-gray-600 mb-4 leading-relaxed">{description}</p>
-          <div className="flex flex-wrap gap-3">
-            <div className="flex items-center space-x-2 text-sm text-gray-600">
-              <Briefcase className="w-4 h-4 text-primary-600" />
-              <span>{department}</span>
-            </div>
-            <div className="flex items-center space-x-2 text-sm text-gray-600">
-              <Clock className="w-4 h-4 text-primary-600" />
-              <span>{type}</span>
-            </div>
-            <div className="flex items-center space-x-2 text-sm text-gray-600">
-              <MapPin className="w-4 h-4 text-primary-600" />
-              <span>{location}</span>
-            </div>
+          <h3 className="text-xl font-semibold text-gray-900 mb-2">{title}</h3>
+          <p className="text-gray-600 mb-4">{description}</p>
+
+          <div className="flex flex-wrap gap-3 mb-4">
+            <span className="inline-flex items-center px-3 py-1 rounded-full bg-primary-50 text-primary-700 font-medium text-sm">
+              {department}
+            </span>
+            <span className="inline-flex items-center px-3 py-1 rounded-full bg-gray-100 text-gray-700 text-sm">
+              {employment_type}
+            </span>
+            <span className="inline-flex items-center px-3 py-1 rounded-full bg-gray-100 text-gray-700 text-sm">
+              {location}
+            </span>
           </div>
         </div>
-        <div className="lg:flex-shrink-0">
-          <Button href={ctaUrl} size="lg">
-            {ctaText}
-          </Button>
+
+        <div className="flex-shrink-0">
+          <Link
+            href={cta_link.url}
+            className="inline-flex items-center justify-center px-6 py-3 bg-primary-600 text-white font-medium rounded-lg hover:bg-primary-700 transition-colors duration-200"
+          >
+            {cta_link.text}
+          </Link>
         </div>
       </div>
     </div>

@@ -62,7 +62,9 @@
         "components.video",
         "components.service-cards",
         "components.full-width-cards",
-        "components.documents"
+        "components.documents",
+        "components.job-posting",
+        "components.partner-logos"
       ],
       "required": true
     },

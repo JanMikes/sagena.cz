@@ -432,6 +432,20 @@ export async function fetchPageBySlug(
                 },
               },
             },
+            'components.job-posting': {
+              populate: {
+                cta_link: {
+                  populate: ['page', 'file'],
+                },
+              },
+            },
+            'components.partner-logos': {
+              populate: {
+                partners: {
+                  populate: ['logo'],
+                },
+              },
+            },
           },
         },
         sidebar: {

@@ -1,0 +1,44 @@
+{
+  "collectionName": "components_components_partner_logos",
+  "info": {
+    "displayName": "partner-logos",
+    "icon": "briefcase"
+  },
+  "options": {},
+  "attributes": {
+    "partners": {
+      "type": "component",
+      "component": "elements.partner-logo",
+      "repeatable": true,
+      "required": true
+    },
+    "grayscale": {
+      "type": "boolean",
+      "default": false,
+      "required": false
+    },
+    "columns": {
+      "type": "enumeration",
+      "enum": [
+        "Two columns",
+        "Three columns",
+        "Four columns",
+        "Five columns",
+        "Six columns"
+      ],
+      "default": "Six columns",
+      "required": false
+    },
+    "gap": {
+      "type": "enumeration",
+      "enum": [
+        "Small spacing",
+        "Medium spacing",
+        "Large spacing"
+      ],
+      "default": "Medium spacing",
+      "required": false
+    }
+  },
+  "config": {}
+}

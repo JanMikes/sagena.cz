@@ -2,28 +2,27 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
-interface Partner {
-  id: string;
+/**
+ * Partner logo item from Strapi (for CMS-driven pages)
+ */
+interface PartnerLogoItem {
   name: string;
   logo: string;
   url: string;
-  alt?: string;
 }
 
 interface PartnerLogosProps {
-  partners: Partner[];
-  className?: string;
+  partners: PartnerLogoItem[];
   grayscale?: boolean;
   columns?: 2 | 3 | 4 | 5 | 6;
-  gap?: 'sm' | 'md' | 'lg';
+  gap?: 'small' | 'medium' | 'large';
 }
 
 const PartnerLogos: React.FC<PartnerLogosProps> = ({
   partners,
-  className = '',
   grayscale = false,
   columns = 6,
-  gap = 'md',
+  gap = 'medium',
 }) => {
   const gridColumns = {
     2: 'grid-cols-2 md:grid-cols-2',
@@ -34,33 +33,37 @@ const PartnerLogos: React.FC<PartnerLogosProps> = ({
   };
 
   const gapStyles = {
-    sm: 'gap-4',
-    md: 'gap-6',
-    lg: 'gap-8',
+    small: 'gap-4',
+    medium: 'gap-6',
+    large: 'gap-8',
   };
 
   return (
-    <div className={`${className}`}>
-      <div className={`grid ${gridColumns[columns]} ${gapStyles[gap]} items-center justify-items-center`}>
-        {partners.map((partner) => (
-          <Link
-            key={partner.id}
-            href={partner.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center w-full h-full p-4 transition-all duration-300 hover:scale-105"
-          >
-            <img
-              src={partner.logo}
-              alt={partner.alt || partner.name}
-              className={`max-w-full h-auto object-contain ${
-                grayscale ? 'grayscale hover:grayscale-0 transition-all duration-300' : ''
-              }`}
-              style={{ maxHeight: '60px' }}
-            />
-          </Link>
-        ))}
-      </div>
+    <div
+      className={`grid ${gridColumns[columns]} ${gapStyles[gap]} items-center justify-items-center`}
+    >
+      {partners.map((partner, index) => (
+        <Link
+          key={index}
+          href={partner.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center justify-center w-full h-full p-4 bg-white border border-gray-200 rounded-lg hover:border-primary-300 hover:shadow-md transition-all duration-300"
+          aria-label={partner.name}
+        >
+          <Image
+            src={partner.logo}
+            alt={partner.name}
+            width={120}
+            height={60}
+            className={`w-full h-auto max-h-16 object-contain ${
+              grayscale
+                ? 'grayscale hover:grayscale-0 transition-all duration-300'
+                : ''
+            }`}
+          />
+        </Link>
+      ))}
     </div>
   );
 };

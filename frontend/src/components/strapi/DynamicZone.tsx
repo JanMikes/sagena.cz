@@ -14,6 +14,8 @@ import Video from '@/components/content/Video';
 import ServiceCards from '@/components/content/ServiceCards';
 import FullWidthCards from '@/components/content/FullWidthCards';
 import Documents from '@/components/content/Documents';
+import JobPosting from '@/components/content/JobPosting';
+import PartnerLogos from '@/components/content/PartnerLogos';
 import { getStrapiMediaURL, getIconUrlById } from '@/lib/strapi';
 import {
   PageContentComponent,
@@ -26,6 +28,8 @@ import {
   ComponentsServiceCards,
   ComponentsFullWidthCards,
   ComponentsDocuments,
+  ComponentsJobPosting,
+  ComponentsPartnerLogos,
   ElementsTextLink,
   StrapiMedia,
 } from '@/types/strapi';
@@ -320,6 +324,74 @@ async function renderComponent(
           key={`${__component}-${component.id || index}`}
           documents={documents}
           columns={columns}
+        />
+      );
+    }
+
+    case 'components.job-posting': {
+      const jobPostingComponent = component as ComponentsJobPosting;
+
+      // Resolve the CTA link
+      const resolved = resolveTextLink(jobPostingComponent.cta_link);
+
+      return (
+        <JobPosting
+          key={`${__component}-${component.id || index}`}
+          title={jobPostingComponent.title}
+          description={jobPostingComponent.description}
+          department={jobPostingComponent.department}
+          employment_type={jobPostingComponent.employment_type}
+          location={jobPostingComponent.location}
+          cta_link={{
+            text: jobPostingComponent.cta_link.text,
+            url: resolved.url,
+          }}
+        />
+      );
+    }
+
+    case 'components.partner-logos': {
+      const partnerLogosComponent = component as ComponentsPartnerLogos;
+
+      // Transform Strapi data to component props
+      const partners = partnerLogosComponent.partners.map((partner) => {
+        // Extract logo URL from Strapi media
+        const logoUrl = partner.logo?.url
+          ? getStrapiMediaURL(partner.logo.url)
+          : '';
+
+        return {
+          name: partner.name,
+          logo: logoUrl,
+          url: partner.url,
+        };
+      });
+
+      // Map column enum to number
+      const columnMap: Record<string, 2 | 3 | 4 | 5 | 6> = {
+        'Two columns': 2,
+        'Three columns': 3,
+        'Four columns': 4,
+        'Five columns': 5,
+        'Six columns': 6,
+      };
+      const columns = columnMap[partnerLogosComponent.columns] || 6;
+
+      // Map gap enum to string
+      const gapMap: Record<string, 'small' | 'medium' | 'large'> = {
+        'Small spacing': 'small',
+        'Medium spacing': 'medium',
+        'Large spacing': 'large',
+      };
+      const gap = gapMap[partnerLogosComponent.gap] || 'medium';
+
+      return (
+        <PartnerLogos
+          key={`${__component}-${component.id || index}`}
+          partners={partners}
+          grayscale={partnerLogosComponent.grayscale}
+          columns={columns}
+          gap={gap}
         />
       );
     }
