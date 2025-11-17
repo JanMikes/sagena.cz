@@ -82,7 +82,7 @@ export default function KomponentyPage() {
           </Card>
         </section>
 
-        <SectionDivider style="gradient" />
+        <SectionDivider style="Gradient line" />
 
         {/* Alerts */}
         <section>
@@ -480,7 +480,7 @@ export default function KomponentyPage() {
           </div>
         </section>
 
-        <SectionDivider style="gradient" />
+        <SectionDivider style="Gradient line" />
 
         {/* Badges */}
         <section>

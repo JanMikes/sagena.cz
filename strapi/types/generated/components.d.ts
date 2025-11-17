@@ -137,6 +137,32 @@ export interface ComponentsPartnerLogos extends Struct.ComponentSchema {
   };
 }
 
+export interface ComponentsSectionDivider extends Struct.ComponentSchema {
+  collectionName: 'components_components_section_dividers';
+  info: {
+    displayName: 'section-divider';
+    icon: 'minus';
+  };
+  attributes: {
+    color: Schema.Attribute.Enumeration<['Gray', 'Primary blue']> &
+      Schema.Attribute.DefaultTo<'Gray'>;
+    spacing: Schema.Attribute.Enumeration<
+      ['Small spacing', 'Medium spacing', 'Large spacing']
+    > &
+      Schema.Attribute.DefaultTo<'Medium spacing'>;
+    style: Schema.Attribute.Enumeration<
+      [
+        'Solid line',
+        'Dashed line',
+        'Dotted line',
+        'Double line',
+        'Gradient line',
+      ]
+    > &
+      Schema.Attribute.DefaultTo<'Solid line'>;
+  };
+}
+
 export interface ComponentsServiceCards extends Struct.ComponentSchema {
   collectionName: 'components_components_service_cards';
   info: {
@@ -330,6 +356,7 @@ declare module '@strapi/strapi' {
       'components.links-list': ComponentsLinksList;
       'components.marketing-arguments': ComponentsMarketingArguments;
       'components.partner-logos': ComponentsPartnerLogos;
+      'components.section-divider': ComponentsSectionDivider;
       'components.service-cards': ComponentsServiceCards;
       'components.text': ComponentsText;
       'components.timeline': ComponentsTimeline;

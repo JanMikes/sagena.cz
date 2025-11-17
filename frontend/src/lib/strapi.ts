@@ -482,6 +482,7 @@ export async function fetchPageBySlug(
                 },
               },
             },
+            'components.section-divider': { populate: '*' },
           },
         },
         sidebar: {

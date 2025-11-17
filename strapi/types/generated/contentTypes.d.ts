@@ -545,6 +545,7 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
         'components.partner-logos',
         'components.marketing-arguments',
         'components.timeline',
+        'components.section-divider',
       ]
     > &
       Schema.Attribute.Required &

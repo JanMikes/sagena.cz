@@ -248,6 +248,19 @@ export interface ComponentsTimeline {
   items: ElementsTimelineItem[];
 }
 
+/**
+ * Components: Section Divider
+ * Location: strapi/src/components/components/section-divider.json
+ * Usage: Visual separator between sections with customizable spacing, style, and color
+ */
+export interface ComponentsSectionDivider {
+  id: number;
+  __component: 'components.section-divider';
+  spacing: 'Small spacing' | 'Medium spacing' | 'Large spacing';
+  style: 'Solid line' | 'Dashed line' | 'Dotted line' | 'Double line' | 'Gradient line';
+  color: 'Gray' | 'Primary blue';
+}
+
 // ============================================================================
 // Strapi Elements (embedded in other components, never standalone)
 // ============================================================================
@@ -413,7 +426,7 @@ export interface ElementsTimelineItem {
 /**
  * Page content dynamic zone - all components that can appear in page content area
  */
-export type PageContentComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsLinksList | ComponentsVideo | ComponentsServiceCards | ComponentsFullWidthCards | ComponentsDocuments | ComponentsJobPosting | ComponentsPartnerLogos | ComponentsMarketingArguments | ComponentsTimeline;
+export type PageContentComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsLinksList | ComponentsVideo | ComponentsServiceCards | ComponentsFullWidthCards | ComponentsDocuments | ComponentsJobPosting | ComponentsPartnerLogos | ComponentsMarketingArguments | ComponentsTimeline | ComponentsSectionDivider;
 
 /**
  * Page sidebar dynamic zone - all components that can appear in page sidebar

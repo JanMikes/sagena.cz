@@ -1,0 +1,39 @@
+{
+  "collectionName": "components_components_section_dividers",
+  "info": {
+    "displayName": "section-divider",
+    "icon": "minus"
+  },
+  "options": {},
+  "attributes": {
+    "spacing": {
+      "type": "enumeration",
+      "enum": [
+        "Small spacing",
+        "Medium spacing",
+        "Large spacing"
+      ],
+      "default": "Medium spacing"
+    },
+    "style": {
+      "type": "enumeration",
+      "enum": [
+        "Solid line",
+        "Dashed line",
+        "Dotted line",
+        "Double line",
+        "Gradient line"
+      ],
+      "default": "Solid line"
+    },
+    "color": {
+      "type": "enumeration",
+      "enum": [
+        "Gray",
+        "Primary blue"
+      ],
+      "default": "Gray"
+    }
+  },
+  "config": {}
+}

@@ -357,7 +357,7 @@ export default function HomePage() {
         </div>
       </div>
 
-        <SectionDivider style="gradient" spacing="lg" />
+        <SectionDivider style="Gradient line" spacing="Large spacing" />
 
       {/* News Section */}
       <div className="container-custom py-16">
@@ -400,7 +400,7 @@ export default function HomePage() {
         </div>
       </div>
 
-      <SectionDivider style="gradient" spacing="lg" />
+      <SectionDivider style="Gradient line" spacing="Large spacing" />
 
       {/* Photo Gallery */}
       <div className="container-custom py-16">
@@ -416,7 +416,7 @@ export default function HomePage() {
         <PhotoGallery photos={galleryImages} columns={3} />
       </div>
 
-      <SectionDivider style="gradient" spacing="lg" />
+      <SectionDivider style="Gradient line" spacing="Large spacing" />
 
       {/* Contact Form */}
       <div id="objednat" className="bg-neutral-50 py-16">

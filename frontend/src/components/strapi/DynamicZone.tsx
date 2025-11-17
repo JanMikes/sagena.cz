@@ -18,6 +18,7 @@ import JobPosting from '@/components/content/JobPosting';
 import PartnerLogos from '@/components/content/PartnerLogos';
 import MarketingArguments from '@/components/marketing/MarketingArguments';
 import Timeline from '@/components/marketing/Timeline';
+import SectionDivider from '@/components/layout/SectionDivider';
 import { getStrapiMediaURL, getIconUrlById } from '@/lib/strapi';
 import {
   PageContentComponent,
@@ -34,6 +35,7 @@ import {
   ComponentsPartnerLogos,
   ComponentsMarketingArguments,
   ComponentsTimeline,
+  ComponentsSectionDivider,
   ElementsTextLink,
   StrapiMedia,
 } from '@/types/strapi';
@@ -457,6 +459,19 @@ async function renderComponent(
         <Timeline
           key={`${__component}-${component.id || index}`}
           items={items}
+        />
+      );
+    }
+
+    case 'components.section-divider': {
+      const sectionDividerComponent = component as ComponentsSectionDivider;
+
+      return (
+        <SectionDivider
+          key={`${__component}-${component.id || index}`}
+          spacing={sectionDividerComponent.spacing}
+          style={sectionDividerComponent.style}
+          color={sectionDividerComponent.color}
         />
       );
     }
