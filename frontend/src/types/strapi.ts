@@ -237,6 +237,17 @@ export interface ComponentsMarketingArguments {
   columns: 'Two columns' | 'Three columns' | 'Four columns';
 }
 
+/**
+ * Components: Timeline
+ * Location: strapi/src/components/components/timeline.json
+ * Usage: Vertical timeline with steps showing icons or numbers, titles, and descriptions
+ */
+export interface ComponentsTimeline {
+  id: number;
+  __component: 'components.timeline';
+  items: ElementsTimelineItem[];
+}
+
 // ============================================================================
 // Strapi Elements (embedded in other components, never standalone)
 // ============================================================================
@@ -378,6 +389,23 @@ export interface ElementsMarketingArgument {
   description: string;
 }
 
+/**
+ * Elements: Timeline Item
+ * Location: strapi/src/components/elements/timeline-item.json
+ * Usage: Individual timeline step with icon or number, title, and description
+ *
+ * IMPORTANT: Either icon OR number should be provided based on display_type
+ */
+export interface ElementsTimelineItem {
+  id: number;
+  __component?: 'elements.timeline-item';
+  display_type: 'Icon' | 'Number';
+  icon?: Icon;  // Optional icon relation (oneToOne to api::icon.icon) - required if display_type = Icon
+  number?: string | null;  // e.g., "1", "2", "3" - required if display_type = Number
+  title: string;
+  description: string;
+}
+
 // ============================================================================
 // Dynamic Zone Union Types
 // ============================================================================
@@ -385,7 +413,7 @@ export interface ElementsMarketingArgument {
 /**
  * Page content dynamic zone - all components that can appear in page content area
  */
-export type PageContentComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsLinksList | ComponentsVideo | ComponentsServiceCards | ComponentsFullWidthCards | ComponentsDocuments | ComponentsJobPosting | ComponentsPartnerLogos | ComponentsMarketingArguments;
+export type PageContentComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsLinksList | ComponentsVideo | ComponentsServiceCards | ComponentsFullWidthCards | ComponentsDocuments | ComponentsJobPosting | ComponentsPartnerLogos | ComponentsMarketingArguments | ComponentsTimeline;
 
 /**
  * Page sidebar dynamic zone - all components that can appear in page sidebar

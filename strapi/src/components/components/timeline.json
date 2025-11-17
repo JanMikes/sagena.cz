@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_components_timelines",
+  "info": {
+    "displayName": "timeline",
+    "icon": "bulletList"
+  },
+  "options": {},
+  "attributes": {
+    "items": {
+      "type": "component",
+      "component": "elements.timeline-item",
+      "repeatable": true,
+      "required": true
+    }
+  },
+  "config": {}
+}

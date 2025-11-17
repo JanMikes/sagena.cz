@@ -1,8 +1,8 @@
 import React from 'react';
-import { LucideIcon } from 'lucide-react';
+import Image from 'next/image';
 
 interface TimelineItem {
-  icon?: LucideIcon;
+  icon?: string | null;  // Icon image URL from Strapi
   number?: string;
   title: string;
   description: string;
@@ -20,18 +20,25 @@ const Timeline: React.FC<TimelineProps> = ({ items }) => {
 
       <div className="space-y-8">
         {items.map((item, index) => {
-          const IconComponent = item.icon;
+          const isLast = index === items.length - 1;
+
           return (
             <div key={index} className="relative flex gap-6 md:gap-8">
               {/* Icon or Number */}
               <div className="relative flex-shrink-0">
-                {IconComponent && (
-                  <div className="flex items-center justify-center w-16 h-16 bg-primary-600 rounded-full z-10 relative">
-                    <IconComponent className="w-8 h-8 text-white" />
+                {item.icon && (
+                  <div className="flex items-center justify-center w-16 h-16 bg-primary-600 rounded-full z-10 relative border-4 border-white shadow-md">
+                    <Image
+                      src={item.icon}
+                      alt=""
+                      width={28}
+                      height={28}
+                      className="w-7 h-7 object-contain brightness-0 invert"
+                    />
                   </div>
                 )}
-                {item.number && !IconComponent && (
-                  <div className="flex items-center justify-center w-16 h-16 bg-primary-600 rounded-full z-10 relative">
+                {item.number && !item.icon && (
+                  <div className="flex items-center justify-center w-16 h-16 bg-primary-600 rounded-full z-10 relative border-4 border-white shadow-md">
                     <span className="text-2xl font-bold text-white">
                       {item.number}
                     </span>
@@ -40,7 +47,7 @@ const Timeline: React.FC<TimelineProps> = ({ items }) => {
               </div>
 
               {/* Content */}
-              <div className="flex-1 pb-8">
+              <div className={`flex-1 ${!isLast ? 'pb-8' : ''}`}>
                 <h3 className="text-xl font-bold text-gray-900 mb-2">
                   {item.title}
                 </h3>

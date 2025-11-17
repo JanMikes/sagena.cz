@@ -65,7 +65,8 @@
         "components.documents",
         "components.job-posting",
         "components.partner-logos",
-        "components.marketing-arguments"
+        "components.marketing-arguments",
+        "components.timeline"
       ],
       "required": true
     },

@@ -164,6 +164,18 @@ export interface ComponentsText extends Struct.ComponentSchema {
   };
 }
 
+export interface ComponentsTimeline extends Struct.ComponentSchema {
+  collectionName: 'components_components_timelines';
+  info: {
+    displayName: 'timeline';
+    icon: 'bulletList';
+  };
+  attributes: {
+    items: Schema.Attribute.Component<'elements.timeline-item', true> &
+      Schema.Attribute.Required;
+  };
+}
+
 export interface ComponentsVideo extends Struct.ComponentSchema {
   collectionName: 'components_components_videos';
   info: {
@@ -291,6 +303,22 @@ export interface ElementsTextLink extends Struct.ComponentSchema {
   };
 }
 
+export interface ElementsTimelineItem extends Struct.ComponentSchema {
+  collectionName: 'components_elements_timeline_items';
+  info: {
+    displayName: 'timeline-item';
+    icon: 'bulletList';
+  };
+  attributes: {
+    description: Schema.Attribute.Text & Schema.Attribute.Required;
+    display_type: Schema.Attribute.Enumeration<['Icon', 'Number']> &
+      Schema.Attribute.Required;
+    icon: Schema.Attribute.Relation<'oneToOne', 'api::icon.icon'>;
+    number: Schema.Attribute.String;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
 declare module '@strapi/strapi' {
   export module Public {
     export interface ComponentSchemas {
@@ -304,6 +332,7 @@ declare module '@strapi/strapi' {
       'components.partner-logos': ComponentsPartnerLogos;
       'components.service-cards': ComponentsServiceCards;
       'components.text': ComponentsText;
+      'components.timeline': ComponentsTimeline;
       'components.video': ComponentsVideo;
       'elements.document-item': ElementsDocumentItem;
       'elements.full-width-card': ElementsFullWidthCard;
@@ -313,6 +342,7 @@ declare module '@strapi/strapi' {
       'elements.partner-logo': ElementsPartnerLogo;
       'elements.service-card': ElementsServiceCard;
       'elements.text-link': ElementsTextLink;
+      'elements.timeline-item': ElementsTimelineItem;
     }
   }
 }

@@ -13,7 +13,7 @@
 
 ---
 
-## ✅ Currently Integrated Components (11)
+## ✅ Currently Integrated Components (12)
 
 These components are already implemented in the dynamic zone:
 
@@ -28,10 +28,11 @@ These components are already implemented in the dynamic zone:
 9. **components.job-posting** → JobPosting
 10. **components.partner-logos** → PartnerLogos (uses `elements.partner-logo`)
 11. **components.marketing-arguments** → MarketingArguments (uses `elements.marketing-argument`)
+12. **components.timeline** → Timeline (uses `elements.timeline-item`)
 
 ---
 
-## 🎯 Priority Components to Add (14)
+## 🎯 Priority Components to Add (13)
 
 ### 📄 CONTENT COMPONENTS (1)
 
@@ -54,31 +55,7 @@ These components are already implemented in the dynamic zone:
 
 ---
 
-### 🎯 MARKETING COMPONENTS (2)
-
----
-
-#### 5. Timeline (components.timeline)
-
-**Location:** `/frontend/src/components/marketing/Timeline.tsx`
-
-**Fields:**
-
-| Field Name | Type | Required | Nullable | Notes |
-|------------|------|----------|----------|-------|
-| `items` | Component (repeatable) 📦 | ✓ | ✗ | Array of timeline steps |
-
-**Repeatable Component: `elements.timeline-item`**
-
-| Field Name | Type | Required | Nullable | Options/Notes |
-|------------|------|----------|----------|---------------|
-| `display_type` | Enumeration 🎨 | ✓ | ✗ | Icon, Number |
-| `icon` | Relation 🔗 | ✗ | ✓ | oneToOne to api::icon.icon (required if display_type = Icon) |
-| `number` | Text (short) | ✗ | ✓ | e.g., "1", "2", "3" (required if display_type = Number) |
-| `title` | Text (short) | ✓ | ✗ | |
-| `description` | Text (long) | ✓ | ✗ | |
-
-**Note:** Either `icon` OR `number` should be provided based on `display_type`, not both.
+### 🎯 MARKETING COMPONENTS (1)
 
 ---
 
@@ -441,7 +418,7 @@ Before creating the main components, define these reusable elements:
 4. **elements.document-item** - Already exists ✅ (name, file [media - ext & size auto-extracted])
 5. **elements.partner-logo** - Already exists ✅ (name, logo [media], url)
 6. **elements.marketing-argument** - Already exists ✅ (display_type, icon/number, title, description)
-7. **elements.timeline-item** - For timeline (display_type, icon/number, title, description)
+7. **elements.timeline-item** - Already exists ✅ (display_type, icon/number, title, description)
 8. **elements.slide** - For slider (title, description, link, image [media], background_image [media])
 9. **elements.photo** - For photo gallery and gallery slider (image [media only])
 10. **elements.opening-hours** - For doctor profile (day, time)
@@ -459,14 +436,14 @@ Before creating the main components, define these reusable elements:
 3. ✅ Job Posting (COMPLETED)
 4. ✅ Partner Logos (COMPLETED)
 5. ✅ Marketing Arguments (COMPLETED)
-6. Section Divider (simplest)
-7. Contact Card
-8. News Article
-9. Button Group
-10. Photo Gallery
-11. Gallery Slider
-12. Slider
-13. Timeline
+6. ✅ Timeline (COMPLETED)
+7. Section Divider (simplest)
+8. Contact Card
+9. News Article
+10. Button Group
+11. Photo Gallery
+12. Gallery Slider
+13. Slider
 14. Directions
 15. Doctor Profile
 16. Expandable Section

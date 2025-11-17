@@ -1,0 +1,35 @@
+{
+  "collectionName": "components_elements_timeline_items",
+  "info": {
+    "displayName": "timeline-item",
+    "icon": "bulletList"
+  },
+  "options": {},
+  "attributes": {
+    "display_type": {
+      "type": "enumeration",
+      "required": true,
+      "enum": [
+        "Icon",
+        "Number"
+      ]
+    },
+    "icon": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::icon.icon"
+    },
+    "number": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text",
+      "required": true
+    }
+  },
+  "config": {}
+}

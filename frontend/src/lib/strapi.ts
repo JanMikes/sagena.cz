@@ -467,6 +467,21 @@ export async function fetchPageBySlug(
                 },
               },
             },
+            'components.timeline': {
+              populate: {
+                items: {
+                  populate: {
+                    icon: {
+                      populate: {
+                        image: {
+                          fields: ['url', 'alternativeText'],
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
           },
         },
         sidebar: {

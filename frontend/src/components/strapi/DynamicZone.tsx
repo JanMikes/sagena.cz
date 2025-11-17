@@ -17,6 +17,7 @@ import Documents from '@/components/content/Documents';
 import JobPosting from '@/components/content/JobPosting';
 import PartnerLogos from '@/components/content/PartnerLogos';
 import MarketingArguments from '@/components/marketing/MarketingArguments';
+import Timeline from '@/components/marketing/Timeline';
 import { getStrapiMediaURL, getIconUrlById } from '@/lib/strapi';
 import {
   PageContentComponent,
@@ -32,6 +33,7 @@ import {
   ComponentsJobPosting,
   ComponentsPartnerLogos,
   ComponentsMarketingArguments,
+  ComponentsTimeline,
   ElementsTextLink,
   StrapiMedia,
 } from '@/types/strapi';
@@ -429,6 +431,32 @@ async function renderComponent(
           key={`${__component}-${component.id || index}`}
           arguments={args}
           columns={columns}
+        />
+      );
+    }
+
+    case 'components.timeline': {
+      const timelineComponent = component as ComponentsTimeline;
+
+      // Transform Strapi data to Timeline component props
+      const items = await Promise.all(timelineComponent.items.map(async (item) => {
+        // Get icon URL from icon relation if display_type is Icon
+        const iconUrl = item.display_type === 'Icon' && item.icon?.image?.url
+          ? getStrapiMediaURL(item.icon.image.url)
+          : null;
+
+        return {
+          icon: iconUrl,
+          number: item.display_type === 'Number' ? (item.number || undefined) : undefined,
+          title: item.title,
+          description: item.description,
+        };
+      }));
+
+      return (
+        <Timeline
+          key={`${__component}-${component.id || index}`}
+          items={items}
         />
       );
     }
