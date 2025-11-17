@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_components_marketing_arguments",
+  "info": {
+    "displayName": "marketing-arguments",
+    "icon": "apps"
+  },
+  "options": {},
+  "attributes": {
+    "arguments": {
+      "type": "component",
+      "component": "elements.marketing-argument",
+      "repeatable": true,
+      "required": true
+    },
+    "columns": {
+      "type": "enumeration",
+      "enum": ["Two columns", "Three columns", "Four columns"],
+      "default": "Three columns"
+    }
+  },
+  "config": {}
+}

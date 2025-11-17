@@ -1,0 +1,32 @@
+{
+  "collectionName": "components_elements_marketing_arguments",
+  "info": {
+    "displayName": "marketing-argument",
+    "icon": "bulletList"
+  },
+  "options": {},
+  "attributes": {
+    "display_type": {
+      "type": "enumeration",
+      "enum": ["Icon", "Number"],
+      "required": true
+    },
+    "icon": {
+      "type": "component",
+      "component": "elements.icon",
+      "repeatable": false
+    },
+    "number": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text",
+      "required": true
+    }
+  },
+  "config": {}
+}

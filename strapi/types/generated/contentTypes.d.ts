@@ -543,6 +543,7 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
         'components.documents',
         'components.job-posting',
         'components.partner-logos',
+        'components.marketing-arguments',
       ]
     > &
       Schema.Attribute.Required &

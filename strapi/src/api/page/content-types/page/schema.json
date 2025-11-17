@@ -64,7 +64,8 @@
         "components.full-width-cards",
         "components.documents",
         "components.job-posting",
-        "components.partner-logos"
+        "components.partner-logos",
+        "components.marketing-arguments"
       ],
       "required": true
     },

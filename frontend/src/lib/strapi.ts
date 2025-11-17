@@ -446,6 +446,27 @@ export async function fetchPageBySlug(
                 },
               },
             },
+            'components.marketing-arguments': {
+              populate: {
+                arguments: {
+                  populate: {
+                    icon: {
+                      fields: ['id'],
+                      populate: {
+                        icon: {
+                          fields: ['name'],
+                          populate: {
+                            image: {
+                              fields: ['url', 'alternativeText'],
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
           },
         },
         sidebar: {

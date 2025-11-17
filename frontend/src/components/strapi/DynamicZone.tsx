@@ -16,6 +16,7 @@ import FullWidthCards from '@/components/content/FullWidthCards';
 import Documents from '@/components/content/Documents';
 import JobPosting from '@/components/content/JobPosting';
 import PartnerLogos from '@/components/content/PartnerLogos';
+import MarketingArguments from '@/components/marketing/MarketingArguments';
 import { getStrapiMediaURL, getIconUrlById } from '@/lib/strapi';
 import {
   PageContentComponent,
@@ -30,6 +31,7 @@ import {
   ComponentsDocuments,
   ComponentsJobPosting,
   ComponentsPartnerLogos,
+  ComponentsMarketingArguments,
   ElementsTextLink,
   StrapiMedia,
 } from '@/types/strapi';
@@ -392,6 +394,41 @@ async function renderComponent(
           grayscale={partnerLogosComponent.grayscale}
           columns={columns}
           gap={gap}
+        />
+      );
+    }
+
+    case 'components.marketing-arguments': {
+      const marketingArgumentsComponent = component as ComponentsMarketingArguments;
+
+      // Transform Strapi data to MarketingArguments component props
+      const args = await Promise.all(marketingArgumentsComponent.arguments.map(async (arg) => {
+        // Get icon URL from cache by ID if display_type is Icon
+        const iconUrl = arg.display_type === 'Icon' && arg.icon?.icon?.id
+          ? await getIconUrlById(arg.icon.icon.id)
+          : null;
+
+        return {
+          icon: iconUrl,
+          number: arg.display_type === 'Number' ? (arg.number || undefined) : undefined,
+          title: arg.title,
+          description: arg.description,
+        };
+      }));
+
+      // Convert column enum to number
+      const columnMap: Record<string, 2 | 3 | 4> = {
+        'Two columns': 2,
+        'Three columns': 3,
+        'Four columns': 4,
+      };
+      const columns = columnMap[marketingArgumentsComponent.columns] || 3;
+
+      return (
+        <MarketingArguments
+          key={`${__component}-${component.id || index}`}
+          arguments={args}
+          columns={columns}
         />
       );
     }

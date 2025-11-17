@@ -225,6 +225,18 @@ export interface ComponentsPartnerLogos {
   gap: 'Small spacing' | 'Medium spacing' | 'Large spacing';
 }
 
+/**
+ * Components: Marketing Arguments
+ * Location: strapi/src/components/components/marketing-arguments.json
+ * Usage: Grid of marketing arguments with icons or numbers, titles, and descriptions
+ */
+export interface ComponentsMarketingArguments {
+  id: number;
+  __component: 'components.marketing-arguments';
+  arguments: ElementsMarketingArgument[];
+  columns: 'Two columns' | 'Three columns' | 'Four columns';
+}
+
 // ============================================================================
 // Strapi Elements (embedded in other components, never standalone)
 // ============================================================================
@@ -349,6 +361,23 @@ export interface ElementsPartnerLogo {
   url: string;
 }
 
+/**
+ * Elements: Marketing Argument
+ * Location: strapi/src/components/elements/marketing-argument.json
+ * Usage: Individual marketing argument with icon or number, title, and description
+ *
+ * IMPORTANT: Either icon OR number should be provided based on display_type
+ */
+export interface ElementsMarketingArgument {
+  id: number;
+  __component?: 'elements.marketing-argument';
+  display_type: 'Icon' | 'Number';
+  icon?: ElementsIcon;  // Optional icon component (elements.icon) - required if display_type = Icon
+  number?: string | null;  // e.g., "15+", "100%" - required if display_type = Number
+  title: string;
+  description: string;
+}
+
 // ============================================================================
 // Dynamic Zone Union Types
 // ============================================================================
@@ -356,7 +385,7 @@ export interface ElementsPartnerLogo {
 /**
  * Page content dynamic zone - all components that can appear in page content area
  */
-export type PageContentComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsLinksList | ComponentsVideo | ComponentsServiceCards | ComponentsFullWidthCards | ComponentsDocuments | ComponentsJobPosting | ComponentsPartnerLogos;
+export type PageContentComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsLinksList | ComponentsVideo | ComponentsServiceCards | ComponentsFullWidthCards | ComponentsDocuments | ComponentsJobPosting | ComponentsPartnerLogos | ComponentsMarketingArguments;
 
 /**
  * Page sidebar dynamic zone - all components that can appear in page sidebar

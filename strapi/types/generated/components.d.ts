@@ -94,6 +94,22 @@ export interface ComponentsLinksList extends Struct.ComponentSchema {
   };
 }
 
+export interface ComponentsMarketingArguments extends Struct.ComponentSchema {
+  collectionName: 'components_components_marketing_arguments';
+  info: {
+    displayName: 'marketing-arguments';
+    icon: 'apps';
+  };
+  attributes: {
+    arguments: Schema.Attribute.Component<'elements.marketing-argument', true> &
+      Schema.Attribute.Required;
+    columns: Schema.Attribute.Enumeration<
+      ['Two columns', 'Three columns', 'Four columns']
+    > &
+      Schema.Attribute.DefaultTo<'Three columns'>;
+  };
+}
+
 export interface ComponentsPartnerLogos extends Struct.ComponentSchema {
   collectionName: 'components_components_partner_logos';
   info: {
@@ -216,6 +232,22 @@ export interface ElementsLink extends Struct.ComponentSchema {
   };
 }
 
+export interface ElementsMarketingArgument extends Struct.ComponentSchema {
+  collectionName: 'components_elements_marketing_arguments';
+  info: {
+    displayName: 'marketing-argument';
+    icon: 'bulletList';
+  };
+  attributes: {
+    description: Schema.Attribute.Text & Schema.Attribute.Required;
+    display_type: Schema.Attribute.Enumeration<['Icon', 'Number']> &
+      Schema.Attribute.Required;
+    icon: Schema.Attribute.Component<'elements.icon', false>;
+    number: Schema.Attribute.String;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
 export interface ElementsPartnerLogo extends Struct.ComponentSchema {
   collectionName: 'components_elements_partner_logos';
   info: {
@@ -268,6 +300,7 @@ declare module '@strapi/strapi' {
       'components.heading': ComponentsHeading;
       'components.job-posting': ComponentsJobPosting;
       'components.links-list': ComponentsLinksList;
+      'components.marketing-arguments': ComponentsMarketingArguments;
       'components.partner-logos': ComponentsPartnerLogos;
       'components.service-cards': ComponentsServiceCards;
       'components.text': ComponentsText;
@@ -276,6 +309,7 @@ declare module '@strapi/strapi' {
       'elements.full-width-card': ElementsFullWidthCard;
       'elements.icon': ElementsIcon;
       'elements.link': ElementsLink;
+      'elements.marketing-argument': ElementsMarketingArgument;
       'elements.partner-logo': ElementsPartnerLogo;
       'elements.service-card': ElementsServiceCard;
       'elements.text-link': ElementsTextLink;
