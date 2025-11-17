@@ -1,16 +1,23 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 
+/**
+ * Slide item from Strapi (for CMS-driven pages)
+ */
 interface Slide {
   title: string;
   description: string;
-  linkText?: string;
-  linkUrl?: string;
-  image?: string;
-  backgroundImage?: string;
+  link?: {
+    text: string;
+    url: string;
+    external?: boolean;
+    disabled?: boolean;
+  } | null;
+  image?: string | null;
+  backgroundImage?: string | null;
 }
 
 interface SliderProps {
@@ -38,11 +45,12 @@ const Slider: React.FC<SliderProps> = ({
     setCurrentSlide(index);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (autoplay && slides.length > 1) {
       const interval = setInterval(nextSlide, autoplayInterval);
       return () => clearInterval(interval);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [autoplay, autoplayInterval, slides.length]);
 
   const slide = slides[currentSlide];
@@ -79,12 +87,14 @@ const Slider: React.FC<SliderProps> = ({
                 <p className="text-xl text-primary-100 mb-6 leading-relaxed">
                   {slide.description}
                 </p>
-                {slide.linkText && slide.linkUrl && (
+                {slide.link && !slide.link.disabled && (
                   <Link
-                    href={slide.linkUrl}
+                    href={slide.link.url}
+                    target={slide.link.external ? '_blank' : undefined}
+                    rel={slide.link.external ? 'noopener noreferrer' : undefined}
                     className="inline-flex items-center space-x-2 bg-white text-primary-600 px-6 py-3 rounded-lg font-semibold hover:bg-primary-50 transition-colors group"
                   >
-                    <span>{slide.linkText}</span>
+                    <span>{slide.link.text}</span>
                     <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </Link>
                 )}

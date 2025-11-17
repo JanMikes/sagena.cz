@@ -278,14 +278,18 @@ export default function KomponentyPage() {
               {
                 title: 'Moderní zdravotní péče',
                 description: 'Poskytujeme komplexní služby s využitím nejnovější technologie',
-                linkText: 'Zjistit více',
-                linkUrl: '#',
+                link: {
+                  text: 'Zjistit více',
+                  url: '#',
+                },
               },
               {
                 title: 'Zkušený tým',
                 description: 'Naši lékaři mají dlouholeté zkušenosti ve svých oborech',
-                linkText: 'Náš tým',
-                linkUrl: '#',
+                link: {
+                  text: 'Náš tým',
+                  url: '#',
+                },
               },
             ]}
           />

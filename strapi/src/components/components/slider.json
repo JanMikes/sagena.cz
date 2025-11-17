@@ -1,0 +1,27 @@
+{
+  "collectionName": "components_components_sliders",
+  "info": {
+    "displayName": "slider",
+    "icon": "layer"
+  },
+  "options": {},
+  "attributes": {
+    "slides": {
+      "type": "component",
+      "component": "elements.slide",
+      "repeatable": true,
+      "required": true
+    },
+    "autoplay": {
+      "type": "boolean",
+      "default": false,
+      "required": false
+    },
+    "autoplay_interval": {
+      "type": "integer",
+      "default": 5000,
+      "required": false
+    }
+  },
+  "config": {}
+}

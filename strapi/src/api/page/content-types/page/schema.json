@@ -67,7 +67,8 @@
         "components.partner-logos",
         "components.marketing-arguments",
         "components.timeline",
-        "components.section-divider"
+        "components.section-divider",
+        "components.slider"
       ],
       "required": true
     },

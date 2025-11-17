@@ -13,7 +13,7 @@
 
 ---
 
-## ✅ Currently Integrated Components (13)
+## ✅ Currently Integrated Components (14)
 
 These components are already implemented in the dynamic zone:
 
@@ -30,10 +30,11 @@ These components are already implemented in the dynamic zone:
 11. **components.marketing-arguments** → MarketingArguments (uses `elements.marketing-argument`)
 12. **components.timeline** → Timeline (uses `elements.timeline-item`)
 13. **components.section-divider** → SectionDivider
+14. **components.slider** → Slider (uses `elements.slide`)
 
 ---
 
-## 🎯 Priority Components to Add (12)
+## 🎯 Priority Components to Add (11)
 
 ### 📄 CONTENT COMPONENTS (1)
 
@@ -53,40 +54,6 @@ These components are already implemented in the dynamic zone:
 | `text` | Text (long) | ✓ | ✗ | Article excerpt/preview |
 | `image` | Media (single) | ✗ | ✓ | Featured image (Strapi provides alt text, dimensions, url) |
 | `read_more_link` | Component (single) | ✓ | ✗ | Use `elements.text-link` (includes text + target, default text: "Číst více") |
-
----
-
-### 🎯 MARKETING COMPONENTS (1)
-
----
-
-#### 7. Slider (components.slider) ⚠️
-
-**Client Component:** Uses React hooks for navigation
-**Location:** `/frontend/src/components/marketing/Slider.tsx`
-
-**Fields:**
-
-| Field Name | Type | Required | Nullable | Notes |
-|------------|------|----------|----------|-------|
-| `slides` | Component (repeatable) 📦 | ✓ | ✗ | Array of slide items |
-
-**Repeatable Component: `elements.slide`**
-
-| Field Name | Type | Required | Nullable | Notes |
-|------------|------|----------|----------|-------|
-| `title` | Text (short) | ✓ | ✗ | Slide headline |
-| `description` | Text (long) | ✓ | ✗ | Slide content |
-| `link` | Component (single) | ✗ | ✓ | Use `elements.text-link` (includes text + target) |
-| `image` | Media (single) | ✗ | ✓ | Foreground image (Strapi provides dimensions, url) |
-| `background_image` | Media (single) | ✗ | ✓ | Background image (Strapi provides dimensions, url) |
-
-**Settings:**
-
-| Field Name | Type | Required | Nullable | Options |
-|------------|------|----------|----------|---------|
-| `autoplay` | Boolean | ✗ | ✗ | Default: false (Autoplay enabled / Autoplay disabled) |
-| `autoplay_interval` | Number | ✗ | ✓ | Default: 5000 (milliseconds) |
 
 ---
 
@@ -405,7 +372,7 @@ Before creating the main components, define these reusable elements:
 5. **elements.partner-logo** - Already exists ✅ (name, logo [media], url)
 6. **elements.marketing-argument** - Already exists ✅ (display_type, icon/number, title, description)
 7. **elements.timeline-item** - Already exists ✅ (display_type, icon/number, title, description)
-8. **elements.slide** - For slider (title, description, link, image [media], background_image [media])
+8. **elements.slide** - Already exists ✅ (title, description, link, image [media], background_image [media])
 9. **elements.photo** - For photo gallery and gallery slider (image [media only])
 10. **elements.opening-hours** - For doctor profile (day, time)
 11. **elements.direction-step** - For directions (icon, floor, text)
@@ -424,12 +391,12 @@ Before creating the main components, define these reusable elements:
 5. ✅ Marketing Arguments (COMPLETED)
 6. ✅ Timeline (COMPLETED)
 7. ✅ Section Divider (COMPLETED)
-8. Contact Card
-9. News Article
-10. Button Group
-11. Photo Gallery
-12. Gallery Slider
-13. Slider
+8. ✅ Slider (COMPLETED)
+9. Contact Card
+10. News Article
+11. Button Group
+12. Photo Gallery
+13. Gallery Slider
 14. Directions
 15. Doctor Profile
 16. Expandable Section

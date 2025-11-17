@@ -261,6 +261,19 @@ export interface ComponentsSectionDivider {
   color: 'Gray' | 'Primary blue';
 }
 
+/**
+ * Components: Slider
+ * Location: strapi/src/components/components/slider.json
+ * Usage: Slider/carousel component with multiple slides, autoplay settings
+ */
+export interface ComponentsSlider {
+  id: number;
+  __component: 'components.slider';
+  slides: ElementsSlide[];
+  autoplay: boolean;
+  autoplay_interval?: number | null;
+}
+
 // ============================================================================
 // Strapi Elements (embedded in other components, never standalone)
 // ============================================================================
@@ -419,6 +432,39 @@ export interface ElementsTimelineItem {
   description: string;
 }
 
+/**
+ * Elements: Slide
+ * Location: strapi/src/components/elements/slide.json
+ * Usage: Individual slide with title, description, optional link, and images
+ *
+ * IMPORTANT: Strapi returns relations directly (no .data wrapper)
+ */
+export interface ElementsSlide {
+  id: number;
+  __component?: 'elements.slide';
+  title: string;
+  description: string;
+  link?: ElementsTextLink | null;  // Optional link
+  image?: {
+    id: number;
+    documentId: string;
+    url: string;
+    name: string;
+    alternativeText?: string | null;
+    width?: number;
+    height?: number;
+  } | null;
+  background_image?: {
+    id: number;
+    documentId: string;
+    url: string;
+    name: string;
+    alternativeText?: string | null;
+    width?: number;
+    height?: number;
+  } | null;
+}
+
 // ============================================================================
 // Dynamic Zone Union Types
 // ============================================================================
@@ -426,7 +472,7 @@ export interface ElementsTimelineItem {
 /**
  * Page content dynamic zone - all components that can appear in page content area
  */
-export type PageContentComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsLinksList | ComponentsVideo | ComponentsServiceCards | ComponentsFullWidthCards | ComponentsDocuments | ComponentsJobPosting | ComponentsPartnerLogos | ComponentsMarketingArguments | ComponentsTimeline | ComponentsSectionDivider;
+export type PageContentComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsLinksList | ComponentsVideo | ComponentsServiceCards | ComponentsFullWidthCards | ComponentsDocuments | ComponentsJobPosting | ComponentsPartnerLogos | ComponentsMarketingArguments | ComponentsTimeline | ComponentsSectionDivider | ComponentsSlider;
 
 /**
  * Page sidebar dynamic zone - all components that can appear in page sidebar

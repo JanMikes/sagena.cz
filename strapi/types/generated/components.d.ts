@@ -179,6 +179,21 @@ export interface ComponentsServiceCards extends Struct.ComponentSchema {
   };
 }
 
+export interface ComponentsSlider extends Struct.ComponentSchema {
+  collectionName: 'components_components_sliders';
+  info: {
+    displayName: 'slider';
+    icon: 'layer';
+  };
+  attributes: {
+    autoplay: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    autoplay_interval: Schema.Attribute.Integer &
+      Schema.Attribute.DefaultTo<5000>;
+    slides: Schema.Attribute.Component<'elements.slide', true> &
+      Schema.Attribute.Required;
+  };
+}
+
 export interface ComponentsText extends Struct.ComponentSchema {
   collectionName: 'components_components_texts';
   info: {
@@ -313,6 +328,21 @@ export interface ElementsServiceCard extends Struct.ComponentSchema {
   };
 }
 
+export interface ElementsSlide extends Struct.ComponentSchema {
+  collectionName: 'components_elements_slides';
+  info: {
+    displayName: 'slide';
+    icon: 'picture';
+  };
+  attributes: {
+    background_image: Schema.Attribute.Media<'images'>;
+    description: Schema.Attribute.Text & Schema.Attribute.Required;
+    image: Schema.Attribute.Media<'images'>;
+    link: Schema.Attribute.Component<'elements.text-link', false>;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
 export interface ElementsTextLink extends Struct.ComponentSchema {
   collectionName: 'components_elements_text_links';
   info: {
@@ -358,6 +388,7 @@ declare module '@strapi/strapi' {
       'components.partner-logos': ComponentsPartnerLogos;
       'components.section-divider': ComponentsSectionDivider;
       'components.service-cards': ComponentsServiceCards;
+      'components.slider': ComponentsSlider;
       'components.text': ComponentsText;
       'components.timeline': ComponentsTimeline;
       'components.video': ComponentsVideo;
@@ -368,6 +399,7 @@ declare module '@strapi/strapi' {
       'elements.marketing-argument': ElementsMarketingArgument;
       'elements.partner-logo': ElementsPartnerLogo;
       'elements.service-card': ElementsServiceCard;
+      'elements.slide': ElementsSlide;
       'elements.text-link': ElementsTextLink;
       'elements.timeline-item': ElementsTimelineItem;
     }

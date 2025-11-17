@@ -19,6 +19,7 @@ import PartnerLogos from '@/components/content/PartnerLogos';
 import MarketingArguments from '@/components/marketing/MarketingArguments';
 import Timeline from '@/components/marketing/Timeline';
 import SectionDivider from '@/components/layout/SectionDivider';
+import Slider from '@/components/marketing/Slider';
 import { getStrapiMediaURL, getIconUrlById } from '@/lib/strapi';
 import {
   PageContentComponent,
@@ -36,6 +37,7 @@ import {
   ComponentsMarketingArguments,
   ComponentsTimeline,
   ComponentsSectionDivider,
+  ComponentsSlider,
   ElementsTextLink,
   StrapiMedia,
 } from '@/types/strapi';
@@ -472,6 +474,51 @@ async function renderComponent(
           spacing={sectionDividerComponent.spacing}
           style={sectionDividerComponent.style}
           color={sectionDividerComponent.color}
+        />
+      );
+    }
+
+    case 'components.slider': {
+      const sliderComponent = component as ComponentsSlider;
+
+      // Transform Strapi data to component props
+      const slides = sliderComponent.slides.map((slide) => {
+        // Extract image URLs from Strapi media
+        const imageUrl = slide.image?.url
+          ? getStrapiMediaURL(slide.image.url)
+          : null;
+
+        const backgroundImageUrl = slide.background_image?.url
+          ? getStrapiMediaURL(slide.background_image.url)
+          : null;
+
+        // Resolve link (optional for slides)
+        let link = null;
+        if (slide.link) {
+          const resolved = resolveTextLink(slide.link);
+          link = {
+            text: slide.link.text,
+            url: resolved.url,
+            external: resolved.external,
+            disabled: resolved.disabled,
+          };
+        }
+
+        return {
+          title: slide.title,
+          description: slide.description,
+          link,
+          image: imageUrl,
+          backgroundImage: backgroundImageUrl,
+        };
+      });
+
+      return (
+        <Slider
+          key={`${__component}-${component.id || index}`}
+          slides={slides}
+          autoplay={sliderComponent.autoplay}
+          autoplayInterval={sliderComponent.autoplay_interval || 5000}
         />
       );
     }

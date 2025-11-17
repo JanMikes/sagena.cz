@@ -483,6 +483,19 @@ export async function fetchPageBySlug(
               },
             },
             'components.section-divider': { populate: '*' },
+            'components.slider': {
+              populate: {
+                slides: {
+                  populate: {
+                    link: {
+                      populate: ['page', 'file'],
+                    },
+                    image: true,
+                    background_image: true,
+                  },
+                },
+              },
+            },
           },
         },
         sidebar: {
