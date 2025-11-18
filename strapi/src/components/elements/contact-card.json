@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_elements_contact_cards",
+  "info": {
+    "displayName": "contact-card",
+    "icon": "user"
+  },
+  "options": {},
+  "attributes": {
+    "person": {
+      "type": "component",
+      "component": "elements.person",
+      "repeatable": false,
+      "required": true
+    }
+  },
+  "config": {}
+}

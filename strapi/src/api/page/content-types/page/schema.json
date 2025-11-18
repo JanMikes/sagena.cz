@@ -73,7 +73,9 @@
         "components.photo-gallery",
         "components.directions",
         "components.expandable-section",
-        "components.button-group"
+        "components.button-group",
+        "components.contact-cards",
+        "components.doctor-profile"
       ],
       "required": true
     },

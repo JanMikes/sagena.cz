@@ -25,6 +25,8 @@ import PhotoGallery from '@/components/media/PhotoGallery';
 import Directions from '@/components/layout/Directions';
 import ExpandableSection from '@/components/interactive/ExpandableSection';
 import ButtonGroup from '@/components/layout/ButtonGroup';
+import ContactCards from '@/components/people/ContactCards';
+import DoctorProfile from '@/components/people/DoctorProfile';
 import { getStrapiMediaURL, getIconUrlById } from '@/lib/strapi';
 import {
   PageContentComponent,
@@ -48,6 +50,8 @@ import {
   ComponentsDirections,
   ComponentsExpandableSection,
   ComponentsButtonGroup,
+  ComponentsContactCards,
+  ComponentsDoctorProfile,
   ElementsTextLink,
   StrapiMedia,
 } from '@/types/strapi';
@@ -683,6 +687,73 @@ async function renderComponent(
           buttons={buttons}
           alignment={alignmentMap[buttonGroupComponent.alignment] || 'left'}
           spacing={spacingMap[buttonGroupComponent.spacing] || 'medium'}
+        />
+      );
+    }
+
+    case 'components.contact-cards': {
+      const contactCardsComponent = component as ComponentsContactCards;
+
+      // Transform Strapi contact cards to component format
+      const cards = contactCardsComponent.cards.map((card) => {
+        const person = card.person?.person;
+
+        // Extract photo URL from person if available
+        const photoUrl = person?.photo?.attributes?.url
+          ? getStrapiMediaURL(person.photo.attributes.url)
+          : null;
+
+        return {
+          name: person?.name || '',
+          email: person?.email || null,
+          phone: person?.phone || null,
+          photo: photoUrl,
+          gender: person?.gender || null,
+        };
+      });
+
+      return (
+        <ContactCards
+          key={`${__component}-${component.id || index}`}
+          cards={cards}
+        />
+      );
+    }
+
+    case 'components.doctor-profile': {
+      const doctorProfileComponent = component as ComponentsDoctorProfile;
+      const profile = doctorProfileComponent.profile;
+      const person = profile.person?.person;
+
+      // Extract photo URL from person if available
+      const photoUrl = person?.photo?.attributes?.url
+        ? getStrapiMediaURL(person.photo.attributes.url)
+        : undefined;
+
+      // Transform opening hours
+      const openingHours = profile.openingHours?.map((hours) => ({
+        day: hours.day,
+        time: hours.time,
+      })) || [];
+
+      // Transform holiday
+      const holiday = profile.holiday ? {
+        from: profile.holiday.from,
+        to: profile.holiday.to,
+      } : undefined;
+
+      return (
+        <DoctorProfile
+          key={`${__component}-${component.id || index}`}
+          ambulanceTitle={profile.ambulanceTitle || undefined}
+          photo={photoUrl}
+          name={person?.name || ''}
+          department={profile.department}
+          positions={profile.positions || []}
+          phones={profile.phones || []}
+          emails={profile.emails || []}
+          openingHours={openingHours}
+          holiday={holiday}
         />
       );
     }

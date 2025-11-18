@@ -37,6 +37,18 @@ export interface ComponentsButtonGroup extends Struct.ComponentSchema {
   };
 }
 
+export interface ComponentsContactCards extends Struct.ComponentSchema {
+  collectionName: 'components_components_contact_cards';
+  info: {
+    displayName: 'contact-cards';
+    icon: 'user';
+  };
+  attributes: {
+    cards: Schema.Attribute.Component<'elements.contact-card', true> &
+      Schema.Attribute.Required;
+  };
+}
+
 export interface ComponentsDirections extends Struct.ComponentSchema {
   collectionName: 'components_components_directions';
   info: {
@@ -47,6 +59,18 @@ export interface ComponentsDirections extends Struct.ComponentSchema {
     instructions: Schema.Attribute.Component<'elements.direction-step', true> &
       Schema.Attribute.Required;
     title: Schema.Attribute.String;
+  };
+}
+
+export interface ComponentsDoctorProfile extends Struct.ComponentSchema {
+  collectionName: 'components_components_doctor_profiles';
+  info: {
+    displayName: 'doctor-profile';
+    icon: 'user';
+  };
+  attributes: {
+    profile: Schema.Attribute.Component<'elements.doctor-profile', false> &
+      Schema.Attribute.Required;
   };
 }
 
@@ -328,6 +352,18 @@ export interface ElementsButton extends Struct.ComponentSchema {
   };
 }
 
+export interface ElementsContactCard extends Struct.ComponentSchema {
+  collectionName: 'components_elements_contact_cards';
+  info: {
+    displayName: 'contact-card';
+    icon: 'user';
+  };
+  attributes: {
+    person: Schema.Attribute.Component<'elements.person', false> &
+      Schema.Attribute.Required;
+  };
+}
+
 export interface ElementsDirectionStep extends Struct.ComponentSchema {
   collectionName: 'components_elements_direction_steps';
   info: {
@@ -338,6 +374,25 @@ export interface ElementsDirectionStep extends Struct.ComponentSchema {
     floor: Schema.Attribute.String;
     icon: Schema.Attribute.Relation<'oneToOne', 'api::icon.icon'>;
     text: Schema.Attribute.Text & Schema.Attribute.Required;
+  };
+}
+
+export interface ElementsDoctorProfile extends Struct.ComponentSchema {
+  collectionName: 'components_elements_doctor_profiles';
+  info: {
+    displayName: 'doctor-profile';
+    icon: 'user';
+  };
+  attributes: {
+    ambulanceTitle: Schema.Attribute.String;
+    department: Schema.Attribute.String & Schema.Attribute.Required;
+    emails: Schema.Attribute.JSON;
+    holiday: Schema.Attribute.Component<'elements.holiday', false>;
+    openingHours: Schema.Attribute.Component<'elements.opening-hours', true>;
+    person: Schema.Attribute.Component<'elements.person', false> &
+      Schema.Attribute.Required;
+    phones: Schema.Attribute.JSON;
+    positions: Schema.Attribute.JSON;
   };
 }
 
@@ -382,6 +437,18 @@ export interface ElementsFullWidthCard extends Struct.ComponentSchema {
   };
 }
 
+export interface ElementsHoliday extends Struct.ComponentSchema {
+  collectionName: 'components_elements_holidays';
+  info: {
+    displayName: 'holiday';
+    icon: 'plane';
+  };
+  attributes: {
+    from: Schema.Attribute.Date & Schema.Attribute.Required;
+    to: Schema.Attribute.Date & Schema.Attribute.Required;
+  };
+}
+
 export interface ElementsIcon extends Struct.ComponentSchema {
   collectionName: 'components_elements_icons';
   info: {
@@ -423,6 +490,18 @@ export interface ElementsMarketingArgument extends Struct.ComponentSchema {
   };
 }
 
+export interface ElementsOpeningHours extends Struct.ComponentSchema {
+  collectionName: 'components_elements_opening_hours';
+  info: {
+    displayName: 'opening-hours';
+    icon: 'clock';
+  };
+  attributes: {
+    day: Schema.Attribute.String & Schema.Attribute.Required;
+    time: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
 export interface ElementsPartnerLogo extends Struct.ComponentSchema {
   collectionName: 'components_elements_partner_logos';
   info: {
@@ -433,6 +512,17 @@ export interface ElementsPartnerLogo extends Struct.ComponentSchema {
     logo: Schema.Attribute.Media<'images'> & Schema.Attribute.Required;
     name: Schema.Attribute.String & Schema.Attribute.Required;
     url: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface ElementsPerson extends Struct.ComponentSchema {
+  collectionName: 'components_elements_people';
+  info: {
+    displayName: 'person';
+    icon: 'user';
+  };
+  attributes: {
+    person: Schema.Attribute.Relation<'oneToOne', 'api::person.person'>;
   };
 }
 
@@ -513,7 +603,9 @@ declare module '@strapi/strapi' {
     export interface ComponentSchemas {
       'components.alert': ComponentsAlert;
       'components.button-group': ComponentsButtonGroup;
+      'components.contact-cards': ComponentsContactCards;
       'components.directions': ComponentsDirections;
+      'components.doctor-profile': ComponentsDoctorProfile;
       'components.documents': ComponentsDocuments;
       'components.expandable-section': ComponentsExpandableSection;
       'components.full-width-cards': ComponentsFullWidthCards;
@@ -531,14 +623,19 @@ declare module '@strapi/strapi' {
       'components.timeline': ComponentsTimeline;
       'components.video': ComponentsVideo;
       'elements.button': ElementsButton;
+      'elements.contact-card': ElementsContactCard;
       'elements.direction-step': ElementsDirectionStep;
+      'elements.doctor-profile': ElementsDoctorProfile;
       'elements.document-item': ElementsDocumentItem;
       'elements.file-attachment': ElementsFileAttachment;
       'elements.full-width-card': ElementsFullWidthCard;
+      'elements.holiday': ElementsHoliday;
       'elements.icon': ElementsIcon;
       'elements.link': ElementsLink;
       'elements.marketing-argument': ElementsMarketingArgument;
+      'elements.opening-hours': ElementsOpeningHours;
       'elements.partner-logo': ElementsPartnerLogo;
+      'elements.person': ElementsPerson;
       'elements.photo': ElementsPhoto;
       'elements.service-card': ElementsServiceCard;
       'elements.slide': ElementsSlide;

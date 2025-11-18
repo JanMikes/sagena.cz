@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_components_doctor_profiles",
+  "info": {
+    "displayName": "doctor-profile",
+    "icon": "user"
+  },
+  "options": {},
+  "attributes": {
+    "profile": {
+      "type": "component",
+      "component": "elements.doctor-profile",
+      "repeatable": false,
+      "required": true
+    }
+  },
+  "config": {}
+}

@@ -339,6 +339,28 @@ export interface ComponentsButtonGroup {
   spacing: 'Small spacing' | 'Medium spacing' | 'Large spacing';
 }
 
+/**
+ * Components: Contact Cards
+ * Location: strapi/src/components/components/contact-cards.json
+ * Usage: Grid of contact cards displaying person information from Person content type
+ */
+export interface ComponentsContactCards {
+  id: number;
+  __component: 'components.contact-cards';
+  cards: ElementsContactCard[];  // Array of contact card items
+}
+
+/**
+ * Components: Doctor Profile
+ * Location: strapi/src/components/components/doctor-profile.json
+ * Usage: Doctor profile card with flip animation, person info, opening hours, and holiday notice
+ */
+export interface ComponentsDoctorProfile {
+  id: number;
+  __component: 'components.doctor-profile';
+  profile: ElementsDoctorProfile;  // Single doctor profile
+}
+
 // ============================================================================
 // Strapi Elements (embedded in other components, never standalone)
 // ============================================================================
@@ -596,6 +618,76 @@ export interface ElementsButton {
   size: 'Small' | 'Medium' | 'Large';
 }
 
+/**
+ * Elements: Person
+ * Location: strapi/src/components/elements/person.json
+ * Usage: Wrapper element that references a Person content type
+ *
+ * IMPORTANT: Strapi returns relations directly (no .data wrapper)
+ */
+export interface ElementsPerson {
+  id: number;
+  __component?: 'elements.person';
+  person?: Person;  // Relation to api::person.person content type
+}
+
+/**
+ * Elements: Opening Hours
+ * Location: strapi/src/components/elements/opening-hours.json
+ * Usage: Single day opening hours entry (day + time)
+ */
+export interface ElementsOpeningHours {
+  id: number;
+  __component?: 'elements.opening-hours';
+  day: string;  // Day name (e.g., "Pondělí")
+  time: string;  // Time range (e.g., "8:00 - 16:00")
+}
+
+/**
+ * Elements: Holiday
+ * Location: strapi/src/components/elements/holiday.json
+ * Usage: Holiday/vacation period with start and end dates
+ */
+export interface ElementsHoliday {
+  id: number;
+  __component?: 'elements.holiday';
+  from: string;  // Start date (ISO format)
+  to: string;    // End date (ISO format)
+}
+
+/**
+ * Elements: Contact Card
+ * Location: strapi/src/components/elements/contact-card.json
+ * Usage: Single contact card referencing a person
+ *
+ * IMPORTANT: Strapi returns relations directly (no .data wrapper)
+ */
+export interface ElementsContactCard {
+  id: number;
+  __component?: 'elements.contact-card';
+  person: ElementsPerson;  // Required person reference
+}
+
+/**
+ * Elements: Doctor Profile
+ * Location: strapi/src/components/elements/doctor-profile.json
+ * Usage: Complete doctor profile with person info, department, positions, contact details, and hours
+ *
+ * IMPORTANT: Strapi returns relations directly (no .data wrapper)
+ */
+export interface ElementsDoctorProfile {
+  id: number;
+  __component?: 'elements.doctor-profile';
+  person: ElementsPerson;  // Required person reference
+  ambulanceTitle?: string | null;  // Optional ambulance title
+  department: string;  // Required department name
+  positions?: string[] | null;  // Optional array of positions (JSON field)
+  phones?: string[] | null;  // Optional array of phone numbers (JSON field)
+  emails?: string[] | null;  // Optional array of email addresses (JSON field)
+  openingHours?: ElementsOpeningHours[];  // Optional array of opening hours
+  holiday?: ElementsHoliday | null;  // Optional holiday period
+}
+
 // ============================================================================
 // Dynamic Zone Union Types
 // ============================================================================
@@ -603,7 +695,7 @@ export interface ElementsButton {
 /**
  * Page content dynamic zone - all components that can appear in page content area
  */
-export type PageContentComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsLinksList | ComponentsVideo | ComponentsServiceCards | ComponentsFullWidthCards | ComponentsDocuments | ComponentsJobPosting | ComponentsPartnerLogos | ComponentsMarketingArguments | ComponentsTimeline | ComponentsSectionDivider | ComponentsSlider | ComponentsGallerySlider | ComponentsPhotoGallery | ComponentsDirections | ComponentsExpandableSection | ComponentsButtonGroup;
+export type PageContentComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsLinksList | ComponentsVideo | ComponentsServiceCards | ComponentsFullWidthCards | ComponentsDocuments | ComponentsJobPosting | ComponentsPartnerLogos | ComponentsMarketingArguments | ComponentsTimeline | ComponentsSectionDivider | ComponentsSlider | ComponentsGallerySlider | ComponentsPhotoGallery | ComponentsDirections | ComponentsExpandableSection | ComponentsButtonGroup | ComponentsContactCards | ComponentsDoctorProfile;
 
 /**
  * Page sidebar dynamic zone - all components that can appear in page sidebar
@@ -625,6 +717,26 @@ export interface Navigation {
   footer: boolean;  // Show in footer
   link: ElementsLink;
   locale?: string;
+  createdAt?: string;
+  updatedAt?: string;
+  publishedAt?: string;
+}
+
+/**
+ * Person
+ * Location: strapi/src/api/person/content-types/person/schema.json
+ * Usage: Person information (doctors, staff, contacts)
+ *
+ * IMPORTANT: Strapi returns media directly (no .data wrapper)
+ */
+export interface Person {
+  id: number;
+  documentId?: string;
+  name: string;  // Required full name
+  email?: string | null;  // Optional email address
+  phone?: string | null;  // Optional phone number
+  photo?: StrapiMedia | null;  // Optional photo (images only)
+  gender?: 'man' | 'woman' | null;  // Optional gender
   createdAt?: string;
   updatedAt?: string;
   publishedAt?: string;

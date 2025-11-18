@@ -1,0 +1,48 @@
+{
+  "collectionName": "components_elements_doctor_profiles",
+  "info": {
+    "displayName": "doctor-profile",
+    "icon": "user"
+  },
+  "options": {},
+  "attributes": {
+    "person": {
+      "type": "component",
+      "component": "elements.person",
+      "repeatable": false,
+      "required": true
+    },
+    "ambulanceTitle": {
+      "type": "string"
+    },
+    "department": {
+      "type": "string",
+      "required": true
+    },
+    "positions": {
+      "type": "json",
+      "required": false
+    },
+    "phones": {
+      "type": "json",
+      "required": false
+    },
+    "emails": {
+      "type": "json",
+      "required": false
+    },
+    "openingHours": {
+      "type": "component",
+      "component": "elements.opening-hours",
+      "repeatable": true,
+      "required": false
+    },
+    "holiday": {
+      "type": "component",
+      "component": "elements.holiday",
+      "repeatable": false,
+      "required": false
+    }
+  },
+  "config": {}
+}

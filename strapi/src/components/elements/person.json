@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_elements_people",
+  "info": {
+    "displayName": "person",
+    "icon": "user"
+  },
+  "options": {},
+  "attributes": {
+    "person": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::person.person"
+    }
+  },
+  "config": {}
+}

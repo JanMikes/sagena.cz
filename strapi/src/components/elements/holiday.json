@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_elements_holidays",
+  "info": {
+    "displayName": "holiday",
+    "icon": "plane"
+  },
+  "options": {},
+  "attributes": {
+    "from": {
+      "type": "date",
+      "required": true
+    },
+    "to": {
+      "type": "date",
+      "required": true
+    }
+  },
+  "config": {}
+}

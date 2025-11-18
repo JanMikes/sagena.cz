@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_elements_opening_hours",
+  "info": {
+    "displayName": "opening-hours",
+    "icon": "clock"
+  },
+  "options": {},
+  "attributes": {
+    "day": {
+      "type": "string",
+      "required": true
+    },
+    "time": {
+      "type": "string",
+      "required": true
+    }
+  },
+  "config": {}
+}

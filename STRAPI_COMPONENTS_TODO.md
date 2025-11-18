@@ -13,7 +13,7 @@
 
 ---
 
-## ✅ Currently Integrated Components (19)
+## ✅ Currently Integrated Components (21)
 
 These components are already implemented in the dynamic zone:
 
@@ -36,10 +36,12 @@ These components are already implemented in the dynamic zone:
 17. **components.directions** → Directions (uses `elements.direction-step`)
 18. **components.expandable-section** → ExpandableSection (uses `elements.file-attachment`)
 19. **components.button-group** → ButtonGroup (uses `elements.button`)
+20. **components.contact-cards** → ContactCards (uses `elements.contact-card`, `elements.person`)
+21. **components.doctor-profile** → DoctorProfile (uses `elements.doctor-profile`, `elements.person`, `elements.opening-hours`, `elements.holiday`)
 
 ---
 
-## 🎯 Priority Components to Add (6)
+## 🎯 Priority Components to Add (1)
 
 ### 📄 CONTENT COMPONENTS (1)
 
@@ -59,58 +61,6 @@ These components are already implemented in the dynamic zone:
 | `text` | Text (long) | ✓ | ✗ | Article excerpt/preview |
 | `image` | Media (single) | ✗ | ✓ | Featured image (Strapi provides alt text, dimensions, url) |
 | `read_more_link` | Component (single) | ✓ | ✗ | Use `elements.text-link` (includes text + target, default text: "Číst více") |
-
----
-
-### 👥 PEOPLE COMPONENTS (2)
-
----
-
-#### 10. Doctor Profile (components.doctor-profile) ⚠️
-
-**Component name:** DoctorProfile ✅ RENAMED
-**Client Component:** Uses React hooks for collapsible sections
-**Location:** `/frontend/src/components/people/DoctorProfile.tsx`
-
-**Fields:**
-
-| Field Name | Type | Required | Nullable | Notes |
-|------------|------|----------|----------|-------|
-| `ambulance_title` | Text (short) | ✗ | ✓ | Alternative title |
-| `photo` | Media (single) | ✗ | ✓ | Doctor photo (Strapi provides dimensions, url) |
-| `name` | Text (short) | ✓ | ✗ | Doctor name |
-| `department` | Text (short) | ✓ | ✗ | e.g., "Kardiologie" |
-| `positions` | Text (long) | ✓ | ✗ | Comma-separated or line-separated positions |
-| `phones` | Text (long) | ✗ | ✓ | Comma-separated phone numbers |
-| `emails` | Text (long) | ✗ | ✓ | Comma-separated emails |
-| `opening_hours` | Component (repeatable) 📦 | ✗ | ✓ | Array of opening hour entries |
-| `holiday_from` | Date | ✗ | ✓ | Holiday start date |
-| `holiday_to` | Date | ✗ | ✓ | Holiday end date |
-
-**Repeatable Component: `elements.opening-hours`**
-
-| Field Name | Type | Required | Nullable | Notes |
-|------------|------|----------|----------|-------|
-| `day` | Text (short) | ✓ | ✗ | e.g., "Pondělí" |
-| `time` | Text (short) | ✓ | ✗ | e.g., "8:00 - 16:00" |
-
-**Note:** Consider splitting `positions`, `phones`, `emails` into repeatable components for better structure in Strapi.
-
----
-
-#### 11. Contact Card (components.contact-card)
-
-**Component name:** ContactCard ✅ RENAMED
-**Location:** `/frontend/src/components/people/ContactCard.tsx`
-
-**Fields:**
-
-| Field Name | Type | Required | Nullable | Notes |
-|------------|------|----------|----------|-------|
-| `name` | Text (short) | ✓ | ✗ | Contact person name |
-| `email` | Email | ✗ | ✓ | Email address |
-| `phone` | Text (short) | ✗ | ✓ | Phone number |
-| `photo` | Media (single) | ✗ | ✓ | Contact photo (Strapi provides dimensions, url) |
 
 ---
 
@@ -231,23 +181,27 @@ Icons are rendered as `<Image>` components using Next.js Image optimization, wit
 
 ---
 
-### Reusable Elements (Create These First)
+### Reusable Elements (All Created ✅)
 
-Before creating the main components, define these reusable elements:
+All reusable elements have been created:
 
-1. **elements.text-link** - Already exists ✅ (text + link target: page/url/file/anchor + disabled flag)
-2. **elements.service-card** - Already exists ✅ (icon, title, description, link)
-3. **elements.full-width-card** - Already exists ✅ (icon, title, description, link - required)
-4. **elements.document-item** - Already exists ✅ (name, file [media - ext & size auto-extracted])
-5. **elements.partner-logo** - Already exists ✅ (name, logo [media], url)
-6. **elements.marketing-argument** - Already exists ✅ (display_type, icon/number, title, description)
-7. **elements.timeline-item** - Already exists ✅ (display_type, icon/number, title, description)
-8. **elements.slide** - Already exists ✅ (title, description, link, image [media], background_image [media])
-9. **elements.photo** - Already exists ✅ (image [media only])
-10. **elements.direction-step** - Already exists ✅ (icon, floor, text)
-11. **elements.file-attachment** - Already exists ✅ (name, file [media - ext & size auto-extracted])
-12. **elements.button** - Already exists ✅ (link, variant, size)
-13. **elements.opening-hours** - For doctor profile (day, time)
+1. **elements.text-link** ✅ (text + link target: page/url/file/anchor + disabled flag)
+2. **elements.service-card** ✅ (icon, title, description, link)
+3. **elements.full-width-card** ✅ (icon, title, description, link - required)
+4. **elements.document-item** ✅ (name, file [media - ext & size auto-extracted])
+5. **elements.partner-logo** ✅ (name, logo [media], url)
+6. **elements.marketing-argument** ✅ (display_type, icon/number, title, description)
+7. **elements.timeline-item** ✅ (display_type, icon/number, title, description)
+8. **elements.slide** ✅ (title, description, link, image [media], background_image [media])
+9. **elements.photo** ✅ (image [media only])
+10. **elements.direction-step** ✅ (icon, floor, text)
+11. **elements.file-attachment** ✅ (name, file [media - ext & size auto-extracted])
+12. **elements.button** ✅ (link, variant, size)
+13. **elements.contact-card** ✅ (person relation via elements.person)
+14. **elements.person** ✅ (relation to api::person.person content type)
+15. **elements.doctor-profile** ✅ (person, ambulanceTitle, department, positions, phones, emails, openingHours, holiday)
+16. **elements.opening-hours** ✅ (day, time)
+17. **elements.holiday** ✅ (from, to)
 
 ---
 
@@ -267,9 +221,9 @@ Before creating the main components, define these reusable elements:
 11. ✅ Directions (COMPLETED)
 12. ✅ Expandable Section (COMPLETED)
 13. ✅ Button Group (COMPLETED)
-14. Contact Card
-15. News Article
-16. Doctor Profile
+14. ✅ Contact Cards (COMPLETED)
+15. ✅ Doctor Profile (COMPLETED)
+16. News Article
 
 ---
 

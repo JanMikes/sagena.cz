@@ -547,6 +547,50 @@ export async function fetchPageBySlug(
                 },
               },
             },
+            'components.contact-cards': {
+              populate: {
+                cards: {
+                  populate: {
+                    person: {
+                      populate: {
+                        person: {
+                          populate: {
+                            photo: {
+                              fields: ['url', 'alternativeText', 'width', 'height'],
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            'components.doctor-profile': {
+              populate: {
+                profile: {
+                  populate: {
+                    person: {
+                      populate: {
+                        person: {
+                          populate: {
+                            photo: {
+                              fields: ['url', 'alternativeText', 'width', 'height'],
+                            },
+                          },
+                        },
+                      },
+                    },
+                    openingHours: {
+                      populate: '*',
+                    },
+                    holiday: {
+                      populate: '*',
+                    },
+                  },
+                },
+              },
+            },
           },
         },
         sidebar: {
