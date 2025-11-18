@@ -13,7 +13,7 @@
 
 ---
 
-## ✅ Currently Integrated Components (16)
+## ✅ Currently Integrated Components (17)
 
 These components are already implemented in the dynamic zone:
 
@@ -33,10 +33,11 @@ These components are already implemented in the dynamic zone:
 14. **components.slider** → Slider (uses `elements.slide`)
 15. **components.gallery-slider** → GallerySlider (uses `elements.photo`)
 16. **components.photo-gallery** → PhotoGallery (uses `elements.photo`)
+17. **components.directions** → Directions (uses `elements.direction-step`)
 
 ---
 
-## 🎯 Priority Components to Add (9)
+## 🎯 Priority Components to Add (8)
 
 ### 📄 CONTENT COMPONENTS (1)
 
@@ -111,33 +112,11 @@ These components are already implemented in the dynamic zone:
 
 ---
 
-### 🏗️ LAYOUT COMPONENTS (4)
+### 🏗️ LAYOUT COMPONENTS (3)
 
 ---
 
-#### 12. Directions (components.directions)
-
-**Component name:** Directions ✅ RENAMED
-**Location:** `/frontend/src/components/layout/Directions.tsx`
-
-**Fields:**
-
-| Field Name | Type | Required | Nullable | Notes |
-|------------|------|----------|----------|-------|
-| `title` | Text (short) | ✗ | ✓ | Default: "Jak nás najít" |
-| `instructions` | Component (repeatable) 📦 | ✓ | ✗ | Array of instruction steps |
-
-**Repeatable Component: `elements.direction-step`**
-
-| Field Name | Type | Required | Nullable | Options |
-|------------|------|----------|----------|---------|
-| `icon` | Relation 🔗 | ✗ | ✓ | oneToOne to api::icon.icon |
-| `floor` | Text (short) | ✗ | ✓ | e.g., "1. patro", "2. patro, č. 215" |
-| `text` | Text (long) | ✓ | ✗ | Instruction text |
-
----
-
-#### 13. Button Group (components.button-group)
+#### 12. Button Group (components.button-group)
 
 **Component name:** ButtonGroup ✅ RENAMED
 **Location:** `/frontend/src/components/layout/ButtonGroup.tsx`
@@ -328,8 +307,8 @@ Before creating the main components, define these reusable elements:
 7. **elements.timeline-item** - Already exists ✅ (display_type, icon/number, title, description)
 8. **elements.slide** - Already exists ✅ (title, description, link, image [media], background_image [media])
 9. **elements.photo** - Already exists ✅ (image [media only])
-10. **elements.opening-hours** - For doctor profile (day, time)
-11. **elements.direction-step** - For directions (icon, floor, text)
+10. **elements.direction-step** - Already exists ✅ (icon, floor, text)
+11. **elements.opening-hours** - For doctor profile (day, time)
 12. **elements.button** - For button group (link, variant, size)
 13. **elements.file-attachment** - For expandable section (name, file [media - ext & size auto-extracted])
 
@@ -348,10 +327,10 @@ Before creating the main components, define these reusable elements:
 8. ✅ Slider (COMPLETED)
 9. ✅ Gallery Slider (COMPLETED)
 10. ✅ Photo Gallery (COMPLETED)
-11. Contact Card
-12. News Article
-13. Button Group
-14. Directions
+11. ✅ Directions (COMPLETED)
+12. Contact Card
+13. News Article
+14. Button Group
 15. Doctor Profile
 16. Expandable Section
 

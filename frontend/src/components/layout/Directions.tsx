@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 interface Instruction {
   icon?: string | null;  // Icon image URL
-  floor?: string;
+  floor?: string | null;
   text: string;
 }
 
@@ -23,7 +23,8 @@ const Directions: React.FC<DirectionsProps> = ({
         {instructions.map((instruction, index) => {
           return (
             <div key={index} className="flex items-start space-x-4">
-              {instruction.icon && (
+              {/* Icon or Step Number */}
+              {instruction.icon ? (
                 <div className="flex items-center justify-center w-12 h-12 bg-primary-100 rounded-lg flex-shrink-0">
                   <Image
                     src={instruction.icon}
@@ -32,6 +33,12 @@ const Directions: React.FC<DirectionsProps> = ({
                     height={24}
                     className="w-6 h-6 object-contain"
                   />
+                </div>
+              ) : (
+                <div className="flex items-center justify-center w-12 h-12 bg-primary-100 rounded-lg flex-shrink-0">
+                  <span className="text-xl font-bold text-primary-600">
+                    {index + 1}
+                  </span>
                 </div>
               )}
               <div className="flex-1 pt-2">

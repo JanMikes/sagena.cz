@@ -17,6 +17,19 @@ export interface ComponentsAlert extends Struct.ComponentSchema {
   };
 }
 
+export interface ComponentsDirections extends Struct.ComponentSchema {
+  collectionName: 'components_components_directions';
+  info: {
+    displayName: 'directions';
+    icon: 'compass';
+  };
+  attributes: {
+    instructions: Schema.Attribute.Component<'elements.direction-step', true> &
+      Schema.Attribute.Required;
+    title: Schema.Attribute.String;
+  };
+}
+
 export interface ComponentsDocuments extends Struct.ComponentSchema {
   collectionName: 'components_components_documents';
   info: {
@@ -260,6 +273,19 @@ export interface ComponentsVideo extends Struct.ComponentSchema {
   };
 }
 
+export interface ElementsDirectionStep extends Struct.ComponentSchema {
+  collectionName: 'components_elements_direction_steps';
+  info: {
+    displayName: 'direction-step';
+    icon: 'arrowRight';
+  };
+  attributes: {
+    floor: Schema.Attribute.String;
+    icon: Schema.Attribute.Relation<'oneToOne', 'api::icon.icon'>;
+    text: Schema.Attribute.Text & Schema.Attribute.Required;
+  };
+}
+
 export interface ElementsDocumentItem extends Struct.ComponentSchema {
   collectionName: 'components_elements_document_items';
   info: {
@@ -418,6 +444,7 @@ declare module '@strapi/strapi' {
   export module Public {
     export interface ComponentSchemas {
       'components.alert': ComponentsAlert;
+      'components.directions': ComponentsDirections;
       'components.documents': ComponentsDocuments;
       'components.full-width-cards': ComponentsFullWidthCards;
       'components.gallery-slider': ComponentsGallerySlider;
@@ -433,6 +460,7 @@ declare module '@strapi/strapi' {
       'components.text': ComponentsText;
       'components.timeline': ComponentsTimeline;
       'components.video': ComponentsVideo;
+      'elements.direction-step': ElementsDirectionStep;
       'elements.document-item': ElementsDocumentItem;
       'elements.full-width-card': ElementsFullWidthCard;
       'elements.icon': ElementsIcon;

@@ -1,0 +1,23 @@
+{
+  "collectionName": "components_elements_direction_steps",
+  "info": {
+    "displayName": "direction-step",
+    "icon": "arrowRight"
+  },
+  "options": {},
+  "attributes": {
+    "icon": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::icon.icon"
+    },
+    "floor": {
+      "type": "string"
+    },
+    "text": {
+      "type": "text",
+      "required": true
+    }
+  },
+  "config": {}
+}

@@ -22,6 +22,7 @@ import SectionDivider from '@/components/layout/SectionDivider';
 import Slider from '@/components/marketing/Slider';
 import GallerySlider from '@/components/media/GallerySlider';
 import PhotoGallery from '@/components/media/PhotoGallery';
+import Directions from '@/components/layout/Directions';
 import { getStrapiMediaURL, getIconUrlById } from '@/lib/strapi';
 import {
   PageContentComponent,
@@ -42,6 +43,7 @@ import {
   ComponentsSlider,
   ComponentsGallerySlider,
   ComponentsPhotoGallery,
+  ComponentsDirections,
   ElementsTextLink,
   StrapiMedia,
 } from '@/types/strapi';
@@ -571,6 +573,32 @@ async function renderComponent(
           key={`${__component}-${component.id || index}`}
           photos={photos}
           columns={columns}
+        />
+      );
+    }
+
+    case 'components.directions': {
+      const directionsComponent = component as ComponentsDirections;
+
+      // Transform Strapi data to component props
+      const instructions = directionsComponent.instructions.map((step) => {
+        // Extract icon URL from Strapi media relation
+        const iconUrl = step.icon?.image?.url
+          ? getStrapiMediaURL(step.icon.image.url)
+          : null;
+
+        return {
+          icon: iconUrl,
+          floor: step.floor || null,
+          text: step.text,
+        };
+      });
+
+      return (
+        <Directions
+          key={`${__component}-${component.id || index}`}
+          title={directionsComponent.title || undefined}
+          instructions={instructions}
         />
       );
     }

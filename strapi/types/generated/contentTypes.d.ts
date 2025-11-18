@@ -549,6 +549,7 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
         'components.slider',
         'components.gallery-slider',
         'components.photo-gallery',
+        'components.directions',
       ]
     > &
       Schema.Attribute.Required &

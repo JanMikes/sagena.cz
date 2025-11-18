@@ -70,7 +70,8 @@
         "components.section-divider",
         "components.slider",
         "components.gallery-slider",
-        "components.photo-gallery"
+        "components.photo-gallery",
+        "components.directions"
       ],
       "required": true
     },

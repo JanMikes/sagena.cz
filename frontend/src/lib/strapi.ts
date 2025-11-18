@@ -518,6 +518,17 @@ export async function fetchPageBySlug(
                 },
               },
             },
+            'components.directions': {
+              populate: {
+                instructions: {
+                  populate: {
+                    icon: {
+                      populate: ['image'],
+                    },
+                  },
+                },
+              },
+            },
           },
         },
         sidebar: {

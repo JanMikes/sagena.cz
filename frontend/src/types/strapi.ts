@@ -297,6 +297,18 @@ export interface ComponentsPhotoGallery {
   columns: 'Two columns' | 'Three columns' | 'Four columns';
 }
 
+/**
+ * Components: Directions
+ * Location: strapi/src/components/components/directions.json
+ * Usage: Navigation directions component with repeatable direction steps
+ */
+export interface ComponentsDirections {
+  id: number;
+  __component: 'components.directions';
+  title?: string | null;  // Optional title (default: "Jak nás najít")
+  instructions: ElementsDirectionStep[];  // Required array of direction steps
+}
+
 // ============================================================================
 // Strapi Elements (embedded in other components, never standalone)
 // ============================================================================
@@ -510,6 +522,21 @@ export interface ElementsPhoto {
   };
 }
 
+/**
+ * Elements: Direction Step
+ * Location: strapi/src/components/elements/direction-step.json
+ * Usage: Individual direction step with optional icon, floor info, and instruction text
+ *
+ * IMPORTANT: Strapi returns relations directly (no .data wrapper)
+ */
+export interface ElementsDirectionStep {
+  id: number;
+  __component?: 'elements.direction-step';
+  icon?: Icon;  // Optional icon relation (oneToOne to api::icon.icon)
+  floor?: string | null;  // Floor information (e.g., "1. patro", "2. patro, č. 215")
+  text: string;  // Required instruction text
+}
+
 // ============================================================================
 // Dynamic Zone Union Types
 // ============================================================================
@@ -517,7 +544,7 @@ export interface ElementsPhoto {
 /**
  * Page content dynamic zone - all components that can appear in page content area
  */
-export type PageContentComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsLinksList | ComponentsVideo | ComponentsServiceCards | ComponentsFullWidthCards | ComponentsDocuments | ComponentsJobPosting | ComponentsPartnerLogos | ComponentsMarketingArguments | ComponentsTimeline | ComponentsSectionDivider | ComponentsSlider | ComponentsGallerySlider | ComponentsPhotoGallery;
+export type PageContentComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsLinksList | ComponentsVideo | ComponentsServiceCards | ComponentsFullWidthCards | ComponentsDocuments | ComponentsJobPosting | ComponentsPartnerLogos | ComponentsMarketingArguments | ComponentsTimeline | ComponentsSectionDivider | ComponentsSlider | ComponentsGallerySlider | ComponentsPhotoGallery | ComponentsDirections;
 
 /**
  * Page sidebar dynamic zone - all components that can appear in page sidebar
