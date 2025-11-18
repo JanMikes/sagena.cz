@@ -24,6 +24,7 @@ import GallerySlider from '@/components/media/GallerySlider';
 import PhotoGallery from '@/components/media/PhotoGallery';
 import Directions from '@/components/layout/Directions';
 import ExpandableSection from '@/components/interactive/ExpandableSection';
+import ButtonGroup from '@/components/layout/ButtonGroup';
 import { getStrapiMediaURL, getIconUrlById } from '@/lib/strapi';
 import {
   PageContentComponent,
@@ -46,6 +47,7 @@ import {
   ComponentsPhotoGallery,
   ComponentsDirections,
   ComponentsExpandableSection,
+  ComponentsButtonGroup,
   ElementsTextLink,
   StrapiMedia,
 } from '@/types/strapi';
@@ -626,6 +628,61 @@ async function renderComponent(
           contactPhone={expandableSectionComponent.contact_phone || null}
           files={files}
           defaultOpen={expandableSectionComponent.default_open || false}
+        />
+      );
+    }
+
+    case 'components.button-group': {
+      const buttonGroupComponent = component as ComponentsButtonGroup;
+
+      // Transform Strapi buttons to component format
+      const buttons = buttonGroupComponent.buttons.map((button) => {
+        const resolved = resolveTextLink(button.link);
+
+        // Map Strapi variant/size values to component values
+        const variantMap: Record<string, 'primary' | 'secondary' | 'outline' | 'ghost'> = {
+          'Primary': 'primary',
+          'Secondary': 'secondary',
+          'Outline': 'outline',
+          'Ghost': 'ghost',
+        };
+
+        const sizeMap: Record<string, 'sm' | 'md' | 'lg'> = {
+          'Small': 'sm',
+          'Medium': 'md',
+          'Large': 'lg',
+        };
+
+        return {
+          text: button.link.text,
+          url: resolved.url,
+          external: resolved.external,
+          disabled: resolved.disabled,
+          variant: variantMap[button.variant] || 'primary',
+          size: sizeMap[button.size] || 'md',
+        };
+      });
+
+      // Map alignment value
+      const alignmentMap: Record<string, 'left' | 'center' | 'right'> = {
+        'Left aligned': 'left',
+        'Center aligned': 'center',
+        'Right aligned': 'right',
+      };
+
+      // Map spacing value - convert Strapi format to component format
+      const spacingMap: Record<string, 'small' | 'medium' | 'large'> = {
+        'Small spacing': 'small',
+        'Medium spacing': 'medium',
+        'Large spacing': 'large',
+      };
+
+      return (
+        <ButtonGroup
+          key={`${__component}-${component.id || index}`}
+          buttons={buttons}
+          alignment={alignmentMap[buttonGroupComponent.alignment] || 'left'}
+          spacing={spacingMap[buttonGroupComponent.spacing] || 'medium'}
         />
       );
     }

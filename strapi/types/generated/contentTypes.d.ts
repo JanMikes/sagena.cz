@@ -551,6 +551,7 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
         'components.photo-gallery',
         'components.directions',
         'components.expandable-section',
+        'components.button-group',
       ]
     > &
       Schema.Attribute.Required &

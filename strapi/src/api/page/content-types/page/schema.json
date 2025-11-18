@@ -72,7 +72,8 @@
         "components.gallery-slider",
         "components.photo-gallery",
         "components.directions",
-        "components.expandable-section"
+        "components.expandable-section",
+        "components.button-group"
       ],
       "required": true
     },

@@ -13,7 +13,7 @@
 
 ---
 
-## ✅ Currently Integrated Components (18)
+## ✅ Currently Integrated Components (19)
 
 These components are already implemented in the dynamic zone:
 
@@ -35,10 +35,11 @@ These components are already implemented in the dynamic zone:
 16. **components.photo-gallery** → PhotoGallery (uses `elements.photo`)
 17. **components.directions** → Directions (uses `elements.direction-step`)
 18. **components.expandable-section** → ExpandableSection (uses `elements.file-attachment`)
+19. **components.button-group** → ButtonGroup (uses `elements.button`)
 
 ---
 
-## 🎯 Priority Components to Add (7)
+## 🎯 Priority Components to Add (6)
 
 ### 📄 CONTENT COMPONENTS (1)
 
@@ -110,38 +111,6 @@ These components are already implemented in the dynamic zone:
 | `email` | Email | ✗ | ✓ | Email address |
 | `phone` | Text (short) | ✗ | ✓ | Phone number |
 | `photo` | Media (single) | ✗ | ✓ | Contact photo (Strapi provides dimensions, url) |
-
----
-
-### 🏗️ LAYOUT COMPONENTS (3)
-
----
-
-#### 12. Button Group (components.button-group)
-
-**Component name:** ButtonGroup ✅ RENAMED
-**Location:** `/frontend/src/components/layout/ButtonGroup.tsx`
-
-**Fields:**
-
-| Field Name | Type | Required | Nullable | Notes |
-|------------|------|----------|----------|-------|
-| `buttons` | Component (repeatable) 📦 | ✓ | ✗ | Array of button items |
-
-**Repeatable Component: `elements.button`**
-
-| Field Name | Type | Required | Nullable | Options |
-|------------|------|----------|----------|---------|
-| `link` | Component (single) | ✓ | ✗ | Use `elements.text-link` (includes text + target) |
-| `variant` | Enumeration 🎨 | ✗ | ✗ | Primary, Secondary, Outline, Ghost (default: Primary) |
-| `size` | Enumeration 🎨 | ✗ | ✗ | Small, Medium, Large (default: Medium) |
-
-**Settings:**
-
-| Field Name | Type | Required | Nullable | Options |
-|------------|------|----------|----------|---------|
-| `alignment` | Enumeration 🎨 | ✗ | ✗ | Left aligned, Center aligned, Right aligned (default: Left aligned) |
-| `spacing` | Enumeration 🎨 | ✗ | ✗ | Small spacing, Medium spacing, Large spacing (default: Medium spacing) |
 
 ---
 
@@ -277,8 +246,8 @@ Before creating the main components, define these reusable elements:
 9. **elements.photo** - Already exists ✅ (image [media only])
 10. **elements.direction-step** - Already exists ✅ (icon, floor, text)
 11. **elements.file-attachment** - Already exists ✅ (name, file [media - ext & size auto-extracted])
-12. **elements.opening-hours** - For doctor profile (day, time)
-13. **elements.button** - For button group (link, variant, size)
+12. **elements.button** - Already exists ✅ (link, variant, size)
+13. **elements.opening-hours** - For doctor profile (day, time)
 
 ---
 
@@ -297,9 +266,9 @@ Before creating the main components, define these reusable elements:
 10. ✅ Photo Gallery (COMPLETED)
 11. ✅ Directions (COMPLETED)
 12. ✅ Expandable Section (COMPLETED)
-13. Contact Card
-14. News Article
-15. Button Group
+13. ✅ Button Group (COMPLETED)
+14. Contact Card
+15. News Article
 16. Doctor Profile
 
 ---

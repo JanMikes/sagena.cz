@@ -1,0 +1,35 @@
+{
+  "collectionName": "components_components_button_groups",
+  "info": {
+    "displayName": "button-group",
+    "icon": "apps"
+  },
+  "options": {},
+  "attributes": {
+    "buttons": {
+      "type": "component",
+      "component": "elements.button",
+      "repeatable": true,
+      "required": true
+    },
+    "alignment": {
+      "type": "enumeration",
+      "enum": [
+        "Left aligned",
+        "Center aligned",
+        "Right aligned"
+      ],
+      "default": "Left aligned"
+    },
+    "spacing": {
+      "type": "enumeration",
+      "enum": [
+        "Small spacing",
+        "Medium spacing",
+        "Large spacing"
+      ],
+      "default": "Medium spacing"
+    }
+  },
+  "config": {}
+}

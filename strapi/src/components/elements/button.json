@@ -1,0 +1,36 @@
+{
+  "collectionName": "components_elements_buttons",
+  "info": {
+    "displayName": "button",
+    "icon": "cursor"
+  },
+  "options": {},
+  "attributes": {
+    "link": {
+      "type": "component",
+      "component": "elements.text-link",
+      "repeatable": false,
+      "required": true
+    },
+    "variant": {
+      "type": "enumeration",
+      "enum": [
+        "Primary",
+        "Secondary",
+        "Outline",
+        "Ghost"
+      ],
+      "default": "Primary"
+    },
+    "size": {
+      "type": "enumeration",
+      "enum": [
+        "Small",
+        "Medium",
+        "Large"
+      ],
+      "default": "Medium"
+    }
+  },
+  "config": {}
+}

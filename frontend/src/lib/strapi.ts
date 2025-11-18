@@ -536,6 +536,17 @@ export async function fetchPageBySlug(
                 },
               },
             },
+            'components.button-group': {
+              populate: {
+                buttons: {
+                  populate: {
+                    link: {
+                      populate: ['page', 'file'],
+                    },
+                  },
+                },
+              },
+            },
           },
         },
         sidebar: {

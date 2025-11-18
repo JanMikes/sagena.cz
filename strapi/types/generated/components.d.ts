@@ -17,6 +17,26 @@ export interface ComponentsAlert extends Struct.ComponentSchema {
   };
 }
 
+export interface ComponentsButtonGroup extends Struct.ComponentSchema {
+  collectionName: 'components_components_button_groups';
+  info: {
+    displayName: 'button-group';
+    icon: 'apps';
+  };
+  attributes: {
+    alignment: Schema.Attribute.Enumeration<
+      ['Left aligned', 'Center aligned', 'Right aligned']
+    > &
+      Schema.Attribute.DefaultTo<'Left aligned'>;
+    buttons: Schema.Attribute.Component<'elements.button', true> &
+      Schema.Attribute.Required;
+    spacing: Schema.Attribute.Enumeration<
+      ['Small spacing', 'Medium spacing', 'Large spacing']
+    > &
+      Schema.Attribute.DefaultTo<'Medium spacing'>;
+  };
+}
+
 export interface ComponentsDirections extends Struct.ComponentSchema {
   collectionName: 'components_components_directions';
   info: {
@@ -290,6 +310,24 @@ export interface ComponentsVideo extends Struct.ComponentSchema {
   };
 }
 
+export interface ElementsButton extends Struct.ComponentSchema {
+  collectionName: 'components_elements_buttons';
+  info: {
+    displayName: 'button';
+    icon: 'cursor';
+  };
+  attributes: {
+    link: Schema.Attribute.Component<'elements.text-link', false> &
+      Schema.Attribute.Required;
+    size: Schema.Attribute.Enumeration<['Small', 'Medium', 'Large']> &
+      Schema.Attribute.DefaultTo<'Medium'>;
+    variant: Schema.Attribute.Enumeration<
+      ['Primary', 'Secondary', 'Outline', 'Ghost']
+    > &
+      Schema.Attribute.DefaultTo<'Primary'>;
+  };
+}
+
 export interface ElementsDirectionStep extends Struct.ComponentSchema {
   collectionName: 'components_elements_direction_steps';
   info: {
@@ -474,6 +512,7 @@ declare module '@strapi/strapi' {
   export module Public {
     export interface ComponentSchemas {
       'components.alert': ComponentsAlert;
+      'components.button-group': ComponentsButtonGroup;
       'components.directions': ComponentsDirections;
       'components.documents': ComponentsDocuments;
       'components.expandable-section': ComponentsExpandableSection;
@@ -491,6 +530,7 @@ declare module '@strapi/strapi' {
       'components.text': ComponentsText;
       'components.timeline': ComponentsTimeline;
       'components.video': ComponentsVideo;
+      'elements.button': ElementsButton;
       'elements.direction-step': ElementsDirectionStep;
       'elements.document-item': ElementsDocumentItem;
       'elements.file-attachment': ElementsFileAttachment;

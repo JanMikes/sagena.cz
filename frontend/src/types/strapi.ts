@@ -326,6 +326,19 @@ export interface ComponentsExpandableSection {
   default_open?: boolean;  // Default: false (Initially collapsed)
 }
 
+/**
+ * Components: Button Group
+ * Location: strapi/src/components/components/button-group.json
+ * Usage: Group of buttons with configurable alignment and spacing
+ */
+export interface ComponentsButtonGroup {
+  id: number;
+  __component: 'components.button-group';
+  buttons: ElementsButton[];  // Array of button items
+  alignment: 'Left aligned' | 'Center aligned' | 'Right aligned';
+  spacing: 'Small spacing' | 'Medium spacing' | 'Large spacing';
+}
+
 // ============================================================================
 // Strapi Elements (embedded in other components, never standalone)
 // ============================================================================
@@ -568,6 +581,21 @@ export interface ElementsFileAttachment {
   file: StrapiMedia;  // The actual file (Strapi provides ext, size, url)
 }
 
+/**
+ * Elements: Button
+ * Location: strapi/src/components/elements/button.json
+ * Usage: Individual button with link, variant, and size
+ *
+ * IMPORTANT: Strapi returns relations directly (no .data wrapper)
+ */
+export interface ElementsButton {
+  id: number;
+  __component?: 'elements.button';
+  link: ElementsTextLink;  // Required link
+  variant: 'Primary' | 'Secondary' | 'Outline' | 'Ghost';
+  size: 'Small' | 'Medium' | 'Large';
+}
+
 // ============================================================================
 // Dynamic Zone Union Types
 // ============================================================================
@@ -575,7 +603,7 @@ export interface ElementsFileAttachment {
 /**
  * Page content dynamic zone - all components that can appear in page content area
  */
-export type PageContentComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsLinksList | ComponentsVideo | ComponentsServiceCards | ComponentsFullWidthCards | ComponentsDocuments | ComponentsJobPosting | ComponentsPartnerLogos | ComponentsMarketingArguments | ComponentsTimeline | ComponentsSectionDivider | ComponentsSlider | ComponentsGallerySlider | ComponentsPhotoGallery | ComponentsDirections | ComponentsExpandableSection;
+export type PageContentComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsLinksList | ComponentsVideo | ComponentsServiceCards | ComponentsFullWidthCards | ComponentsDocuments | ComponentsJobPosting | ComponentsPartnerLogos | ComponentsMarketingArguments | ComponentsTimeline | ComponentsSectionDivider | ComponentsSlider | ComponentsGallerySlider | ComponentsPhotoGallery | ComponentsDirections | ComponentsExpandableSection | ComponentsButtonGroup;
 
 /**
  * Page sidebar dynamic zone - all components that can appear in page sidebar
