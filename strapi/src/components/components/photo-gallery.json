@@ -1,0 +1,26 @@
+{
+  "collectionName": "components_components_photo_galleries",
+  "info": {
+    "displayName": "photo-gallery",
+    "icon": "picture"
+  },
+  "options": {},
+  "attributes": {
+    "photos": {
+      "type": "component",
+      "component": "elements.photo",
+      "repeatable": true,
+      "required": true
+    },
+    "columns": {
+      "type": "enumeration",
+      "enum": [
+        "Two columns",
+        "Three columns",
+        "Four columns"
+      ],
+      "default": "Three columns"
+    }
+  },
+  "config": {}
+}

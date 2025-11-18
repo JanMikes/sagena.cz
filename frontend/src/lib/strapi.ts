@@ -496,6 +496,28 @@ export async function fetchPageBySlug(
                 },
               },
             },
+            'components.gallery-slider': {
+              populate: {
+                photos: {
+                  populate: {
+                    image: {
+                      fields: ['url', 'alternativeText', 'caption', 'width', 'height'],
+                    },
+                  },
+                },
+              },
+            },
+            'components.photo-gallery': {
+              populate: {
+                photos: {
+                  populate: {
+                    image: {
+                      fields: ['url', 'alternativeText', 'caption', 'width', 'height'],
+                    },
+                  },
+                },
+              },
+            },
           },
         },
         sidebar: {

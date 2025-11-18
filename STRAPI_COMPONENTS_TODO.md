@@ -13,7 +13,7 @@
 
 ---
 
-## ✅ Currently Integrated Components (14)
+## ✅ Currently Integrated Components (16)
 
 These components are already implemented in the dynamic zone:
 
@@ -31,10 +31,12 @@ These components are already implemented in the dynamic zone:
 12. **components.timeline** → Timeline (uses `elements.timeline-item`)
 13. **components.section-divider** → SectionDivider
 14. **components.slider** → Slider (uses `elements.slide`)
+15. **components.gallery-slider** → GallerySlider (uses `elements.photo`)
+16. **components.photo-gallery** → PhotoGallery (uses `elements.photo`)
 
 ---
 
-## 🎯 Priority Components to Add (11)
+## 🎯 Priority Components to Add (9)
 
 ### 📄 CONTENT COMPONENTS (1)
 
@@ -54,54 +56,6 @@ These components are already implemented in the dynamic zone:
 | `text` | Text (long) | ✓ | ✗ | Article excerpt/preview |
 | `image` | Media (single) | ✗ | ✓ | Featured image (Strapi provides alt text, dimensions, url) |
 | `read_more_link` | Component (single) | ✓ | ✗ | Use `elements.text-link` (includes text + target, default text: "Číst více") |
-
----
-
-### 📸 MEDIA COMPONENTS (2)
-
----
-
-#### 8. Photo Gallery (components.photo-gallery) ⚠️
-
-**Client Component:** Uses React hooks for lightbox
-**Location:** `/frontend/src/components/media/PhotoGallery.tsx`
-
-**Fields:**
-
-| Field Name | Type | Required | Nullable | Notes |
-|------------|------|----------|----------|-------|
-| `photos` | Component (repeatable) 📦 | ✓ | ✗ | Array of photo items |
-
-**Repeatable Component: `elements.photo`**
-
-| Field Name | Type | Required | Nullable | Notes |
-|------------|------|----------|----------|-------|
-| `image` | Media (single) | ✓ | ✗ | Photo file (Strapi provides alt text, caption, dimensions, url) |
-
-**Settings:**
-
-| Field Name | Type | Required | Nullable | Options |
-|------------|------|----------|----------|---------|
-| `columns` | Enumeration 🎨 | ✗ | ✗ | Two columns, Three columns, Four columns (default: Three columns) |
-
----
-
-#### 9. Gallery Slider (components.gallery-slider) ⚠️
-
-**Client Component:** Uses React hooks for navigation
-**Location:** `/frontend/src/components/media/GallerySlider.tsx`
-
-**Fields:**
-
-| Field Name | Type | Required | Nullable | Notes |
-|------------|------|----------|----------|-------|
-| `photos` | Component (repeatable) 📦 | ✓ | ✗ | Array of photo items |
-
-**Repeatable Component: `elements.photo`** (reuse from Photo Gallery)
-
-| Field Name | Type | Required | Nullable | Notes |
-|------------|------|----------|----------|-------|
-| `image` | Media (single) | ✓ | ✗ | Photo file (Strapi provides alt text, caption, dimensions, url) |
 
 ---
 
@@ -373,7 +327,7 @@ Before creating the main components, define these reusable elements:
 6. **elements.marketing-argument** - Already exists ✅ (display_type, icon/number, title, description)
 7. **elements.timeline-item** - Already exists ✅ (display_type, icon/number, title, description)
 8. **elements.slide** - Already exists ✅ (title, description, link, image [media], background_image [media])
-9. **elements.photo** - For photo gallery and gallery slider (image [media only])
+9. **elements.photo** - Already exists ✅ (image [media only])
 10. **elements.opening-hours** - For doctor profile (day, time)
 11. **elements.direction-step** - For directions (icon, floor, text)
 12. **elements.button** - For button group (link, variant, size)
@@ -392,11 +346,11 @@ Before creating the main components, define these reusable elements:
 6. ✅ Timeline (COMPLETED)
 7. ✅ Section Divider (COMPLETED)
 8. ✅ Slider (COMPLETED)
-9. Contact Card
-10. News Article
-11. Button Group
-12. Photo Gallery
-13. Gallery Slider
+9. ✅ Gallery Slider (COMPLETED)
+10. ✅ Photo Gallery (COMPLETED)
+11. Contact Card
+12. News Article
+13. Button Group
 14. Directions
 15. Doctor Profile
 16. Expandable Section

@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_elements_photos",
+  "info": {
+    "displayName": "photo",
+    "icon": "picture"
+  },
+  "options": {},
+  "attributes": {
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": ["images"]
+    }
+  },
+  "config": {}
+}

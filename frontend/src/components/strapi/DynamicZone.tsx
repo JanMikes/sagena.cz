@@ -20,6 +20,8 @@ import MarketingArguments from '@/components/marketing/MarketingArguments';
 import Timeline from '@/components/marketing/Timeline';
 import SectionDivider from '@/components/layout/SectionDivider';
 import Slider from '@/components/marketing/Slider';
+import GallerySlider from '@/components/media/GallerySlider';
+import PhotoGallery from '@/components/media/PhotoGallery';
 import { getStrapiMediaURL, getIconUrlById } from '@/lib/strapi';
 import {
   PageContentComponent,
@@ -38,6 +40,8 @@ import {
   ComponentsTimeline,
   ComponentsSectionDivider,
   ComponentsSlider,
+  ComponentsGallerySlider,
+  ComponentsPhotoGallery,
   ElementsTextLink,
   StrapiMedia,
 } from '@/types/strapi';
@@ -519,6 +523,54 @@ async function renderComponent(
           slides={slides}
           autoplay={sliderComponent.autoplay}
           autoplayInterval={sliderComponent.autoplay_interval || 5000}
+        />
+      );
+    }
+
+    case 'components.gallery-slider': {
+      const gallerySliderComponent = component as ComponentsGallerySlider;
+
+      // Transform Strapi data to component props
+      const photos = gallerySliderComponent.photos.map((photo) => {
+        return {
+          url: getStrapiMediaURL(photo.image.url),
+          alt: photo.image.alternativeText || photo.image.caption || undefined,
+        };
+      });
+
+      return (
+        <GallerySlider
+          key={`${__component}-${component.id || index}`}
+          photos={photos}
+        />
+      );
+    }
+
+    case 'components.photo-gallery': {
+      const photoGalleryComponent = component as ComponentsPhotoGallery;
+
+      // Convert column enum to number
+      const columnMap: Record<string, 2 | 3 | 4> = {
+        'Two columns': 2,
+        'Three columns': 3,
+        'Four columns': 4,
+      };
+      const columns = columnMap[photoGalleryComponent.columns] || 3;
+
+      // Transform Strapi data to component props
+      const photos = photoGalleryComponent.photos.map((photo) => {
+        return {
+          url: getStrapiMediaURL(photo.image.url),
+          alt: photo.image.alternativeText || undefined,
+          caption: photo.image.caption || undefined,
+        };
+      });
+
+      return (
+        <PhotoGallery
+          key={`${__component}-${component.id || index}`}
+          photos={photos}
+          columns={columns}
         />
       );
     }

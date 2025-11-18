@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_components_gallery_sliders",
+  "info": {
+    "displayName": "gallery-slider",
+    "icon": "landscape"
+  },
+  "options": {},
+  "attributes": {
+    "photos": {
+      "type": "component",
+      "component": "elements.photo",
+      "repeatable": true,
+      "required": true
+    }
+  },
+  "config": {}
+}

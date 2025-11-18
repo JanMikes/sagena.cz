@@ -274,6 +274,29 @@ export interface ComponentsSlider {
   autoplay_interval?: number | null;
 }
 
+/**
+ * Components: Gallery Slider
+ * Location: strapi/src/components/components/gallery-slider.json
+ * Usage: Photo gallery slider with horizontal scrolling navigation
+ */
+export interface ComponentsGallerySlider {
+  id: number;
+  __component: 'components.gallery-slider';
+  photos: ElementsPhoto[];
+}
+
+/**
+ * Components: Photo Gallery
+ * Location: strapi/src/components/components/photo-gallery.json
+ * Usage: Photo gallery grid with lightbox functionality and configurable columns
+ */
+export interface ComponentsPhotoGallery {
+  id: number;
+  __component: 'components.photo-gallery';
+  photos: ElementsPhoto[];
+  columns: 'Two columns' | 'Three columns' | 'Four columns';
+}
+
 // ============================================================================
 // Strapi Elements (embedded in other components, never standalone)
 // ============================================================================
@@ -465,6 +488,28 @@ export interface ElementsSlide {
   } | null;
 }
 
+/**
+ * Elements: Photo
+ * Location: strapi/src/components/elements/photo.json
+ * Usage: Individual photo for photo gallery and gallery slider components
+ *
+ * IMPORTANT: Strapi returns media directly (no .data wrapper)
+ */
+export interface ElementsPhoto {
+  id: number;
+  __component?: 'elements.photo';
+  image: {
+    id: number;
+    documentId: string;
+    url: string;
+    name: string;
+    alternativeText?: string | null;
+    caption?: string | null;
+    width?: number;
+    height?: number;
+  };
+}
+
 // ============================================================================
 // Dynamic Zone Union Types
 // ============================================================================
@@ -472,7 +517,7 @@ export interface ElementsSlide {
 /**
  * Page content dynamic zone - all components that can appear in page content area
  */
-export type PageContentComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsLinksList | ComponentsVideo | ComponentsServiceCards | ComponentsFullWidthCards | ComponentsDocuments | ComponentsJobPosting | ComponentsPartnerLogos | ComponentsMarketingArguments | ComponentsTimeline | ComponentsSectionDivider | ComponentsSlider;
+export type PageContentComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsLinksList | ComponentsVideo | ComponentsServiceCards | ComponentsFullWidthCards | ComponentsDocuments | ComponentsJobPosting | ComponentsPartnerLogos | ComponentsMarketingArguments | ComponentsTimeline | ComponentsSectionDivider | ComponentsSlider | ComponentsGallerySlider | ComponentsPhotoGallery;
 
 /**
  * Page sidebar dynamic zone - all components that can appear in page sidebar

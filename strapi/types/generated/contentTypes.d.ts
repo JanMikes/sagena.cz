@@ -547,6 +547,8 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
         'components.timeline',
         'components.section-divider',
         'components.slider',
+        'components.gallery-slider',
+        'components.photo-gallery',
       ]
     > &
       Schema.Attribute.Required &

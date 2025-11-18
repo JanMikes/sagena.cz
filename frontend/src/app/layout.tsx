@@ -14,12 +14,6 @@ export const metadata: Metadata = {
   keywords: "zdravotní péče, ordinace, rehabilitace, MRI, lékárna, Sagena",
 };
 
-/**
- * Force dynamic rendering for all pages
- * This prevents build-time pre-rendering when Strapi is not available
- */
-export const dynamic = 'force-dynamic';
-
 export default async function RootLayout({
   children,
 }: Readonly<{

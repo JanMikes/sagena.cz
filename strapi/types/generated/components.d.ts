@@ -45,6 +45,18 @@ export interface ComponentsFullWidthCards extends Struct.ComponentSchema {
   };
 }
 
+export interface ComponentsGallerySlider extends Struct.ComponentSchema {
+  collectionName: 'components_components_gallery_sliders';
+  info: {
+    displayName: 'gallery-slider';
+    icon: 'landscape';
+  };
+  attributes: {
+    photos: Schema.Attribute.Component<'elements.photo', true> &
+      Schema.Attribute.Required;
+  };
+}
+
 export interface ComponentsHeading extends Struct.ComponentSchema {
   collectionName: 'components_components_headings';
   info: {
@@ -133,6 +145,22 @@ export interface ComponentsPartnerLogos extends Struct.ComponentSchema {
       Schema.Attribute.DefaultTo<'Medium spacing'>;
     grayscale: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     partners: Schema.Attribute.Component<'elements.partner-logo', true> &
+      Schema.Attribute.Required;
+  };
+}
+
+export interface ComponentsPhotoGallery extends Struct.ComponentSchema {
+  collectionName: 'components_components_photo_galleries';
+  info: {
+    displayName: 'photo-gallery';
+    icon: 'picture';
+  };
+  attributes: {
+    columns: Schema.Attribute.Enumeration<
+      ['Two columns', 'Three columns', 'Four columns']
+    > &
+      Schema.Attribute.DefaultTo<'Three columns'>;
+    photos: Schema.Attribute.Component<'elements.photo', true> &
       Schema.Attribute.Required;
   };
 }
@@ -314,6 +342,17 @@ export interface ElementsPartnerLogo extends Struct.ComponentSchema {
   };
 }
 
+export interface ElementsPhoto extends Struct.ComponentSchema {
+  collectionName: 'components_elements_photos';
+  info: {
+    displayName: 'photo';
+    icon: 'picture';
+  };
+  attributes: {
+    image: Schema.Attribute.Media<'images'> & Schema.Attribute.Required;
+  };
+}
+
 export interface ElementsServiceCard extends Struct.ComponentSchema {
   collectionName: 'components_elements_service_cards';
   info: {
@@ -381,11 +420,13 @@ declare module '@strapi/strapi' {
       'components.alert': ComponentsAlert;
       'components.documents': ComponentsDocuments;
       'components.full-width-cards': ComponentsFullWidthCards;
+      'components.gallery-slider': ComponentsGallerySlider;
       'components.heading': ComponentsHeading;
       'components.job-posting': ComponentsJobPosting;
       'components.links-list': ComponentsLinksList;
       'components.marketing-arguments': ComponentsMarketingArguments;
       'components.partner-logos': ComponentsPartnerLogos;
+      'components.photo-gallery': ComponentsPhotoGallery;
       'components.section-divider': ComponentsSectionDivider;
       'components.service-cards': ComponentsServiceCards;
       'components.slider': ComponentsSlider;
@@ -398,6 +439,7 @@ declare module '@strapi/strapi' {
       'elements.link': ElementsLink;
       'elements.marketing-argument': ElementsMarketingArgument;
       'elements.partner-logo': ElementsPartnerLogo;
+      'elements.photo': ElementsPhoto;
       'elements.service-card': ElementsServiceCard;
       'elements.slide': ElementsSlide;
       'elements.text-link': ElementsTextLink;

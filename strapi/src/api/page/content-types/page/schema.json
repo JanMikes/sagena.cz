@@ -68,7 +68,9 @@
         "components.marketing-arguments",
         "components.timeline",
         "components.section-divider",
-        "components.slider"
+        "components.slider",
+        "components.gallery-slider",
+        "components.photo-gallery"
       ],
       "required": true
     },
