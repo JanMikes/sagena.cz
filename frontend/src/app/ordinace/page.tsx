@@ -292,11 +292,9 @@ export default function Priklad2Page() {
             <ExpandableSection
               title="Ordinační hodiny"
               description="Rehabilitační centrum je otevřeno 6 dní v týdnu"
-              contact={{
-                name: 'Recepce rehabilitace',
-                email: 'rehabilitace@sagena.cz',
-                phone: '+420 553 030 850'
-              }}
+              contactName="Recepce rehabilitace"
+              contactEmail="rehabilitace@sagena.cz"
+              contactPhone="+420 553 030 850"
               defaultOpen
             />
 

@@ -13,7 +13,7 @@
 
 ---
 
-## ✅ Currently Integrated Components (17)
+## ✅ Currently Integrated Components (18)
 
 These components are already implemented in the dynamic zone:
 
@@ -34,10 +34,11 @@ These components are already implemented in the dynamic zone:
 15. **components.gallery-slider** → GallerySlider (uses `elements.photo`)
 16. **components.photo-gallery** → PhotoGallery (uses `elements.photo`)
 17. **components.directions** → Directions (uses `elements.direction-step`)
+18. **components.expandable-section** → ExpandableSection (uses `elements.file-attachment`)
 
 ---
 
-## 🎯 Priority Components to Add (8)
+## 🎯 Priority Components to Add (7)
 
 ### 📄 CONTENT COMPONENTS (1)
 
@@ -141,39 +142,6 @@ These components are already implemented in the dynamic zone:
 |------------|------|----------|----------|---------|
 | `alignment` | Enumeration 🎨 | ✗ | ✗ | Left aligned, Center aligned, Right aligned (default: Left aligned) |
 | `spacing` | Enumeration 🎨 | ✗ | ✗ | Small spacing, Medium spacing, Large spacing (default: Medium spacing) |
-
----
-
-### 🎛️ INTERACTIVE COMPONENTS (1)
-
----
-
-#### 14. Expandable Section (components.expandable-section) ⚠️
-
-**Component name:** ExpandableSection ✅ RENAMED
-**Client Component:** Uses React hooks for expand/collapse
-**Location:** `/frontend/src/components/interactive/ExpandableSection.tsx`
-
-**Fields:**
-
-| Field Name | Type | Required | Nullable | Notes |
-|------------|------|----------|----------|-------|
-| `title` | Text (short) | ✓ | ✗ | Section title |
-| `description` | Text (long) | ✗ | ✓ | Section content |
-| `contact_name` | Text (short) | ✗ | ✓ | Contact person name |
-| `contact_email` | Email | ✗ | ✓ | Contact email |
-| `contact_phone` | Text (short) | ✗ | ✓ | Contact phone |
-| `files` | Component (repeatable) 📦 | ✗ | ✓ | Array of file attachments |
-| `default_open` | Boolean | ✗ | ✗ | Default: false (Initially expanded / Initially collapsed) |
-
-**Repeatable Component: `elements.file-attachment`**
-
-| Field Name | Type | Required | Nullable | Notes |
-|------------|------|----------|----------|-------|
-| `name` | Text (short) | ✓ | ✗ | File display name (human-friendly) |
-| `file` | Media (single) | ✓ | ✗ | The actual file (Strapi provides ext, size, url) |
-
-**Note:** Consider splitting contact info into a separate component for reusability.
 
 ---
 
@@ -308,9 +276,9 @@ Before creating the main components, define these reusable elements:
 8. **elements.slide** - Already exists ✅ (title, description, link, image [media], background_image [media])
 9. **elements.photo** - Already exists ✅ (image [media only])
 10. **elements.direction-step** - Already exists ✅ (icon, floor, text)
-11. **elements.opening-hours** - For doctor profile (day, time)
-12. **elements.button** - For button group (link, variant, size)
-13. **elements.file-attachment** - For expandable section (name, file [media - ext & size auto-extracted])
+11. **elements.file-attachment** - Already exists ✅ (name, file [media - ext & size auto-extracted])
+12. **elements.opening-hours** - For doctor profile (day, time)
+13. **elements.button** - For button group (link, variant, size)
 
 ---
 
@@ -328,11 +296,11 @@ Before creating the main components, define these reusable elements:
 9. ✅ Gallery Slider (COMPLETED)
 10. ✅ Photo Gallery (COMPLETED)
 11. ✅ Directions (COMPLETED)
-12. Contact Card
-13. News Article
-14. Button Group
-15. Doctor Profile
-16. Expandable Section
+12. ✅ Expandable Section (COMPLETED)
+13. Contact Card
+14. News Article
+15. Button Group
+16. Doctor Profile
 
 ---
 

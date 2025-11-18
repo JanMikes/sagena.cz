@@ -46,6 +46,23 @@ export interface ComponentsDocuments extends Struct.ComponentSchema {
   };
 }
 
+export interface ComponentsExpandableSection extends Struct.ComponentSchema {
+  collectionName: 'components_components_expandable_sections';
+  info: {
+    displayName: 'expandable-section';
+    icon: 'expand';
+  };
+  attributes: {
+    contact_email: Schema.Attribute.Email;
+    contact_name: Schema.Attribute.String;
+    contact_phone: Schema.Attribute.String;
+    default_open: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    description: Schema.Attribute.Text;
+    files: Schema.Attribute.Component<'elements.file-attachment', true>;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
 export interface ComponentsFullWidthCards extends Struct.ComponentSchema {
   collectionName: 'components_components_full_width_cards';
   info: {
@@ -299,6 +316,19 @@ export interface ElementsDocumentItem extends Struct.ComponentSchema {
   };
 }
 
+export interface ElementsFileAttachment extends Struct.ComponentSchema {
+  collectionName: 'components_elements_file_attachments';
+  info: {
+    displayName: 'file-attachment';
+    icon: 'paperclip';
+  };
+  attributes: {
+    file: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'> &
+      Schema.Attribute.Required;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
 export interface ElementsFullWidthCard extends Struct.ComponentSchema {
   collectionName: 'components_elements_full_width_cards';
   info: {
@@ -446,6 +476,7 @@ declare module '@strapi/strapi' {
       'components.alert': ComponentsAlert;
       'components.directions': ComponentsDirections;
       'components.documents': ComponentsDocuments;
+      'components.expandable-section': ComponentsExpandableSection;
       'components.full-width-cards': ComponentsFullWidthCards;
       'components.gallery-slider': ComponentsGallerySlider;
       'components.heading': ComponentsHeading;
@@ -462,6 +493,7 @@ declare module '@strapi/strapi' {
       'components.video': ComponentsVideo;
       'elements.direction-step': ElementsDirectionStep;
       'elements.document-item': ElementsDocumentItem;
+      'elements.file-attachment': ElementsFileAttachment;
       'elements.full-width-card': ElementsFullWidthCard;
       'elements.icon': ElementsIcon;
       'elements.link': ElementsLink;

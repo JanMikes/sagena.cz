@@ -471,14 +471,16 @@ export default function KomponentyPage() {
             <ExpandableSection
               title="Ordinační hodiny"
               description="Naše ordinace je otevřena v následujících hodinách."
-              contact={{ name: 'Dr. Jan Novák', email: 'novak@sagena.cz', phone: '+420 553 030 800' }}
+              contactName="Dr. Jan Novák"
+              contactEmail="novak@sagena.cz"
+              contactPhone="+420 553 030 800"
             />
             <ExpandableSection
               title="Dokumenty ke stažení"
               description="Zde najdete všechny potřebné formuláře."
               files={[
-                { name: 'Registrační formulář.pdf', url: '#', size: '245 KB' },
-                { name: 'Informovaný souhlas.pdf', url: '#', size: '180 KB' },
+                { name: 'Registrační formulář.pdf', url: '#', ext: '.pdf', size: 245 },
+                { name: 'Informovaný souhlas.pdf', url: '#', ext: '.pdf', size: 180 },
               ]}
             />
           </div>

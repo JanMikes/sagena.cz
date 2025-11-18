@@ -1,116 +1,139 @@
 'use client';
 
 import React, { useState } from 'react';
-import { ChevronDown, Mail, Phone, FileText } from 'lucide-react';
+import { ChevronDown, ChevronUp, Download, Mail, Phone, User } from 'lucide-react';
 
-interface File {
+/**
+ * File attachment from Strapi
+ */
+interface FileAttachment {
   name: string;
   url: string;
-  size?: string;
-}
-
-interface Contact {
-  name?: string;
-  email?: string;
-  phone?: string;
+  ext: string;
+  size: number; // Size in KB
 }
 
 interface ExpandableSectionProps {
   title: string;
-  description?: string;
-  contact?: Contact;
-  files?: File[];
+  description?: string | null;
+  contactName?: string | null;
+  contactEmail?: string | null;
+  contactPhone?: string | null;
+  files?: FileAttachment[];
   defaultOpen?: boolean;
 }
 
 const ExpandableSection: React.FC<ExpandableSectionProps> = ({
   title,
   description,
-  contact,
-  files,
+  contactName,
+  contactEmail,
+  contactPhone,
+  files = [],
   defaultOpen = false,
 }) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
 
+  const hasContent =
+    description || contactName || contactEmail || contactPhone || files.length > 0;
+
+  const formatFileSize = (sizeInKB: number): string => {
+    if (sizeInKB < 1024) {
+      return `${sizeInKB.toFixed(0)} KB`;
+    }
+    return `${(sizeInKB / 1024).toFixed(1)} MB`;
+  };
+
   return (
-    <div className="border border-gray-200 rounded-lg overflow-hidden bg-white">
+    <div className="border border-gray-200 rounded-xl overflow-hidden bg-white">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full px-6 py-4 flex items-center justify-between text-left hover:bg-gray-50 transition-colors"
+        className="w-full flex items-center justify-between p-6 text-left hover:bg-gray-50 transition-colors"
+        aria-expanded={isOpen}
       >
         <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
-        <ChevronDown
-          className={`w-5 h-5 text-gray-500 transition-transform duration-300 ${
-            isOpen ? 'rotate-180' : ''
-          }`}
-        />
+        {hasContent && (
+          <div className="flex-shrink-0 ml-4">
+            {isOpen ? (
+              <ChevronUp className="w-5 h-5 text-gray-600" />
+            ) : (
+              <ChevronDown className="w-5 h-5 text-gray-600" />
+            )}
+          </div>
+        )}
       </button>
 
-      <div
-        className={`transition-all duration-300 overflow-hidden ${
-          isOpen ? 'max-h-[2000px]' : 'max-h-0'
-        }`}
-      >
-        <div className="px-6 pb-6 space-y-4">
+      {isOpen && hasContent && (
+        <div className="px-6 pb-6 space-y-6 border-t border-gray-100">
           {description && (
-            <p className="text-gray-600 leading-relaxed">{description}</p>
+            <div className="pt-6">
+              <p className="text-gray-700 whitespace-pre-wrap">{description}</p>
+            </div>
           )}
 
-          {contact && (
-            <div className="bg-gray-50 rounded-lg p-4 space-y-2">
-              {contact.name && (
-                <p className="font-medium text-gray-900">{contact.name}</p>
+          {(contactName || contactEmail || contactPhone) && (
+            <div className="bg-gray-50 p-4 rounded-lg space-y-2">
+              <h4 className="text-sm font-semibold text-gray-900 mb-3">Kontakt</h4>
+              {contactName && (
+                <div className="flex items-center gap-2 text-sm text-gray-700">
+                  <User className="w-4 h-4 text-gray-500 flex-shrink-0" />
+                  <span>{contactName}</span>
+                </div>
               )}
-              {contact.email && (
-                <a
-                  href={`mailto:${contact.email}`}
-                  className="flex items-center space-x-2 text-primary-600 hover:text-primary-700 transition-colors"
-                >
-                  <Mail className="w-4 h-4" />
-                  <span>{contact.email}</span>
-                </a>
+              {contactEmail && (
+                <div className="flex items-center gap-2 text-sm">
+                  <Mail className="w-4 h-4 text-gray-500 flex-shrink-0" />
+                  <a
+                    href={`mailto:${contactEmail}`}
+                    className="text-primary-600 hover:text-primary-700 hover:underline"
+                  >
+                    {contactEmail}
+                  </a>
+                </div>
               )}
-              {contact.phone && (
-                <a
-                  href={`tel:${contact.phone}`}
-                  className="flex items-center space-x-2 text-primary-600 hover:text-primary-700 transition-colors"
-                >
-                  <Phone className="w-4 h-4" />
-                  <span>{contact.phone}</span>
-                </a>
+              {contactPhone && (
+                <div className="flex items-center gap-2 text-sm">
+                  <Phone className="w-4 h-4 text-gray-500 flex-shrink-0" />
+                  <a
+                    href={`tel:${contactPhone}`}
+                    className="text-primary-600 hover:text-primary-700 hover:underline"
+                  >
+                    {contactPhone}
+                  </a>
+                </div>
               )}
             </div>
           )}
 
-          {files && files.length > 0 && (
+          {files.length > 0 && (
             <div className="space-y-2">
-              <h4 className="font-medium text-gray-900 text-sm">
-                Soubory ke stažení
-              </h4>
+              <h4 className="text-sm font-semibold text-gray-900">Přílohy</h4>
               <div className="space-y-2">
                 {files.map((file, index) => (
                   <a
                     key={index}
                     href={file.url}
-                    className="flex items-center justify-between p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors group"
                     download
+                    className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors group"
                   >
-                    <div className="flex items-center space-x-3">
-                      <FileText className="w-5 h-5 text-gray-400 group-hover:text-primary-600 transition-colors" />
-                      <span className="text-sm font-medium text-gray-700 group-hover:text-primary-600 transition-colors">
-                        {file.name}
-                      </span>
+                    <div className="flex items-center gap-3 min-w-0">
+                      <Download className="w-4 h-4 text-gray-500 flex-shrink-0 group-hover:text-primary-600" />
+                      <div className="min-w-0">
+                        <p className="text-sm font-medium text-gray-900 truncate">
+                          {file.name}
+                        </p>
+                        <p className="text-xs text-gray-500">
+                          {file.ext.toUpperCase().replace('.', '')} • {formatFileSize(file.size)}
+                        </p>
+                      </div>
                     </div>
-                    {file.size && (
-                      <span className="text-xs text-gray-500">{file.size}</span>
-                    )}
                   </a>
                 ))}
               </div>
             </div>
           )}
         </div>
-      </div>
+      )}
     </div>
   );
 };

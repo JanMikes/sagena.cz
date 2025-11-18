@@ -23,6 +23,7 @@ import Slider from '@/components/marketing/Slider';
 import GallerySlider from '@/components/media/GallerySlider';
 import PhotoGallery from '@/components/media/PhotoGallery';
 import Directions from '@/components/layout/Directions';
+import ExpandableSection from '@/components/interactive/ExpandableSection';
 import { getStrapiMediaURL, getIconUrlById } from '@/lib/strapi';
 import {
   PageContentComponent,
@@ -44,6 +45,7 @@ import {
   ComponentsGallerySlider,
   ComponentsPhotoGallery,
   ComponentsDirections,
+  ComponentsExpandableSection,
   ElementsTextLink,
   StrapiMedia,
 } from '@/types/strapi';
@@ -599,6 +601,31 @@ async function renderComponent(
           key={`${__component}-${component.id || index}`}
           title={directionsComponent.title || undefined}
           instructions={instructions}
+        />
+      );
+    }
+
+    case 'components.expandable-section': {
+      const expandableSectionComponent = component as ComponentsExpandableSection;
+
+      // Transform file attachments
+      const files = expandableSectionComponent.files?.map((file) => ({
+        name: file.name,
+        url: file.file?.attributes?.url ? getStrapiMediaURL(file.file.attributes.url) : '',
+        ext: file.file?.attributes?.ext || '',
+        size: file.file?.attributes?.size || 0,
+      })) || [];
+
+      return (
+        <ExpandableSection
+          key={`${__component}-${component.id || index}`}
+          title={expandableSectionComponent.title}
+          description={expandableSectionComponent.description || null}
+          contactName={expandableSectionComponent.contact_name || null}
+          contactEmail={expandableSectionComponent.contact_email || null}
+          contactPhone={expandableSectionComponent.contact_phone || null}
+          files={files}
+          defaultOpen={expandableSectionComponent.default_open || false}
         />
       );
     }

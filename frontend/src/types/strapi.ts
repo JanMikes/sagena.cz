@@ -309,6 +309,23 @@ export interface ComponentsDirections {
   instructions: ElementsDirectionStep[];  // Required array of direction steps
 }
 
+/**
+ * Components: Expandable Section
+ * Location: strapi/src/components/components/expandable-section.json
+ * Usage: Collapsible section with title, description, contact info, and file attachments
+ */
+export interface ComponentsExpandableSection {
+  id: number;
+  __component: 'components.expandable-section';
+  title: string;  // Required section title
+  description?: string | null;  // Optional section content
+  contact_name?: string | null;  // Optional contact person name
+  contact_email?: string | null;  // Optional contact email
+  contact_phone?: string | null;  // Optional contact phone
+  files?: ElementsFileAttachment[];  // Optional array of file attachments
+  default_open?: boolean;  // Default: false (Initially collapsed)
+}
+
 // ============================================================================
 // Strapi Elements (embedded in other components, never standalone)
 // ============================================================================
@@ -537,6 +554,20 @@ export interface ElementsDirectionStep {
   text: string;  // Required instruction text
 }
 
+/**
+ * Elements: File Attachment
+ * Location: strapi/src/components/elements/file-attachment.json
+ * Usage: Individual file attachment with name and file
+ *
+ * IMPORTANT: Strapi returns media directly (no .data wrapper)
+ */
+export interface ElementsFileAttachment {
+  id: number;
+  __component?: 'elements.file-attachment';
+  name: string;  // Human-friendly display name
+  file: StrapiMedia;  // The actual file (Strapi provides ext, size, url)
+}
+
 // ============================================================================
 // Dynamic Zone Union Types
 // ============================================================================
@@ -544,7 +575,7 @@ export interface ElementsDirectionStep {
 /**
  * Page content dynamic zone - all components that can appear in page content area
  */
-export type PageContentComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsLinksList | ComponentsVideo | ComponentsServiceCards | ComponentsFullWidthCards | ComponentsDocuments | ComponentsJobPosting | ComponentsPartnerLogos | ComponentsMarketingArguments | ComponentsTimeline | ComponentsSectionDivider | ComponentsSlider | ComponentsGallerySlider | ComponentsPhotoGallery | ComponentsDirections;
+export type PageContentComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsLinksList | ComponentsVideo | ComponentsServiceCards | ComponentsFullWidthCards | ComponentsDocuments | ComponentsJobPosting | ComponentsPartnerLogos | ComponentsMarketingArguments | ComponentsTimeline | ComponentsSectionDivider | ComponentsSlider | ComponentsGallerySlider | ComponentsPhotoGallery | ComponentsDirections | ComponentsExpandableSection;
 
 /**
  * Page sidebar dynamic zone - all components that can appear in page sidebar

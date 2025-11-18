@@ -529,6 +529,13 @@ export async function fetchPageBySlug(
                 },
               },
             },
+            'components.expandable-section': {
+              populate: {
+                files: {
+                  populate: ['file'],
+                },
+              },
+            },
           },
         },
         sidebar: {
