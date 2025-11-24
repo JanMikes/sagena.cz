@@ -700,8 +700,9 @@ async function renderComponent(
         const person = card.person?.person;
 
         // Extract photo URL from person if available
-        const photoUrl = person?.photo?.attributes?.url
-          ? getStrapiMediaURL(person.photo.attributes.url)
+        // Strapi v5 returns media directly when populated with specific fields
+        const photoUrl = person?.photo?.url
+          ? getStrapiMediaURL(person.photo.url)
           : null;
 
         return {
@@ -727,8 +728,9 @@ async function renderComponent(
       const person = profile.person?.person;
 
       // Extract photo URL from person if available
-      const photoUrl = person?.photo?.attributes?.url
-        ? getStrapiMediaURL(person.photo.attributes.url)
+      // Strapi v5 returns media directly when populated with specific fields
+      const photoUrl = person?.photo?.url
+        ? getStrapiMediaURL(person.photo.url)
         : undefined;
 
       // Transform opening hours
@@ -751,8 +753,8 @@ async function renderComponent(
           name={person?.name || ''}
           department={profile.department}
           positions={profile.positions || []}
-          phones={profile.phones || []}
-          emails={profile.emails || []}
+          phone={person?.phone ?? undefined}
+          email={person?.email ?? undefined}
           openingHours={openingHours}
           holiday={holiday}
         />

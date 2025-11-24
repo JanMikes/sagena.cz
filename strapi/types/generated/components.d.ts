@@ -408,12 +408,10 @@ export interface ElementsDoctorProfile extends Struct.ComponentSchema {
   attributes: {
     ambulanceTitle: Schema.Attribute.String;
     department: Schema.Attribute.String & Schema.Attribute.Required;
-    emails: Schema.Attribute.JSON;
     holiday: Schema.Attribute.Component<'elements.holiday', false>;
     openingHours: Schema.Attribute.Component<'elements.opening-hours', true>;
     person: Schema.Attribute.Component<'elements.person', false> &
       Schema.Attribute.Required;
-    phones: Schema.Attribute.JSON;
     positions: Schema.Attribute.JSON;
   };
 }

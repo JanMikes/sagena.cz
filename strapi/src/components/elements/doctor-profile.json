@@ -23,14 +23,6 @@
       "type": "json",
       "required": false
     },
-    "phones": {
-      "type": "json",
-      "required": false
-    },
-    "emails": {
-      "type": "json",
-      "required": false
-    },
     "openingHours": {
       "type": "component",
       "component": "elements.opening-hours",

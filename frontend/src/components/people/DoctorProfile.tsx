@@ -20,8 +20,8 @@ interface DoctorProfileProps {
   name: string;
   department: string;
   positions: string[];
-  phones?: string[];
-  emails?: string[];
+  phone?: string;
+  email?: string;
   openingHours?: OpeningHours[];
   holiday?: Holiday;
 }
@@ -32,8 +32,8 @@ const DoctorProfile: React.FC<DoctorProfileProps> = ({
   name,
   department,
   positions,
-  phones = [],
-  emails = [],
+  phone,
+  email,
   openingHours = [],
   holiday,
 }) => {
@@ -113,26 +113,24 @@ const DoctorProfile: React.FC<DoctorProfileProps> = ({
               </div>
 
               <div className="space-y-2 mt-auto">
-                {phones.map((phone, index) => (
+                {phone && (
                   <a
-                    key={index}
                     href={`tel:${phone}`}
                     className="flex items-center space-x-2 text-gray-600 hover:text-primary-600 transition-colors text-sm"
                   >
                     <Phone className="w-4 h-4 flex-shrink-0" />
                     <span>{phone}</span>
                   </a>
-                ))}
-                {emails.map((email, index) => (
+                )}
+                {email && (
                   <a
-                    key={index}
                     href={`mailto:${email}`}
                     className="flex items-center space-x-2 text-gray-600 hover:text-primary-600 transition-colors text-sm"
                   >
                     <Mail className="w-4 h-4 flex-shrink-0" />
                     <span>{email}</span>
                   </a>
-                ))}
+                )}
               </div>
 
               {openingHours.length > 0 && (

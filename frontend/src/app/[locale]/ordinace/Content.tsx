@@ -190,8 +190,8 @@ export default function Priklad2Page() {
                           name="MUDr. Jan Novák"
                           department="Kardiologie"
                           positions={['Kardiolog', 'Interní lékařství']}
-                          phones={['+420 553 030 810']}
-                          emails={['novak@sagena.cz']}
+                          phone="+420 553 030 810"
+                          email="novak@sagena.cz"
                           openingHours={[
                               { day: 'Pondělí', time: '8:00 - 16:00' },
                               { day: 'Středa', time: '8:00 - 16:00' },
@@ -202,8 +202,8 @@ export default function Priklad2Page() {
                           name="MUDr. Marie Dvořáková"
                           department="Neurologie"
                           positions={['Neurolog']}
-                          phones={['+420 553 030 820']}
-                          emails={['dvorakova@sagena.cz']}
+                          phone="+420 553 030 820"
+                          email="dvorakova@sagena.cz"
                           holiday={{ from: '2025-02-01', to: '2025-02-14' }}
                           openingHours={[
                               { day: 'Úterý', time: '9:00 - 17:00' },

@@ -355,8 +355,8 @@ export default async function HomePage({ params }: HomePageProps) {
             name="MUDr. Jana Nováková"
             department="Kardiologie"
             positions={['Kardiologie', 'Interní medicína']}
-            emails={['novakova@sagena.cz']}
-            phones={['+420 553 030 810']}
+            email="novakova@sagena.cz"
+            phone="+420 553 030 810"
             openingHours={[
               { day: 'Pondělí', time: '8:00 - 15:00' },
               { day: 'Úterý', time: '8:00 - 15:00' },
@@ -370,8 +370,8 @@ export default async function HomePage({ params }: HomePageProps) {
             name="MUDr. Petr Svoboda"
             department="Neurologie"
             positions={['Neurologie']}
-            emails={['svoboda@sagena.cz']}
-            phones={['+420 553 030 820']}
+            email="svoboda@sagena.cz"
+            phone="+420 553 030 820"
             openingHours={[
               { day: 'Pondělí', time: '9:00 - 16:00' },
               { day: 'Středa', time: '9:00 - 16:00' },
@@ -383,8 +383,8 @@ export default async function HomePage({ params }: HomePageProps) {
             name="MUDr. Martin Dvořák"
             department="Ortopedie"
             positions={['Ortopedie', 'Sportovní medicína']}
-            emails={['dvorak@sagena.cz']}
-            phones={['+420 553 030 830']}
+            email="dvorak@sagena.cz"
+            phone="+420 553 030 830"
             openingHours={[
               { day: 'Úterý', time: '8:00 - 14:00' },
               { day: 'Středa', time: '8:00 - 14:00' },

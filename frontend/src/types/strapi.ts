@@ -747,8 +747,6 @@ export interface ElementsDoctorProfile {
   ambulanceTitle?: string | null;  // Optional ambulance title
   department: string;  // Required department name
   positions?: string[] | null;  // Optional array of positions (JSON field)
-  phones?: string[] | null;  // Optional array of phone numbers (JSON field)
-  emails?: string[] | null;  // Optional array of email addresses (JSON field)
   openingHours?: ElementsOpeningHours[];  // Optional array of opening hours
   holiday?: ElementsHoliday | null;  // Optional holiday period
 }
@@ -788,11 +786,25 @@ export interface Navigation {
 }
 
 /**
+ * Person photo type when populated with specific fields
+ * Strapi v5 returns media directly without .attributes wrapper when using populate with fields
+ */
+export interface PersonPhoto {
+  id: number;
+  documentId?: string;
+  url: string;
+  alternativeText?: string | null;
+  width?: number;
+  height?: number;
+}
+
+/**
  * Person
  * Location: strapi/src/api/person/content-types/person/schema.json
  * Usage: Person information (doctors, staff, contacts)
  *
  * IMPORTANT: Strapi returns media directly (no .data wrapper)
+ * When photo is populated with specific fields, it returns PersonPhoto (direct url access)
  */
 export interface Person {
   id: number;
@@ -800,7 +812,7 @@ export interface Person {
   name: string;  // Required full name
   email?: string | null;  // Optional email address
   phone?: string | null;  // Optional phone number
-  photo?: StrapiMedia | null;  // Optional photo (images only)
+  photo?: PersonPhoto | null;  // Optional photo (images only) - direct url access when populated
   gender?: 'man' | 'woman' | null;  // Optional gender
   createdAt?: string;
   updatedAt?: string;
