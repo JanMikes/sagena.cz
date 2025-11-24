@@ -1,4 +1,5 @@
 import React from 'react';
+import { marked } from 'marked';
 
 interface RichTextProps {
   content: string;
@@ -6,10 +7,12 @@ interface RichTextProps {
 }
 
 const RichText: React.FC<RichTextProps> = ({ content, className = '' }) => {
+  const html = marked.parse(content, { async: false }) as string;
+
   return (
     <div
       className={`prose prose-lg max-w-none ${className}`}
-      dangerouslySetInnerHTML={{ __html: content }}
+      dangerouslySetInnerHTML={{ __html: html }}
       style={{
         // Custom prose styles to match the design system
         color: '#4b5563',

@@ -693,8 +693,6 @@ export async function fetchPageBySlug(
 }
 
 /**
- * Fetch all page slugs for static generation
- * Used in generateStaticParams() for catch-all routes
  * @param locale - Locale for i18n (default: 'cs')
  */
 export async function fetchAllPageSlugs(
