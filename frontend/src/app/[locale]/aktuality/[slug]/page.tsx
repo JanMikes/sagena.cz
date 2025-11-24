@@ -13,7 +13,8 @@ import RichText from '@/components/typography/RichText';
 import Video from '@/components/content/Video';
 import PhotoGallery from '@/components/media/PhotoGallery';
 import Documents from '@/components/content/Documents';
-import { locales, type Locale } from '@/i18n/config';
+import { SetAlternateLocaleUrl } from '@/contexts/LocaleContext';
+import { locales, getAlternateLocale, type Locale } from '@/i18n/config';
 
 interface NewsArticlePageProps {
   params: Promise<{
@@ -82,6 +83,10 @@ export default async function NewsArticlePage({ params }: NewsArticlePageProps) 
     notFound();
   }
 
+  const alternateLocale = getAlternateLocale(locale as Locale);
+  // For news articles, redirect to the alternate locale's news listing (since articles may not have translations)
+  const alternateLocaleUrl = `/${alternateLocale}/aktuality/`;
+
   const imageUrl = article.image?.attributes?.url
     ? getStrapiMediaURL(article.image.attributes.url)
     : undefined;
@@ -92,6 +97,9 @@ export default async function NewsArticlePage({ params }: NewsArticlePageProps) 
 
   return (
     <main className="min-h-screen bg-gray-50">
+      {/* Set alternate URL for language switcher */}
+      <SetAlternateLocaleUrl url={alternateLocaleUrl} />
+
       <div className="container mx-auto px-4 py-8 max-w-4xl">
         {/* Back to news button */}
         <div className="mb-6">

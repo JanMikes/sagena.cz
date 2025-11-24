@@ -18,6 +18,7 @@ import { fetchPageBySlug, fetchAllPageSlugs, hasSidebar } from '@/lib/strapi';
 import DynamicZone from '@/components/strapi/DynamicZone';
 import SidePanel from '@/components/layout/SidePanel';
 import Breadcrumb from '@/components/navigation/Breadcrumb';
+import { SetAlternateLocaleUrl } from '@/contexts/LocaleContext';
 import { locales, isStaticCzechPage, getAlternateLocale, type Locale } from '@/i18n/config';
 
 interface PageProps {
@@ -100,6 +101,25 @@ export default async function Page({ params }: PageProps) {
   }
 
   const showSidebar = hasSidebar(page.sidebar);
+  const alternateLocale = getAlternateLocale(locale as Locale);
+
+  // Compute alternate locale URL from page localizations
+  let alternateLocaleUrl: string | null = null;
+  if (isStaticCzechPage(slug)) {
+    // Static Czech pages have the same slug in both locales
+    alternateLocaleUrl = `/${alternateLocale}/${slug}/`;
+  } else if (page.localizations) {
+    const alternateVersion = page.localizations.find(l => l.locale === alternateLocale);
+    if (alternateVersion) {
+      alternateLocaleUrl = `/${alternateLocale}/${alternateVersion.slug}/`;
+    } else {
+      // No alternate version exists, redirect to homepage
+      alternateLocaleUrl = `/${alternateLocale}/`;
+    }
+  } else {
+    // No localizations data, fallback to homepage
+    alternateLocaleUrl = `/${alternateLocale}/`;
+  }
 
   // Build breadcrumb items
   const breadcrumbItems = [
@@ -109,6 +129,9 @@ export default async function Page({ params }: PageProps) {
 
   return (
     <>
+      {/* Set alternate URL for language switcher */}
+      <SetAlternateLocaleUrl url={alternateLocaleUrl} />
+
       {/* Header */}
       <div className="bg-gradient-to-r from-primary-600 to-primary-700 text-white py-16">
         <div className="container-custom">

@@ -8,27 +8,27 @@ import Button from '@/components/ui/Button';
 import Modal from '@/components/interactive/Modal';
 import { NavigationItem } from '@/types/strapi';
 import { type Locale } from '@/i18n/config';
+import { useLocaleContext } from '@/contexts/LocaleContext';
 
 interface HeaderProps {
   navigation?: NavigationItem[];
   currentLocale?: Locale;
   alternateLocale?: Locale;
-  alternateLocaleUrl?: string; // Optional: specific URL for alternate locale (from page localizations)
 }
 
 const Header: React.FC<HeaderProps> = ({
   navigation = [],
   currentLocale = 'cs',
   alternateLocale = 'en',
-  alternateLocaleUrl,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [searchModalOpen, setSearchModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const pathname = usePathname();
+  const { alternateLocaleUrl } = useLocaleContext();
 
-  // Compute alternate URL: use provided URL or swap locale in current path
+  // Compute alternate URL: use context URL or swap locale in current path
   const computedAlternateUrl = alternateLocaleUrl || pathname.replace(`/${currentLocale}`, `/${alternateLocale}`);
 
   // Normalize path for comparison (remove trailing slash for consistency)

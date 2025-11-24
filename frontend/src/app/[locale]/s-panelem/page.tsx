@@ -1,5 +1,12 @@
-import { locales } from '@/i18n/config';
+import { locales, getAlternateLocale, type Locale } from '@/i18n/config';
+import { SetAlternateLocaleUrl } from '@/contexts/LocaleContext';
 import SPanelemContent from './Content';
+
+interface SPanelemPageProps {
+  params: Promise<{
+    locale: string;
+  }>;
+}
 
 /**
  * Generate static params for all supported locales
@@ -9,6 +16,15 @@ export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
 
-export default function SPanelemPage() {
-  return <SPanelemContent />;
+export default async function SPanelemPage({ params }: SPanelemPageProps) {
+  const { locale } = await params;
+  const alternateLocale = getAlternateLocale(locale as Locale);
+  const alternateLocaleUrl = `/${alternateLocale}/s-panelem/`;
+
+  return (
+    <>
+      <SetAlternateLocaleUrl url={alternateLocaleUrl} />
+      <SPanelemContent />
+    </>
+  );
 }

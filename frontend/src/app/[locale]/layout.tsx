@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import Header from '@/components/layout/Header';
 import { fetchNavigation } from '@/lib/strapi';
 import { locales, isValidLocale, getAlternateLocale, type Locale } from '@/i18n/config';
+import { LocaleProvider } from '@/contexts/LocaleContext';
 import type { NavigationItem } from '@/types/strapi';
 
 interface LocaleLayoutProps {
@@ -44,13 +45,13 @@ export default async function LocaleLayout({
   const alternateLocale = getAlternateLocale(locale as Locale);
 
   return (
-    <>
+    <LocaleProvider>
       <Header
         navigation={navbarItems}
         currentLocale={locale as Locale}
         alternateLocale={alternateLocale}
       />
       <main>{children}</main>
-    </>
+    </LocaleProvider>
   );
 }

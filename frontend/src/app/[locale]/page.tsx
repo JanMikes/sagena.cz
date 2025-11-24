@@ -13,7 +13,8 @@ import ContactForm from '@/components/forms/ContactForm';
 import PartnerLogos from '@/components/content/PartnerLogos';
 import SectionDivider from '@/components/layout/SectionDivider';
 import Slider from '@/components/marketing/Slider';
-import { locales, type Locale } from '@/i18n/config';
+import { SetAlternateLocaleUrl } from '@/contexts/LocaleContext';
+import { locales, getAlternateLocale, type Locale } from '@/i18n/config';
 
 interface HomePageProps {
   params: Promise<{
@@ -58,6 +59,8 @@ export async function generateMetadata({ params }: HomePageProps): Promise<Metad
 
 export default async function HomePage({ params }: HomePageProps) {
   const { locale } = await params;
+  const alternateLocale = getAlternateLocale(locale as Locale);
+  const alternateLocaleUrl = `/${alternateLocale}/`;
 
   const services = [
     {
@@ -206,6 +209,9 @@ export default async function HomePage({ params }: HomePageProps) {
 
   return (
     <div className="min-h-screen">
+      {/* Set alternate URL for language switcher */}
+      <SetAlternateLocaleUrl url={alternateLocaleUrl} />
+
       {/* Hero Section with Slider */}
       <div className="bg-gradient-to-r from-primary-600 to-primary-700">
         <Slider slides={sliderSlides} autoplay />

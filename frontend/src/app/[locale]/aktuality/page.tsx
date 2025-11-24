@@ -2,6 +2,7 @@ import React from 'react';
 import { Metadata } from 'next';
 import { fetchNewsArticles, getStrapiMediaURL } from '@/lib/strapi';
 import NewsArticles from '@/components/content/NewsArticles';
+import { SetAlternateLocaleUrl } from '@/contexts/LocaleContext';
 import { locales, getAlternateLocale, type Locale } from '@/i18n/config';
 
 interface NewsListingPageProps {
@@ -53,6 +54,8 @@ export async function generateMetadata({ params }: NewsListingPageProps): Promis
  */
 export default async function NewsListingPage({ params }: NewsListingPageProps) {
   const { locale } = await params;
+  const alternateLocale = getAlternateLocale(locale as Locale);
+  const alternateLocaleUrl = `/${alternateLocale}/aktuality/`;
 
   const articles = await fetchNewsArticles(locale, undefined, undefined, 'date:desc');
 
@@ -80,6 +83,9 @@ export default async function NewsListingPage({ params }: NewsListingPageProps) 
 
   return (
     <main className="min-h-screen bg-gray-50">
+      {/* Set alternate URL for language switcher */}
+      <SetAlternateLocaleUrl url={alternateLocaleUrl} />
+
       <div className="container mx-auto px-4 py-8">
         {/* Page header */}
         <div className="mb-8">

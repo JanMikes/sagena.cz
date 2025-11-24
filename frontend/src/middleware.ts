@@ -44,7 +44,15 @@ export function middleware(request: NextRequest) {
   );
 
   if (pathnameHasLocale) {
-    return NextResponse.next();
+    // Set x-pathname header on request for the layout to read
+    const requestHeaders = new Headers(request.headers);
+    requestHeaders.set('x-pathname', pathname);
+
+    return NextResponse.next({
+      request: {
+        headers: requestHeaders,
+      },
+    });
   }
 
   // Redirect root to preferred locale

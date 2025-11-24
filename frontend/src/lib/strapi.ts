@@ -238,16 +238,18 @@ export async function getIconUrlById(id: number): Promise<string | null> {
  * Priority: page > url > file > anchor
  *
  * IMPORTANT: Strapi returns relations directly (no .data wrapper, no .attributes)
+ * @param link - The link component from Strapi
+ * @param locale - Current locale for prefixing internal page links (default: 'cs')
  */
-export function resolveLink(link: ElementsLink): ResolvedLink | null {
+export function resolveLink(link: ElementsLink, locale: string = 'cs'): ResolvedLink | null {
   if (!link) return null;
 
   // Internal page link
   // Strapi returns page relation directly (not wrapped in .data)
   if (link.page) {
     const pageSlug = link.page.slug;
-    // Add trailing slash for consistency with Next.js trailingSlash: true
-    const href = `/${pageSlug}/${link.anchor ? `#${link.anchor}` : ''}`;
+    // Add locale prefix and trailing slash for consistency with Next.js trailingSlash: true
+    const href = `/${locale}/${pageSlug}/${link.anchor ? `#${link.anchor}` : ''}`;
     return { href, target: '_self' };
   }
 
@@ -328,7 +330,7 @@ export async function fetchNavigation(
   for (const nav of filteredData) {
     const link = nav.link;
 
-    const resolvedLink = resolveLink(link);
+    const resolvedLink = resolveLink(link, locale);
 
     if (resolvedLink) {
       items.push({
