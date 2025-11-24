@@ -1,10 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import { fetchNavigation } from "@/lib/strapi";
-import type { NavigationItem } from "@/types/strapi";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,25 +11,24 @@ export const metadata: Metadata = {
   keywords: "zdravotní péče, ordinace, rehabilitace, MRI, lékárna, Sagena",
 };
 
+interface RootLayoutProps {
+  children: React.ReactNode;
+  params: Promise<{
+    locale?: string;
+  }>;
+}
+
 export default async function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  // Fetch navbar navigation from Strapi
-  // Fallback to empty array if Strapi is not available (for development)
-  let navbarItems: NavigationItem[] = [];
-  try {
-    navbarItems = await fetchNavigation(true, undefined, 'cs-CZ');
-  } catch (error) {
-    console.error('Failed to fetch navigation from Strapi:', error);
-  }
+  params,
+}: RootLayoutProps) {
+  const { locale } = await params;
+  const htmlLang = locale || 'cs';
 
   return (
-    <html lang="cs">
+    <html lang={htmlLang}>
       <body className={`${inter.className} antialiased`}>
-        <Header navigation={navbarItems} />
-        <main>{children}</main>
+        {children}
         <Footer />
       </body>
     </html>

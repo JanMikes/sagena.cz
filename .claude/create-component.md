@@ -568,7 +568,7 @@ case 'components.with-columns': {
 ```typescript
 export async function fetchPageBySlug(
   slug: string,
-  locale: string = 'cs-CZ'
+  locale: string = 'cs'
 ): Promise<Page | null> {
   try {
     const response = await fetchAPI<StrapiCollectionResponse<Page>>('/pages', {

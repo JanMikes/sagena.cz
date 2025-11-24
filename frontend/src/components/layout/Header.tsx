@@ -7,18 +7,29 @@ import { Menu, X, Phone, Search, Globe } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import Modal from '@/components/interactive/Modal';
 import { NavigationItem } from '@/types/strapi';
+import { type Locale } from '@/i18n/config';
 
 interface HeaderProps {
   navigation?: NavigationItem[];
+  currentLocale?: Locale;
+  alternateLocale?: Locale;
+  alternateLocaleUrl?: string; // Optional: specific URL for alternate locale (from page localizations)
 }
 
-const Header: React.FC<HeaderProps> = ({ navigation = [] }) => {
+const Header: React.FC<HeaderProps> = ({
+  navigation = [],
+  currentLocale = 'cs',
+  alternateLocale = 'en',
+  alternateLocaleUrl,
+}) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [currentLang, setCurrentLang] = useState<'cs-CZ' | 'en'>('cs-CZ');
   const [searchModalOpen, setSearchModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const pathname = usePathname();
+
+  // Compute alternate URL: use provided URL or swap locale in current path
+  const computedAlternateUrl = alternateLocaleUrl || pathname.replace(`/${currentLocale}`, `/${alternateLocale}`);
 
   // Normalize path for comparison (remove trailing slash for consistency)
   const normalizePath = (path: string) => {
@@ -36,9 +47,8 @@ const Header: React.FC<HeaderProps> = ({ navigation = [] }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const toggleLanguage = () => {
-    setCurrentLang(currentLang === 'cs-CZ' ? 'en' : 'cs-CZ');
-  };
+  // Language switcher label
+  const switchLanguageLabel = currentLocale === 'cs' ? 'Switch to English' : 'Přepnout do češtiny';
 
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm transition-all duration-300">
@@ -50,7 +60,7 @@ const Header: React.FC<HeaderProps> = ({ navigation = [] }) => {
           }`}
         >
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-3">
+          <Link href={`/${currentLocale}/`} className="flex items-center space-x-3">
             <img
               src="/logo-color.svg"
               alt="Sagena"
@@ -74,7 +84,7 @@ const Header: React.FC<HeaderProps> = ({ navigation = [] }) => {
 
           {/* Mobile logo only */}
           <div className="lg:hidden">
-            <Link href="/" className="flex items-center space-x-2">
+            <Link href={`/${currentLocale}/`} className="flex items-center space-x-2">
               <img
                 src="/logo-color.svg"
                 alt="Sagena"
@@ -88,7 +98,7 @@ const Header: React.FC<HeaderProps> = ({ navigation = [] }) => {
         <div className="flex items-center justify-between h-16">
           {/* Logo (visible when scrolled) - Desktop */}
           <Link
-            href="/"
+            href={`/${currentLocale}/`}
             className={`flex items-center space-x-2 transition-opacity duration-300 ${
               isScrolled ? 'opacity-100' : 'opacity-0 pointer-events-none'
             } hidden lg:flex`}
@@ -102,7 +112,7 @@ const Header: React.FC<HeaderProps> = ({ navigation = [] }) => {
 
           {/* Logo (visible when scrolled) - Mobile */}
           <Link
-            href="/"
+            href={`/${currentLocale}/`}
             className={`flex items-center space-x-2 transition-opacity duration-300 lg:hidden ${
               isScrolled ? 'opacity-100' : 'opacity-0 pointer-events-none'
             }`}
@@ -143,14 +153,14 @@ const Header: React.FC<HeaderProps> = ({ navigation = [] }) => {
             >
               <Search className="w-5 h-5" />
             </button>
-            <button
-              onClick={toggleLanguage}
+            <a
+              href={computedAlternateUrl}
               className="flex items-center space-x-1.5 px-3 py-2 text-sm font-medium text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
-              aria-label="Přepnout jazyk"
+              aria-label={switchLanguageLabel}
             >
               <Globe className="w-4 h-4" />
-              <span className="uppercase">{currentLang}</span>
-            </button>
+              <span className="uppercase">{alternateLocale}</span>
+            </a>
           </div>
 
           {/* Mobile menu button */}
@@ -198,13 +208,14 @@ const Header: React.FC<HeaderProps> = ({ navigation = [] }) => {
                 <Search className="w-5 h-5" />
                 <span className="font-medium">Vyhledávání</span>
               </button>
-              <button
-                onClick={toggleLanguage}
+              <a
+                href={computedAlternateUrl}
                 className="flex items-center space-x-2 px-4 py-3 text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors text-left"
+                onClick={() => setMobileMenuOpen(false)}
               >
                 <Globe className="w-5 h-5" />
-                <span className="font-medium uppercase">{currentLang} / {currentLang === 'cs-CZ' ? 'en' : 'cs-CZ'}</span>
-              </button>
+                <span className="font-medium uppercase">{currentLocale} / {alternateLocale}</span>
+              </a>
               <a
                 href="tel:+420553030800"
                 className="flex items-center space-x-2 px-4 py-3 text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"

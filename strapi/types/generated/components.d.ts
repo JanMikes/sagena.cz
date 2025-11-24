@@ -196,6 +196,28 @@ export interface ComponentsMarketingArguments extends Struct.ComponentSchema {
   };
 }
 
+export interface ComponentsNewsArticles extends Struct.ComponentSchema {
+  collectionName: 'components_components_news_articles';
+  info: {
+    displayName: 'news-articles';
+    icon: 'feather';
+  };
+  attributes: {
+    limit: Schema.Attribute.Integer &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMax<
+        {
+          max: 20;
+          min: 1;
+        },
+        number
+      > &
+      Schema.Attribute.DefaultTo<3>;
+    show_all_link: Schema.Attribute.Component<'elements.text-link', false>;
+    tags: Schema.Attribute.Relation<'oneToMany', 'api::tag.tag'>;
+  };
+}
+
 export interface ComponentsPartnerLogos extends Struct.ComponentSchema {
   collectionName: 'components_components_partner_logos';
   info: {
@@ -614,6 +636,7 @@ declare module '@strapi/strapi' {
       'components.job-posting': ComponentsJobPosting;
       'components.links-list': ComponentsLinksList;
       'components.marketing-arguments': ComponentsMarketingArguments;
+      'components.news-articles': ComponentsNewsArticles;
       'components.partner-logos': ComponentsPartnerLogos;
       'components.photo-gallery': ComponentsPhotoGallery;
       'components.section-divider': ComponentsSectionDivider;

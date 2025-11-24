@@ -5,7 +5,8 @@
  * It fetches page content by slug and renders it using DynamicZone components.
  *
  * Features:
- * - Static generation at build time
+ * - Locale-aware content fetching
+ * - Static Czech pages always show Czech content
  * - Support for nested page hierarchies
  * - Optional sidebar rendering
  * - Breadcrumb navigation
@@ -17,18 +18,36 @@ import { fetchPageBySlug, fetchAllPageSlugs, hasSidebar } from '@/lib/strapi';
 import DynamicZone from '@/components/strapi/DynamicZone';
 import SidePanel from '@/components/layout/SidePanel';
 import Breadcrumb from '@/components/navigation/Breadcrumb';
+import { locales, isStaticCzechPage, getAlternateLocale, type Locale } from '@/i18n/config';
 
 interface PageProps {
   params: Promise<{
+    locale: string;
     slug: string[];
   }>;
 }
 
 /**
- * Force dynamic rendering - do not pre-render at build time
- * All pages will be rendered on-demand via SSR
+ * Generate static params for all pages and locales
  */
-export const dynamic = 'force-dynamic';
+export async function generateStaticParams() {
+  const params: { locale: string; slug: string[] }[] = [];
+
+  for (const locale of locales) {
+    // For static Czech pages, we only need to fetch Czech slugs
+    // For other pages, fetch both locales
+    const slugs = await fetchAllPageSlugs(locale);
+
+    for (const slug of slugs) {
+      params.push({
+        locale,
+        slug: slug.split('/'),
+      });
+    }
+  }
+
+  return params;
+}
 
 /**
  * Generate metadata for SEO
@@ -36,9 +55,12 @@ export const dynamic = 'force-dynamic';
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
-  const { slug: slugArray } = await params;
+  const { locale, slug: slugArray } = await params;
   const slug = slugArray.join('/');
-  const page = await fetchPageBySlug(slug);
+
+  // Use Czech locale for static pages
+  const effectiveLocale = isStaticCzechPage(slug) ? 'cs' : locale;
+  const page = await fetchPageBySlug(slug, effectiveLocale);
 
   if (!page) {
     return {
@@ -46,9 +68,18 @@ export async function generateMetadata({
     };
   }
 
+  const alternateLocale = getAlternateLocale(locale as Locale);
+  const alternateSlug = page.localizations?.find(l => l.locale === alternateLocale)?.slug;
+
   return {
     title: `${page.title} | Sagena`,
     description: page.meta_description || page.title,
+    alternates: {
+      languages: {
+        [locale]: `/${locale}/${slug}/`,
+        ...(alternateSlug && { [alternateLocale]: `/${alternateLocale}/${alternateSlug}/` }),
+      },
+    },
   };
 }
 
@@ -56,9 +87,12 @@ export async function generateMetadata({
  * Page component
  */
 export default async function Page({ params }: PageProps) {
-  const { slug: slugArray } = await params;
+  const { locale, slug: slugArray } = await params;
   const slug = slugArray.join('/');
-  const page = await fetchPageBySlug(slug);
+
+  // Use Czech locale for static demonstration pages
+  const effectiveLocale = isStaticCzechPage(slug) ? 'cs' : locale;
+  const page = await fetchPageBySlug(slug, effectiveLocale);
 
   // Show 404 if page not found
   if (!page) {
@@ -69,8 +103,8 @@ export default async function Page({ params }: PageProps) {
 
   // Build breadcrumb items
   const breadcrumbItems = [
-    { label: 'Úvod', href: '/' },
-    { label: page.title, href: `/${slug}` },
+    { label: 'Úvod', href: `/${locale}/` },
+    { label: page.title, href: `/${locale}/${slug}/` },
   ];
 
   return (
@@ -92,13 +126,13 @@ export default async function Page({ params }: PageProps) {
               {/* Breadcrumb Navigation */}
               <Breadcrumb items={breadcrumbItems} />
 
-              <DynamicZone components={page.content} />
+              <DynamicZone components={page.content} locale={locale} />
             </div>
 
             {/* Sidebar */}
             <div className="lg:col-span-1">
               <SidePanel>
-                <DynamicZone components={page.sidebar || []} />
+                <DynamicZone components={page.sidebar || []} locale={locale} />
               </SidePanel>
             </div>
           </div>
@@ -109,7 +143,7 @@ export default async function Page({ params }: PageProps) {
             <Breadcrumb items={breadcrumbItems} />
 
             <div className="max-w-4xl">
-              <DynamicZone components={page.content} />
+              <DynamicZone components={page.content} locale={locale} />
             </div>
           </div>
         )}

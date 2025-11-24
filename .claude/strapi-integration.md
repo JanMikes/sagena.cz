@@ -278,7 +278,7 @@ Is it a dynamic zone (components have different nested relations)?
 ```typescript
 // strapi.ts - fetchNavigation()
 {
-  locale: 'cs-CZ',
+  locale: 'cs',
   populate: {
     link: {  // link is a component
       populate: ['page', 'file']  // page and file are nested relations
@@ -291,7 +291,7 @@ Is it a dynamic zone (components have different nested relations)?
 ```typescript
 // strapi.ts - fetchPageBySlug()
 {
-  locale: 'cs-CZ',
+  locale: 'cs',
   populate: {
     content: {
       on: {

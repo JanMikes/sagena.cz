@@ -97,6 +97,53 @@ export interface Icon {
 }
 
 // ============================================================================
+// Tag Content Type
+// ============================================================================
+
+/**
+ * Tag content type
+ * Location: strapi/src/api/tag/content-types/tag/schema.json
+ * Usage: Taxonomy tags for news articles and other content
+ */
+export interface Tag {
+  id: number;
+  documentId?: string;
+  name: string;
+  slug: string;
+  locale?: string;
+  createdAt?: string;
+  updatedAt?: string;
+  publishedAt?: string;
+}
+
+// ============================================================================
+// News Article Content Type
+// ============================================================================
+
+/**
+ * News Article content type
+ * Location: strapi/src/api/news-article/content-types/news-article/schema.json
+ * Usage: News articles collection with rich content (text, video, gallery, documents)
+ */
+export interface NewsArticle {
+  id: number;
+  documentId?: string;
+  title: string;
+  slug: string;
+  date?: string | null; // ISO date string
+  image?: StrapiMedia | null; // Featured image
+  text?: string | null; // Rich text HTML
+  tags?: Tag[]; // Array of populated tags
+  video?: ComponentsVideo | null; // Optional video component
+  gallery?: ComponentsPhotoGallery | null; // Optional gallery component
+  documents?: ComponentsDocuments | null; // Optional documents component
+  locale?: string;
+  createdAt?: string;
+  updatedAt?: string;
+  publishedAt?: string;
+}
+
+// ============================================================================
 // Strapi Components (standalone UI components in dynamic zones)
 // ============================================================================
 
@@ -359,6 +406,24 @@ export interface ComponentsDoctorProfile {
   id: number;
   __component: 'components.doctor-profile';
   profile: ElementsDoctorProfile;  // Single doctor profile
+}
+
+/**
+ * Components: News Articles
+ * Location: strapi/src/components/components/news-articles.json
+ * Usage: Display filtered list of news articles from news-articles collection
+ *
+ * Filtering logic:
+ * - If tags are selected: show articles that have ANY of the selected tags (OR logic)
+ * - If no tags selected: show all articles
+ * - Limit+1 articles are queried to detect if "show all" button should appear
+ */
+export interface ComponentsNewsArticles {
+  id: number;
+  __component: 'components.news-articles';
+  tags?: Tag[];  // Optional tags filter (OR logic)
+  limit: number;  // Number of articles to display (default: 3)
+  show_all_link?: ElementsTextLink | null;  // Optional "show all" link
 }
 
 // ============================================================================
@@ -695,7 +760,7 @@ export interface ElementsDoctorProfile {
 /**
  * Page content dynamic zone - all components that can appear in page content area
  */
-export type PageContentComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsLinksList | ComponentsVideo | ComponentsServiceCards | ComponentsFullWidthCards | ComponentsDocuments | ComponentsJobPosting | ComponentsPartnerLogos | ComponentsMarketingArguments | ComponentsTimeline | ComponentsSectionDivider | ComponentsSlider | ComponentsGallerySlider | ComponentsPhotoGallery | ComponentsDirections | ComponentsExpandableSection | ComponentsButtonGroup | ComponentsContactCards | ComponentsDoctorProfile;
+export type PageContentComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsLinksList | ComponentsVideo | ComponentsServiceCards | ComponentsFullWidthCards | ComponentsDocuments | ComponentsJobPosting | ComponentsPartnerLogos | ComponentsMarketingArguments | ComponentsTimeline | ComponentsSectionDivider | ComponentsSlider | ComponentsGallerySlider | ComponentsPhotoGallery | ComponentsDirections | ComponentsExpandableSection | ComponentsButtonGroup | ComponentsContactCards | ComponentsDoctorProfile | ComponentsNewsArticles;
 
 /**
  * Page sidebar dynamic zone - all components that can appear in page sidebar
@@ -743,6 +808,17 @@ export interface Person {
 }
 
 /**
+ * Page Localization reference
+ * Used in the localizations field to reference other locale versions
+ */
+export interface PageLocalization {
+  id: number;
+  documentId?: string;
+  locale: string;
+  slug: string;
+}
+
+/**
  * Page (Stránka)
  * Location: strapi/src/api/page/content-types/page/schema.json
  * Usage: Core content pages with dynamic zones for content and sidebar
@@ -759,6 +835,7 @@ export interface Page {
   content: PageContentComponent[]; // Main content area (dynamic zone)
   sidebar?: PageSidebarComponent[]; // Optional sidebar area (dynamic zone)
   locale?: string;
+  localizations?: PageLocalization[]; // Other locale versions of this page
   createdAt?: string;
   updatedAt?: string;
   publishedAt?: string;

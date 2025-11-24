@@ -75,7 +75,8 @@
         "components.expandable-section",
         "components.button-group",
         "components.contact-cards",
-        "components.doctor-profile"
+        "components.doctor-profile",
+        "components.news-articles"
       ],
       "required": true
     },

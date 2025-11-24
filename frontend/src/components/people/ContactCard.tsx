@@ -3,9 +3,10 @@ import { Mail, Phone } from 'lucide-react';
 
 interface ContactCardProps {
   name: string;
-  email?: string;
-  phone?: string;
-  photo?: string;
+  email?: string | null;
+  phone?: string | null;
+  photo?: string | null;
+  gender?: string | null;
 }
 
 const ContactCard: React.FC<ContactCardProps> = ({ name, email, phone, photo }) => {

@@ -13,7 +13,7 @@
 
 ---
 
-## ✅ Currently Integrated Components (21)
+## ✅ Currently Integrated Components (22)
 
 These components are already implemented in the dynamic zone:
 
@@ -38,29 +38,37 @@ These components are already implemented in the dynamic zone:
 19. **components.button-group** → ButtonGroup (uses `elements.button`)
 20. **components.contact-cards** → ContactCards (uses `elements.contact-card`, `elements.person`)
 21. **components.doctor-profile** → DoctorProfile (uses `elements.doctor-profile`, `elements.person`, `elements.opening-hours`, `elements.holiday`)
+22. **components.news-articles** → NewsArticles (queries `api::news-article.news-article` collection with tag filtering, limit+1 strategy for "show all" button)
 
 ---
 
-## 🎯 Priority Components to Add (1)
+## 🎯 Priority Components to Add (0)
 
-### 📄 CONTENT COMPONENTS (1)
+All priority components have been implemented! ✅
 
 ---
 
-#### 1. News Article (components.news-article)
+## 📰 News Articles System (NEW)
 
-**Component name:** NewsArticle ✅ RENAMED
-**Location:** `/frontend/src/components/content/NewsArticle.tsx`
+The news articles system is implemented as a collection-based component with the following architecture:
 
-**Fields:**
+**Collection:** `api::news-article.news-article`
+- Contains news article entries with title, slug, date, image, rich text, tags, video, gallery, documents
+- Fully localizable (i18n support)
 
-| Field Name | Type | Required | Nullable | Notes |
-|------------|------|----------|----------|-------|
-| `title` | Text (short) | ✓ | ✗ | Article headline |
-| `date` | Date | ✓ | ✗ | Publication date |
-| `text` | Text (long) | ✓ | ✗ | Article excerpt/preview |
-| `image` | Media (single) | ✗ | ✓ | Featured image (Strapi provides alt text, dimensions, url) |
-| `read_more_link` | Component (single) | ✓ | ✗ | Use `elements.text-link` (includes text + target, default text: "Číst více") |
+**Dynamic Zone Component:** `components.news-articles`
+- Displays filtered list of news articles from the collection
+- Supports tag-based filtering (OR logic - shows articles with ANY selected tag)
+- Configurable limit with "show all" link
+- Uses limit+1 query strategy to detect if more articles exist
+
+**Frontend Pages:**
+- `/aktuality` - News listing page (all articles)
+- `/aktuality/[slug]` - News detail page with full content including video/gallery/documents
+
+**Component:** `NewsArticle.tsx` and `NewsArticles.tsx`
+- Reusable article card component with tags display
+- Wrapper component for rendering multiple articles in grid layout
 
 ---
 

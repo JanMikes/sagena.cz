@@ -27,7 +27,8 @@ import ExpandableSection from '@/components/interactive/ExpandableSection';
 import ButtonGroup from '@/components/layout/ButtonGroup';
 import ContactCards from '@/components/people/ContactCards';
 import DoctorProfile from '@/components/people/DoctorProfile';
-import { getStrapiMediaURL, getIconUrlById } from '@/lib/strapi';
+import NewsArticles from '@/components/content/NewsArticles';
+import { getStrapiMediaURL, getIconUrlById, fetchNewsArticles } from '@/lib/strapi';
 import {
   PageContentComponent,
   PageSidebarComponent,
@@ -52,6 +53,7 @@ import {
   ComponentsButtonGroup,
   ComponentsContactCards,
   ComponentsDoctorProfile,
+  ComponentsNewsArticles,
   ElementsTextLink,
   StrapiMedia,
 } from '@/types/strapi';
@@ -59,13 +61,14 @@ import {
 interface DynamicZoneProps {
   components: (PageContentComponent | PageSidebarComponent)[];
   className?: string;
+  locale?: string;
 }
 
 /**
  * Resolve ElementsTextLink to href and disabled state
  * Priority: page > url > file > anchor
  */
-function resolveTextLink(link: ElementsTextLink): {
+function resolveTextLink(link: ElementsTextLink, locale: string = 'cs'): {
   url: string;
   external: boolean;
   disabled: boolean;
@@ -84,7 +87,7 @@ function resolveTextLink(link: ElementsTextLink): {
   // Priority 1: Internal page
   if (link.page?.slug) {
     return {
-      url: `/${link.page.slug}`,
+      url: `/${locale}/${link.page.slug}/`,
       external: false,
       disabled: false,
     };
@@ -132,7 +135,8 @@ function resolveTextLink(link: ElementsTextLink): {
  */
 async function renderComponent(
   component: PageContentComponent | PageSidebarComponent,
-  index: number
+  index: number,
+  locale: string = 'cs'
 ): Promise<React.ReactNode> {
   const { __component } = component;
 
@@ -188,7 +192,7 @@ async function renderComponent(
 
       // Transform Strapi links to LinksList format
       const links = linksListComponent.links.map((link) => {
-        const resolved = resolveTextLink(link);
+        const resolved = resolveTextLink(link, locale);
         return {
           title: link.text,
           url: resolved.url,
@@ -231,7 +235,7 @@ async function renderComponent(
         // Resolve link if provided
         let link: { text: string; url: string } | undefined;
         if (card.link) {
-          const resolved = resolveTextLink(card.link);
+          const resolved = resolveTextLink(card.link, locale);
           if (!resolved.disabled) {
             link = {
               text: card.link.text,
@@ -277,7 +281,7 @@ async function renderComponent(
           : null;
 
         // Resolve link (required for full-width cards)
-        const resolved = resolveTextLink(card.link);
+        const resolved = resolveTextLink(card.link, locale);
 
         return {
           icon: iconUrl,
@@ -354,7 +358,7 @@ async function renderComponent(
       const jobPostingComponent = component as ComponentsJobPosting;
 
       // Resolve the CTA link
-      const resolved = resolveTextLink(jobPostingComponent.cta_link);
+      const resolved = resolveTextLink(jobPostingComponent.cta_link, locale);
 
       return (
         <JobPosting
@@ -509,7 +513,7 @@ async function renderComponent(
         // Resolve link (optional for slides)
         let link = null;
         if (slide.link) {
-          const resolved = resolveTextLink(slide.link);
+          const resolved = resolveTextLink(slide.link, locale);
           link = {
             text: slide.link.text,
             url: resolved.url,
@@ -641,7 +645,7 @@ async function renderComponent(
 
       // Transform Strapi buttons to component format
       const buttons = buttonGroupComponent.buttons.map((button) => {
-        const resolved = resolveTextLink(button.link);
+        const resolved = resolveTextLink(button.link, locale);
 
         // Map Strapi variant/size values to component values
         const variantMap: Record<string, 'primary' | 'secondary' | 'outline' | 'ghost'> = {
@@ -758,6 +762,63 @@ async function renderComponent(
       );
     }
 
+    case 'components.news-articles': {
+      const newsArticlesComponent = component as ComponentsNewsArticles;
+
+      // Extract tag slugs for filtering (if any tags are selected)
+      const tagSlugs = newsArticlesComponent.tags?.map((tag) => tag.slug) || [];
+
+      // Query limit+1 articles to detect if "show all" button should appear
+      const limit = newsArticlesComponent.limit || 3;
+      const fetchedArticles = await fetchNewsArticles(
+        locale,
+        tagSlugs.length > 0 ? tagSlugs : undefined,
+        limit + 1 // Fetch one extra to detect "show all" button
+      );
+
+      // Split articles: display `limit` articles, hide the last one if limit+1 were returned
+      const articlesToDisplay = fetchedArticles.slice(0, limit);
+      const showAllButtonVisible = fetchedArticles.length > limit;
+
+      // Transform articles to component props
+      const articles = articlesToDisplay.map((article) => ({
+        slug: article.slug,
+        title: article.title,
+        date: article.date || new Date().toISOString(),
+        text: article.text || '',
+        image: article.image?.attributes?.url
+          ? getStrapiMediaURL(article.image.attributes.url)
+          : undefined,
+        imageAlt: article.image?.attributes?.alternativeText || article.title,
+        tags: article.tags?.map((tag) => ({
+          name: tag.name,
+          slug: tag.slug,
+        })),
+      }));
+
+      // Resolve "show all" link if provided
+      let showAllLink = null;
+      if (newsArticlesComponent.show_all_link) {
+        const resolved = resolveTextLink(newsArticlesComponent.show_all_link, locale);
+        if (!resolved.disabled) {
+          showAllLink = {
+            text: newsArticlesComponent.show_all_link.text,
+            url: resolved.url,
+          };
+        }
+      }
+
+      return (
+        <NewsArticles
+          key={`${__component}-${component.id || index}`}
+          articles={articles}
+          showAllLink={showAllLink}
+          showAllButtonVisible={showAllButtonVisible}
+          locale={locale}
+        />
+      );
+    }
+
     default:
       // Log unknown component types for debugging
       console.warn(`Unknown component type: ${__component}`);
@@ -771,6 +832,7 @@ async function renderComponent(
 const DynamicZone: React.FC<DynamicZoneProps> = async ({
   components,
   className = '',
+  locale = 'cs',
 }) => {
   if (!components || components.length === 0) {
     return null;
@@ -778,7 +840,7 @@ const DynamicZone: React.FC<DynamicZoneProps> = async ({
 
   // Render all components in parallel
   const renderedComponents = await Promise.all(
-    components.map((component, index) => renderComponent(component, index))
+    components.map((component, index) => renderComponent(component, index, locale))
   );
 
   return (

@@ -17,6 +17,8 @@ import {
   ElementsLink,
   ResolvedLink,
   Icon,
+  NewsArticle,
+  Tag,
 } from '@/types/strapi';
 
 // ============================================================================
@@ -286,12 +288,12 @@ export function resolveLink(link: ElementsLink): ResolvedLink | null {
  * Fetch navigation items
  * @param navbar - Filter for navbar items (navbar: true)
  * @param footer - Filter for footer items (footer: true)
- * @param locale - Locale for i18n (default: 'cs-CZ')
+ * @param locale - Locale for i18n (default: 'cs')
  */
 export async function fetchNavigation(
   navbar?: boolean,
   footer?: boolean,
-  locale: string = 'cs-CZ'
+  locale: string = 'cs'
 ): Promise<NavigationItem[]> {
   // Build query params
   // IMPORTANT: populate=* only goes ONE level deep
@@ -347,11 +349,11 @@ export async function fetchNavigation(
 /**
  * Fetch single page by slug with full content population
  * @param slug - Page slug (e.g., "o-nas" or "sluzby/kardiologie")
- * @param locale - Locale for i18n (default: 'cs-CZ')
+ * @param locale - Locale for i18n (default: 'cs')
  */
 export async function fetchPageBySlug(
   slug: string,
-  locale: string = 'cs-CZ'
+  locale: string = 'cs'
 ): Promise<Page | null> {
   try {
     // IMPORTANT: Dynamic zones are polymorphic structures
@@ -591,6 +593,14 @@ export async function fetchPageBySlug(
                 },
               },
             },
+            'components.news-articles': {
+              populate: {
+                tags: true,
+                show_all_link: {
+                  populate: ['page', 'file'],
+                },
+              },
+            },
           },
         },
         sidebar: {
@@ -656,6 +666,9 @@ export async function fetchPageBySlug(
           },
         },
         parent: true, // Populate parent relation
+        localizations: {
+          fields: ['locale', 'slug'], // Fetch alternate locale versions for language switcher
+        },
       },
     });
 
@@ -681,10 +694,10 @@ export async function fetchPageBySlug(
 /**
  * Fetch all page slugs for static generation
  * Used in generateStaticParams() for catch-all routes
- * @param locale - Locale for i18n (default: 'cs-CZ')
+ * @param locale - Locale for i18n (default: 'cs')
  */
 export async function fetchAllPageSlugs(
-  locale: string = 'cs-CZ'
+  locale: string = 'cs'
 ): Promise<string[]> {
   try {
     const response = await fetchAPI<StrapiCollectionResponse<Page>>('/pages', {
@@ -706,9 +719,9 @@ export async function fetchAllPageSlugs(
 /**
  * Fetch all pages with full content
  * Useful for build-time static generation
- * @param locale - Locale for i18n (default: 'cs-CZ')
+ * @param locale - Locale for i18n (default: 'cs')
  */
-export async function fetchAllPages(locale: string = 'cs-CZ'): Promise<Page[]> {
+export async function fetchAllPages(locale: string = 'cs'): Promise<Page[]> {
   try {
     const response = await fetchAPI<StrapiCollectionResponse<Page>>('/pages', {
       locale,
@@ -763,4 +776,139 @@ export function getStrapiMediaURL(url: string): string {
  */
 export function hasSidebar(sidebar?: any[]): boolean {
   return !!sidebar && sidebar.length > 0;
+}
+
+// ============================================================================
+// News Articles API
+// ============================================================================
+
+/**
+ * Fetch news articles with optional filtering and pagination
+ * @param locale - Language code (default: 'cs')
+ * @param tags - Optional array of tag IDs or slugs for filtering (OR logic)
+ * @param limit - Number of articles to fetch (optional, no limit if not provided)
+ * @param sort - Sort order (default: 'date:desc')
+ */
+export async function fetchNewsArticles(
+  locale: string = 'cs',
+  tags?: string[],
+  limit?: number,
+  sort: string = 'date:desc'
+): Promise<NewsArticle[]> {
+  try {
+    const filters: Record<string, any> = {};
+
+    // Add tag filtering if tags are provided
+    if (tags && tags.length > 0) {
+      filters.tags = {
+        slug: {
+          $in: tags, // OR logic: article has ANY of the selected tags
+        },
+      };
+    }
+
+    const params: Record<string, any> = {
+      locale,
+      sort: [sort],
+      populate: {
+        image: true,
+        tags: true,
+      },
+    };
+
+    if (Object.keys(filters).length > 0) {
+      params.filters = filters;
+    }
+
+    if (limit) {
+      params.pagination = {
+        limit,
+      };
+    }
+
+    const response = await fetchAPI<StrapiCollectionResponse<NewsArticle>>(
+      '/news-articles',
+      params
+    );
+
+    return response.data || [];
+  } catch (error) {
+    console.error('Error fetching news articles:', error);
+    return [];
+  }
+}
+
+/**
+ * Fetch single news article by slug with full population (for detail page)
+ * @param slug - Article slug
+ * @param locale - Language code (default: 'cs')
+ */
+export async function fetchNewsArticleBySlug(
+  slug: string,
+  locale: string = 'cs'
+): Promise<NewsArticle | null> {
+  try {
+    const response = await fetchAPI<StrapiCollectionResponse<NewsArticle>>(
+      '/news-articles',
+      {
+        locale,
+        filters: {
+          slug: {
+            $eq: slug,
+          },
+        },
+        populate: {
+          image: true,
+          tags: true,
+          video: true,
+          gallery: {
+            populate: {
+              photos: {
+                populate: ['image'],
+              },
+            },
+          },
+          documents: {
+            populate: {
+              documents: {
+                populate: ['file'],
+              },
+            },
+          },
+        },
+      }
+    );
+
+    if (!response.data || response.data.length === 0) {
+      return null;
+    }
+
+    return response.data[0];
+  } catch (error) {
+    console.error(`Error fetching news article with slug "${slug}":`, error);
+    return null;
+  }
+}
+
+/**
+ * Fetch all news article slugs for static path generation
+ * @param locale - Language code (default: 'cs')
+ */
+export async function fetchAllNewsArticleSlugs(
+  locale: string = 'cs'
+): Promise<string[]> {
+  try {
+    const response = await fetchAPI<StrapiCollectionResponse<NewsArticle>>(
+      '/news-articles',
+      {
+        locale,
+        fields: ['slug'], // Only fetch slugs for performance
+      }
+    );
+
+    return response.data?.map((article) => article.slug) || [];
+  } catch (error) {
+    console.error('Error fetching news article slugs:', error);
+    return [];
+  }
 }

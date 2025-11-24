@@ -1,4 +1,5 @@
 import React from 'react';
+import { Metadata } from 'next';
 import Link from 'next/link';
 import { Heart, Activity, Stethoscope, Brain, Bone, Waves, Eye, Pill, Calendar, Clock, Phone, Award, Shield, Users, MapPin } from 'lucide-react';
 import Card from '@/components/ui/Card';
@@ -11,17 +12,60 @@ import PhotoGallery from '@/components/media/PhotoGallery';
 import ContactForm from '@/components/forms/ContactForm';
 import PartnerLogos from '@/components/content/PartnerLogos';
 import SectionDivider from '@/components/layout/SectionDivider';
-import RichText from '@/components/typography/RichText';
 import Slider from '@/components/marketing/Slider';
+import { locales, type Locale } from '@/i18n/config';
 
-export default function HomePage() {
+interface HomePageProps {
+  params: Promise<{
+    locale: string;
+  }>;
+}
+
+/**
+ * Generate static params for all supported locales
+ */
+export function generateStaticParams() {
+  return locales.map((locale) => ({ locale }));
+}
+
+/**
+ * Generate metadata based on locale
+ */
+export async function generateMetadata({ params }: HomePageProps): Promise<Metadata> {
+  const { locale } = await params;
+
+  const titles: Record<Locale, string> = {
+    cs: 'Sagena - Centrum Zdraví',
+    en: 'Sagena - Health Center',
+  };
+
+  const descriptions: Record<Locale, string> = {
+    cs: 'Sagena poskytuje komplexní zdravotní péči desítkám tisíc spokojených klientů. Moderní zdravotnické centrum s více než 20 odbornostmi.',
+    en: 'Sagena provides comprehensive healthcare to tens of thousands of satisfied clients. Modern medical center with more than 20 specialties.',
+  };
+
+  return {
+    title: titles[locale as Locale] || titles.cs,
+    description: descriptions[locale as Locale] || descriptions.cs,
+    alternates: {
+      languages: {
+        cs: '/cs/',
+        en: '/en/',
+      },
+    },
+  };
+}
+
+export default async function HomePage({ params }: HomePageProps) {
+  const { locale } = await params;
+
   const services = [
     {
       icon: null,
       title: 'Kardiologie',
       description: 'Komplexní péče o vaše srdce a cévy. EKG, echokardiografie, holter monitoring a preventivní vyšetření.',
       linkText: 'Zjistit více',
-      linkUrl: '/priklad-1/'
+      linkUrl: `/${locale}/priklad-1/`
     },
     {
       icon: null,
@@ -42,7 +86,7 @@ export default function HomePage() {
       title: 'Rehabilitace',
       description: 'Fyzioterapie, masáže, elektroléčba a komplexní rehabilitační péče pod vedením odborníků.',
       linkText: 'Zjistit více',
-      linkUrl: '/priklad-2/'
+      linkUrl: `/${locale}/priklad-2/`
     },
     {
       icon: null,
@@ -114,7 +158,7 @@ export default function HomePage() {
       title: 'Rehabilitace a fyzioterapie',
       description: 'Komplexní rehabilitační péče s individuálním přístupem a moderním vybavením',
       linkText: 'Více o rehabilitaci',
-      linkUrl: '/priklad-2/'
+      linkUrl: `/${locale}/priklad-2/`
     }
   ];
 
@@ -383,18 +427,18 @@ export default function HomePage() {
             date="2025-01-15"
             text="Od února rozšiřujeme nabídku našeho rehabilitačního centra o nové terapeutické metody včetně laserové terapie a magnetoterapie..."
             image="https://images.unsplash.com/photo-1579154204601-01588f351e67?w=400"
-            readMoreUrl="/priklad-2/"
+            readMoreUrl={`/${locale}/priklad-2/`}
           />
           <NewsArticle
             title="Víkendové pohotovosti kardiologie"
             date="2025-01-10"
             text="Kardiologická ambulance nově poskytuje služby i o víkendech pro urgentní případy. Objednání je možné telefonicky na čísle +420 553 030 810..."
-            readMoreUrl="/priklad-1/"
+            readMoreUrl={`/${locale}/priklad-1/`}
           />
         </div>
 
         <div className="text-center mt-12">
-          <Button variant="outline" size="lg" href="#">
+          <Button variant="outline" size="lg" href={`/${locale}/aktuality/`}>
             Všechny aktuality
           </Button>
         </div>

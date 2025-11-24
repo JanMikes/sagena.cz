@@ -80,8 +80,8 @@ const DoctorProfile: React.FC<DoctorProfileProps> = ({
                 <div className="flex items-center space-x-2 mb-3 text-yellow-700 bg-yellow-100 px-3 py-2 rounded-lg">
                   <Plane className="w-4 h-4" />
                   <span className="text-sm font-medium">
-                    Dovolená {new Date(holiday.from).toLocaleDateString('cs-CZ')} -{' '}
-                    {new Date(holiday.to).toLocaleDateString('cs-CZ')}
+                    Dovolená {new Date(holiday.from).toLocaleDateString('cs')} -{' '}
+                    {new Date(holiday.to).toLocaleDateString('cs')}
                   </span>
                 </div>
               )}

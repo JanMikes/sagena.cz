@@ -37,7 +37,7 @@ export default function IntranetPage() {
         <Alert
           type="info"
           title="Vítejte zpět, Jan Novák!"
-          text={`Dnes je ${new Date().toLocaleDateString('cs-CZ', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}`}
+          text={`Dnes je ${new Date().toLocaleDateString('cs', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}`}
         />
 
         {/* Stats Overview */}
