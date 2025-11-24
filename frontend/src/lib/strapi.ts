@@ -101,9 +101,8 @@ async function fetchAPI<T>(
       'Content-Type': 'application/json',
       ...(STRAPI_API_TOKEN && { Authorization: `Bearer ${STRAPI_API_TOKEN}` }),
     },
-    // For static export, we need to fetch data at build time
-    // Disable cache during development, enable for production builds
-    cache: process.env.NODE_ENV === 'production' ? 'force-cache' : 'no-store',
+    // No caching - always fetch fresh data from Strapi on every request
+    cache: 'no-store',
     ...options,
   };
 
