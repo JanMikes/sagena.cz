@@ -3,19 +3,12 @@ import { Metadata } from 'next';
 import { fetchNewsArticles, getStrapiMediaURL } from '@/lib/strapi';
 import NewsArticles from '@/components/content/NewsArticles';
 import { SetAlternateLocaleUrl } from '@/contexts/LocaleContext';
-import { locales, getAlternateLocale, type Locale } from '@/i18n/config';
+import { getAlternateLocale, type Locale } from '@/i18n/config';
 
 interface NewsListingPageProps {
   params: Promise<{
     locale: string;
   }>;
-}
-
-/**
- * Generate static params for all supported locales
- */
-export function generateStaticParams() {
-  return locales.map((locale) => ({ locale }));
 }
 
 /**

@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import Header from '@/components/layout/Header';
 import { fetchNavigation } from '@/lib/strapi';
-import { locales, isValidLocale, getAlternateLocale, type Locale } from '@/i18n/config';
+import { isValidLocale, getAlternateLocale, type Locale } from '@/i18n/config';
 import { LocaleProvider } from '@/contexts/LocaleContext';
 import type { NavigationItem } from '@/types/strapi';
 
@@ -14,13 +14,6 @@ interface LocaleLayoutProps {
   params: Promise<{
     locale: string;
   }>;
-}
-
-/**
- * Generate static params for all supported locales
- */
-export function generateStaticParams() {
-  return locales.map((locale) => ({ locale }));
 }
 
 /**
