@@ -156,7 +156,6 @@ async function renderComponent(
           key={`${__component}-${component.id || index}`}
           level={level}
           id={headingComponent.anchor || undefined}
-          className="mb-4"
         >
           {headingComponent.text}
         </Heading>
@@ -169,7 +168,6 @@ async function renderComponent(
         <RichText
           key={`${__component}-${component.id || index}`}
           content={textComponent.text}
-          className="mb-6"
         />
       );
     }
@@ -182,7 +180,6 @@ async function renderComponent(
           type={alertComponent.type}
           title={alertComponent.title}
           text={alertComponent.text}
-          className="mb-6"
         />
       );
     }
@@ -828,6 +825,11 @@ async function renderComponent(
 
 /**
  * DynamicZone component renders an array of Strapi components
+ *
+ * Spacing logic:
+ * - Standard spacing between components: mb-12 (48px)
+ * - Headings use smaller margin (mb-6 / 24px) to stay visually connected to following content
+ * - Last component has no bottom margin
  */
 const DynamicZone: React.FC<DynamicZoneProps> = async ({
   components,
@@ -845,7 +847,23 @@ const DynamicZone: React.FC<DynamicZoneProps> = async ({
 
   return (
     <div className={className}>
-      {renderedComponents}
+      {renderedComponents.map((rendered, index) => {
+        if (!rendered) return null;
+
+        const component = components[index];
+        const isHeading = component.__component === 'components.heading';
+        const isLast = index === renderedComponents.length - 1;
+
+        // Headings get smaller margin to stay close to next component
+        // Last component gets no bottom margin
+        const spacingClass = isLast ? '' : (isHeading ? 'mb-6' : 'mb-12');
+
+        return (
+          <div key={`wrapper-${index}`} className={spacingClass}>
+            {rendered}
+          </div>
+        );
+      })}
     </div>
   );
 };
