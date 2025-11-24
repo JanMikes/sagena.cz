@@ -752,7 +752,7 @@ async function renderComponent(
           photo={photoUrl}
           name={person?.name || ''}
           department={profile.department}
-          positions={profile.positions || []}
+          positions={profile.positions?.map(p => p.title) || []}
           phone={person?.phone ?? undefined}
           email={person?.email ?? undefined}
           openingHours={openingHours}

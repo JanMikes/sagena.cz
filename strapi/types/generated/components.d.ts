@@ -412,7 +412,7 @@ export interface ElementsDoctorProfile extends Struct.ComponentSchema {
     openingHours: Schema.Attribute.Component<'elements.opening-hours', true>;
     person: Schema.Attribute.Component<'elements.person', false> &
       Schema.Attribute.Required;
-    positions: Schema.Attribute.JSON;
+    positions: Schema.Attribute.Component<'elements.position', true>;
   };
 }
 
@@ -557,6 +557,17 @@ export interface ElementsPhoto extends Struct.ComponentSchema {
   };
 }
 
+export interface ElementsPosition extends Struct.ComponentSchema {
+  collectionName: 'components_elements_positions';
+  info: {
+    displayName: 'position';
+    icon: 'briefcase';
+  };
+  attributes: {
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
 export interface ElementsServiceCard extends Struct.ComponentSchema {
   collectionName: 'components_elements_service_cards';
   info: {
@@ -658,6 +669,7 @@ declare module '@strapi/strapi' {
       'elements.partner-logo': ElementsPartnerLogo;
       'elements.person': ElementsPerson;
       'elements.photo': ElementsPhoto;
+      'elements.position': ElementsPosition;
       'elements.service-card': ElementsServiceCard;
       'elements.slide': ElementsSlide;
       'elements.text-link': ElementsTextLink;

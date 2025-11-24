@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_elements_positions",
+  "info": {
+    "displayName": "position",
+    "icon": "briefcase"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    }
+  },
+  "config": {}
+}

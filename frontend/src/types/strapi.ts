@@ -734,6 +734,17 @@ export interface ElementsContactCard {
 }
 
 /**
+ * Elements: Position
+ * Location: strapi/src/components/elements/position.json
+ * Usage: Single position/title item for doctor profiles
+ */
+export interface ElementsPosition {
+  id: number;
+  __component?: 'elements.position';
+  title: string;
+}
+
+/**
  * Elements: Doctor Profile
  * Location: strapi/src/components/elements/doctor-profile.json
  * Usage: Complete doctor profile with person info, department, positions, contact details, and hours
@@ -746,7 +757,7 @@ export interface ElementsDoctorProfile {
   person: ElementsPerson;  // Required person reference
   ambulanceTitle?: string | null;  // Optional ambulance title
   department: string;  // Required department name
-  positions?: string[] | null;  // Optional array of positions (JSON field)
+  positions?: ElementsPosition[] | null;  // Optional array of position components
   openingHours?: ElementsOpeningHours[];  // Optional array of opening hours
   holiday?: ElementsHoliday | null;  // Optional holiday period
 }

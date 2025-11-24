@@ -590,6 +590,9 @@ export async function fetchPageBySlug(
                     holiday: {
                       populate: '*',
                     },
+                    positions: {
+                      populate: '*',
+                    },
                   },
                 },
               },

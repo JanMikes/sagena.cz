@@ -20,7 +20,9 @@
       "required": true
     },
     "positions": {
-      "type": "json",
+      "type": "component",
+      "component": "elements.position",
+      "repeatable": true,
       "required": false
     },
     "openingHours": {
