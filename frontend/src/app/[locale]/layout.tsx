@@ -5,6 +5,10 @@ import { locales, isValidLocale, getAlternateLocale, type Locale } from '@/i18n/
 import { LocaleProvider } from '@/contexts/LocaleContext';
 import type { NavigationItem } from '@/types/strapi';
 
+// Force all pages under [locale] to be dynamically rendered (SSR)
+// This prevents static generation at build time, allowing build to succeed without Strapi
+export const dynamic = 'force-dynamic';
+
 interface LocaleLayoutProps {
   children: React.ReactNode;
   params: Promise<{

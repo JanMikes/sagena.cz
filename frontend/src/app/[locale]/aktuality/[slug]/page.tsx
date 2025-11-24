@@ -6,7 +6,6 @@ import { Calendar, Tag as TagIcon, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import {
   fetchNewsArticleBySlug,
-  fetchAllNewsArticleSlugs,
   getStrapiMediaURL,
 } from '@/lib/strapi';
 import RichText from '@/components/typography/RichText';
@@ -14,30 +13,13 @@ import Video from '@/components/content/Video';
 import PhotoGallery from '@/components/media/PhotoGallery';
 import Documents from '@/components/content/Documents';
 import { SetAlternateLocaleUrl } from '@/contexts/LocaleContext';
-import { locales, getAlternateLocale, type Locale } from '@/i18n/config';
+import { getAlternateLocale, type Locale } from '@/i18n/config';
 
 interface NewsArticlePageProps {
   params: Promise<{
     locale: string;
     slug: string;
   }>;
-}
-
-/**
- * Generate static params for all news articles and locales
- */
-export async function generateStaticParams() {
-  const params: { locale: string; slug: string }[] = [];
-
-  for (const locale of locales) {
-    const slugs = await fetchAllNewsArticleSlugs(locale);
-
-    for (const slug of slugs) {
-      params.push({ locale, slug });
-    }
-  }
-
-  return params;
 }
 
 /**

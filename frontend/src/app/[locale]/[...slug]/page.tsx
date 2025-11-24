@@ -14,40 +14,18 @@
 
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { fetchPageBySlug, fetchAllPageSlugs, hasSidebar } from '@/lib/strapi';
+import { fetchPageBySlug, hasSidebar } from '@/lib/strapi';
 import DynamicZone from '@/components/strapi/DynamicZone';
 import SidePanel from '@/components/layout/SidePanel';
 import Breadcrumb from '@/components/navigation/Breadcrumb';
 import { SetAlternateLocaleUrl } from '@/contexts/LocaleContext';
-import { locales, isStaticCzechPage, getAlternateLocale, type Locale } from '@/i18n/config';
+import { isStaticCzechPage, getAlternateLocale, type Locale } from '@/i18n/config';
 
 interface PageProps {
   params: Promise<{
     locale: string;
     slug: string[];
   }>;
-}
-
-/**
- * Generate static params for all pages and locales
- */
-export async function generateStaticParams() {
-  const params: { locale: string; slug: string[] }[] = [];
-
-  for (const locale of locales) {
-    // For static Czech pages, we only need to fetch Czech slugs
-    // For other pages, fetch both locales
-    const slugs = await fetchAllPageSlugs(locale);
-
-    for (const slug of slugs) {
-      params.push({
-        locale,
-        slug: slug.split('/'),
-      });
-    }
-  }
-
-  return params;
 }
 
 /**
