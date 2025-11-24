@@ -23,6 +23,14 @@ interface NewsArticlePageProps {
 }
 
 /**
+ * Return empty array - no pages pre-rendered at build time
+ * Pages are rendered on-demand at runtime when Strapi is available
+ */
+export function generateStaticParams() {
+  return [];
+}
+
+/**
  * Generate metadata for news article pages
  */
 export async function generateMetadata({

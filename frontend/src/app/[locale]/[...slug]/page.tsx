@@ -29,6 +29,14 @@ interface PageProps {
 }
 
 /**
+ * Return empty array - no pages pre-rendered at build time
+ * Pages are rendered on-demand at runtime when Strapi is available
+ */
+export function generateStaticParams() {
+  return [];
+}
+
+/**
  * Generate metadata for SEO
  */
 export async function generateMetadata({
