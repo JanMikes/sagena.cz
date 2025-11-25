@@ -4,20 +4,22 @@ import { marked } from 'marked';
 interface RichTextProps {
   content: string;
   className?: string;
+  size?: 'sm' | 'base' | 'lg';
 }
 
-const RichText: React.FC<RichTextProps> = ({ content, className = '' }) => {
+const RichText: React.FC<RichTextProps> = ({ content, className = '', size = 'lg' }) => {
   const html = marked.parse(content, { async: false }) as string;
+
+  const sizeClass = {
+    sm: 'prose-sm',
+    base: 'prose-base',
+    lg: 'prose-lg',
+  }[size];
 
   return (
     <div
-      className={`prose prose-lg max-w-none ${className}`}
+      className={`prose ${sizeClass} max-w-none text-gray-600 ${className}`}
       dangerouslySetInnerHTML={{ __html: html }}
-      style={{
-        // Custom prose styles to match the design system
-        color: '#4b5563',
-        lineHeight: '1.75',
-      }}
     />
   );
 };
