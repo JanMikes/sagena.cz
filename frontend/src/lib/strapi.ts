@@ -194,9 +194,85 @@ interface CacheEntry<T> {
 const pageHierarchyCache: Map<string, CacheEntry<PageHierarchyMap>> = new Map();
 const intranetPageHierarchyCache: Map<string, CacheEntry<PageHierarchyMap>> = new Map();
 
+// Page content cache - keyed by "locale:slug"
+const pageContentCache: Map<string, CacheEntry<Page>> = new Map();
+const intranetPageContentCache: Map<string, CacheEntry<IntranetPage>> = new Map();
+
+// Navigation cache - keyed by locale
+const navigationCache: Map<string, CacheEntry<Navigation>> = new Map();
+const intranetMenuCache: Map<string, CacheEntry<Navigation>> = new Map();
+
 function isCacheValid<T>(entry: CacheEntry<T> | undefined): entry is CacheEntry<T> {
   if (!entry) return false;
   return Date.now() - entry.timestamp < HIERARCHY_CACHE_TTL_MS;
+}
+
+/**
+ * Invalidate caches based on Strapi webhook payload
+ * Called when content changes in Strapi
+ */
+export function invalidateCache(model: string, slug?: string, locale?: string) {
+  console.log(`[Cache] Invalidating: model=${model}, slug=${slug || 'all'}, locale=${locale || 'all'}`);
+
+  switch (model) {
+    case 'page':
+      if (slug && locale) {
+        pageContentCache.delete(`${locale}:${slug}`);
+      } else {
+        pageContentCache.clear();
+      }
+      // Page changes affect hierarchy (breadcrumbs, URLs)
+      if (locale) {
+        pageHierarchyCache.delete(locale);
+      } else {
+        pageHierarchyCache.clear();
+      }
+      break;
+
+    case 'intranet-page':
+      if (slug && locale) {
+        intranetPageContentCache.delete(`${locale}:${slug}`);
+      } else {
+        intranetPageContentCache.clear();
+      }
+      if (locale) {
+        intranetPageHierarchyCache.delete(locale);
+      } else {
+        intranetPageHierarchyCache.clear();
+      }
+      break;
+
+    case 'navigation':
+      if (locale) {
+        navigationCache.delete(locale);
+      } else {
+        navigationCache.clear();
+      }
+      break;
+
+    case 'intranet-menu':
+      if (locale) {
+        intranetMenuCache.delete(locale);
+      } else {
+        intranetMenuCache.clear();
+      }
+      break;
+
+    case 'icon':
+      iconsCache = null;
+      break;
+
+    default:
+      // Unknown model - clear all caches to be safe
+      console.log(`[Cache] Unknown model "${model}" - clearing all caches`);
+      pageContentCache.clear();
+      intranetPageContentCache.clear();
+      navigationCache.clear();
+      intranetMenuCache.clear();
+      pageHierarchyCache.clear();
+      intranetPageHierarchyCache.clear();
+      iconsCache = null;
+  }
 }
 
 /**
@@ -513,6 +589,13 @@ export async function fetchNavigation(
   footer?: boolean,
   locale: string = 'cs'
 ): Promise<NavigationItem[]> {
+  // Check cache first
+  const cacheKey = `${locale}:navbar=${navbar}:footer=${footer}`;
+  const cached = navigationCache.get(cacheKey);
+  if (isCacheValid(cached)) {
+    return cached.data as unknown as NavigationItem[];
+  }
+
   // Build query params
   // IMPORTANT: populate=* only goes ONE level deep
   // Since 'link' is a component with nested relations (page, file),
@@ -562,6 +645,9 @@ export async function fetchNavigation(
     }
   }
 
+  // Cache the result
+  navigationCache.set(cacheKey, { data: items as unknown as Navigation, timestamp: Date.now() });
+
   return items;
 }
 
@@ -578,6 +664,13 @@ export async function fetchPageBySlug(
   slug: string,
   locale: string = 'cs'
 ): Promise<Page | null> {
+  // Check cache first
+  const cacheKey = `${locale}:${slug}`;
+  const cached = pageContentCache.get(cacheKey);
+  if (isCacheValid(cached)) {
+    return cached.data;
+  }
+
   try {
     // IMPORTANT: Dynamic zones are polymorphic structures
     // We use the 'on' syntax to target specific components within dynamic zones
@@ -1018,6 +1111,9 @@ export async function fetchPageBySlug(
       return null;
     }
 
+    // Cache the result
+    pageContentCache.set(cacheKey, { data: page, timestamp: Date.now() });
+
     return page;
   } catch (error) {
     console.error(`Failed to fetch page: ${slug}`, error);
@@ -1256,6 +1352,12 @@ export async function fetchAllNewsArticleSlugs(
 export async function fetchIntranetMenu(
   locale: string = 'cs'
 ): Promise<NavigationItem[]> {
+  // Check cache first
+  const cached = intranetMenuCache.get(locale);
+  if (isCacheValid(cached)) {
+    return cached.data as unknown as NavigationItem[];
+  }
+
   try {
     // Fetch menu and intranet page hierarchy in parallel
     const [response, hierarchy] = await Promise.all([
@@ -1293,6 +1395,9 @@ export async function fetchIntranetMenu(
       }
     }
 
+    // Cache the result
+    intranetMenuCache.set(locale, { data: items as unknown as Navigation, timestamp: Date.now() });
+
     return items;
   } catch (error) {
     console.error('Error fetching intranet menu:', error);
@@ -1313,6 +1418,13 @@ export async function fetchIntranetPageBySlug(
   slug: string,
   locale: string = 'cs'
 ): Promise<IntranetPage | null> {
+  // Check cache first
+  const cacheKey = `${locale}:${slug}`;
+  const cached = intranetPageContentCache.get(cacheKey);
+  if (isCacheValid(cached)) {
+    return cached.data;
+  }
+
   try {
     // IMPORTANT: Dynamic zones are polymorphic structures
     // We use the 'on' syntax to target specific components within dynamic zones
@@ -1729,6 +1841,12 @@ export async function fetchIntranetPageBySlug(
     }
 
     const page = response.data.find(p => p.slug === slug);
+
+    if (page) {
+      // Cache the result
+      intranetPageContentCache.set(cacheKey, { data: page, timestamp: Date.now() });
+    }
+
     return page || null;
   } catch (error) {
     console.error(`Failed to fetch intranet page: ${slug}`, error);

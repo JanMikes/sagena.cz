@@ -25,7 +25,7 @@ services:
         ports:
             - "1337:1337"
         environment:
-            NODE_ENV: production
+            NODE_ENV: dev
             HOST: 0.0.0.0
             PORT: 1337
             DATABASE_CLIENT: postgres
@@ -55,6 +55,7 @@ services:
             - "3000:3000"
         environment:
             PUBLIC_UPLOADS_URL: http://localhost:8080
+            STRAPI_WEBHOOK_SECRET: ${STRAPI_WEBHOOK_SECRET:-your-webhook-secret}
         volumes:
             - ./frontend:/app
         command: sh -c "npm ci && npm run dev"
