@@ -52,7 +52,7 @@ export interface ComponentsContactCards extends Struct.ComponentSchema {
 export interface ComponentsDirections extends Struct.ComponentSchema {
   collectionName: 'components_components_directions';
   info: {
-    displayName: 'Kde n\u00E1s najdete';
+    displayName: 'Instrukce';
     icon: 'compass';
   };
   attributes: {

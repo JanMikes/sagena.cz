@@ -5,7 +5,6 @@
  * - Authentication header injection
  * - Type-safe query building
  * - Deep population for nested relations
- * - Build-time caching (for static export)
  */
 
 import {
@@ -36,12 +35,8 @@ let iconsCache: Map<number, Icon> | null = null;
 /**
  * Get Strapi URL based on environment
  *
- * IMPORTANT: Docker networking consideration
- * - Server-side (build time/SSG): Use STRAPI_URL (http://strapi:1337 in Docker)
- * - Client-side (browser): Use NEXT_PUBLIC_STRAPI_URL (http://localhost:1337 or production URL)
- *
- * For SSG (Static Site Generation), all fetching happens at BUILD TIME on the server,
- * so we need to use the server-side URL (Docker service name: "strapi:1337")
+ * Server-side: Use STRAPI_URL (e.g., http://strapi:1337 in Docker)
+ * Client-side: Use NEXT_PUBLIC_STRAPI_URL (e.g., http://localhost:1337)
  */
 const STRAPI_URL = process.env.STRAPI_URL || process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337';
 const STRAPI_API_TOKEN = process.env.STRAPI_API_TOKEN || '';

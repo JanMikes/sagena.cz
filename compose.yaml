@@ -58,8 +58,6 @@ services:
       - /app/node_modules
       - /app/.next
       - ./strapi/public/uploads:/app/public/uploads
-    environment:
-      - NODE_ENV=development
     command: sh -c "npm ci && npm run dev"
 
   adminer:
