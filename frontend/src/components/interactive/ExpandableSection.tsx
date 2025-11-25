@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { ChevronDown, ChevronUp, Download } from 'lucide-react';
+import { ChevronDown, Download } from 'lucide-react';
 import ContactCards from '@/components/people/ContactCards';
 import RichText from '@/components/typography/RichText';
 
@@ -62,60 +62,68 @@ const ExpandableSection: React.FC<ExpandableSectionProps> = ({
         <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
         {hasContent && (
           <div className="flex-shrink-0 ml-4">
-            {isOpen ? (
-              <ChevronUp className="w-5 h-5 text-gray-600" />
-            ) : (
-              <ChevronDown className="w-5 h-5 text-gray-600" />
-            )}
+            <ChevronDown
+              className={`w-5 h-5 text-gray-600 transition-transform duration-300 ${
+                isOpen ? 'rotate-180' : ''
+              }`}
+            />
           </div>
         )}
       </button>
 
-      {isOpen && hasContent && (
-        <div className="px-6 pb-6 space-y-6 border-t border-gray-100">
-          {description && (
-            <div className="pt-6">
-              <RichText
-                content={description}
-                size="sm"
-                className="[&_p]:text-gray-700 [&_a]:text-primary-600 [&_a]:hover:text-primary-700"
-              />
-            </div>
-          )}
+      {hasContent && (
+        <div
+          className={`grid transition-[grid-template-rows] duration-300 ease-in-out ${
+            isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
+          }`}
+        >
+          <div className="overflow-hidden">
+            <div className="px-6 pb-6 space-y-6 border-t border-gray-100">
+              {description && (
+                <div className="pt-6">
+                  <RichText
+                    content={description}
+                    size="sm"
+                    className="[&_p]:text-gray-700 [&_a]:text-primary-600 [&_a]:hover:text-primary-700"
+                  />
+                </div>
+              )}
 
-          {contacts.length > 0 && (
-            <div className="pt-4">
-              <ContactCards cards={contacts} />
-            </div>
-          )}
+              {contacts.length > 0 && (
+                <div className="pt-4">
+                  <ContactCards cards={contacts} />
+                </div>
+              )}
 
-          {files.length > 0 && (
-            <div className="space-y-2">
-              <h4 className="text-sm font-semibold text-gray-900">Přílohy</h4>
-              <div className="space-y-2">
-                {files.map((file, index) => (
-                  <a
-                    key={index}
-                    href={file.url}
-                    download
-                    className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors group"
-                  >
-                    <div className="flex items-center gap-3 min-w-0">
-                      <Download className="w-4 h-4 text-gray-500 flex-shrink-0 group-hover:text-primary-600" />
-                      <div className="min-w-0">
-                        <p className="text-sm font-medium text-gray-900 truncate">
-                          {file.name}
-                        </p>
-                        <p className="text-xs text-gray-500">
-                          {file.ext.toUpperCase().replace('.', '')} • {formatFileSize(file.size)}
-                        </p>
-                      </div>
-                    </div>
-                  </a>
-                ))}
-              </div>
+              {files.length > 0 && (
+                <div className="space-y-2">
+                  <h4 className="text-sm font-semibold text-gray-900">Přílohy</h4>
+                  <div className="space-y-2">
+                    {files.map((file, index) => (
+                      <a
+                        key={index}
+                        href={file.url}
+                        download
+                        className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors group"
+                      >
+                        <div className="flex items-center gap-3 min-w-0">
+                          <Download className="w-4 h-4 text-gray-500 flex-shrink-0 group-hover:text-primary-600" />
+                          <div className="min-w-0">
+                            <p className="text-sm font-medium text-gray-900 truncate">
+                              {file.name}
+                            </p>
+                            <p className="text-xs text-gray-500">
+                              {file.ext.toUpperCase().replace('.', '')} • {formatFileSize(file.size)}
+                            </p>
+                          </div>
+                        </div>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
-          )}
+          </div>
         </div>
       )}
     </div>
