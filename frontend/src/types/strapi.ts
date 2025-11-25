@@ -403,7 +403,7 @@ export interface ElementsExpandableSection {
   title: string;  // Required section title
   description?: string | null;  // Optional section content
   default_open?: boolean;  // Default: false (Initially collapsed)
-  files?: ElementsFileAttachment[];  // Optional array of file attachments
+  files?: ElementsDocumentItem[];  // Optional array of file attachments
   contacts?: ComponentsContactCards | null;  // Optional contact cards component
 }
 
@@ -704,20 +704,6 @@ export interface ElementsDirectionStep {
   icon?: Icon;  // Optional icon relation (oneToOne to api::icon.icon)
   floor?: string | null;  // Floor information (e.g., "1. patro", "2. patro, č. 215")
   text?: string | null;  // Markdown instruction text (richtext)
-}
-
-/**
- * Elements: File Attachment
- * Location: strapi/src/components/elements/file-attachment.json
- * Usage: Individual file attachment with name and file
- *
- * IMPORTANT: Strapi returns media directly (no .data wrapper)
- */
-export interface ElementsFileAttachment {
-  id: number;
-  __component?: 'elements.file-attachment';
-  name: string;  // Human-friendly display name
-  file: StrapiMedia;  // The actual file (Strapi provides ext, size, url)
 }
 
 /**

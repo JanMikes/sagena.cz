@@ -1,7 +1,7 @@
 {
   "collectionName": "components_elements_timeline_items",
   "info": {
-    "displayName": "timeline-item",
+    "displayName": "Položka časové osy",
     "icon": "bulletList"
   },
   "options": {},

@@ -19,7 +19,7 @@
     },
     "files": {
       "type": "component",
-      "component": "elements.file-attachment",
+      "component": "elements.document-item",
       "repeatable": true,
       "required": false
     },

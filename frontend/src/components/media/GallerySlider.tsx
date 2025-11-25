@@ -2,6 +2,8 @@
 
 import React, { useState, useRef } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import Lightbox from 'yet-another-react-lightbox';
+import 'yet-another-react-lightbox/styles.css';
 
 interface Photo {
   url: string;
@@ -14,7 +16,14 @@ interface GallerySliderProps {
 
 const GallerySlider: React.FC<GallerySliderProps> = ({ photos }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  const openLightbox = (index: number) => {
+    setLightboxIndex(index);
+    setLightboxOpen(true);
+  };
 
   const scroll = (direction: 'left' | 'right') => {
     if (!scrollContainerRef.current) return;
@@ -43,9 +52,10 @@ const GallerySlider: React.FC<GallerySliderProps> = ({ photos }) => {
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         {photos.map((photo, index) => (
-          <div
+          <button
             key={index}
-            className="flex-shrink-0 w-80 md:w-96 snap-center"
+            onClick={() => openLightbox(index)}
+            className="flex-shrink-0 w-80 md:w-96 snap-center cursor-pointer"
           >
             <div className="aspect-[4/3] rounded-xl overflow-hidden shadow-lg">
               <img
@@ -54,7 +64,7 @@ const GallerySlider: React.FC<GallerySliderProps> = ({ photos }) => {
                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
               />
             </div>
-          </div>
+          </button>
         ))}
       </div>
 
@@ -84,6 +94,17 @@ const GallerySlider: React.FC<GallerySliderProps> = ({ photos }) => {
           display: none;
         }
       `}</style>
+
+      {/* Lightbox */}
+      <Lightbox
+        open={lightboxOpen}
+        close={() => setLightboxOpen(false)}
+        index={lightboxIndex}
+        slides={photos.map((photo) => ({
+          src: photo.url,
+          alt: photo.alt,
+        }))}
+      />
     </div>
   );
 };

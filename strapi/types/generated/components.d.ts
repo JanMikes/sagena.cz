@@ -372,7 +372,7 @@ export interface ComponentsVideo extends Struct.ComponentSchema {
 export interface ElementsButton extends Struct.ComponentSchema {
   collectionName: 'components_elements_buttons';
   info: {
-    displayName: 'button';
+    displayName: 'Tla\u010D\u00EDtko';
     icon: 'cursor';
   };
   attributes: {
@@ -390,7 +390,7 @@ export interface ElementsButton extends Struct.ComponentSchema {
 export interface ElementsContactCard extends Struct.ComponentSchema {
   collectionName: 'components_elements_contact_cards';
   info: {
-    displayName: 'contact-card';
+    displayName: 'Kontaktn\u00ED karta';
     icon: 'user';
   };
   attributes: {
@@ -402,7 +402,7 @@ export interface ElementsContactCard extends Struct.ComponentSchema {
 export interface ElementsDirectionStep extends Struct.ComponentSchema {
   collectionName: 'components_elements_direction_steps';
   info: {
-    displayName: 'direction-step';
+    displayName: 'Instrukce';
     icon: 'arrowRight';
   };
   attributes: {
@@ -415,7 +415,7 @@ export interface ElementsDirectionStep extends Struct.ComponentSchema {
 export interface ElementsDoctorProfile extends Struct.ComponentSchema {
   collectionName: 'components_elements_doctor_profiles';
   info: {
-    displayName: 'doctor-profile';
+    displayName: 'Profil doktora, ambulance';
     icon: 'user';
   };
   attributes: {
@@ -432,7 +432,7 @@ export interface ElementsDoctorProfile extends Struct.ComponentSchema {
 export interface ElementsDocumentItem extends Struct.ComponentSchema {
   collectionName: 'components_elements_document_items';
   info: {
-    displayName: 'document-item';
+    displayName: 'Dokument';
     icon: 'fileText';
   };
   attributes: {
@@ -452,28 +452,15 @@ export interface ElementsExpandableSection extends Struct.ComponentSchema {
     contacts: Schema.Attribute.Component<'components.contact-cards', false>;
     default_open: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     description: Schema.Attribute.RichText;
-    files: Schema.Attribute.Component<'elements.file-attachment', true>;
+    files: Schema.Attribute.Component<'elements.document-item', true>;
     title: Schema.Attribute.String & Schema.Attribute.Required;
-  };
-}
-
-export interface ElementsFileAttachment extends Struct.ComponentSchema {
-  collectionName: 'components_elements_file_attachments';
-  info: {
-    displayName: 'file-attachment';
-    icon: 'paperclip';
-  };
-  attributes: {
-    file: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'> &
-      Schema.Attribute.Required;
-    name: Schema.Attribute.String & Schema.Attribute.Required;
   };
 }
 
 export interface ElementsFullWidthCard extends Struct.ComponentSchema {
   collectionName: 'components_elements_full_width_cards';
   info: {
-    displayName: 'full-width-card';
+    displayName: 'Dla\u017Edice \u0161\u00ED\u0159ka';
     icon: 'apps';
   };
   attributes: {
@@ -488,7 +475,7 @@ export interface ElementsFullWidthCard extends Struct.ComponentSchema {
 export interface ElementsHoliday extends Struct.ComponentSchema {
   collectionName: 'components_elements_holidays';
   info: {
-    displayName: 'holiday';
+    displayName: 'Nedostupnost';
     icon: 'plane';
   };
   attributes: {
@@ -500,7 +487,7 @@ export interface ElementsHoliday extends Struct.ComponentSchema {
 export interface ElementsIcon extends Struct.ComponentSchema {
   collectionName: 'components_elements_icons';
   info: {
-    displayName: 'icon';
+    displayName: 'Ikona';
     icon: 'picture';
   };
   attributes: {
@@ -525,7 +512,7 @@ export interface ElementsLink extends Struct.ComponentSchema {
 export interface ElementsMarketingArgument extends Struct.ComponentSchema {
   collectionName: 'components_elements_marketing_arguments';
   info: {
-    displayName: 'marketing-argument';
+    displayName: 'Mark. argument';
     icon: 'bulletList';
   };
   attributes: {
@@ -541,7 +528,7 @@ export interface ElementsMarketingArgument extends Struct.ComponentSchema {
 export interface ElementsOpeningHours extends Struct.ComponentSchema {
   collectionName: 'components_elements_opening_hours';
   info: {
-    displayName: 'opening-hours';
+    displayName: 'Otv\u00EDrac\u00ED doba';
     icon: 'clock';
   };
   attributes: {
@@ -553,7 +540,7 @@ export interface ElementsOpeningHours extends Struct.ComponentSchema {
 export interface ElementsPartnerLogo extends Struct.ComponentSchema {
   collectionName: 'components_elements_partner_logos';
   info: {
-    displayName: 'partner-logo';
+    displayName: 'Logo partnera';
     icon: 'briefcase';
   };
   attributes: {
@@ -566,7 +553,7 @@ export interface ElementsPartnerLogo extends Struct.ComponentSchema {
 export interface ElementsPerson extends Struct.ComponentSchema {
   collectionName: 'components_elements_people';
   info: {
-    displayName: 'person';
+    displayName: '\u010Clov\u011Bk';
     icon: 'user';
   };
   attributes: {
@@ -577,7 +564,7 @@ export interface ElementsPerson extends Struct.ComponentSchema {
 export interface ElementsPhoto extends Struct.ComponentSchema {
   collectionName: 'components_elements_photos';
   info: {
-    displayName: 'photo';
+    displayName: 'Fotka';
     icon: 'picture';
   };
   attributes: {
@@ -588,7 +575,7 @@ export interface ElementsPhoto extends Struct.ComponentSchema {
 export interface ElementsPosition extends Struct.ComponentSchema {
   collectionName: 'components_elements_positions';
   info: {
-    displayName: 'position';
+    displayName: 'Funkce';
     icon: 'briefcase';
   };
   attributes: {
@@ -599,7 +586,7 @@ export interface ElementsPosition extends Struct.ComponentSchema {
 export interface ElementsServiceCard extends Struct.ComponentSchema {
   collectionName: 'components_elements_service_cards';
   info: {
-    displayName: 'service-card';
+    displayName: 'Dla\u017Edice';
     icon: 'bulletList';
   };
   attributes: {
@@ -613,7 +600,7 @@ export interface ElementsServiceCard extends Struct.ComponentSchema {
 export interface ElementsSlide extends Struct.ComponentSchema {
   collectionName: 'components_elements_slides';
   info: {
-    displayName: 'slide';
+    displayName: 'Slide';
     icon: 'picture';
   };
   attributes: {
@@ -644,7 +631,7 @@ export interface ElementsTextLink extends Struct.ComponentSchema {
 export interface ElementsTimelineItem extends Struct.ComponentSchema {
   collectionName: 'components_elements_timeline_items';
   info: {
-    displayName: 'timeline-item';
+    displayName: 'Polo\u017Eka \u010Dasov\u00E9 osy';
     icon: 'bulletList';
   };
   attributes: {
@@ -689,7 +676,6 @@ declare module '@strapi/strapi' {
       'elements.doctor-profile': ElementsDoctorProfile;
       'elements.document-item': ElementsDocumentItem;
       'elements.expandable-section': ElementsExpandableSection;
-      'elements.file-attachment': ElementsFileAttachment;
       'elements.full-width-card': ElementsFullWidthCard;
       'elements.holiday': ElementsHoliday;
       'elements.icon': ElementsIcon;

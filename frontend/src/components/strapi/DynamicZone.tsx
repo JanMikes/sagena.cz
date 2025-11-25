@@ -626,12 +626,12 @@ async function renderComponent(
 
       // Transform sections array to component props
       const sections = expandableSectionsComponent.sections.map((section: ElementsExpandableSection) => {
-        // Transform file attachments
+        // Transform file attachments (using ElementsDocumentItem structure - no .attributes wrapper)
         const files = section.files?.map((file) => ({
           name: file.name,
-          url: file.file?.attributes?.url ? getStrapiMediaURL(file.file.attributes.url) : '',
-          ext: file.file?.attributes?.ext || '',
-          size: file.file?.attributes?.size || 0,
+          url: file.file?.url ? getStrapiMediaURL(file.file.url) : '',
+          ext: file.file?.ext || '',
+          size: file.file?.size || 0,
         })) || [];
 
         // Transform contacts from Strapi structure to component format
