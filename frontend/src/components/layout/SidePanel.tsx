@@ -10,7 +10,7 @@ interface SidePanelProps {
 const SidePanel: React.FC<SidePanelProps> = ({
   children,
   position = 'right',
-  sticky = true,
+  sticky = false,
   className = '',
 }) => {
   const positionClass = position === 'left' ? 'order-first' : 'order-last';
