@@ -529,7 +529,7 @@ export async function fetchPageBySlug(
                 },
               },
             },
-            'components.expandable-sections': {
+            'components.accordion-sections': {
               populate: {
                 sections: {
                   populate: {
@@ -1166,7 +1166,7 @@ export async function fetchIntranetPageBySlug(
                 },
               },
             },
-            'components.expandable-sections': {
+            'components.accordion-sections': {
               populate: {
                 sections: {
                   populate: {

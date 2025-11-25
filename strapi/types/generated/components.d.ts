@@ -1,5 +1,17 @@
 import type { Schema, Struct } from '@strapi/strapi';
 
+export interface ComponentsAccordionSections extends Struct.ComponentSchema {
+  collectionName: 'components_components_accordion_sections';
+  info: {
+    displayName: 'Rozj\u00ED\u017Ed\u011Bc\u00ED sekce';
+    icon: 'expand';
+  };
+  attributes: {
+    sections: Schema.Attribute.Component<'elements.expandable-section', true> &
+      Schema.Attribute.Required;
+  };
+}
+
 export interface ComponentsAlert extends Struct.ComponentSchema {
   collectionName: 'components_components_alerts';
   info: {
@@ -89,18 +101,6 @@ export interface ComponentsDocuments extends Struct.ComponentSchema {
     > &
       Schema.Attribute.DefaultTo<'Three columns'>;
     documents: Schema.Attribute.Component<'elements.document-item', true> &
-      Schema.Attribute.Required;
-  };
-}
-
-export interface ComponentsExpandableSections extends Struct.ComponentSchema {
-  collectionName: 'components_components_expandable_sections';
-  info: {
-    displayName: 'Rozj\u00ED\u017Ed\u011Bc\u00ED sekce';
-    icon: 'expand';
-  };
-  attributes: {
-    sections: Schema.Attribute.Component<'elements.expandable-section', true> &
       Schema.Attribute.Required;
   };
 }
@@ -660,13 +660,13 @@ export interface ElementsTimelineItem extends Struct.ComponentSchema {
 declare module '@strapi/strapi' {
   export module Public {
     export interface ComponentSchemas {
+      'components.accordion-sections': ComponentsAccordionSections;
       'components.alert': ComponentsAlert;
       'components.button-group': ComponentsButtonGroup;
       'components.contact-cards': ComponentsContactCards;
       'components.directions': ComponentsDirections;
       'components.doctor-profile': ComponentsDoctorProfile;
       'components.documents': ComponentsDocuments;
-      'components.expandable-sections': ComponentsExpandableSections;
       'components.full-width-cards': ComponentsFullWidthCards;
       'components.gallery-slider': ComponentsGallerySlider;
       'components.heading': ComponentsHeading;

@@ -51,7 +51,7 @@ import {
   ComponentsGallerySlider,
   ComponentsPhotoGallery,
   ComponentsDirections,
-  ComponentsExpandableSections,
+  ComponentsAccordionSections,
   ElementsExpandableSection,
   ComponentsButtonGroup,
   ComponentsContactCards,
@@ -618,8 +618,8 @@ async function renderComponent(
       );
     }
 
-    case 'components.expandable-sections': {
-      const expandableSectionsComponent = component as ComponentsExpandableSections;
+    case 'components.accordion-sections': {
+      const expandableSectionsComponent = component as ComponentsAccordionSections;
 
       // Transform sections array to component props
       const sections = expandableSectionsComponent.sections.map((section: ElementsExpandableSection) => {

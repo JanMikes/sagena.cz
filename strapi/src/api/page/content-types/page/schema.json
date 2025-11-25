@@ -76,7 +76,7 @@
         "components.contact-cards",
         "components.doctor-profile",
         "components.news-articles",
-        "components.expandable-sections"
+        "components.accordion-sections"
       ],
       "required": true
     },

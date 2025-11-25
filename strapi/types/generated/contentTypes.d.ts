@@ -865,7 +865,7 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
         'components.contact-cards',
         'components.doctor-profile',
         'components.news-articles',
-        'components.expandable-sections',
+        'components.accordion-sections',
       ]
     > &
       Schema.Attribute.Required &
