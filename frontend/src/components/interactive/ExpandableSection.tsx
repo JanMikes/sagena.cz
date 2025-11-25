@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { ChevronDown, ChevronUp, Download, Mail, Phone, User } from 'lucide-react';
+import { marked } from 'marked';
 
 /**
  * File attachment from Strapi
@@ -66,9 +67,10 @@ const ExpandableSection: React.FC<ExpandableSectionProps> = ({
       {isOpen && hasContent && (
         <div className="px-6 pb-6 space-y-6 border-t border-gray-100">
           {description && (
-            <div className="pt-6">
-              <p className="text-gray-700 whitespace-pre-wrap">{description}</p>
-            </div>
+            <div
+              className="pt-6 prose prose-sm max-w-none [&_p]:text-gray-700 [&_a]:text-primary-600 [&_a]:hover:text-primary-700"
+              dangerouslySetInnerHTML={{ __html: marked.parse(description, { async: false }) as string }}
+            />
           )}
 
           {(contactName || contactEmail || contactPhone) && (

@@ -104,7 +104,7 @@ export interface ComponentsExpandableSection extends Struct.ComponentSchema {
     contact_name: Schema.Attribute.String;
     contact_phone: Schema.Attribute.String;
     default_open: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
-    description: Schema.Attribute.Text;
+    description: Schema.Attribute.RichText;
     files: Schema.Attribute.Component<'elements.file-attachment', true>;
     title: Schema.Attribute.String & Schema.Attribute.Required;
   };
