@@ -625,7 +625,7 @@ export interface ApiIntranetPageIntranetPage
         'components.contact-cards',
         'components.button-group',
         'components.alert',
-        'components.expandable-sections',
+        'components.accordion-sections',
       ]
     > &
       Schema.Attribute.Required &

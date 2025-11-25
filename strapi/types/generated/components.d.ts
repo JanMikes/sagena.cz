@@ -443,7 +443,7 @@ export interface ElementsDocumentItem extends Struct.ComponentSchema {
 }
 
 export interface ElementsExpandableSection extends Struct.ComponentSchema {
-  collectionName: 'components_elements_expandable_sections';
+  collectionName: 'components_elements_expandable_section';
   info: {
     displayName: 'expandable-section';
     icon: 'expand';
