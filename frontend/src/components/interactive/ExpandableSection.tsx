@@ -1,8 +1,9 @@
 'use client';
 
 import React, { useState } from 'react';
-import { ChevronDown, ChevronUp, Download, Mail, Phone, User } from 'lucide-react';
+import { ChevronDown, ChevronUp, Download } from 'lucide-react';
 import { marked } from 'marked';
+import ContactCards from '@/components/people/ContactCards';
 
 /**
  * File attachment from Strapi
@@ -14,12 +15,21 @@ interface FileAttachment {
   size: number; // Size in KB
 }
 
+/**
+ * Contact card data for ContactCards component
+ */
+interface ContactCardData {
+  name: string;
+  email?: string | null;
+  phone?: string | null;
+  photo?: string | null;
+  gender?: 'man' | 'woman' | null;
+}
+
 interface ExpandableSectionProps {
   title: string;
   description?: string | null;
-  contactName?: string | null;
-  contactEmail?: string | null;
-  contactPhone?: string | null;
+  contacts?: ContactCardData[];
   files?: FileAttachment[];
   defaultOpen?: boolean;
 }
@@ -27,16 +37,13 @@ interface ExpandableSectionProps {
 const ExpandableSection: React.FC<ExpandableSectionProps> = ({
   title,
   description,
-  contactName,
-  contactEmail,
-  contactPhone,
+  contacts = [],
   files = [],
   defaultOpen = false,
 }) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
 
-  const hasContent =
-    description || contactName || contactEmail || contactPhone || files.length > 0;
+  const hasContent = description || contacts.length > 0 || files.length > 0;
 
   const formatFileSize = (sizeInKB: number): string => {
     if (sizeInKB < 1024) {
@@ -73,37 +80,9 @@ const ExpandableSection: React.FC<ExpandableSectionProps> = ({
             />
           )}
 
-          {(contactName || contactEmail || contactPhone) && (
-            <div className="bg-gray-50 p-4 rounded-lg space-y-2">
-              <h4 className="text-sm font-semibold text-gray-900 mb-3">Kontakt</h4>
-              {contactName && (
-                <div className="flex items-center gap-2 text-sm text-gray-700">
-                  <User className="w-4 h-4 text-gray-500 flex-shrink-0" />
-                  <span>{contactName}</span>
-                </div>
-              )}
-              {contactEmail && (
-                <div className="flex items-center gap-2 text-sm">
-                  <Mail className="w-4 h-4 text-gray-500 flex-shrink-0" />
-                  <a
-                    href={`mailto:${contactEmail}`}
-                    className="text-primary-600 hover:text-primary-700 hover:underline"
-                  >
-                    {contactEmail}
-                  </a>
-                </div>
-              )}
-              {contactPhone && (
-                <div className="flex items-center gap-2 text-sm">
-                  <Phone className="w-4 h-4 text-gray-500 flex-shrink-0" />
-                  <a
-                    href={`tel:${contactPhone}`}
-                    className="text-primary-600 hover:text-primary-700 hover:underline"
-                  >
-                    {contactPhone}
-                  </a>
-                </div>
-              )}
+          {contacts.length > 0 && (
+            <div className="pt-4">
+              <ContactCards cards={contacts} />
             </div>
           )}
 

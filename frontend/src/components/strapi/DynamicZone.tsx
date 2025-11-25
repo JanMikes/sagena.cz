@@ -628,14 +628,21 @@ async function renderComponent(
         size: file.file?.attributes?.size || 0,
       })) || [];
 
+      // Transform contacts from Strapi structure to component format
+      const contacts = expandableSectionComponent.contacts?.cards?.map(card => ({
+        name: card.person?.person?.name || '',
+        email: card.person?.person?.email,
+        phone: card.person?.person?.phone,
+        photo: card.person?.person?.photo?.url ? getStrapiMediaURL(card.person.person.photo.url) : null,
+        gender: card.person?.person?.gender,
+      })) || [];
+
       return (
         <ExpandableSection
           key={`${__component}-${component.id || index}`}
           title={expandableSectionComponent.title}
           description={expandableSectionComponent.description || null}
-          contactName={expandableSectionComponent.contact_name || null}
-          contactEmail={expandableSectionComponent.contact_email || null}
-          contactPhone={expandableSectionComponent.contact_phone || null}
+          contacts={contacts}
           files={files}
           defaultOpen={expandableSectionComponent.default_open || false}
         />

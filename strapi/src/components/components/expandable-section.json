@@ -13,17 +13,10 @@
     "description": {
       "type": "richtext"
     },
-    "contact_name": {
-      "type": "string",
-      "required": false
-    },
-    "contact_email": {
-      "type": "email",
-      "required": false
-    },
-    "contact_phone": {
-      "type": "string",
-      "required": false
+    "default_open": {
+      "type": "boolean",
+      "required": false,
+      "default": false
     },
     "files": {
       "type": "component",
@@ -31,10 +24,10 @@
       "repeatable": true,
       "required": false
     },
-    "default_open": {
-      "type": "boolean",
-      "required": false,
-      "default": false
+    "contacts": {
+      "type": "component",
+      "component": "components.contact-cards",
+      "repeatable": false
     }
   },
   "config": {}

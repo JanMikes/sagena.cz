@@ -384,18 +384,16 @@ export interface ComponentsDirections {
 /**
  * Components: Expandable Section
  * Location: strapi/src/components/components/expandable-section.json
- * Usage: Collapsible section with title, description, contact info, and file attachments
+ * Usage: Collapsible section with title, description, contacts, and file attachments
  */
 export interface ComponentsExpandableSection {
   id: number;
   __component: 'components.expandable-section';
   title: string;  // Required section title
   description?: string | null;  // Optional section content
-  contact_name?: string | null;  // Optional contact person name
-  contact_email?: string | null;  // Optional contact email
-  contact_phone?: string | null;  // Optional contact phone
-  files?: ElementsFileAttachment[];  // Optional array of file attachments
   default_open?: boolean;  // Default: false (Initially collapsed)
+  files?: ElementsFileAttachment[];  // Optional array of file attachments
+  contacts?: ComponentsContactCards | null;  // Optional contact cards component
 }
 
 /**

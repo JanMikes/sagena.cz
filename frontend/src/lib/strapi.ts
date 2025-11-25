@@ -534,6 +534,25 @@ export async function fetchPageBySlug(
                 files: {
                   populate: ['file'],
                 },
+                contacts: {
+                  populate: {
+                    cards: {
+                      populate: {
+                        person: {
+                          populate: {
+                            person: {
+                              populate: {
+                                photo: {
+                                  fields: ['url', 'alternativeText', 'width', 'height'],
+                                },
+                              },
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
               },
             },
             'components.button-group': {
@@ -1147,6 +1166,25 @@ export async function fetchIntranetPageBySlug(
               populate: {
                 files: {
                   populate: ['file'],
+                },
+                contacts: {
+                  populate: {
+                    cards: {
+                      populate: {
+                        person: {
+                          populate: {
+                            person: {
+                              populate: {
+                                photo: {
+                                  fields: ['url', 'alternativeText', 'width', 'height'],
+                                },
+                              },
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
                 },
               },
             },
