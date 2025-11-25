@@ -72,11 +72,11 @@
         "components.gallery-slider",
         "components.photo-gallery",
         "components.directions",
-        "components.expandable-section",
         "components.button-group",
         "components.contact-cards",
         "components.doctor-profile",
-        "components.news-articles"
+        "components.news-articles",
+        "components.expandable-sections"
       ],
       "required": true
     },

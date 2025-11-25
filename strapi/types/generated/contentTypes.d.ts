@@ -619,13 +619,13 @@ export interface ApiIntranetPageIntranetPage
         'components.heading',
         'components.gallery-slider',
         'components.full-width-cards',
-        'components.expandable-section',
         'components.documents',
         'components.doctor-profile',
         'components.directions',
         'components.contact-cards',
         'components.button-group',
         'components.alert',
+        'components.expandable-sections',
       ]
     > &
       Schema.Attribute.Required &
@@ -861,11 +861,11 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
         'components.gallery-slider',
         'components.photo-gallery',
         'components.directions',
-        'components.expandable-section',
         'components.button-group',
         'components.contact-cards',
         'components.doctor-profile',
         'components.news-articles',
+        'components.expandable-sections',
       ]
     > &
       Schema.Attribute.Required &

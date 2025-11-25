@@ -70,13 +70,13 @@
         "components.heading",
         "components.gallery-slider",
         "components.full-width-cards",
-        "components.expandable-section",
         "components.documents",
         "components.doctor-profile",
         "components.directions",
         "components.contact-cards",
         "components.button-group",
-        "components.alert"
+        "components.alert",
+        "components.expandable-sections"
       ],
       "required": true
     },
