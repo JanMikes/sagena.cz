@@ -66,4 +66,4 @@ jobs:
                 host: sagena.thedevs.cz
                 username: ${{ secrets.DEPLOY_USERNAME }}
                 key: ${{ secrets.DEPLOY_PRIVATE_KEY }}
-                script: cd /deployment/sagena-web && ./deploy-nginx.sh
+                script: cd /deployment/sagena && ./deploy-nginx.sh
