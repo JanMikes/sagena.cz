@@ -7,7 +7,6 @@ interface NewsArticleData {
   slug: string;
   title: string;
   date: string;
-  text: string;
   image?: string;
   imageAlt?: string;
   tags?: Array<{ name: string; slug: string }>;
@@ -54,7 +53,6 @@ const NewsArticles: React.FC<NewsArticlesProps> = ({
             key={article.slug}
             title={article.title}
             date={article.date}
-            text={article.text}
             image={article.image}
             imageAlt={article.imageAlt}
             tags={article.tags}

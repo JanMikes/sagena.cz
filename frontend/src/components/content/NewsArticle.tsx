@@ -10,7 +10,7 @@ import Image from 'next/image';
 interface NewsArticleProps {
   title: string;
   date: string;
-  text: string; // Plain text excerpt or rich HTML
+  text?: string; // Optional plain text excerpt or rich HTML
   image?: string; // Image URL
   imageAlt?: string; // Optional alt text for image
   tags?: Array<{ name: string; slug: string }>; // Optional tags
@@ -34,7 +34,7 @@ const NewsArticle: React.FC<NewsArticleProps> = ({
     return html.replace(/<[^>]*>/g, '').substring(0, 200);
   };
 
-  const excerpt = text.includes('<') ? getPlainTextExcerpt(text) : text;
+  const excerpt = text ? (text.includes('<') ? getPlainTextExcerpt(text) : text) : null;
 
   return (
     <article className="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-shadow duration-300">
@@ -77,9 +77,11 @@ const NewsArticle: React.FC<NewsArticleProps> = ({
             {title}
           </h3>
         </Link>
-        <p className="text-gray-600 mb-4 leading-relaxed line-clamp-3">
-          {excerpt}
-        </p>
+        {excerpt && (
+          <p className="text-gray-600 mb-4 leading-relaxed line-clamp-3">
+            {excerpt}
+          </p>
+        )}
         <Link
           href={readMoreUrl}
           className="inline-flex items-center space-x-2 text-primary-600 hover:text-primary-700 font-medium group"
