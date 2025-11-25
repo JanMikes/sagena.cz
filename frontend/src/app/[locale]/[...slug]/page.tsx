@@ -143,9 +143,7 @@ export default async function Page({ params }: PageProps) {
             {/* Breadcrumb Navigation */}
             <Breadcrumb items={breadcrumbItems} />
 
-            <div className="max-w-4xl">
-              <DynamicZone components={page.content} locale={locale} />
-            </div>
+            <DynamicZone components={page.content} locale={locale} />
           </div>
         )}
       </div>

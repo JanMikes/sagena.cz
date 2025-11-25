@@ -602,7 +602,7 @@ async function renderComponent(
         return {
           icon: iconUrl,
           floor: step.floor || null,
-          text: step.text,
+          text: step.text || '',
         };
       });
 
@@ -611,6 +611,8 @@ async function renderComponent(
           key={`${__component}-${component.id || index}`}
           title={directionsComponent.title || undefined}
           instructions={instructions}
+          description={directionsComponent.description}
+          style={directionsComponent.style}
         />
       );
     }

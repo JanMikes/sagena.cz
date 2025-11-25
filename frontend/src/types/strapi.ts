@@ -377,6 +377,8 @@ export interface ComponentsDirections {
   __component: 'components.directions';
   title?: string | null;  // Optional title (default: "Jak nás najít")
   instructions: ElementsDirectionStep[];  // Required array of direction steps
+  description?: string | null;  // Optional markdown description shown below steps
+  style?: 'Style 1' | 'Style 2';  // Style variant (Style 1 = white bg, Style 2 = primary gradient)
 }
 
 /**
@@ -692,7 +694,7 @@ export interface ElementsDirectionStep {
   __component?: 'elements.direction-step';
   icon?: Icon;  // Optional icon relation (oneToOne to api::icon.icon)
   floor?: string | null;  // Floor information (e.g., "1. patro", "2. patro, č. 215")
-  text: string;  // Required instruction text
+  text?: string | null;  // Markdown instruction text (richtext)
 }
 
 /**

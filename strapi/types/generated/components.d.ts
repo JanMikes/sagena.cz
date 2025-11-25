@@ -56,8 +56,11 @@ export interface ComponentsDirections extends Struct.ComponentSchema {
     icon: 'compass';
   };
   attributes: {
+    description: Schema.Attribute.RichText;
     instructions: Schema.Attribute.Component<'elements.direction-step', true> &
       Schema.Attribute.Required;
+    style: Schema.Attribute.Enumeration<['Style 1', 'Style 2']> &
+      Schema.Attribute.DefaultTo<'Style 1'>;
     title: Schema.Attribute.String;
   };
 }
@@ -410,7 +413,7 @@ export interface ElementsDirectionStep extends Struct.ComponentSchema {
   attributes: {
     floor: Schema.Attribute.String;
     icon: Schema.Attribute.Relation<'oneToOne', 'api::icon.icon'>;
-    text: Schema.Attribute.Text & Schema.Attribute.Required;
+    text: Schema.Attribute.RichText;
   };
 }
 

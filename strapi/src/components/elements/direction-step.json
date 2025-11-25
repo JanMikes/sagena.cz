@@ -15,8 +15,7 @@
       "type": "string"
     },
     "text": {
-      "type": "text",
-      "required": true
+      "type": "richtext"
     }
   },
   "config": {}

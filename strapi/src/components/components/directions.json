@@ -14,6 +14,17 @@
       "component": "elements.direction-step",
       "repeatable": true,
       "required": true
+    },
+    "description": {
+      "type": "richtext"
+    },
+    "style": {
+      "type": "enumeration",
+      "default": "Style 1",
+      "enum": [
+        "Style 1",
+        "Style 2"
+      ]
     }
   },
   "config": {}
