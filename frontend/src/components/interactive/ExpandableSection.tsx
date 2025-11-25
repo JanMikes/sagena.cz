@@ -75,7 +75,7 @@ const ExpandableSection: React.FC<ExpandableSectionProps> = ({
         <div className="px-6 pb-6 space-y-6 border-t border-gray-100">
           {description && (
             <div
-              className="pt-6 prose prose-sm max-w-none [&_p]:text-gray-700 [&_a]:text-primary-600 [&_a]:hover:text-primary-700"
+              className="pt-6 prose prose-sm max-w-none [&_p]:text-gray-700 [&_a]:text-primary-600 [&_a]:hover:text-primary-700 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1 [&_ol]:list-decimal [&_ol]:pl-5 [&_ol]:space-y-1 [&_li]:text-gray-700"
               dangerouslySetInnerHTML={{ __html: marked.parse(description, { async: false }) as string }}
             />
           )}

@@ -352,9 +352,9 @@ Centrum Zdraví Sagena poskytuje **komplexní zdravotní péči** již více ne�
       <ExpandableSection
         title="Ordinační hodiny"
         description="Naše ordinace je otevřena v následujících hodinách."
-        contactName="Dr. Jan Novák"
-        contactEmail="novak@sagena.cz"
-        contactPhone="+420 553 030 800"
+        contacts={[
+          { name: 'Dr. Jan Novák', email: 'novak@sagena.cz', phone: '+420 553 030 800' },
+        ]}
       />
       <ExpandableSection
         title="Dokumenty ke stažení"
