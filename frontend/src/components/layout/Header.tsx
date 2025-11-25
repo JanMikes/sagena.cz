@@ -49,46 +49,50 @@ const Header: React.FC<HeaderProps> = ({
   }, []);
 
   return (
-    <header className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm transition-all duration-300">
+    <header className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
       <nav className="container-custom">
-        {/* Row 1: Logo, Phone, CTA - Collapses on scroll */}
+        {/* Row 1: Logo, Phone, CTA - Collapses on scroll using CSS Grid for GPU-accelerated animation */}
         <div
-          className={`flex items-center justify-between border-b border-gray-100 transition-all duration-300 overflow-hidden ${
-            isScrolled ? 'max-h-0 py-0' : 'max-h-24 py-3'
+          className={`grid transition-[grid-template-rows,opacity] duration-200 ease-out ${
+            isScrolled ? 'grid-rows-[0fr] opacity-0' : 'grid-rows-[1fr] opacity-100'
           }`}
         >
-          {/* Logo */}
-          <Link href={`/${currentLocale}/`} className="flex items-center space-x-3">
-            <img
-              src="/logo-color.svg"
-              alt="Sagena"
-              className="h-12 w-auto"
-            />
-          </Link>
+          <div className="overflow-hidden">
+            <div className="flex items-center justify-between border-b border-gray-100 py-3">
+              {/* Logo */}
+              <Link href={`/${currentLocale}/`} className="flex items-center space-x-3">
+                <img
+                  src="/logo-color.svg"
+                  alt="Sagena"
+                  className="h-12 w-auto"
+                />
+              </Link>
 
-          {/* Phone & CTA */}
-          <div className="hidden lg:flex items-center space-x-4">
-            <a
-              href="tel:+420553030800"
-              className="flex items-center space-x-2 text-gray-700 hover:text-primary-600 transition-colors"
-            >
-              <Phone className="w-5 h-5" />
-              <span className="font-medium">+420 553 030 800</span>
-            </a>
-            <Button href="#" size="sm">
-              Objednat se
-            </Button>
-          </div>
+              {/* Phone & CTA */}
+              <div className="hidden lg:flex items-center space-x-4">
+                <a
+                  href="tel:+420553030800"
+                  className="flex items-center space-x-2 text-gray-700 hover:text-primary-600 transition-colors"
+                >
+                  <Phone className="w-5 h-5" />
+                  <span className="font-medium">+420 553 030 800</span>
+                </a>
+                <Button href="#" size="sm">
+                  Objednat se
+                </Button>
+              </div>
 
-          {/* Mobile logo only */}
-          <div className="lg:hidden">
-            <Link href={`/${currentLocale}/`} className="flex items-center space-x-2">
-              <img
-                src="/logo-color.svg"
-                alt="Sagena"
-                className="h-10 w-auto"
-              />
-            </Link>
+              {/* Mobile logo only */}
+              <div className="lg:hidden">
+                <Link href={`/${currentLocale}/`} className="flex items-center space-x-2">
+                  <img
+                    src="/logo-color.svg"
+                    alt="Sagena"
+                    className="h-10 w-auto"
+                  />
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -97,7 +101,7 @@ const Header: React.FC<HeaderProps> = ({
           {/* Logo (visible when scrolled) - Desktop */}
           <Link
             href={`/${currentLocale}/`}
-            className={`flex items-center space-x-2 transition-opacity duration-300 ${
+            className={`flex items-center space-x-2 transition-opacity duration-150 ease-out ${
               isScrolled ? 'opacity-100' : 'opacity-0 pointer-events-none'
             } hidden lg:flex`}
           >
@@ -111,7 +115,7 @@ const Header: React.FC<HeaderProps> = ({
           {/* Logo (visible when scrolled) - Mobile */}
           <Link
             href={`/${currentLocale}/`}
-            className={`flex items-center space-x-2 transition-opacity duration-300 lg:hidden ${
+            className={`flex items-center space-x-2 transition-opacity duration-150 ease-out lg:hidden ${
               isScrolled ? 'opacity-100' : 'opacity-0 pointer-events-none'
             }`}
           >
@@ -171,10 +175,15 @@ const Header: React.FC<HeaderProps> = ({
           </button>
         </div>
 
-        {/* Mobile Navigation */}
-        {mobileMenuOpen && (
-          <div className="lg:hidden py-4 border-t border-gray-200">
-            <div className="flex flex-col space-y-2">
+        {/* Mobile Navigation - CSS Grid for GPU-accelerated animation */}
+        <div
+          className={`lg:hidden grid transition-[grid-template-rows,opacity] duration-200 ease-out ${
+            mobileMenuOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+          }`}
+          aria-hidden={!mobileMenuOpen}
+        >
+          <div className="overflow-hidden">
+            <div className="flex flex-col space-y-2 py-4 border-t border-gray-200">
               {navigation.map((item) => {
                 const isActive = normalizePath(pathname) === normalizePath(item.href);
                 return (
@@ -237,7 +246,7 @@ const Header: React.FC<HeaderProps> = ({
               </div>
             </div>
           </div>
-        )}
+        </div>
       </nav>
 
       {/* Search Modal */}
