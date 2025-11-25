@@ -182,10 +182,22 @@ interface PageHierarchyEntry {
 
 type PageHierarchyMap = Map<string, PageHierarchyEntry>;
 
-// In-memory cache for page hierarchy - keyed by locale
-// (per-request in SSR with no-store, persists in dev)
-const pageHierarchyCache: Map<string, PageHierarchyMap> = new Map();
-const intranetPageHierarchyCache: Map<string, PageHierarchyMap> = new Map();
+// Cache configuration
+const HIERARCHY_CACHE_TTL_MS = 60 * 1000; // 60 seconds TTL
+
+interface CacheEntry<T> {
+  data: T;
+  timestamp: number;
+}
+
+// In-memory cache for page hierarchy - keyed by locale, with TTL
+const pageHierarchyCache: Map<string, CacheEntry<PageHierarchyMap>> = new Map();
+const intranetPageHierarchyCache: Map<string, CacheEntry<PageHierarchyMap>> = new Map();
+
+function isCacheValid<T>(entry: CacheEntry<T> | undefined): entry is CacheEntry<T> {
+  if (!entry) return false;
+  return Date.now() - entry.timestamp < HIERARCHY_CACHE_TTL_MS;
+}
 
 /**
  * Fetch all pages with shallow parent info and build hierarchy map
@@ -317,41 +329,55 @@ async function fetchIntranetPageHierarchy(locale: string): Promise<PageHierarchy
  * Get page hierarchy entry by slug (with caching)
  */
 export async function getPageHierarchy(slug: string, locale: string): Promise<PageHierarchyEntry | null> {
-  if (!pageHierarchyCache.has(locale)) {
-    pageHierarchyCache.set(locale, await fetchPageHierarchy(locale));
+  const cached = pageHierarchyCache.get(locale);
+  if (!isCacheValid(cached)) {
+    const data = await fetchPageHierarchy(locale);
+    pageHierarchyCache.set(locale, { data, timestamp: Date.now() });
+    return data.get(slug) || null;
   }
-  return pageHierarchyCache.get(locale)?.get(slug) || null;
+  return cached.data.get(slug) || null;
 }
 
 /**
- * Get full page hierarchy map for a locale (with caching)
+ * Get full page hierarchy map for a locale (with TTL caching)
  * Useful for resolving multiple links at once
+ * Cache invalidates after 60 seconds
  */
 export async function getFullPageHierarchy(locale: string): Promise<PageHierarchyMap> {
-  if (!pageHierarchyCache.has(locale)) {
-    pageHierarchyCache.set(locale, await fetchPageHierarchy(locale));
+  const cached = pageHierarchyCache.get(locale);
+  if (!isCacheValid(cached)) {
+    const data = await fetchPageHierarchy(locale);
+    pageHierarchyCache.set(locale, { data, timestamp: Date.now() });
+    return data;
   }
-  return pageHierarchyCache.get(locale)!;
+  return cached.data;
 }
 
 /**
- * Get intranet page hierarchy entry by slug (with caching)
+ * Get intranet page hierarchy entry by slug (with TTL caching)
  */
 export async function getIntranetPageHierarchy(slug: string, locale: string): Promise<PageHierarchyEntry | null> {
-  if (!intranetPageHierarchyCache.has(locale)) {
-    intranetPageHierarchyCache.set(locale, await fetchIntranetPageHierarchy(locale));
+  const cached = intranetPageHierarchyCache.get(locale);
+  if (!isCacheValid(cached)) {
+    const data = await fetchIntranetPageHierarchy(locale);
+    intranetPageHierarchyCache.set(locale, { data, timestamp: Date.now() });
+    return data.get(slug) || null;
   }
-  return intranetPageHierarchyCache.get(locale)?.get(slug) || null;
+  return cached.data.get(slug) || null;
 }
 
 /**
- * Get full intranet page hierarchy map for a locale (with caching)
+ * Get full intranet page hierarchy map for a locale (with TTL caching)
+ * Cache invalidates after 60 seconds
  */
 export async function getFullIntranetPageHierarchy(locale: string): Promise<PageHierarchyMap> {
-  if (!intranetPageHierarchyCache.has(locale)) {
-    intranetPageHierarchyCache.set(locale, await fetchIntranetPageHierarchy(locale));
+  const cached = intranetPageHierarchyCache.get(locale);
+  if (!isCacheValid(cached)) {
+    const data = await fetchIntranetPageHierarchy(locale);
+    intranetPageHierarchyCache.set(locale, { data, timestamp: Date.now() });
+    return data;
   }
-  return intranetPageHierarchyCache.get(locale)!;
+  return cached.data;
 }
 
 // ============================================================================
