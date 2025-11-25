@@ -168,6 +168,193 @@ async function fetchAPI<T>(
  */
 
 // ============================================================================
+// Page Hierarchy Cache (Sitemap)
+// ============================================================================
+
+interface PageHierarchyEntry {
+  id: number;
+  slug: string;
+  title: string;
+  parentSlug: string | null;
+  canonicalPath: string;
+  breadcrumbs: Array<{ label: string; slug: string }>;
+}
+
+type PageHierarchyMap = Map<string, PageHierarchyEntry>;
+
+// In-memory cache for page hierarchy - keyed by locale
+// (per-request in SSR with no-store, persists in dev)
+const pageHierarchyCache: Map<string, PageHierarchyMap> = new Map();
+const intranetPageHierarchyCache: Map<string, PageHierarchyMap> = new Map();
+
+/**
+ * Fetch all pages with shallow parent info and build hierarchy map
+ * This is more efficient than deep population on each page fetch
+ */
+async function fetchPageHierarchy(locale: string): Promise<PageHierarchyMap> {
+  const response = await fetchAPI<StrapiCollectionResponse<{
+    id: number;
+    slug: string;
+    title: string;
+    parent?: { id: number; slug: string; title: string } | null;
+  }>>('/pages', {
+    locale,
+    fields: ['id', 'slug', 'title'],
+    populate: {
+      parent: {
+        fields: ['id', 'slug', 'title'],
+      },
+    },
+    pagination: { pageSize: 500 },
+  });
+
+  const pages = response.data || [];
+  const slugToPage = new Map<string, typeof pages[0]>();
+
+  // First pass: index by slug
+  for (const page of pages) {
+    slugToPage.set(page.slug, page);
+  }
+
+  // Second pass: build hierarchy
+  const hierarchy: PageHierarchyMap = new Map();
+
+  for (const page of pages) {
+    const breadcrumbs: Array<{ label: string; slug: string }> = [];
+    const pathSegments: string[] = [];
+
+    // Walk up the parent chain
+    let current: typeof pages[0] | undefined = page;
+    const visited = new Set<string>();
+
+    while (current && !visited.has(current.slug)) {
+      visited.add(current.slug);
+      pathSegments.unshift(current.slug);
+      breadcrumbs.unshift({ label: current.title, slug: current.slug });
+
+      if (current.parent?.slug) {
+        current = slugToPage.get(current.parent.slug);
+      } else {
+        current = undefined;
+      }
+    }
+
+    hierarchy.set(page.slug, {
+      id: page.id,
+      slug: page.slug,
+      title: page.title,
+      parentSlug: page.parent?.slug || null,
+      canonicalPath: pathSegments.join('/'),
+      breadcrumbs,
+    });
+  }
+
+  return hierarchy;
+}
+
+/**
+ * Fetch all intranet pages with shallow parent info and build hierarchy map
+ */
+async function fetchIntranetPageHierarchy(locale: string): Promise<PageHierarchyMap> {
+  const response = await fetchAPI<StrapiCollectionResponse<{
+    id: number;
+    slug: string;
+    title: string;
+    parent?: { id: number; slug: string; title: string } | null;
+  }>>('/intranet-pages', {
+    locale,
+    fields: ['id', 'slug', 'title'],
+    populate: {
+      parent: {
+        fields: ['id', 'slug', 'title'],
+      },
+    },
+    pagination: { pageSize: 500 },
+  });
+
+  const pages = response.data || [];
+  const slugToPage = new Map<string, typeof pages[0]>();
+
+  for (const page of pages) {
+    slugToPage.set(page.slug, page);
+  }
+
+  const hierarchy: PageHierarchyMap = new Map();
+
+  for (const page of pages) {
+    const breadcrumbs: Array<{ label: string; slug: string }> = [];
+    const pathSegments: string[] = [];
+
+    let current: typeof pages[0] | undefined = page;
+    const visited = new Set<string>();
+
+    while (current && !visited.has(current.slug)) {
+      visited.add(current.slug);
+      pathSegments.unshift(current.slug);
+      breadcrumbs.unshift({ label: current.title, slug: current.slug });
+
+      if (current.parent?.slug) {
+        current = slugToPage.get(current.parent.slug);
+      } else {
+        current = undefined;
+      }
+    }
+
+    hierarchy.set(page.slug, {
+      id: page.id,
+      slug: page.slug,
+      title: page.title,
+      parentSlug: page.parent?.slug || null,
+      canonicalPath: pathSegments.join('/'),
+      breadcrumbs,
+    });
+  }
+
+  return hierarchy;
+}
+
+/**
+ * Get page hierarchy entry by slug (with caching)
+ */
+export async function getPageHierarchy(slug: string, locale: string): Promise<PageHierarchyEntry | null> {
+  if (!pageHierarchyCache.has(locale)) {
+    pageHierarchyCache.set(locale, await fetchPageHierarchy(locale));
+  }
+  return pageHierarchyCache.get(locale)?.get(slug) || null;
+}
+
+/**
+ * Get full page hierarchy map for a locale (with caching)
+ * Useful for resolving multiple links at once
+ */
+export async function getFullPageHierarchy(locale: string): Promise<PageHierarchyMap> {
+  if (!pageHierarchyCache.has(locale)) {
+    pageHierarchyCache.set(locale, await fetchPageHierarchy(locale));
+  }
+  return pageHierarchyCache.get(locale)!;
+}
+
+/**
+ * Get intranet page hierarchy entry by slug (with caching)
+ */
+export async function getIntranetPageHierarchy(slug: string, locale: string): Promise<PageHierarchyEntry | null> {
+  if (!intranetPageHierarchyCache.has(locale)) {
+    intranetPageHierarchyCache.set(locale, await fetchIntranetPageHierarchy(locale));
+  }
+  return intranetPageHierarchyCache.get(locale)?.get(slug) || null;
+}
+
+/**
+ * Get full intranet page hierarchy map for a locale (with caching)
+ */
+export async function getFullIntranetPageHierarchy(locale: string): Promise<PageHierarchyMap> {
+  if (!intranetPageHierarchyCache.has(locale)) {
+    intranetPageHierarchyCache.set(locale, await fetchIntranetPageHierarchy(locale));
+  }
+  return intranetPageHierarchyCache.get(locale)!;
+}
+
+// ============================================================================
 // Icon Cache Management
 // ============================================================================
 
@@ -236,16 +423,23 @@ export async function getIconUrlById(id: number): Promise<string | null> {
  * IMPORTANT: Strapi returns relations directly (no .data wrapper, no .attributes)
  * @param link - The link component from Strapi
  * @param locale - Current locale for prefixing internal page links (default: 'cs')
+ * @param hierarchy - Optional page hierarchy map for resolving canonical paths
  */
-export function resolveLink(link: ElementsLink, locale: string = 'cs'): ResolvedLink | null {
+export function resolveLink(
+  link: ElementsLink,
+  locale: string = 'cs',
+  hierarchy?: PageHierarchyMap
+): ResolvedLink | null {
   if (!link) return null;
 
   // Internal page link
   // Strapi returns page relation directly (not wrapped in .data)
   if (link.page) {
     const pageSlug = link.page.slug;
+    // Use canonical path from hierarchy if available, otherwise fall back to slug
+    const canonicalPath = hierarchy?.get(pageSlug)?.canonicalPath || pageSlug;
     // Add locale prefix and trailing slash for consistency with Next.js trailingSlash: true
-    const href = `/${locale}/${pageSlug}/${link.anchor ? `#${link.anchor}` : ''}`;
+    const href = `/${locale}/${canonicalPath}/${link.anchor ? `#${link.anchor}` : ''}`;
     return { href, target: '_self' };
   }
 
@@ -306,7 +500,11 @@ export async function fetchNavigation(
     },
   };
 
-  const response = await fetchAPI<any>('/navigations', params);
+  // Fetch navigation and page hierarchy in parallel
+  const [response, hierarchy] = await Promise.all([
+    fetchAPI<any>('/navigations', params),
+    getFullPageHierarchy(locale),
+  ]);
 
   // Filter by navbar/footer in code
   // Strapi returns data directly in array, NOT wrapped in attributes
@@ -326,7 +524,8 @@ export async function fetchNavigation(
   for (const nav of filteredData) {
     const link = nav.link;
 
-    const resolvedLink = resolveLink(link, locale);
+    // Pass hierarchy to resolve canonical paths for internal page links
+    const resolvedLink = resolveLink(link, locale, hierarchy);
 
     if (resolvedLink) {
       items.push({
@@ -774,7 +973,7 @@ export async function fetchPageBySlug(
             },
           },
         },
-        parent: true, // Populate parent relation
+        parent: true, // Shallow parent for basic info (hierarchy built via getPageHierarchy)
         localizations: {
           fields: ['locale', 'slug'], // Fetch alternate locale versions for language switcher
         },
@@ -1032,25 +1231,37 @@ export async function fetchIntranetMenu(
   locale: string = 'cs'
 ): Promise<NavigationItem[]> {
   try {
-    const response = await fetchAPI<StrapiCollectionResponse<any>>('/intranet-menus', {
-      locale,
-      populate: {
-        link: {
-          populate: ['page', 'file'],
+    // Fetch menu and intranet page hierarchy in parallel
+    const [response, hierarchy] = await Promise.all([
+      fetchAPI<StrapiCollectionResponse<any>>('/intranet-menus', {
+        locale,
+        populate: {
+          link: {
+            populate: ['page', 'file'],
+          },
         },
-      },
-    });
+      }),
+      getFullIntranetPageHierarchy(locale),
+    ]);
 
     const items: NavigationItem[] = [];
 
     for (const item of response.data || []) {
       const link = item.link;
-      const resolvedLink = resolveLink(link, locale);
+      // Pass hierarchy for canonical path resolution
+      const resolvedLink = resolveLink(link, locale, hierarchy);
 
       if (resolvedLink) {
+        // For intranet pages, we need to prefix with /intranet/
+        let href = resolvedLink.href;
+        if (link.page && !href.includes('/intranet/')) {
+          // Transform /{locale}/{path}/ to /{locale}/intranet/{path}/
+          href = href.replace(`/${locale}/`, `/${locale}/intranet/`);
+        }
+
         items.push({
           name: item.title,
-          href: resolvedLink.href,
+          href,
           target: resolvedLink.target,
         });
       }
@@ -1480,7 +1691,7 @@ export async function fetchIntranetPageBySlug(
             },
           },
         },
-        parent: true,
+        parent: true, // Shallow parent for basic info (hierarchy built via getIntranetPageHierarchy)
         localizations: {
           fields: ['locale', 'slug'],
         },

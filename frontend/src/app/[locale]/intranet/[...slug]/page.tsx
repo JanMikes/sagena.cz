@@ -21,6 +21,7 @@ import {
   fetchAllIntranetPageSlugs,
   fetchIntranetMenu,
   hasSidebar,
+  getIntranetPageHierarchy,
 } from '@/lib/strapi';
 import { getSession } from '@/lib/auth';
 import DynamicZone from '@/components/strapi/DynamicZone';
@@ -51,11 +52,17 @@ const translations = {
  */
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale, slug: slugArray } = await params;
-  const slug = slugArray.join('/');
 
-  const page = await fetchIntranetPageBySlug(slug, locale);
+  // Get the leaf slug (last segment) - this is the page's slug in Strapi
+  const leafSlug = slugArray[slugArray.length - 1];
 
-  if (!page) {
+  // Get hierarchy info (cached) and page content in parallel
+  const [hierarchy, page] = await Promise.all([
+    getIntranetPageHierarchy(leafSlug, locale),
+    fetchIntranetPageBySlug(leafSlug, locale),
+  ]);
+
+  if (!page || !hierarchy) {
     return {
       title: 'Stránka nenalezena',
     };
@@ -72,8 +79,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       follow: false,
     },
     alternates: {
+      canonical: `/${locale}/intranet/${hierarchy.canonicalPath}/`,
       languages: {
-        [locale]: `/${locale}/intranet/${slug}/`,
+        [locale]: `/${locale}/intranet/${hierarchy.canonicalPath}/`,
         ...(alternateSlug && { [alternateLocale]: `/${alternateLocale}/intranet/${alternateSlug}/` }),
       },
     },
@@ -105,7 +113,9 @@ export async function generateStaticParams() {
  */
 export default async function IntranetPage({ params }: PageProps) {
   const { locale, slug: slugArray } = await params;
-  const slug = slugArray.join('/');
+
+  // Get the leaf slug (last segment) - this is the page's slug in Strapi
+  const leafSlug = slugArray[slugArray.length - 1];
 
   // Validate locale
   if (!isValidLocale(locale)) {
@@ -118,11 +128,26 @@ export default async function IntranetPage({ params }: PageProps) {
     redirect(`/${locale}/intranet/login/`);
   }
 
-  const page = await fetchIntranetPageBySlug(slug, locale);
+  // Get hierarchy info (cached) and page content in parallel
+  const [hierarchy, page] = await Promise.all([
+    getIntranetPageHierarchy(leafSlug, locale),
+    fetchIntranetPageBySlug(leafSlug, locale),
+  ]);
 
   // Show 404 if page not found
-  if (!page) {
+  if (!page || !hierarchy) {
     notFound();
+  }
+
+  // Validate URL matches canonical path
+  const requestedPath = slugArray.join('/');
+
+  // Redirect to canonical URL if the requested path doesn't match
+  // This handles cases like:
+  // - /cs/intranet/child/ when it should be /cs/intranet/parent/child/
+  // - /cs/intranet/wrong-parent/child/ when parent is different
+  if (requestedPath !== hierarchy.canonicalPath) {
+    redirect(`/${locale}/intranet/${hierarchy.canonicalPath}/`);
   }
 
   // Fetch intranet navigation
@@ -148,10 +173,17 @@ export default async function IntranetPage({ params }: PageProps) {
     alternateLocaleUrl = `/${alternateLocale}/intranet/`;
   }
 
-  // Build breadcrumb items starting from intranet home
+  // Build breadcrumb items from hierarchy
   const breadcrumbItems = [
     { label: t.intranetHome, href: `/${locale}/intranet/` },
-    { label: page.title, href: `/${locale}/intranet/${slug}/` },
+    ...hierarchy.breadcrumbs.map((crumb, index) => {
+      // Build href incrementally from breadcrumb slugs
+      const pathSegments = hierarchy.breadcrumbs.slice(0, index + 1).map(b => b.slug);
+      return {
+        label: crumb.label,
+        href: `/${locale}/intranet/${pathSegments.join('/')}/`,
+      };
+    }),
   ];
 
   return (

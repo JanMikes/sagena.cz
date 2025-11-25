@@ -13,8 +13,8 @@
  */
 
 import { Metadata } from 'next';
-import { notFound } from 'next/navigation';
-import { fetchPageBySlug, hasSidebar } from '@/lib/strapi';
+import { notFound, redirect } from 'next/navigation';
+import { fetchPageBySlug, hasSidebar, getPageHierarchy } from '@/lib/strapi';
 import DynamicZone from '@/components/strapi/DynamicZone';
 import SidePanel from '@/components/layout/SidePanel';
 import Breadcrumb from '@/components/navigation/Breadcrumb';
@@ -35,13 +35,20 @@ export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   const { locale, slug: slugArray } = await params;
-  const slug = slugArray.join('/');
+
+  // Get the leaf slug (last segment) - this is the page's slug in Strapi
+  const leafSlug = slugArray[slugArray.length - 1];
 
   // Use Czech locale for static pages
-  const effectiveLocale = isStaticCzechPage(slug) ? 'cs' : locale;
-  const page = await fetchPageBySlug(slug, effectiveLocale);
+  const effectiveLocale = isStaticCzechPage(leafSlug) ? 'cs' : locale;
 
-  if (!page) {
+  // Get hierarchy info (cached) and page content in parallel
+  const [hierarchy, page] = await Promise.all([
+    getPageHierarchy(leafSlug, effectiveLocale),
+    fetchPageBySlug(leafSlug, effectiveLocale),
+  ]);
+
+  if (!page || !hierarchy) {
     return {
       title: 'Stránka nenalezena',
     };
@@ -54,8 +61,9 @@ export async function generateMetadata({
     title: `${page.title} | Sagena`,
     description: page.meta_description || page.title,
     alternates: {
+      canonical: `/${locale}/${hierarchy.canonicalPath}/`,
       languages: {
-        [locale]: `/${locale}/${slug}/`,
+        [locale]: `/${locale}/${hierarchy.canonicalPath}/`,
         ...(alternateSlug && { [alternateLocale]: `/${alternateLocale}/${alternateSlug}/` }),
       },
     },
@@ -67,15 +75,33 @@ export async function generateMetadata({
  */
 export default async function Page({ params }: PageProps) {
   const { locale, slug: slugArray } = await params;
-  const slug = slugArray.join('/');
+
+  // Get the leaf slug (last segment) - this is the page's slug in Strapi
+  const leafSlug = slugArray[slugArray.length - 1];
 
   // Use Czech locale for static demonstration pages
-  const effectiveLocale = isStaticCzechPage(slug) ? 'cs' : locale;
-  const page = await fetchPageBySlug(slug, effectiveLocale);
+  const effectiveLocale = isStaticCzechPage(leafSlug) ? 'cs' : locale;
+
+  // Get hierarchy info (cached) and page content in parallel
+  const [hierarchy, page] = await Promise.all([
+    getPageHierarchy(leafSlug, effectiveLocale),
+    fetchPageBySlug(leafSlug, effectiveLocale),
+  ]);
 
   // Show 404 if page not found
-  if (!page) {
+  if (!page || !hierarchy) {
     notFound();
+  }
+
+  // Validate URL matches canonical path
+  const requestedPath = slugArray.join('/');
+
+  // Redirect to canonical URL if the requested path doesn't match
+  // This handles cases like:
+  // - /cs/child/ when it should be /cs/parent/child/
+  // - /cs/wrong-parent/child/ when parent is different
+  if (requestedPath !== hierarchy.canonicalPath) {
+    redirect(`/${locale}/${hierarchy.canonicalPath}/`);
   }
 
   const showSidebar = hasSidebar(page.sidebar);
@@ -83,9 +109,9 @@ export default async function Page({ params }: PageProps) {
 
   // Compute alternate locale URL from page localizations
   let alternateLocaleUrl: string | null = null;
-  if (isStaticCzechPage(slug)) {
+  if (isStaticCzechPage(leafSlug)) {
     // Static Czech pages have the same slug in both locales
-    alternateLocaleUrl = `/${alternateLocale}/${slug}/`;
+    alternateLocaleUrl = `/${alternateLocale}/${hierarchy.canonicalPath}/`;
   } else if (page.localizations) {
     const alternateVersion = page.localizations.find(l => l.locale === alternateLocale);
     if (alternateVersion) {
@@ -99,11 +125,15 @@ export default async function Page({ params }: PageProps) {
     alternateLocaleUrl = `/${alternateLocale}/`;
   }
 
-  // Build breadcrumb items
-  const breadcrumbItems = [
-    { label: 'Úvod', href: `/${locale}/` },
-    { label: page.title, href: `/${locale}/${slug}/` },
-  ];
+  // Build breadcrumb items from hierarchy
+  const breadcrumbItems = hierarchy.breadcrumbs.map((crumb, index) => {
+    // Build href incrementally from breadcrumb slugs
+    const pathSegments = hierarchy.breadcrumbs.slice(0, index + 1).map(b => b.slug);
+    return {
+      label: crumb.label,
+      href: `/${locale}/${pathSegments.join('/')}/`,
+    };
+  });
 
   return (
     <>
