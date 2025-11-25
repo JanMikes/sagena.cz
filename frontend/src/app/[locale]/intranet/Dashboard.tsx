@@ -12,10 +12,12 @@ import MarketingArguments from '@/components/marketing/MarketingArguments';
 import RichText from '@/components/typography/RichText';
 import type { Locale } from '@/i18n/config';
 import type { StrapiUser } from '@/lib/auth';
+import type { NavigationItem } from '@/types/strapi';
 
 interface DashboardProps {
   locale: Locale;
   user: StrapiUser;
+  navigation: NavigationItem[];
 }
 
 const translations = {
@@ -81,7 +83,7 @@ const translations = {
   },
 } as const;
 
-export default function Dashboard({ locale, user }: DashboardProps) {
+export default function Dashboard({ locale, user, navigation }: DashboardProps) {
   const t = translations[locale];
   const dateLocale = locale === 'cs' ? 'cs' : 'en';
 
@@ -90,7 +92,7 @@ export default function Dashboard({ locale, user }: DashboardProps) {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Intranet Navigation */}
-      <IntranetNav userName={userName} activeItem="dashboard" locale={locale} />
+      <IntranetNav userName={userName} locale={locale} navigation={navigation} />
 
       <div className="container-custom py-8 space-y-8">
         {/* Welcome Alert */}

@@ -1,7 +1,7 @@
 {
   "collectionName": "components_components_button_groups",
   "info": {
-    "displayName": "button-group",
+    "displayName": "Tlačítka",
     "icon": "apps"
   },
   "options": {},
@@ -14,21 +14,21 @@
     },
     "alignment": {
       "type": "enumeration",
+      "default": "Left aligned",
       "enum": [
         "Left aligned",
         "Center aligned",
         "Right aligned"
-      ],
-      "default": "Left aligned"
+      ]
     },
     "spacing": {
       "type": "enumeration",
+      "default": "Medium spacing",
       "enum": [
         "Small spacing",
         "Medium spacing",
         "Large spacing"
-      ],
-      "default": "Medium spacing"
+      ]
     }
   },
   "config": {}

@@ -1,0 +1,38 @@
+{
+  "kind": "collectionType",
+  "collectionName": "intranet_menus",
+  "info": {
+    "singularName": "intranet-menu",
+    "pluralName": "intranet-menus",
+    "displayName": "Intranet - Položky menu"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "required": true
+    },
+    "link": {
+      "type": "component",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "component": "elements.link",
+      "repeatable": false
+    }
+  }
+}

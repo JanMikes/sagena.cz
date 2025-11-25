@@ -1,0 +1,98 @@
+{
+  "kind": "collectionType",
+  "collectionName": "intranet_pages",
+  "info": {
+    "singularName": "intranet-page",
+    "pluralName": "intranet-pages",
+    "displayName": "Intranet - Stránky"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "slug": {
+      "type": "uid",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "targetField": "title",
+      "required": true
+    },
+    "meta_description": {
+      "type": "text",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "parent": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::intranet-page.intranet-page"
+    },
+    "content": {
+      "type": "dynamiczone",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "components": [
+        "components.video",
+        "components.timeline",
+        "components.text",
+        "components.slider",
+        "components.service-cards",
+        "components.section-divider",
+        "components.photo-gallery",
+        "components.partner-logos",
+        "components.news-articles",
+        "components.intranet-news-articles",
+        "components.marketing-arguments",
+        "components.links-list",
+        "components.job-posting",
+        "components.heading",
+        "components.gallery-slider",
+        "components.full-width-cards",
+        "components.expandable-section",
+        "components.documents",
+        "components.doctor-profile",
+        "components.directions",
+        "components.contact-cards",
+        "components.button-group",
+        "components.alert"
+      ],
+      "required": true
+    },
+    "sidebar": {
+      "type": "dynamiczone",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "components": [
+        "components.text",
+        "components.heading",
+        "components.alert",
+        "components.links-list"
+      ]
+    }
+  }
+}

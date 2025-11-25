@@ -20,6 +20,7 @@ interface NewsArticlesProps {
   } | null;
   showAllButtonVisible?: boolean; // Whether to show the "show all" button
   locale?: string; // Current locale for URL generation
+  basePath?: string; // Base path for article links (e.g., "/cs/intranet/aktuality" for intranet)
 }
 
 /**
@@ -35,6 +36,7 @@ const NewsArticles: React.FC<NewsArticlesProps> = ({
   showAllLink,
   showAllButtonVisible = false,
   locale = 'cs',
+  basePath,
 }) => {
   if (!articles || articles.length === 0) {
     const emptyMessage = locale === 'en' ? 'No articles to display.' : 'Žádné články k zobrazení.';
@@ -44,6 +46,9 @@ const NewsArticles: React.FC<NewsArticlesProps> = ({
       </div>
     );
   }
+
+  // Use provided basePath or default to public aktuality route
+  const articleBasePath = basePath || `/${locale}/aktuality`;
 
   return (
     <div className="space-y-6">
@@ -56,7 +61,7 @@ const NewsArticles: React.FC<NewsArticlesProps> = ({
             image={article.image}
             imageAlt={article.imageAlt}
             tags={article.tags}
-            readMoreUrl={`/${locale}/aktuality/${article.slug}/`}
+            readMoreUrl={`${articleBasePath}/${article.slug}/`}
           />
         ))}
       </div>

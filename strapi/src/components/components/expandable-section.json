@@ -1,7 +1,7 @@
 {
   "collectionName": "components_components_expandable_sections",
   "info": {
-    "displayName": "expandable-section",
+    "displayName": "Rozjížděcí obsah",
     "icon": "expand"
   },
   "options": {},
@@ -28,14 +28,14 @@
     },
     "files": {
       "type": "component",
-      "repeatable": true,
       "component": "elements.file-attachment",
+      "repeatable": true,
       "required": false
     },
     "default_open": {
       "type": "boolean",
-      "default": false,
-      "required": false
+      "required": false,
+      "default": false
     }
   },
   "config": {}

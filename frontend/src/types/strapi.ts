@@ -143,6 +143,29 @@ export interface NewsArticle {
   publishedAt?: string;
 }
 
+/**
+ * Intranet News Article content type
+ * Location: strapi/src/api/intranet-news-article/content-types/intranet-news-article/schema.json
+ * Usage: Protected intranet news articles collection (same structure as NewsArticle)
+ */
+export interface IntranetNewsArticle {
+  id: number;
+  documentId?: string;
+  title: string;
+  slug: string;
+  date?: string | null; // ISO date string
+  image?: StrapiMedia | null; // Featured image
+  text?: string | null; // Rich text HTML
+  tags?: Tag[]; // Array of populated tags
+  video?: ComponentsVideo | null; // Optional video component
+  gallery?: ComponentsPhotoGallery | null; // Optional gallery component
+  documents?: ComponentsDocuments | null; // Optional documents component
+  locale?: string;
+  createdAt?: string;
+  updatedAt?: string;
+  publishedAt?: string;
+}
+
 // ============================================================================
 // Strapi Components (standalone UI components in dynamic zones)
 // ============================================================================
@@ -421,6 +444,24 @@ export interface ComponentsDoctorProfile {
 export interface ComponentsNewsArticles {
   id: number;
   __component: 'components.news-articles';
+  tags?: Tag[];  // Optional tags filter (OR logic)
+  limit: number;  // Number of articles to display (default: 3)
+  show_all_link?: ElementsTextLink | null;  // Optional "show all" link
+}
+
+/**
+ * Components: Intranet News Articles
+ * Location: strapi/src/components/components/intranet-news-articles.json
+ * Usage: Display filtered list of intranet news articles (protected content)
+ *
+ * Filtering logic:
+ * - If tags are selected: show articles that have ANY of the selected tags (OR logic)
+ * - If no tags selected: show all articles
+ * - Limit+1 articles are queried to detect if "show all" button should appear
+ */
+export interface ComponentsIntranetNewsArticles {
+  id: number;
+  __component: 'components.intranet-news-articles';
   tags?: Tag[];  // Optional tags filter (OR logic)
   limit: number;  // Number of articles to display (default: 3)
   show_all_link?: ElementsTextLink | null;  // Optional "show all" link
@@ -776,6 +817,17 @@ export type PageContentComponent = ComponentsHeading | ComponentsText | Componen
  */
 export type PageSidebarComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsLinksList | ComponentsServiceCards;
 
+/**
+ * Intranet page content dynamic zone - all components that can appear in intranet page content area
+ * Same as PageContentComponent but includes ComponentsIntranetNewsArticles
+ */
+export type IntranetPageContentComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsLinksList | ComponentsVideo | ComponentsServiceCards | ComponentsFullWidthCards | ComponentsDocuments | ComponentsJobPosting | ComponentsPartnerLogos | ComponentsMarketingArguments | ComponentsTimeline | ComponentsSectionDivider | ComponentsSlider | ComponentsGallerySlider | ComponentsPhotoGallery | ComponentsDirections | ComponentsExpandableSection | ComponentsButtonGroup | ComponentsContactCards | ComponentsDoctorProfile | ComponentsNewsArticles | ComponentsIntranetNewsArticles;
+
+/**
+ * Intranet page sidebar dynamic zone - all components that can appear in intranet page sidebar
+ */
+export type IntranetPageSidebarComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsLinksList;
+
 // ============================================================================
 // Content Types
 // ============================================================================
@@ -859,6 +911,40 @@ export interface Page {
   sidebar?: PageSidebarComponent[]; // Optional sidebar area (dynamic zone)
   locale?: string;
   localizations?: PageLocalization[]; // Other locale versions of this page
+  createdAt?: string;
+  updatedAt?: string;
+  publishedAt?: string;
+}
+
+/**
+ * Intranet Page Localization reference
+ * Used in the localizations field to reference other locale versions
+ */
+export interface IntranetPageLocalization {
+  id: number;
+  documentId?: string;
+  locale: string;
+  slug: string;
+}
+
+/**
+ * Intranet Page
+ * Location: strapi/src/api/intranet-page/content-types/intranet-page/schema.json
+ * Usage: Protected intranet pages with dynamic zones for content and sidebar
+ *
+ * IMPORTANT: Strapi returns relations directly (no .data wrapper)
+ */
+export interface IntranetPage {
+  id?: number;
+  documentId?: string;
+  title: string;
+  slug: string;
+  meta_description?: string | null;
+  parent?: IntranetPage | null; // Parent page for hierarchy (returned directly)
+  content: IntranetPageContentComponent[]; // Main content area (dynamic zone)
+  sidebar?: IntranetPageSidebarComponent[]; // Optional sidebar area (dynamic zone)
+  locale?: string;
+  localizations?: IntranetPageLocalization[]; // Other locale versions of this page
   createdAt?: string;
   updatedAt?: string;
   publishedAt?: string;

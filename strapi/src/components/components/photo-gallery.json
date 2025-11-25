@@ -1,7 +1,7 @@
 {
   "collectionName": "components_components_photo_galleries",
   "info": {
-    "displayName": "photo-gallery",
+    "displayName": "Fotogalerie",
     "icon": "picture"
   },
   "options": {},
@@ -14,12 +14,12 @@
     },
     "columns": {
       "type": "enumeration",
+      "default": "Three columns",
       "enum": [
         "Two columns",
         "Three columns",
         "Four columns"
-      ],
-      "default": "Three columns"
+      ]
     }
   },
   "config": {}

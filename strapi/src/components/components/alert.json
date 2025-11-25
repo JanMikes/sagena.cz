@@ -1,7 +1,7 @@
 {
   "collectionName": "components_components_alerts",
   "info": {
-    "displayName": "Alert",
+    "displayName": "Upozornění",
     "icon": "bell"
   },
   "options": {},

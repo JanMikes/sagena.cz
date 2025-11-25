@@ -1,7 +1,7 @@
 {
   "collectionName": "components_components_marketing_arguments",
   "info": {
-    "displayName": "marketing-arguments",
+    "displayName": "Mark. argumenty",
     "icon": "apps"
   },
   "options": {},
@@ -14,8 +14,12 @@
     },
     "columns": {
       "type": "enumeration",
-      "enum": ["Two columns", "Three columns", "Four columns"],
-      "default": "Three columns"
+      "default": "Three columns",
+      "enum": [
+        "Two columns",
+        "Three columns",
+        "Four columns"
+      ]
     }
   },
   "config": {}

@@ -1,7 +1,7 @@
 {
   "collectionName": "components_components_partner_logos",
   "info": {
-    "displayName": "partner-logos",
+    "displayName": "Loga partnerů",
     "icon": "briefcase"
   },
   "options": {},
@@ -14,30 +14,30 @@
     },
     "grayscale": {
       "type": "boolean",
-      "default": false,
-      "required": false
+      "required": false,
+      "default": false
     },
     "columns": {
       "type": "enumeration",
+      "required": false,
+      "default": "Six columns",
       "enum": [
         "Two columns",
         "Three columns",
         "Four columns",
         "Five columns",
         "Six columns"
-      ],
-      "default": "Six columns",
-      "required": false
+      ]
     },
     "gap": {
       "type": "enumeration",
+      "required": false,
+      "default": "Medium spacing",
       "enum": [
         "Small spacing",
         "Medium spacing",
         "Large spacing"
-      ],
-      "default": "Medium spacing",
-      "required": false
+      ]
     }
   },
   "config": {}

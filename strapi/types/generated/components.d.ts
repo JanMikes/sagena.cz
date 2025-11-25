@@ -3,7 +3,7 @@ import type { Schema, Struct } from '@strapi/strapi';
 export interface ComponentsAlert extends Struct.ComponentSchema {
   collectionName: 'components_components_alerts';
   info: {
-    displayName: 'Alert';
+    displayName: 'Upozorn\u011Bn\u00ED';
     icon: 'bell';
   };
   attributes: {
@@ -20,7 +20,7 @@ export interface ComponentsAlert extends Struct.ComponentSchema {
 export interface ComponentsButtonGroup extends Struct.ComponentSchema {
   collectionName: 'components_components_button_groups';
   info: {
-    displayName: 'button-group';
+    displayName: 'Tla\u010D\u00EDtka';
     icon: 'apps';
   };
   attributes: {
@@ -40,7 +40,7 @@ export interface ComponentsButtonGroup extends Struct.ComponentSchema {
 export interface ComponentsContactCards extends Struct.ComponentSchema {
   collectionName: 'components_components_contact_cards';
   info: {
-    displayName: 'contact-cards';
+    displayName: 'Kontakty na lidi';
     icon: 'user';
   };
   attributes: {
@@ -52,7 +52,7 @@ export interface ComponentsContactCards extends Struct.ComponentSchema {
 export interface ComponentsDirections extends Struct.ComponentSchema {
   collectionName: 'components_components_directions';
   info: {
-    displayName: 'directions';
+    displayName: 'Kde n\u00E1s najdete';
     icon: 'compass';
   };
   attributes: {
@@ -65,7 +65,7 @@ export interface ComponentsDirections extends Struct.ComponentSchema {
 export interface ComponentsDoctorProfile extends Struct.ComponentSchema {
   collectionName: 'components_components_doctor_profiles';
   info: {
-    displayName: 'doctor-profile';
+    displayName: 'Doktor, ambulance';
     icon: 'user';
   };
   attributes: {
@@ -77,7 +77,7 @@ export interface ComponentsDoctorProfile extends Struct.ComponentSchema {
 export interface ComponentsDocuments extends Struct.ComponentSchema {
   collectionName: 'components_components_documents';
   info: {
-    displayName: 'documents';
+    displayName: 'Dokumenty';
     icon: 'folder';
   };
   attributes: {
@@ -93,7 +93,7 @@ export interface ComponentsDocuments extends Struct.ComponentSchema {
 export interface ComponentsExpandableSection extends Struct.ComponentSchema {
   collectionName: 'components_components_expandable_sections';
   info: {
-    displayName: 'expandable-section';
+    displayName: 'Rozj\u00ED\u017Ed\u011Bc\u00ED obsah';
     icon: 'expand';
   };
   attributes: {
@@ -110,7 +110,7 @@ export interface ComponentsExpandableSection extends Struct.ComponentSchema {
 export interface ComponentsFullWidthCards extends Struct.ComponentSchema {
   collectionName: 'components_components_full_width_cards';
   info: {
-    displayName: 'full-width-cards';
+    displayName: 'Dla\u017Edice \u0161\u00ED\u0159ka';
     icon: 'apps';
   };
   attributes: {
@@ -122,7 +122,7 @@ export interface ComponentsFullWidthCards extends Struct.ComponentSchema {
 export interface ComponentsGallerySlider extends Struct.ComponentSchema {
   collectionName: 'components_components_gallery_sliders';
   info: {
-    displayName: 'gallery-slider';
+    displayName: 'P\u00E1s galerie';
     icon: 'landscape';
   };
   attributes: {
@@ -145,10 +145,25 @@ export interface ComponentsHeading extends Struct.ComponentSchema {
   };
 }
 
+export interface ComponentsIntranetNewsArticles extends Struct.ComponentSchema {
+  collectionName: 'components_components_intranet_news_articles';
+  info: {
+    displayName: 'intranet-news-articles';
+    icon: 'briefcase';
+  };
+  attributes: {
+    limit: Schema.Attribute.Integer &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<3>;
+    show_all_link: Schema.Attribute.Component<'elements.text-link', false>;
+    tags: Schema.Attribute.Relation<'oneToMany', 'api::tag.tag'>;
+  };
+}
+
 export interface ComponentsJobPosting extends Struct.ComponentSchema {
   collectionName: 'components_components_job_postings';
   info: {
-    displayName: 'job-posting';
+    displayName: 'Nab\u00EDdka pr\u00E1ce';
     icon: 'briefcase';
   };
   attributes: {
@@ -165,7 +180,7 @@ export interface ComponentsJobPosting extends Struct.ComponentSchema {
 export interface ComponentsLinksList extends Struct.ComponentSchema {
   collectionName: 'components_components_links_lists';
   info: {
-    displayName: 'List odkaz\u016F';
+    displayName: 'Seznam odkaz\u016F';
     icon: 'apps';
   };
   attributes: {
@@ -183,7 +198,7 @@ export interface ComponentsLinksList extends Struct.ComponentSchema {
 export interface ComponentsMarketingArguments extends Struct.ComponentSchema {
   collectionName: 'components_components_marketing_arguments';
   info: {
-    displayName: 'marketing-arguments';
+    displayName: 'Mark. argumenty';
     icon: 'apps';
   };
   attributes: {
@@ -199,7 +214,7 @@ export interface ComponentsMarketingArguments extends Struct.ComponentSchema {
 export interface ComponentsNewsArticles extends Struct.ComponentSchema {
   collectionName: 'components_components_news_articles';
   info: {
-    displayName: 'news-articles';
+    displayName: 'Aktuality';
     icon: 'feather';
   };
   attributes: {
@@ -221,7 +236,7 @@ export interface ComponentsNewsArticles extends Struct.ComponentSchema {
 export interface ComponentsPartnerLogos extends Struct.ComponentSchema {
   collectionName: 'components_components_partner_logos';
   info: {
-    displayName: 'partner-logos';
+    displayName: 'Loga partner\u016F';
     icon: 'briefcase';
   };
   attributes: {
@@ -248,7 +263,7 @@ export interface ComponentsPartnerLogos extends Struct.ComponentSchema {
 export interface ComponentsPhotoGallery extends Struct.ComponentSchema {
   collectionName: 'components_components_photo_galleries';
   info: {
-    displayName: 'photo-gallery';
+    displayName: 'Fotogalerie';
     icon: 'picture';
   };
   attributes: {
@@ -264,7 +279,7 @@ export interface ComponentsPhotoGallery extends Struct.ComponentSchema {
 export interface ComponentsSectionDivider extends Struct.ComponentSchema {
   collectionName: 'components_components_section_dividers';
   info: {
-    displayName: 'section-divider';
+    displayName: 'Rozd\u011Blovn\u00EDk';
     icon: 'minus';
   };
   attributes: {
@@ -290,7 +305,7 @@ export interface ComponentsSectionDivider extends Struct.ComponentSchema {
 export interface ComponentsServiceCards extends Struct.ComponentSchema {
   collectionName: 'components_components_service_cards';
   info: {
-    displayName: 'service-cards';
+    displayName: 'Dla\u017Edice';
     icon: 'dashboard';
   };
   attributes: {
@@ -306,7 +321,7 @@ export interface ComponentsServiceCards extends Struct.ComponentSchema {
 export interface ComponentsSlider extends Struct.ComponentSchema {
   collectionName: 'components_components_sliders';
   info: {
-    displayName: 'slider';
+    displayName: 'Slider';
     icon: 'layer';
   };
   attributes: {
@@ -321,7 +336,7 @@ export interface ComponentsSlider extends Struct.ComponentSchema {
 export interface ComponentsText extends Struct.ComponentSchema {
   collectionName: 'components_components_texts';
   info: {
-    displayName: 'Text';
+    displayName: 'Textov\u00E9 pole';
     icon: 'bold';
   };
   attributes: {
@@ -332,7 +347,7 @@ export interface ComponentsText extends Struct.ComponentSchema {
 export interface ComponentsTimeline extends Struct.ComponentSchema {
   collectionName: 'components_components_timelines';
   info: {
-    displayName: 'timeline';
+    displayName: '\u010Casov\u00E1 osa';
     icon: 'bulletList';
   };
   attributes: {
@@ -344,7 +359,7 @@ export interface ComponentsTimeline extends Struct.ComponentSchema {
 export interface ComponentsVideo extends Struct.ComponentSchema {
   collectionName: 'components_components_videos';
   info: {
-    displayName: 'video';
+    displayName: 'Video';
     icon: 'slideshow';
   };
   attributes: {
@@ -642,6 +657,7 @@ declare module '@strapi/strapi' {
       'components.full-width-cards': ComponentsFullWidthCards;
       'components.gallery-slider': ComponentsGallerySlider;
       'components.heading': ComponentsHeading;
+      'components.intranet-news-articles': ComponentsIntranetNewsArticles;
       'components.job-posting': ComponentsJobPosting;
       'components.links-list': ComponentsLinksList;
       'components.marketing-arguments': ComponentsMarketingArguments;

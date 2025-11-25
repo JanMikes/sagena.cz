@@ -28,10 +28,12 @@ import ButtonGroup from '@/components/layout/ButtonGroup';
 import ContactCards from '@/components/people/ContactCards';
 import DoctorProfile from '@/components/people/DoctorProfile';
 import NewsArticles from '@/components/content/NewsArticles';
-import { getStrapiMediaURL, getIconUrlById, fetchNewsArticles } from '@/lib/strapi';
+import { getStrapiMediaURL, getIconUrlById, fetchNewsArticles, fetchIntranetNewsArticles } from '@/lib/strapi';
 import {
   PageContentComponent,
   PageSidebarComponent,
+  IntranetPageContentComponent,
+  IntranetPageSidebarComponent,
   ComponentsHeading,
   ComponentsText,
   ComponentsAlert,
@@ -54,12 +56,13 @@ import {
   ComponentsContactCards,
   ComponentsDoctorProfile,
   ComponentsNewsArticles,
+  ComponentsIntranetNewsArticles,
   ElementsTextLink,
   StrapiMedia,
 } from '@/types/strapi';
 
 interface DynamicZoneProps {
-  components: (PageContentComponent | PageSidebarComponent)[];
+  components: (PageContentComponent | PageSidebarComponent | IntranetPageContentComponent | IntranetPageSidebarComponent)[];
   className?: string;
   locale?: string;
 }
@@ -134,7 +137,7 @@ function resolveTextLink(link: ElementsTextLink, locale: string = 'cs'): {
  * Render a single component from the dynamic zone
  */
 async function renderComponent(
-  component: PageContentComponent | PageSidebarComponent,
+  component: PageContentComponent | PageSidebarComponent | IntranetPageContentComponent | IntranetPageSidebarComponent,
   index: number,
   locale: string = 'cs'
 ): Promise<React.ReactNode> {
@@ -814,6 +817,66 @@ async function renderComponent(
           showAllLink={showAllLink}
           showAllButtonVisible={showAllButtonVisible}
           locale={locale}
+        />
+      );
+    }
+
+    case 'components.intranet-news-articles': {
+      const intranetNewsArticlesComponent = component as ComponentsIntranetNewsArticles;
+
+      // Extract tag slugs for filtering (if any tags are selected)
+      const tagSlugs = intranetNewsArticlesComponent.tags?.map((tag) => tag.slug) || [];
+
+      // Query limit+1 articles to detect if "show all" button should appear
+      const limit = intranetNewsArticlesComponent.limit || 3;
+      const fetchedArticles = await fetchIntranetNewsArticles(
+        locale,
+        tagSlugs.length > 0 ? tagSlugs : undefined,
+        limit + 1 // Fetch one extra to detect "show all" button
+      );
+
+      // Split articles: display `limit` articles, hide the last one if limit+1 were returned
+      const articlesToDisplay = fetchedArticles.slice(0, limit);
+      const showAllButtonVisible = fetchedArticles.length > limit;
+
+      // Transform articles to component props with intranet URL path
+      const articles = articlesToDisplay.map((article) => ({
+        slug: article.slug,
+        title: article.title,
+        date: article.date || new Date().toISOString(),
+        text: article.text || '',
+        image: article.image?.attributes?.url
+          ? getStrapiMediaURL(article.image.attributes.url)
+          : undefined,
+        imageAlt: article.image?.attributes?.alternativeText || article.title,
+        tags: article.tags?.map((tag) => ({
+          name: tag.name,
+          slug: tag.slug,
+        })),
+        // Override the default article URL path to use intranet route
+        urlPath: `/${locale}/intranet/aktuality/${article.slug}/`,
+      }));
+
+      // Resolve "show all" link if provided
+      let showAllLink = null;
+      if (intranetNewsArticlesComponent.show_all_link) {
+        const resolved = resolveTextLink(intranetNewsArticlesComponent.show_all_link, locale);
+        if (!resolved.disabled) {
+          showAllLink = {
+            text: intranetNewsArticlesComponent.show_all_link.text,
+            url: resolved.url,
+          };
+        }
+      }
+
+      return (
+        <NewsArticles
+          key={`${__component}-${component.id || index}`}
+          articles={articles}
+          showAllLink={showAllLink}
+          showAllButtonVisible={showAllButtonVisible}
+          locale={locale}
+          basePath={`/${locale}/intranet/aktuality`}
         />
       );
     }

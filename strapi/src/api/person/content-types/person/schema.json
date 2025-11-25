@@ -4,16 +4,12 @@
   "info": {
     "singularName": "person",
     "pluralName": "people",
-    "displayName": "person"
+    "displayName": "Lidé"
   },
   "options": {
     "draftAndPublish": false
   },
-  "pluginOptions": {
-    "i18n": {
-      "localized": false
-    }
-  },
+  "pluginOptions": {},
   "attributes": {
     "name": {
       "type": "string",

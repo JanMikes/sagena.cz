@@ -433,7 +433,7 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
 export interface ApiIconIcon extends Struct.CollectionTypeSchema {
   collectionName: 'icons';
   info: {
-    displayName: 'icon';
+    displayName: 'Ikonky webu';
     pluralName: 'icons';
     singularName: 'icon';
   };
@@ -456,10 +456,239 @@ export interface ApiIconIcon extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiIntranetMenuIntranetMenu
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'intranet_menus';
+  info: {
+    displayName: 'Intranet - Polo\u017Eky menu';
+    pluralName: 'intranet-menus';
+    singularName: 'intranet-menu';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    link: Schema.Attribute.Component<'elements.link', false> &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::intranet-menu.intranet-menu'
+    >;
+    publishedAt: Schema.Attribute.DateTime;
+    title: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiIntranetNewsArticleIntranetNewsArticle
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'intranet_news_articles';
+  info: {
+    displayName: 'Intranet - Aktuality';
+    pluralName: 'intranet-news-articles';
+    singularName: 'intranet-news-article';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    date: Schema.Attribute.Date &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    documents: Schema.Attribute.Component<'components.documents', false> &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    gallery: Schema.Attribute.Component<'components.photo-gallery', false> &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    image: Schema.Attribute.Media<'images'> &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::intranet-news-article.intranet-news-article'
+    >;
+    publishedAt: Schema.Attribute.DateTime;
+    slug: Schema.Attribute.UID<'title'> &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    tags: Schema.Attribute.Relation<'oneToMany', 'api::tag.tag'>;
+    text: Schema.Attribute.RichText &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    title: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    video: Schema.Attribute.Component<'components.video', false> &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+  };
+}
+
+export interface ApiIntranetPageIntranetPage
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'intranet_pages';
+  info: {
+    displayName: 'Intranet - Str\u00E1nky';
+    pluralName: 'intranet-pages';
+    singularName: 'intranet-page';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    content: Schema.Attribute.DynamicZone<
+      [
+        'components.video',
+        'components.timeline',
+        'components.text',
+        'components.slider',
+        'components.service-cards',
+        'components.section-divider',
+        'components.photo-gallery',
+        'components.partner-logos',
+        'components.news-articles',
+        'components.intranet-news-articles',
+        'components.marketing-arguments',
+        'components.links-list',
+        'components.job-posting',
+        'components.heading',
+        'components.gallery-slider',
+        'components.full-width-cards',
+        'components.expandable-section',
+        'components.documents',
+        'components.doctor-profile',
+        'components.directions',
+        'components.contact-cards',
+        'components.button-group',
+        'components.alert',
+      ]
+    > &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::intranet-page.intranet-page'
+    >;
+    meta_description: Schema.Attribute.Text &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    parent: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::intranet-page.intranet-page'
+    >;
+    publishedAt: Schema.Attribute.DateTime;
+    sidebar: Schema.Attribute.DynamicZone<
+      [
+        'components.text',
+        'components.heading',
+        'components.alert',
+        'components.links-list',
+      ]
+    > &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    slug: Schema.Attribute.UID<'title'> &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    title: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiNavigationNavigation extends Struct.CollectionTypeSchema {
   collectionName: 'navigations';
   info: {
-    displayName: 'Menu';
+    displayName: 'Polo\u017Eky menu';
     pluralName: 'navigations';
     singularName: 'navigation';
   };
@@ -518,7 +747,7 @@ export interface ApiNavigationNavigation extends Struct.CollectionTypeSchema {
 export interface ApiNewsArticleNewsArticle extends Struct.CollectionTypeSchema {
   collectionName: 'news_articles';
   info: {
-    displayName: 'news-article';
+    displayName: 'Aktuality';
     pluralName: 'news-articles';
     singularName: 'news-article';
   };
@@ -694,17 +923,12 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
 export interface ApiPersonPerson extends Struct.CollectionTypeSchema {
   collectionName: 'people';
   info: {
-    displayName: 'person';
+    displayName: 'Lid\u00E9';
     pluralName: 'people';
     singularName: 'person';
   };
   options: {
     draftAndPublish: false;
-  };
-  pluginOptions: {
-    i18n: {
-      localized: false;
-    };
   };
   attributes: {
     createdAt: Schema.Attribute.DateTime;
@@ -731,7 +955,7 @@ export interface ApiPersonPerson extends Struct.CollectionTypeSchema {
 export interface ApiTagTag extends Struct.CollectionTypeSchema {
   collectionName: 'tags';
   info: {
-    displayName: 'tag';
+    displayName: 'Tagy';
     pluralName: 'tags';
     singularName: 'tag';
   };
@@ -1281,6 +1505,9 @@ declare module '@strapi/strapi' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
       'api::icon.icon': ApiIconIcon;
+      'api::intranet-menu.intranet-menu': ApiIntranetMenuIntranetMenu;
+      'api::intranet-news-article.intranet-news-article': ApiIntranetNewsArticleIntranetNewsArticle;
+      'api::intranet-page.intranet-page': ApiIntranetPageIntranetPage;
       'api::navigation.navigation': ApiNavigationNavigation;
       'api::news-article.news-article': ApiNewsArticleNewsArticle;
       'api::page.page': ApiPagePage;

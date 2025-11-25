@@ -4,7 +4,7 @@
   "info": {
     "singularName": "navigation",
     "pluralName": "navigations",
-    "displayName": "Menu"
+    "displayName": "Položky menu"
   },
   "options": {
     "draftAndPublish": false

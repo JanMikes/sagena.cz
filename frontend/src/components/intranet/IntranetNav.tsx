@@ -2,58 +2,45 @@
 
 import React from 'react';
 import Link from 'next/link';
-import {
-  LayoutDashboard,
-  Calendar,
-  FileText,
-  Users,
-  LogOut,
-  Loader2,
-} from 'lucide-react';
+import { usePathname } from 'next/navigation';
+import { LogOut, Loader2 } from 'lucide-react';
 import { logoutAction } from '@/lib/actions/auth';
 import type { Locale } from '@/i18n/config';
+import type { NavigationItem } from '@/types/strapi';
 
 interface IntranetNavProps {
   userName?: string;
-  activeItem?: string;
   locale: Locale;
+  navigation: NavigationItem[];
 }
 
 const translations = {
   cs: {
-    news: 'Aktuality',
-    calendar: 'Kalendář',
-    documents: 'Dokumenty',
-    colleagues: 'Kolegové',
     logout: 'Odhlásit se',
   },
   en: {
-    news: 'News',
-    calendar: 'Calendar',
-    documents: 'Documents',
-    colleagues: 'Colleagues',
     logout: 'Sign out',
   },
 } as const;
 
 const IntranetNav: React.FC<IntranetNavProps> = ({
   userName = 'User',
-  activeItem = 'dashboard',
   locale,
+  navigation,
 }) => {
   const t = translations[locale];
+  const pathname = usePathname();
   const [isLoggingOut, setIsLoggingOut] = React.useState(false);
-
-  const navItems = [
-    { id: 'dashboard', label: t.news, icon: LayoutDashboard, href: `/${locale}/intranet/` },
-    { id: 'calendar', label: t.calendar, icon: Calendar, href: '#' },
-    { id: 'documents', label: t.documents, icon: FileText, href: '#' },
-    { id: 'colleagues', label: t.colleagues, icon: Users, href: '#' },
-  ];
 
   const handleLogout = async () => {
     setIsLoggingOut(true);
     await logoutAction(locale);
+  };
+
+  // Normalize path for comparison (remove trailing slash for consistency)
+  const normalizePath = (path: string) => {
+    if (path === '/') return path;
+    return path.endsWith('/') ? path.slice(0, -1) : path;
   };
 
   return (
@@ -62,21 +49,20 @@ const IntranetNav: React.FC<IntranetNavProps> = ({
         <div className="flex items-center justify-between py-3 md:py-0 md:h-14">
           {/* Navigation Items */}
           <nav className="hidden md:flex items-center space-x-1 flex-1">
-            {navItems.map((item) => {
-              const IconComponent = item.icon;
-              const isActive = item.id === activeItem;
+            {navigation.map((item) => {
+              const isActive = normalizePath(pathname) === normalizePath(item.href);
               return (
                 <Link
-                  key={item.id}
+                  key={item.name}
                   href={item.href}
-                  className={`flex items-center space-x-2 px-3 lg:px-4 py-2 rounded-lg transition-colors ${
+                  target={item.target}
+                  className={`flex items-center px-3 lg:px-4 py-2 rounded-lg transition-colors ${
                     isActive
                       ? 'bg-primary-800 text-white'
                       : 'text-primary-100 hover:bg-primary-600 hover:text-white'
                   }`}
                 >
-                  <IconComponent className="w-4 h-4" />
-                  <span className="text-sm font-medium">{item.label}</span>
+                  <span className="text-sm font-medium">{item.name}</span>
                 </Link>
               );
             })}
@@ -118,22 +104,21 @@ const IntranetNav: React.FC<IntranetNavProps> = ({
 
         {/* Mobile Navigation */}
         <nav className="md:hidden border-t border-primary-600">
-          <div className="grid grid-cols-5 gap-1">
-            {navItems.map((item) => {
-              const IconComponent = item.icon;
-              const isActive = item.id === activeItem;
+          <div className={`grid gap-1 ${navigation.length <= 4 ? `grid-cols-${navigation.length}` : 'grid-cols-4'}`}>
+            {navigation.map((item) => {
+              const isActive = normalizePath(pathname) === normalizePath(item.href);
               return (
                 <Link
-                  key={item.id}
+                  key={item.name}
                   href={item.href}
+                  target={item.target}
                   className={`flex flex-col items-center justify-center py-3 transition-colors ${
                     isActive
                       ? 'text-white bg-primary-800'
                       : 'text-primary-200 hover:text-white hover:bg-primary-600'
                   }`}
                 >
-                  <IconComponent className="w-5 h-5" />
-                  <span className="text-[10px] sm:text-xs mt-1">{item.label}</span>
+                  <span className="text-[10px] sm:text-xs text-center">{item.name}</span>
                 </Link>
               );
             })}

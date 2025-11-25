@@ -1,0 +1,26 @@
+{
+  "collectionName": "components_components_intranet_news_articles",
+  "info": {
+    "displayName": "intranet-news-articles",
+    "icon": "briefcase"
+  },
+  "options": {},
+  "attributes": {
+    "tags": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::tag.tag"
+    },
+    "limit": {
+      "type": "integer",
+      "required": true,
+      "default": 3
+    },
+    "show_all_link": {
+      "type": "component",
+      "component": "elements.text-link",
+      "repeatable": false
+    }
+  },
+  "config": {}
+}

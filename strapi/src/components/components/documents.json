@@ -1,7 +1,7 @@
 {
   "collectionName": "components_components_documents",
   "info": {
-    "displayName": "documents",
+    "displayName": "Dokumenty",
     "icon": "folder"
   },
   "options": {},
@@ -14,8 +14,12 @@
     },
     "columns": {
       "type": "enumeration",
-      "enum": ["Single column", "Two columns", "Three columns"],
-      "default": "Three columns"
+      "default": "Three columns",
+      "enum": [
+        "Single column",
+        "Two columns",
+        "Three columns"
+      ]
     }
   },
   "config": {}

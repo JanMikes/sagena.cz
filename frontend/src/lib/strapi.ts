@@ -18,6 +18,8 @@ import {
   ResolvedLink,
   Icon,
   NewsArticle,
+  IntranetNewsArticle,
+  IntranetPage,
   Tag,
 } from '@/types/strapi';
 
@@ -911,6 +913,510 @@ export async function fetchAllNewsArticleSlugs(
     return response.data?.map((article) => article.slug) || [];
   } catch (error) {
     console.error('Error fetching news article slugs:', error);
+    return [];
+  }
+}
+
+// ============================================================================
+// Intranet Menu API
+// ============================================================================
+
+/**
+ * Fetch intranet menu items
+ * @param locale - Locale for i18n (default: 'cs')
+ */
+export async function fetchIntranetMenu(
+  locale: string = 'cs'
+): Promise<NavigationItem[]> {
+  try {
+    const response = await fetchAPI<StrapiCollectionResponse<any>>('/intranet-menus', {
+      locale,
+      populate: {
+        link: {
+          populate: ['page', 'file'],
+        },
+      },
+    });
+
+    const items: NavigationItem[] = [];
+
+    for (const item of response.data || []) {
+      const link = item.link;
+      const resolvedLink = resolveLink(link, locale);
+
+      if (resolvedLink) {
+        items.push({
+          name: item.title,
+          href: resolvedLink.href,
+          target: resolvedLink.target,
+        });
+      }
+    }
+
+    return items;
+  } catch (error) {
+    console.error('Error fetching intranet menu:', error);
+    return [];
+  }
+}
+
+// ============================================================================
+// Intranet Page API
+// ============================================================================
+
+/**
+ * Fetch single intranet page by slug with full content population
+ * @param slug - Page slug (e.g., "dokumenty" or "novinky/detail")
+ * @param locale - Locale for i18n (default: 'cs')
+ */
+export async function fetchIntranetPageBySlug(
+  slug: string,
+  locale: string = 'cs'
+): Promise<IntranetPage | null> {
+  try {
+    // IMPORTANT: Dynamic zones are polymorphic structures
+    // We use the 'on' syntax to target specific components within dynamic zones
+    const response = await fetchAPI<StrapiCollectionResponse<IntranetPage>>('/intranet-pages', {
+      locale,
+      populate: {
+        content: {
+          on: {
+            'components.heading': { populate: '*' },
+            'components.text': { populate: '*' },
+            'components.alert': { populate: '*' },
+            'components.video': { populate: '*' },
+            'components.links-list': {
+              populate: {
+                links: {
+                  populate: ['page', 'file'],
+                },
+              },
+            },
+            'components.service-cards': {
+              populate: {
+                cards: {
+                  populate: {
+                    icon: {
+                      fields: ['id'],
+                      populate: {
+                        icon: {
+                          fields: ['name'],
+                          populate: {
+                            image: {
+                              fields: ['url', 'alternativeText'],
+                            },
+                          },
+                        },
+                      },
+                    },
+                    link: {
+                      populate: ['page', 'file'],
+                    },
+                  },
+                },
+              },
+            },
+            'components.full-width-cards': {
+              populate: {
+                cards: {
+                  populate: {
+                    icon: {
+                      fields: ['id'],
+                      populate: {
+                        icon: {
+                          fields: ['name'],
+                          populate: {
+                            image: {
+                              fields: ['url', 'alternativeText'],
+                            },
+                          },
+                        },
+                      },
+                    },
+                    link: {
+                      populate: ['page', 'file'],
+                    },
+                  },
+                },
+              },
+            },
+            'components.documents': {
+              populate: {
+                documents: {
+                  populate: {
+                    file: {
+                      fields: ['url', 'name', 'ext', 'size'],
+                    },
+                  },
+                },
+              },
+            },
+            'components.job-posting': {
+              populate: {
+                cta_link: {
+                  populate: ['page', 'file'],
+                },
+              },
+            },
+            'components.partner-logos': {
+              populate: {
+                partners: {
+                  populate: ['logo'],
+                },
+              },
+            },
+            'components.marketing-arguments': {
+              populate: {
+                arguments: {
+                  populate: {
+                    icon: {
+                      fields: ['id'],
+                      populate: {
+                        icon: {
+                          fields: ['name'],
+                          populate: {
+                            image: {
+                              fields: ['url', 'alternativeText'],
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            'components.timeline': {
+              populate: {
+                items: {
+                  populate: {
+                    icon: {
+                      populate: {
+                        image: {
+                          fields: ['url', 'alternativeText'],
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            'components.section-divider': { populate: '*' },
+            'components.slider': {
+              populate: {
+                slides: {
+                  populate: {
+                    link: {
+                      populate: ['page', 'file'],
+                    },
+                    image: true,
+                    background_image: true,
+                  },
+                },
+              },
+            },
+            'components.gallery-slider': {
+              populate: {
+                photos: {
+                  populate: {
+                    image: {
+                      fields: ['url', 'alternativeText', 'caption', 'width', 'height'],
+                    },
+                  },
+                },
+              },
+            },
+            'components.photo-gallery': {
+              populate: {
+                photos: {
+                  populate: {
+                    image: {
+                      fields: ['url', 'alternativeText', 'caption', 'width', 'height'],
+                    },
+                  },
+                },
+              },
+            },
+            'components.directions': {
+              populate: {
+                instructions: {
+                  populate: {
+                    icon: {
+                      populate: ['image'],
+                    },
+                  },
+                },
+              },
+            },
+            'components.expandable-section': {
+              populate: {
+                files: {
+                  populate: ['file'],
+                },
+              },
+            },
+            'components.button-group': {
+              populate: {
+                buttons: {
+                  populate: {
+                    link: {
+                      populate: ['page', 'file'],
+                    },
+                  },
+                },
+              },
+            },
+            'components.contact-cards': {
+              populate: {
+                cards: {
+                  populate: {
+                    person: {
+                      populate: {
+                        person: {
+                          populate: {
+                            photo: {
+                              fields: ['url', 'alternativeText', 'width', 'height'],
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            'components.doctor-profile': {
+              populate: {
+                profile: {
+                  populate: {
+                    person: {
+                      populate: {
+                        person: {
+                          populate: {
+                            photo: {
+                              fields: ['url', 'alternativeText', 'width', 'height'],
+                            },
+                          },
+                        },
+                      },
+                    },
+                    openingHours: {
+                      populate: '*',
+                    },
+                    holiday: {
+                      populate: '*',
+                    },
+                    positions: {
+                      populate: '*',
+                    },
+                  },
+                },
+              },
+            },
+            'components.news-articles': {
+              populate: {
+                tags: true,
+                show_all_link: {
+                  populate: ['page', 'file'],
+                },
+              },
+            },
+            'components.intranet-news-articles': {
+              populate: {
+                tags: true,
+                show_all_link: {
+                  populate: ['page', 'file'],
+                },
+              },
+            },
+          },
+        },
+        sidebar: {
+          on: {
+            'components.heading': { populate: '*' },
+            'components.text': { populate: '*' },
+            'components.alert': { populate: '*' },
+            'components.links-list': {
+              populate: {
+                links: {
+                  populate: ['page', 'file'],
+                },
+              },
+            },
+          },
+        },
+        parent: true,
+        localizations: {
+          fields: ['locale', 'slug'],
+        },
+      },
+    });
+
+    if (!response.data || response.data.length === 0) {
+      return null;
+    }
+
+    const page = response.data.find(p => p.slug === slug);
+    return page || null;
+  } catch (error) {
+    console.error(`Failed to fetch intranet page: ${slug}`, error);
+    return null;
+  }
+}
+
+/**
+ * Fetch all intranet page slugs for static path generation
+ * @param locale - Locale for i18n (default: 'cs')
+ */
+export async function fetchAllIntranetPageSlugs(
+  locale: string = 'cs'
+): Promise<string[]> {
+  try {
+    const response = await fetchAPI<StrapiCollectionResponse<IntranetPage>>(
+      '/intranet-pages',
+      {
+        locale,
+        fields: ['slug'],
+      }
+    );
+
+    return response.data?.map((page) => page.slug) || [];
+  } catch (error) {
+    console.error('Error fetching intranet page slugs:', error);
+    return [];
+  }
+}
+
+// ============================================================================
+// Intranet News Article API
+// ============================================================================
+
+/**
+ * Fetch intranet news articles with optional tag filtering
+ * @param locale - Language code (default: 'cs')
+ * @param tags - Optional array of tag slugs to filter by (OR logic)
+ * @param limit - Optional limit on number of articles
+ * @param sort - Sort order (default: 'date:desc')
+ */
+export async function fetchIntranetNewsArticles(
+  locale: string = 'cs',
+  tags?: string[],
+  limit?: number,
+  sort: string = 'date:desc'
+): Promise<IntranetNewsArticle[]> {
+  try {
+    const filters: Record<string, any> = {};
+
+    if (tags && tags.length > 0) {
+      filters.tags = {
+        slug: {
+          $in: tags,
+        },
+      };
+    }
+
+    const params: Record<string, any> = {
+      locale,
+      sort: [sort],
+      populate: {
+        image: true,
+        tags: true,
+      },
+    };
+
+    if (Object.keys(filters).length > 0) {
+      params.filters = filters;
+    }
+
+    if (limit) {
+      params.pagination = {
+        limit,
+      };
+    }
+
+    const response = await fetchAPI<StrapiCollectionResponse<IntranetNewsArticle>>(
+      '/intranet-news-articles',
+      params
+    );
+
+    return response.data || [];
+  } catch (error) {
+    console.error('Error fetching intranet news articles:', error);
+    return [];
+  }
+}
+
+/**
+ * Fetch single intranet news article by slug with full population (for detail page)
+ * @param slug - Article slug
+ * @param locale - Language code (default: 'cs')
+ */
+export async function fetchIntranetNewsArticleBySlug(
+  slug: string,
+  locale: string = 'cs'
+): Promise<IntranetNewsArticle | null> {
+  try {
+    const response = await fetchAPI<StrapiCollectionResponse<IntranetNewsArticle>>(
+      '/intranet-news-articles',
+      {
+        locale,
+        filters: {
+          slug: {
+            $eq: slug,
+          },
+        },
+        populate: {
+          image: true,
+          tags: true,
+          video: true,
+          gallery: {
+            populate: {
+              photos: {
+                populate: ['image'],
+              },
+            },
+          },
+          documents: {
+            populate: {
+              documents: {
+                populate: ['file'],
+              },
+            },
+          },
+        },
+      }
+    );
+
+    if (!response.data || response.data.length === 0) {
+      return null;
+    }
+
+    return response.data[0];
+  } catch (error) {
+    console.error(`Error fetching intranet news article with slug "${slug}":`, error);
+    return null;
+  }
+}
+
+/**
+ * Fetch all intranet news article slugs for static path generation
+ * @param locale - Language code (default: 'cs')
+ */
+export async function fetchAllIntranetNewsArticleSlugs(
+  locale: string = 'cs'
+): Promise<string[]> {
+  try {
+    const response = await fetchAPI<StrapiCollectionResponse<IntranetNewsArticle>>(
+      '/intranet-news-articles',
+      {
+        locale,
+        fields: ['slug'],
+      }
+    );
+
+    return response.data?.map((article) => article.slug) || [];
+  } catch (error) {
+    console.error('Error fetching intranet news article slugs:', error);
     return [];
   }
 }

@@ -1,7 +1,7 @@
 {
   "collectionName": "components_components_sliders",
   "info": {
-    "displayName": "slider",
+    "displayName": "Slider",
     "icon": "layer"
   },
   "options": {},
@@ -14,13 +14,13 @@
     },
     "autoplay": {
       "type": "boolean",
-      "default": false,
-      "required": false
+      "required": false,
+      "default": false
     },
     "autoplay_interval": {
       "type": "integer",
-      "default": 5000,
-      "required": false
+      "required": false,
+      "default": 5000
     }
   },
   "config": {}

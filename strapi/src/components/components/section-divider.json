@@ -1,38 +1,38 @@
 {
   "collectionName": "components_components_section_dividers",
   "info": {
-    "displayName": "section-divider",
+    "displayName": "Rozdělovník",
     "icon": "minus"
   },
   "options": {},
   "attributes": {
     "spacing": {
       "type": "enumeration",
+      "default": "Medium spacing",
       "enum": [
         "Small spacing",
         "Medium spacing",
         "Large spacing"
-      ],
-      "default": "Medium spacing"
+      ]
     },
     "style": {
       "type": "enumeration",
+      "default": "Solid line",
       "enum": [
         "Solid line",
         "Dashed line",
         "Dotted line",
         "Double line",
         "Gradient line"
-      ],
-      "default": "Solid line"
+      ]
     },
     "color": {
       "type": "enumeration",
+      "default": "Gray",
       "enum": [
         "Gray",
         "Primary blue"
-      ],
-      "default": "Gray"
+      ]
     }
   },
   "config": {}
