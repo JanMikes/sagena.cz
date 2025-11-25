@@ -17,7 +17,6 @@ export const staticCzechPages = [
   'ordinace',
   'rehabilitace',
   's-panelem',
-  'intranet',
 ];
 
 /**

@@ -1,13 +1,16 @@
 /**
- * Next.js Middleware for Locale Handling
+ * Next.js Middleware for Locale Handling and Authentication
  *
  * Handles:
  * - Root URL redirect based on browser Accept-Language header
  * - Passing through requests that already have a locale prefix
+ * - Authentication check for intranet routes
  */
 
 import { NextRequest, NextResponse } from 'next/server';
 import { locales, defaultLocale, type Locale } from './i18n/config';
+
+const COOKIE_NAME = 'intranet-session';
 
 /**
  * Parse Accept-Language header and find the best matching locale
@@ -44,6 +47,36 @@ export function middleware(request: NextRequest) {
   );
 
   if (pathnameHasLocale) {
+    // Extract locale from pathname
+    const locale = pathname.split('/')[1] as Locale;
+
+    // Check if this is a protected intranet route (not the login page)
+    const isIntranetRoute = pathname.includes('/intranet');
+    const isLoginPage = pathname.includes('/intranet/login');
+
+    if (isIntranetRoute && !isLoginPage) {
+      // Check for authentication cookie
+      const sessionCookie = request.cookies.get(COOKIE_NAME);
+
+      if (!sessionCookie?.value) {
+        // Redirect to login page with the same locale
+        return NextResponse.redirect(
+          new URL(`/${locale}/intranet/login/`, request.url)
+        );
+      }
+    }
+
+    // If on login page but already authenticated, redirect to dashboard
+    if (isLoginPage) {
+      const sessionCookie = request.cookies.get(COOKIE_NAME);
+
+      if (sessionCookie?.value) {
+        return NextResponse.redirect(
+          new URL(`/${locale}/intranet/`, request.url)
+        );
+      }
+    }
+
     // Set x-pathname header on request for the layout to read
     const requestHeaders = new Headers(request.headers);
     requestHeaders.set('x-pathname', pathname);

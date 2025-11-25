@@ -7,25 +7,54 @@ import {
   Calendar,
   FileText,
   Users,
-  Settings,
   LogOut,
+  Loader2,
 } from 'lucide-react';
+import { logoutAction } from '@/lib/actions/auth';
+import type { Locale } from '@/i18n/config';
 
 interface IntranetNavProps {
   userName?: string;
   activeItem?: string;
+  locale: Locale;
 }
 
+const translations = {
+  cs: {
+    news: 'Aktuality',
+    calendar: 'Kalendář',
+    documents: 'Dokumenty',
+    colleagues: 'Kolegové',
+    logout: 'Odhlásit se',
+  },
+  en: {
+    news: 'News',
+    calendar: 'Calendar',
+    documents: 'Documents',
+    colleagues: 'Colleagues',
+    logout: 'Sign out',
+  },
+} as const;
+
 const IntranetNav: React.FC<IntranetNavProps> = ({
-  userName = 'Jan Novák',
+  userName = 'User',
   activeItem = 'dashboard',
+  locale,
 }) => {
+  const t = translations[locale];
+  const [isLoggingOut, setIsLoggingOut] = React.useState(false);
+
   const navItems = [
-    { id: 'dashboard', label: 'Aktuality', icon: LayoutDashboard, href: '#' },
-    { id: 'calendar', label: 'Kalendář', icon: Calendar, href: '#' },
-    { id: 'documents', label: 'Dokumenty', icon: FileText, href: '#' },
-    { id: 'colleagues', label: 'Kolegové', icon: Users, href: '#' },
+    { id: 'dashboard', label: t.news, icon: LayoutDashboard, href: `/${locale}/intranet/` },
+    { id: 'calendar', label: t.calendar, icon: Calendar, href: '#' },
+    { id: 'documents', label: t.documents, icon: FileText, href: '#' },
+    { id: 'colleagues', label: t.colleagues, icon: Users, href: '#' },
   ];
+
+  const handleLogout = async () => {
+    setIsLoggingOut(true);
+    await logoutAction(locale);
+  };
 
   return (
     <div className="bg-primary-700 text-white shadow-lg">
@@ -64,16 +93,25 @@ const IntranetNav: React.FC<IntranetNavProps> = ({
                   {userName
                     .split(' ')
                     .map((n) => n[0])
-                    .join('')}
+                    .join('')
+                    .toUpperCase()
+                    .slice(0, 2)}
                 </span>
               </div>
             </div>
 
             <button
-              className="p-2 text-primary-100 hover:text-white hover:bg-primary-600 rounded-lg transition-colors"
-              aria-label="Odhlásit se"
+              onClick={handleLogout}
+              disabled={isLoggingOut}
+              className="p-2 text-primary-100 hover:text-white hover:bg-primary-600 rounded-lg transition-colors disabled:opacity-50"
+              aria-label={t.logout}
+              title={t.logout}
             >
-              <LogOut className="w-4 h-4 md:w-5 md:h-5" />
+              {isLoggingOut ? (
+                <Loader2 className="w-4 h-4 md:w-5 md:h-5 animate-spin" />
+              ) : (
+                <LogOut className="w-4 h-4 md:w-5 md:h-5" />
+              )}
             </button>
           </div>
         </div>

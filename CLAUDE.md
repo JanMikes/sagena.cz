@@ -44,12 +44,18 @@
 
 ## 🔧 Quick Command Reference
 
+**IMPORTANT:** Always run npm commands inside Docker containers, not on the host machine.
+
 ```bash
 # Start all services
 docker compose up
 
+# Install npm packages (ALWAYS use docker exec)
+docker compose exec frontend npm install <package>
+docker compose exec strapi npm install <package>
+
 # Build frontend (ALWAYS test before push)
-cd frontend && npm run build
+docker compose exec frontend npm run build
 
 # View logs
 docker compose logs -f strapi

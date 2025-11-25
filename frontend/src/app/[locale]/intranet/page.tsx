@@ -1,6 +1,8 @@
-import { getAlternateLocale, type Locale } from '@/i18n/config';
+import { getAlternateLocale, isValidLocale, type Locale } from '@/i18n/config';
 import { SetAlternateLocaleUrl } from '@/contexts/LocaleContext';
-import IntranetContent from './Content';
+import { getSession } from '@/lib/auth';
+import { redirect } from 'next/navigation';
+import Dashboard from './Dashboard';
 
 interface IntranetPageProps {
   params: Promise<{
@@ -10,13 +12,29 @@ interface IntranetPageProps {
 
 export default async function IntranetPage({ params }: IntranetPageProps) {
   const { locale } = await params;
+
+  if (!isValidLocale(locale)) {
+    redirect(`/cs/intranet/`);
+  }
+
+  const session = await getSession();
+
+  // Double-check authentication (middleware should have caught this)
+  if (!session) {
+    redirect(`/${locale}/intranet/login/`);
+  }
+
   const alternateLocale = getAlternateLocale(locale as Locale);
   const alternateLocaleUrl = `/${alternateLocale}/intranet/`;
 
   return (
     <>
       <SetAlternateLocaleUrl url={alternateLocaleUrl} />
-      <IntranetContent />
+      <Dashboard locale={locale as Locale} user={session.user} />
     </>
   );
+}
+
+export async function generateStaticParams() {
+  return [{ locale: 'cs' }, { locale: 'en' }];
 }
