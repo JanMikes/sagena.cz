@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_components_expandable_sections",
+  "info": {
+    "displayName": "Rozjížděcí sekce",
+    "icon": "expand"
+  },
+  "attributes": {
+    "sections": {
+      "type": "component",
+      "component": "elements.expandable-section",
+      "repeatable": true,
+      "required": true
+    }
+  }
+}

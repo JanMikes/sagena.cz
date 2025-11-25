@@ -529,21 +529,25 @@ export async function fetchPageBySlug(
                 },
               },
             },
-            'components.expandable-section': {
+            'components.expandable-sections': {
               populate: {
-                files: {
-                  populate: ['file'],
-                },
-                contacts: {
+                sections: {
                   populate: {
-                    cards: {
+                    files: {
+                      populate: ['file'],
+                    },
+                    contacts: {
                       populate: {
-                        person: {
+                        cards: {
                           populate: {
                             person: {
                               populate: {
-                                photo: {
-                                  fields: ['url', 'alternativeText', 'width', 'height'],
+                                person: {
+                                  populate: {
+                                    photo: {
+                                      fields: ['url', 'alternativeText', 'width', 'height'],
+                                    },
+                                  },
                                 },
                               },
                             },
@@ -770,21 +774,21 @@ export async function fetchAllPages(locale: string = 'cs'): Promise<Page[]> {
 // ============================================================================
 
 /**
- * Get full URL for Strapi media
- * @param url - Relative or absolute URL from Strapi
+ * Get the public URL for media files served via nginx
  *
- * IMPORTANT: Media files are shared via Docker volume mount between Strapi and Frontend.
- * The uploads directory is mounted to frontend at /app/public/uploads, so we can
- * serve media directly from the frontend without proxying through Strapi.
- *
- * This is more efficient and avoids CORS issues.
+ * Uses PUBLIC_UPLOADS_URL environment variable to serve uploads
+ * through nginx instead of Next.js to avoid caching issues with
+ * dynamically added files.
  */
 export function getStrapiMediaURL(url: string): string {
   if (!url) return '';
   // If already absolute URL, return as-is
   if (url.startsWith('http')) return url;
-  // Return relative path for browser to fetch from frontend public directory
-  // Strapi returns URLs like "/uploads/..." which map to /app/public/uploads in frontend
+  // Prepend PUBLIC_UPLOADS_URL for upload paths
+  const uploadsUrl = process.env.PUBLIC_UPLOADS_URL || '';
+  if (url.startsWith('/uploads/') && uploadsUrl) {
+    return `${uploadsUrl}${url}`;
+  }
   return url;
 }
 
@@ -1162,21 +1166,25 @@ export async function fetchIntranetPageBySlug(
                 },
               },
             },
-            'components.expandable-section': {
+            'components.expandable-sections': {
               populate: {
-                files: {
-                  populate: ['file'],
-                },
-                contacts: {
+                sections: {
                   populate: {
-                    cards: {
+                    files: {
+                      populate: ['file'],
+                    },
+                    contacts: {
                       populate: {
-                        person: {
+                        cards: {
                           populate: {
                             person: {
                               populate: {
-                                photo: {
-                                  fields: ['url', 'alternativeText', 'width', 'height'],
+                                person: {
+                                  populate: {
+                                    photo: {
+                                      fields: ['url', 'alternativeText', 'width', 'height'],
+                                    },
+                                  },
                                 },
                               },
                             },

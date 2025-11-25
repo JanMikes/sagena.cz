@@ -382,13 +382,24 @@ export interface ComponentsDirections {
 }
 
 /**
- * Components: Expandable Section
- * Location: strapi/src/components/components/expandable-section.json
- * Usage: Collapsible section with title, description, contacts, and file attachments
+ * Components: Expandable Sections (wrapper)
+ * Location: strapi/src/components/components/expandable-sections.json
+ * Usage: Wrapper component containing multiple expandable section items
  */
-export interface ComponentsExpandableSection {
+export interface ComponentsExpandableSections {
   id: number;
-  __component: 'components.expandable-section';
+  __component: 'components.expandable-sections';
+  sections: ElementsExpandableSection[];  // Array of expandable section items
+}
+
+/**
+ * Elements: Expandable Section
+ * Location: strapi/src/components/elements/expandable-section.json
+ * Usage: Individual expandable section with title, description, contacts, and file attachments
+ */
+export interface ElementsExpandableSection {
+  id: number;
+  __component?: 'elements.expandable-section';
   title: string;  // Required section title
   description?: string | null;  // Optional section content
   default_open?: boolean;  // Default: false (Initially collapsed)
@@ -810,7 +821,7 @@ export interface ElementsDoctorProfile {
 /**
  * Page content dynamic zone - all components that can appear in page content area
  */
-export type PageContentComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsLinksList | ComponentsVideo | ComponentsServiceCards | ComponentsFullWidthCards | ComponentsDocuments | ComponentsJobPosting | ComponentsPartnerLogos | ComponentsMarketingArguments | ComponentsTimeline | ComponentsSectionDivider | ComponentsSlider | ComponentsGallerySlider | ComponentsPhotoGallery | ComponentsDirections | ComponentsExpandableSection | ComponentsButtonGroup | ComponentsContactCards | ComponentsDoctorProfile | ComponentsNewsArticles;
+export type PageContentComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsLinksList | ComponentsVideo | ComponentsServiceCards | ComponentsFullWidthCards | ComponentsDocuments | ComponentsJobPosting | ComponentsPartnerLogos | ComponentsMarketingArguments | ComponentsTimeline | ComponentsSectionDivider | ComponentsSlider | ComponentsGallerySlider | ComponentsPhotoGallery | ComponentsDirections | ComponentsExpandableSections | ComponentsButtonGroup | ComponentsContactCards | ComponentsDoctorProfile | ComponentsNewsArticles;
 
 /**
  * Page sidebar dynamic zone - all components that can appear in page sidebar
@@ -821,7 +832,7 @@ export type PageSidebarComponent = ComponentsHeading | ComponentsText | Componen
  * Intranet page content dynamic zone - all components that can appear in intranet page content area
  * Same as PageContentComponent but includes ComponentsIntranetNewsArticles
  */
-export type IntranetPageContentComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsLinksList | ComponentsVideo | ComponentsServiceCards | ComponentsFullWidthCards | ComponentsDocuments | ComponentsJobPosting | ComponentsPartnerLogos | ComponentsMarketingArguments | ComponentsTimeline | ComponentsSectionDivider | ComponentsSlider | ComponentsGallerySlider | ComponentsPhotoGallery | ComponentsDirections | ComponentsExpandableSection | ComponentsButtonGroup | ComponentsContactCards | ComponentsDoctorProfile | ComponentsNewsArticles | ComponentsIntranetNewsArticles;
+export type IntranetPageContentComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsLinksList | ComponentsVideo | ComponentsServiceCards | ComponentsFullWidthCards | ComponentsDocuments | ComponentsJobPosting | ComponentsPartnerLogos | ComponentsMarketingArguments | ComponentsTimeline | ComponentsSectionDivider | ComponentsSlider | ComponentsGallerySlider | ComponentsPhotoGallery | ComponentsDirections | ComponentsExpandableSections | ComponentsButtonGroup | ComponentsContactCards | ComponentsDoctorProfile | ComponentsNewsArticles | ComponentsIntranetNewsArticles;
 
 /**
  * Intranet page sidebar dynamic zone - all components that can appear in intranet page sidebar

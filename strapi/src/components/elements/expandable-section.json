@@ -1,10 +1,9 @@
 {
-  "collectionName": "components_components_expandable_sections",
+  "collectionName": "components_elements_expandable_sections",
   "info": {
-    "displayName": "Rozjížděcí obsah",
+    "displayName": "expandable-section",
     "icon": "expand"
   },
-  "options": {},
   "attributes": {
     "title": {
       "type": "string",
@@ -29,6 +28,5 @@
       "component": "components.contact-cards",
       "repeatable": false
     }
-  },
-  "config": {}
+  }
 }

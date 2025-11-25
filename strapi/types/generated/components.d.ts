@@ -93,18 +93,15 @@ export interface ComponentsDocuments extends Struct.ComponentSchema {
   };
 }
 
-export interface ComponentsExpandableSection extends Struct.ComponentSchema {
+export interface ComponentsExpandableSections extends Struct.ComponentSchema {
   collectionName: 'components_components_expandable_sections';
   info: {
-    displayName: 'Rozj\u00ED\u017Ed\u011Bc\u00ED obsah';
+    displayName: 'Rozj\u00ED\u017Ed\u011Bc\u00ED sekce';
     icon: 'expand';
   };
   attributes: {
-    contacts: Schema.Attribute.Component<'components.contact-cards', false>;
-    default_open: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
-    description: Schema.Attribute.RichText;
-    files: Schema.Attribute.Component<'elements.file-attachment', true>;
-    title: Schema.Attribute.String & Schema.Attribute.Required;
+    sections: Schema.Attribute.Component<'elements.expandable-section', true> &
+      Schema.Attribute.Required;
   };
 }
 
@@ -445,6 +442,21 @@ export interface ElementsDocumentItem extends Struct.ComponentSchema {
   };
 }
 
+export interface ElementsExpandableSection extends Struct.ComponentSchema {
+  collectionName: 'components_elements_expandable_sections';
+  info: {
+    displayName: 'expandable-section';
+    icon: 'expand';
+  };
+  attributes: {
+    contacts: Schema.Attribute.Component<'components.contact-cards', false>;
+    default_open: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    description: Schema.Attribute.RichText;
+    files: Schema.Attribute.Component<'elements.file-attachment', true>;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
 export interface ElementsFileAttachment extends Struct.ComponentSchema {
   collectionName: 'components_elements_file_attachments';
   info: {
@@ -654,7 +666,7 @@ declare module '@strapi/strapi' {
       'components.directions': ComponentsDirections;
       'components.doctor-profile': ComponentsDoctorProfile;
       'components.documents': ComponentsDocuments;
-      'components.expandable-section': ComponentsExpandableSection;
+      'components.expandable-sections': ComponentsExpandableSections;
       'components.full-width-cards': ComponentsFullWidthCards;
       'components.gallery-slider': ComponentsGallerySlider;
       'components.heading': ComponentsHeading;
@@ -676,6 +688,7 @@ declare module '@strapi/strapi' {
       'elements.direction-step': ElementsDirectionStep;
       'elements.doctor-profile': ElementsDoctorProfile;
       'elements.document-item': ElementsDocumentItem;
+      'elements.expandable-section': ElementsExpandableSection;
       'elements.file-attachment': ElementsFileAttachment;
       'elements.full-width-card': ElementsFullWidthCard;
       'elements.holiday': ElementsHoliday;

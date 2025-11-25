@@ -23,7 +23,7 @@ import Slider from '@/components/marketing/Slider';
 import GallerySlider from '@/components/media/GallerySlider';
 import PhotoGallery from '@/components/media/PhotoGallery';
 import Directions from '@/components/layout/Directions';
-import ExpandableSection from '@/components/interactive/ExpandableSection';
+import ExpandableSections from '@/components/interactive/ExpandableSections';
 import ButtonGroup from '@/components/layout/ButtonGroup';
 import ContactCards from '@/components/people/ContactCards';
 import DoctorProfile from '@/components/people/DoctorProfile';
@@ -51,7 +51,8 @@ import {
   ComponentsGallerySlider,
   ComponentsPhotoGallery,
   ComponentsDirections,
-  ComponentsExpandableSection,
+  ComponentsExpandableSections,
+  ElementsExpandableSection,
   ComponentsButtonGroup,
   ComponentsContactCards,
   ComponentsDoctorProfile,
@@ -617,34 +618,41 @@ async function renderComponent(
       );
     }
 
-    case 'components.expandable-section': {
-      const expandableSectionComponent = component as ComponentsExpandableSection;
+    case 'components.expandable-sections': {
+      const expandableSectionsComponent = component as ComponentsExpandableSections;
 
-      // Transform file attachments
-      const files = expandableSectionComponent.files?.map((file) => ({
-        name: file.name,
-        url: file.file?.attributes?.url ? getStrapiMediaURL(file.file.attributes.url) : '',
-        ext: file.file?.attributes?.ext || '',
-        size: file.file?.attributes?.size || 0,
-      })) || [];
+      // Transform sections array to component props
+      const sections = expandableSectionsComponent.sections.map((section: ElementsExpandableSection) => {
+        // Transform file attachments
+        const files = section.files?.map((file) => ({
+          name: file.name,
+          url: file.file?.attributes?.url ? getStrapiMediaURL(file.file.attributes.url) : '',
+          ext: file.file?.attributes?.ext || '',
+          size: file.file?.attributes?.size || 0,
+        })) || [];
 
-      // Transform contacts from Strapi structure to component format
-      const contacts = expandableSectionComponent.contacts?.cards?.map(card => ({
-        name: card.person?.person?.name || '',
-        email: card.person?.person?.email,
-        phone: card.person?.person?.phone,
-        photo: card.person?.person?.photo?.url ? getStrapiMediaURL(card.person.person.photo.url) : null,
-        gender: card.person?.person?.gender,
-      })) || [];
+        // Transform contacts from Strapi structure to component format
+        const contacts = section.contacts?.cards?.map(card => ({
+          name: card.person?.person?.name || '',
+          email: card.person?.person?.email,
+          phone: card.person?.person?.phone,
+          photo: card.person?.person?.photo?.url ? getStrapiMediaURL(card.person.person.photo.url) : null,
+          gender: card.person?.person?.gender,
+        })) || [];
+
+        return {
+          title: section.title,
+          description: section.description || null,
+          contacts,
+          files,
+          defaultOpen: section.default_open || false,
+        };
+      });
 
       return (
-        <ExpandableSection
+        <ExpandableSections
           key={`${__component}-${component.id || index}`}
-          title={expandableSectionComponent.title}
-          description={expandableSectionComponent.description || null}
-          contacts={contacts}
-          files={files}
-          defaultOpen={expandableSectionComponent.default_open || false}
+          sections={sections}
         />
       );
     }
