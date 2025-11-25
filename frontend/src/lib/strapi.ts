@@ -687,6 +687,91 @@ export async function fetchPageBySlug(
                 },
               },
             },
+            'components.button-group': {
+              populate: {
+                buttons: {
+                  populate: {
+                    link: {
+                      populate: ['page', 'file'],
+                    },
+                  },
+                },
+              },
+            },
+            'components.contact-cards': {
+              populate: {
+                cards: {
+                  populate: {
+                    person: {
+                      populate: {
+                        person: {
+                          populate: {
+                            photo: {
+                              fields: ['url', 'alternativeText', 'width', 'height'],
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            'components.doctor-profile': {
+              populate: {
+                profile: {
+                  populate: {
+                    person: {
+                      populate: {
+                        person: {
+                          populate: {
+                            photo: {
+                              fields: ['url', 'alternativeText', 'width', 'height'],
+                            },
+                          },
+                        },
+                      },
+                    },
+                    openingHours: {
+                      populate: '*',
+                    },
+                    holiday: {
+                      populate: '*',
+                    },
+                    positions: {
+                      populate: '*',
+                    },
+                  },
+                },
+              },
+            },
+            'components.documents': {
+              populate: {
+                documents: {
+                  populate: {
+                    file: {
+                      fields: ['url', 'name', 'ext', 'size'],
+                    },
+                  },
+                },
+              },
+            },
+            'components.section-divider': { populate: '*' },
+            'components.timeline': {
+              populate: {
+                items: {
+                  populate: {
+                    icon: {
+                      populate: {
+                        image: {
+                          fields: ['url', 'alternativeText'],
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
           },
         },
         parent: true, // Populate parent relation
@@ -1281,6 +1366,115 @@ export async function fetchIntranetPageBySlug(
               populate: {
                 links: {
                   populate: ['page', 'file'],
+                },
+              },
+            },
+            'components.button-group': {
+              populate: {
+                buttons: {
+                  populate: {
+                    link: {
+                      populate: ['page', 'file'],
+                    },
+                  },
+                },
+              },
+            },
+            'components.contact-cards': {
+              populate: {
+                cards: {
+                  populate: {
+                    person: {
+                      populate: {
+                        person: {
+                          populate: {
+                            photo: {
+                              fields: ['url', 'alternativeText', 'width', 'height'],
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            'components.doctor-profile': {
+              populate: {
+                profile: {
+                  populate: {
+                    person: {
+                      populate: {
+                        person: {
+                          populate: {
+                            photo: {
+                              fields: ['url', 'alternativeText', 'width', 'height'],
+                            },
+                          },
+                        },
+                      },
+                    },
+                    openingHours: {
+                      populate: '*',
+                    },
+                    holiday: {
+                      populate: '*',
+                    },
+                    positions: {
+                      populate: '*',
+                    },
+                  },
+                },
+              },
+            },
+            'components.documents': {
+              populate: {
+                documents: {
+                  populate: {
+                    file: {
+                      fields: ['url', 'name', 'ext', 'size'],
+                    },
+                  },
+                },
+              },
+            },
+            'components.section-divider': { populate: '*' },
+            'components.service-cards': {
+              populate: {
+                cards: {
+                  populate: {
+                    icon: {
+                      fields: ['id'],
+                      populate: {
+                        icon: {
+                          fields: ['name'],
+                          populate: {
+                            image: {
+                              fields: ['url', 'alternativeText'],
+                            },
+                          },
+                        },
+                      },
+                    },
+                    link: {
+                      populate: ['page', 'file'],
+                    },
+                  },
+                },
+              },
+            },
+            'components.timeline': {
+              populate: {
+                items: {
+                  populate: {
+                    icon: {
+                      populate: {
+                        image: {
+                          fields: ['url', 'alternativeText'],
+                        },
+                      },
+                    },
+                  },
                 },
               },
             },

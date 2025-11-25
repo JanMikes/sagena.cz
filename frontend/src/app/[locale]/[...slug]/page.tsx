@@ -133,7 +133,7 @@ export default async function Page({ params }: PageProps) {
             {/* Sidebar */}
             <div className="lg:col-span-1">
               <SidePanel>
-                <DynamicZone components={page.sidebar || []} locale={locale} />
+                <DynamicZone components={page.sidebar || []} locale={locale} compact />
               </SidePanel>
             </div>
           </div>

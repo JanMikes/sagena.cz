@@ -10,36 +10,44 @@ interface TimelineItem {
 
 interface TimelineProps {
   items: TimelineItem[];
+  compact?: boolean;
 }
 
-const Timeline: React.FC<TimelineProps> = ({ items }) => {
+const Timeline: React.FC<TimelineProps> = ({ items, compact = false }) => {
+  // Compact mode uses smaller sizes for sidebar display
+  const iconSize = compact ? 'w-12 h-12' : 'w-16 h-16';
+  const linePosition = compact ? 'left-6' : 'left-8';
+  const imageSize = compact ? 'w-5 h-5' : 'w-7 h-7';
+  const numberSize = compact ? 'text-xl' : 'text-2xl';
+  const gapSize = compact ? 'gap-4' : 'gap-6 md:gap-8';
+
   return (
     <div className="relative">
       {/* Timeline line */}
-      <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-primary-200 hidden md:block" />
+      <div className={`absolute ${linePosition} top-0 bottom-0 w-0.5 bg-primary-200 hidden md:block`} />
 
       <div className="space-y-8">
         {items.map((item, index) => {
           const isLast = index === items.length - 1;
 
           return (
-            <div key={index} className="relative flex gap-6 md:gap-8">
+            <div key={index} className={`relative flex ${gapSize}`}>
               {/* Icon or Number */}
               <div className="relative flex-shrink-0">
                 {item.icon && (
-                  <div className="flex items-center justify-center w-16 h-16 bg-primary-600 rounded-full z-10 relative border-4 border-white shadow-md">
+                  <div className={`flex items-center justify-center ${iconSize} bg-primary-600 rounded-full z-10 relative border-4 border-white shadow-md`}>
                     <Image
                       src={item.icon}
                       alt=""
-                      width={28}
-                      height={28}
-                      className="w-7 h-7 object-contain brightness-0 invert"
+                      width={compact ? 20 : 28}
+                      height={compact ? 20 : 28}
+                      className={`${imageSize} object-contain brightness-0 invert`}
                     />
                   </div>
                 )}
                 {item.number && !item.icon && (
-                  <div className="flex items-center justify-center w-16 h-16 bg-primary-600 rounded-full z-10 relative border-4 border-white shadow-md">
-                    <span className="text-2xl font-bold text-white">
+                  <div className={`flex items-center justify-center ${iconSize} bg-primary-600 rounded-full z-10 relative border-4 border-white shadow-md`}>
+                    <span className={`${numberSize} font-bold text-white`}>
                       {item.number}
                     </span>
                   </div>

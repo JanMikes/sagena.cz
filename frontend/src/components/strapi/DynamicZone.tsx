@@ -66,6 +66,7 @@ interface DynamicZoneProps {
   components: (PageContentComponent | PageSidebarComponent | IntranetPageContentComponent | IntranetPageSidebarComponent)[];
   className?: string;
   locale?: string;
+  compact?: boolean;
 }
 
 /**
@@ -140,7 +141,8 @@ function resolveTextLink(link: ElementsTextLink, locale: string = 'cs'): {
 async function renderComponent(
   component: PageContentComponent | PageSidebarComponent | IntranetPageContentComponent | IntranetPageSidebarComponent,
   index: number,
-  locale: string = 'cs'
+  locale: string = 'cs',
+  compact: boolean = false
 ): Promise<React.ReactNode> {
   const { __component } = component;
 
@@ -480,6 +482,7 @@ async function renderComponent(
         <Timeline
           key={`${__component}-${component.id || index}`}
           items={items}
+          compact={compact}
         />
       );
     }
@@ -917,6 +920,7 @@ const DynamicZone: React.FC<DynamicZoneProps> = async ({
   components,
   className = '',
   locale = 'cs',
+  compact = false,
 }) => {
   if (!components || components.length === 0) {
     return null;
@@ -924,7 +928,7 @@ const DynamicZone: React.FC<DynamicZoneProps> = async ({
 
   // Render all components in parallel
   const renderedComponents = await Promise.all(
-    components.map((component, index) => renderComponent(component, index, locale))
+    components.map((component, index) => renderComponent(component, index, locale, compact))
   );
 
   return (

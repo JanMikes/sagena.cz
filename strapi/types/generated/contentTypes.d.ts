@@ -659,6 +659,13 @@ export interface ApiIntranetPageIntranetPage
         'components.heading',
         'components.alert',
         'components.links-list',
+        'components.button-group',
+        'components.contact-cards',
+        'components.doctor-profile',
+        'components.documents',
+        'components.section-divider',
+        'components.service-cards',
+        'components.timeline',
       ]
     > &
       Schema.Attribute.SetPluginOptions<{
@@ -893,6 +900,13 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
         'components.heading',
         'components.alert',
         'components.links-list',
+        'components.button-group',
+        'components.contact-cards',
+        'components.doctor-profile',
+        'components.documents',
+        'components.section-divider',
+        'components.timeline',
+        'components.service-cards',
       ]
     > &
       Schema.Attribute.SetPluginOptions<{
