@@ -3,9 +3,10 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X, Phone, Search, Globe } from 'lucide-react';
+import { Menu, X, Phone, Search } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import Modal from '@/components/interactive/Modal';
+import LocaleSwitcher from '@/components/layout/LocaleSwitcher';
 import { NavigationItem } from '@/types/strapi';
 import { type Locale } from '@/i18n/config';
 import { useLocaleContext } from '@/contexts/LocaleContext';
@@ -46,9 +47,6 @@ const Header: React.FC<HeaderProps> = ({
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  // Language switcher label
-  const switchLanguageLabel = currentLocale === 'cs' ? 'Switch to English' : 'Přepnout do češtiny';
 
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm transition-all duration-300">
@@ -153,14 +151,11 @@ const Header: React.FC<HeaderProps> = ({
             >
               <Search className="w-5 h-5" />
             </button>
-            <a
-              href={computedAlternateUrl}
-              className="flex items-center space-x-1.5 px-3 py-2 text-sm font-medium text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
-              aria-label={switchLanguageLabel}
-            >
-              <Globe className="w-4 h-4" />
-              <span className="uppercase">{alternateLocale}</span>
-            </a>
+            <LocaleSwitcher
+              currentLocale={currentLocale}
+              alternateLocale={alternateLocale}
+              alternateUrl={computedAlternateUrl}
+            />
           </div>
 
           {/* Mobile menu button */}
@@ -208,14 +203,26 @@ const Header: React.FC<HeaderProps> = ({
                 <Search className="w-5 h-5" />
                 <span className="font-medium">Vyhledávání</span>
               </button>
-              <a
-                href={computedAlternateUrl}
-                className="flex items-center space-x-2 px-4 py-3 text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors text-left"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                <Globe className="w-5 h-5" />
-                <span className="font-medium uppercase">{currentLocale} / {alternateLocale}</span>
-              </a>
+              {/* Mobile Language Switcher */}
+              <div className="px-4 py-2">
+                <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+                  {currentLocale === 'cs' ? 'Jazyk' : 'Language'}
+                </div>
+                <div className="flex items-center space-x-2">
+                  <span className="flex items-center space-x-2 px-3 py-2 bg-primary-50 text-primary-700 rounded-lg text-sm font-medium">
+                    <span>{currentLocale === 'cs' ? '🇨🇿' : '🇬🇧'}</span>
+                    <span>{currentLocale === 'cs' ? 'Čeština' : 'English'}</span>
+                  </span>
+                  <a
+                    href={computedAlternateUrl}
+                    className="flex items-center space-x-2 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors text-sm"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    <span>{alternateLocale === 'cs' ? '🇨🇿' : '🇬🇧'}</span>
+                    <span>{alternateLocale === 'cs' ? 'Čeština' : 'English'}</span>
+                  </a>
+                </div>
+              </div>
               <a
                 href="tel:+420553030800"
                 className="flex items-center space-x-2 px-4 py-3 text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
