@@ -8,7 +8,6 @@ const Footer: React.FC = () => {
   // Demo links moved from navbar
   const demoLinks = [
     { name: 'Komponenty', href: '/komponenty/' },
-    { name: 'S panelem', href: '/s-panelem/' },
     { name: 'Intranet', href: '/intranet/' },
   ];
 
@@ -77,29 +76,6 @@ const Footer: React.FC = () => {
                 <span>8. pěšího pluku 2450<br />738 01 Frýdek-Místek</span>
               </div>
             </div>
-          </div>
-
-          {/* Quick Links (Static pages) */}
-          <div>
-            <h4 className="text-white font-semibold mb-4">Rychlé odkazy</h4>
-            <ul className="space-y-2">
-              <li>
-                <Link
-                  href="/ordinace/"
-                  className="text-gray-400 hover:text-white transition-colors"
-                >
-                  Ordinace
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/rehabilitace/"
-                  className="text-gray-400 hover:text-white transition-colors"
-                >
-                  Rehabilitace
-                </Link>
-              </li>
-            </ul>
           </div>
 
           {/* Demo Pages */}
