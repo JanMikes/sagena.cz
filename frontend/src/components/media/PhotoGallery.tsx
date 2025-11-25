@@ -60,6 +60,7 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ photos, columns = 3 }) => {
           alt: photo.alt,
           title: photo.caption,
         }))}
+        controller={{ closeOnBackdropClick: true }}
       />
     </>
   );

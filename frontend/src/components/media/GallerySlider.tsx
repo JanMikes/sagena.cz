@@ -104,6 +104,7 @@ const GallerySlider: React.FC<GallerySliderProps> = ({ photos }) => {
           src: photo.url,
           alt: photo.alt,
         }))}
+        controller={{ closeOnBackdropClick: true }}
       />
     </div>
   );
