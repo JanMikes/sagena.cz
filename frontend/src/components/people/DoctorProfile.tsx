@@ -153,10 +153,22 @@ const DoctorProfile: React.FC<DoctorProfileProps> = ({
             <div className="bg-primary-600 text-white rounded-xl p-6 h-full flex flex-col">
               <h4 className="text-xl font-bold mb-4">Ordinační hodiny</h4>
               <div className="space-y-3 flex-1">
-                {openingHours.map((hours, index) => (
-                  <div key={index} className="flex justify-between items-center">
-                    <span className="font-medium">{hours.day}</span>
-                    <span>{hours.time}</span>
+                {Object.entries(
+                  openingHours.reduce<Record<string, string[]>>((acc, hours) => {
+                    if (!acc[hours.day]) {
+                      acc[hours.day] = [];
+                    }
+                    acc[hours.day].push(hours.time);
+                    return acc;
+                  }, {})
+                ).map(([day, times]) => (
+                  <div key={day} className="flex justify-between">
+                    <span className="font-medium">{day}</span>
+                    <div className="text-right">
+                      {times.map((time, index) => (
+                        <div key={index}>{time}</div>
+                      ))}
+                    </div>
                   </div>
                 ))}
               </div>
