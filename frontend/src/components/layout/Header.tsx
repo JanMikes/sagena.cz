@@ -38,84 +38,84 @@ const Header: React.FC<HeaderProps> = ({
     return path.endsWith('/') ? path.slice(0, -1) : path;
   };
 
-  // Handle scroll to collapse first row
+  // Handle scroll with RAF throttling for smooth performance
   useEffect(() => {
+    let ticking = false;
+
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setIsScrolled(window.scrollY > 200);
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
-    <header className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
-      <nav className="container-custom">
-        {/* Row 1: Logo, Phone, CTA - Collapses on scroll using CSS Grid for GPU-accelerated animation */}
-        <div
-          className={`grid transition-[grid-template-rows,opacity] duration-200 ease-out ${
-            isScrolled ? 'grid-rows-[0fr] opacity-0' : 'grid-rows-[1fr] opacity-100'
-          }`}
-        >
-          <div className="overflow-hidden">
-            <div className="flex items-center justify-between border-b border-gray-100 py-3">
-              {/* Logo */}
-              <Link href={`/${currentLocale}/`} className="flex items-center space-x-3">
-                <img
-                  src="/logo-color.svg"
-                  alt="Sagena"
-                  className="h-12 w-auto"
-                />
-              </Link>
+    <header
+      className={`sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] ${
+        isScrolled ? '-translate-y-[60px]' : 'translate-y-0'
+      }`}
+      style={{ contain: 'layout paint' }}
+    >
+      {/* Row 1: Logo, Phone, CTA - Slides up on scroll via transform */}
+      <div
+        className={`h-[60px] border-b border-gray-100 transition-[opacity,visibility] duration-200 ${
+          isScrolled ? 'opacity-0 invisible' : 'opacity-100 visible'
+        }`}
+      >
+        <div className="container-custom flex items-center justify-between h-full">
+          {/* Logo */}
+          <Link href={`/${currentLocale}/`} className="flex items-center">
+            <img
+              src="/logo-color.svg"
+              alt="Sagena"
+              className="h-12 w-auto"
+            />
+          </Link>
 
-              {/* Phone & CTA */}
-              <div className="hidden lg:flex items-center space-x-4">
-                <a
-                  href="tel:+420553030800"
-                  className="flex items-center space-x-2 text-gray-700 hover:text-primary-600 transition-colors"
-                >
-                  <Phone className="w-5 h-5" />
-                  <span className="font-medium">+420 553 030 800</span>
-                </a>
-                <Button href="#" size="sm">
-                  Objednat se
-                </Button>
-              </div>
-
-              {/* Mobile logo only */}
-              <div className="lg:hidden">
-                <Link href={`/${currentLocale}/`} className="flex items-center space-x-2">
-                  <img
-                    src="/logo-color.svg"
-                    alt="Sagena"
-                    className="h-10 w-auto"
-                  />
-                </Link>
-              </div>
-            </div>
+          {/* Phone & CTA - Desktop */}
+          <div className="hidden lg:flex items-center space-x-4">
+            <a
+              href="tel:+420553030800"
+              className="flex items-center space-x-2 text-gray-700 hover:text-primary-600 transition-colors"
+            >
+              <Phone className="w-5 h-5" />
+              <span className="font-medium">+420 553 030 800</span>
+            </a>
+            <Button href="#" size="sm">
+              Objednat se
+            </Button>
           </div>
         </div>
+      </div>
 
-        {/* Row 2: Navigation, Search, Language Switcher - Always visible */}
+      {/* Row 2: Navigation, Search, Language Switcher - Always visible */}
+      <nav className="container-custom">
         <div className="flex items-center justify-between h-16">
-          {/* Logo (visible when scrolled) - Desktop */}
+          {/* Scaled logo - fades in when scrolled (Desktop) */}
           <Link
             href={`/${currentLocale}/`}
-            className={`flex items-center space-x-2 transition-opacity duration-150 ease-out ${
+            className={`hidden lg:flex items-center transition-opacity duration-200 ${
               isScrolled ? 'opacity-100' : 'opacity-0 pointer-events-none'
-            } hidden lg:flex`}
+            }`}
           >
             <img
               src="/logo-color.svg"
               alt="Sagena"
-              className="h-10 w-auto"
+              className="h-8 w-auto"
             />
           </Link>
 
-          {/* Logo (visible when scrolled) - Mobile */}
+          {/* Scaled logo - fades in when scrolled (Mobile) */}
           <Link
             href={`/${currentLocale}/`}
-            className={`flex items-center space-x-2 transition-opacity duration-150 ease-out lg:hidden ${
+            className={`lg:hidden flex items-center transition-opacity duration-200 ${
               isScrolled ? 'opacity-100' : 'opacity-0 pointer-events-none'
             }`}
           >
