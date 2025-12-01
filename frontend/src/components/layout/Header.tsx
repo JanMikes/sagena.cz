@@ -68,7 +68,6 @@ const Header: React.FC<HeaderProps> = ({
         className={`sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] ${
           isScrolled ? '-translate-y-[60px]' : 'translate-y-0'
         }`}
-        style={{ contain: 'layout paint' }}
       >
       {/* Row 1: Logo, Phone, CTA - Slides up on scroll via transform */}
       <div
