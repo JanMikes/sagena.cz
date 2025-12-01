@@ -112,6 +112,10 @@ export interface ComponentsFullWidthCards extends Struct.ComponentSchema {
     icon: 'apps';
   };
   attributes: {
+    background: Schema.Attribute.Enumeration<
+      ['None', 'Primary light', 'Neutral light']
+    > &
+      Schema.Attribute.DefaultTo<'None'>;
     cards: Schema.Attribute.Component<'elements.full-width-card', true> &
       Schema.Attribute.Required;
   };
@@ -182,6 +186,8 @@ export interface ComponentsLinksList extends Struct.ComponentSchema {
     icon: 'apps';
   };
   attributes: {
+    layout: Schema.Attribute.Enumeration<['Grid', 'Rows']> &
+      Schema.Attribute.DefaultTo<'Grid'>;
     links: Schema.Attribute.Component<'elements.text-link', true> &
       Schema.Attribute.Required &
       Schema.Attribute.SetMinMax<
@@ -202,6 +208,10 @@ export interface ComponentsMarketingArguments extends Struct.ComponentSchema {
   attributes: {
     arguments: Schema.Attribute.Component<'elements.marketing-argument', true> &
       Schema.Attribute.Required;
+    background: Schema.Attribute.Enumeration<
+      ['None', 'Primary light', 'Neutral light']
+    > &
+      Schema.Attribute.DefaultTo<'None'>;
     columns: Schema.Attribute.Enumeration<
       ['Two columns', 'Three columns', 'Four columns']
     > &
@@ -307,12 +317,22 @@ export interface ComponentsServiceCards extends Struct.ComponentSchema {
     icon: 'dashboard';
   };
   attributes: {
+    background: Schema.Attribute.Enumeration<
+      ['None', 'Primary light', 'Neutral light']
+    > &
+      Schema.Attribute.DefaultTo<'None'>;
+    card_clickable: Schema.Attribute.Boolean &
+      Schema.Attribute.DefaultTo<false>;
     cards: Schema.Attribute.Component<'elements.service-card', true> &
       Schema.Attribute.Required;
     columns: Schema.Attribute.Enumeration<
-      ['Two columns', 'Three columns', 'Four columns']
+      ['Two columns', 'Three columns', 'Four columns', 'Five columns']
     > &
       Schema.Attribute.DefaultTo<'Three columns'>;
+    text_align: Schema.Attribute.Enumeration<
+      ['Left aligned', 'Center aligned']
+    > &
+      Schema.Attribute.DefaultTo<'Left aligned'>;
   };
 }
 

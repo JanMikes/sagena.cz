@@ -216,6 +216,7 @@ export interface ComponentsLinksList {
   id: number;
   __component: 'components.links-list';
   links: ElementsTextLink[];
+  layout?: 'Grid' | 'Rows';
 }
 
 /**
@@ -239,7 +240,10 @@ export interface ComponentsServiceCards {
   id: number;
   __component: 'components.service-cards';
   cards: ElementsServiceCard[];
-  columns: 'Two columns' | 'Three columns' | 'Four columns';
+  columns: 'Two columns' | 'Three columns' | 'Four columns' | 'Five columns';
+  text_align?: 'Left aligned' | 'Center aligned';
+  card_clickable?: boolean;
+  background?: 'None' | 'Primary light' | 'Neutral light';
 }
 
 /**
@@ -251,6 +255,7 @@ export interface ComponentsFullWidthCards {
   id: number;
   __component: 'components.full-width-cards';
   cards: ElementsFullWidthCard[];
+  background?: 'None' | 'Primary light' | 'Neutral light';
 }
 
 /**
@@ -305,6 +310,7 @@ export interface ComponentsMarketingArguments {
   __component: 'components.marketing-arguments';
   arguments: ElementsMarketingArgument[];
   columns: 'Two columns' | 'Three columns' | 'Four columns';
+  background?: 'None' | 'Primary light' | 'Neutral light';
 }
 
 /**
@@ -875,6 +881,23 @@ export interface Footer {
   createdAt?: string;
   updatedAt?: string;
   publishedAt?: string;
+}
+
+/**
+ * Homepage (single type)
+ * Location: strapi/src/api/homepage/content-types/homepage/schema.json
+ * Usage: Homepage configuration with relation to a Page for content
+ */
+export interface Homepage {
+  id: number;
+  documentId?: string;
+  page?: {
+    id: number;
+    slug: string;
+  } | null;
+  locale?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 /**

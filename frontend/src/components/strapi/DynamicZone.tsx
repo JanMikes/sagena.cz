@@ -143,6 +143,7 @@ async function renderComponent(
         <LinksList
           key={`${__component}-${component.id || index}`}
           links={links}
+          layout={linksListComponent.layout || 'Grid'}
         />
       );
     }
@@ -190,19 +191,50 @@ async function renderComponent(
       }));
 
       // Convert column enum to number
-      const columnMap: Record<string, 2 | 3 | 4> = {
+      const columnMap: Record<string, 2 | 3 | 4 | 5> = {
         'Two columns': 2,
         'Three columns': 3,
         'Four columns': 4,
+        'Five columns': 5,
       };
       const columns = columnMap[serviceCardsComponent.columns] || 3;
 
-      return (
+      // Background wrapper classes
+      const background = serviceCardsComponent.background || 'None';
+      const hasBackground = background !== 'None';
+      const backgroundClasses: Record<string, string> = {
+        'None': '',
+        'Primary light': 'bg-primary-50 py-16',
+        'Neutral light': 'bg-neutral-50 py-16',
+      };
+      const bgClass = backgroundClasses[background] || '';
+
+      const content = (
         <ServiceCards
           key={`${__component}-${component.id || index}`}
           cards={cards}
           columns={columns}
+          textAlign={serviceCardsComponent.text_align}
+          cardClickable={serviceCardsComponent.card_clickable}
         />
+      );
+
+      // Wrap with background if specified, always include container
+      if (hasBackground) {
+        return (
+          <div key={`${__component}-${component.id || index}-wrapper`} className={bgClass}>
+            <div className="container-custom">
+              {content}
+            </div>
+          </div>
+        );
+      }
+
+      // No background - just container
+      return (
+        <div className="container-custom">
+          {content}
+        </div>
       );
     }
 
@@ -231,11 +263,39 @@ async function renderComponent(
         };
       }));
 
-      return (
+      // Background wrapper classes
+      const background = fullWidthCardsComponent.background || 'None';
+      const hasBackground = background !== 'None';
+      const backgroundClasses: Record<string, string> = {
+        'None': '',
+        'Primary light': 'bg-primary-50 py-16',
+        'Neutral light': 'bg-neutral-50 py-16',
+      };
+      const bgClass = backgroundClasses[background] || '';
+
+      const content = (
         <FullWidthCards
           key={`${__component}-${component.id || index}`}
           cards={cards}
         />
+      );
+
+      // Wrap with background if specified, always include container
+      if (hasBackground) {
+        return (
+          <div key={`${__component}-${component.id || index}-wrapper`} className={bgClass}>
+            <div className="container-custom">
+              {content}
+            </div>
+          </div>
+        );
+      }
+
+      // No background - just container
+      return (
+        <div className="container-custom">
+          {content}
+        </div>
       );
     }
 
@@ -385,12 +445,40 @@ async function renderComponent(
       };
       const columns = columnMap[marketingArgumentsComponent.columns] || 3;
 
-      return (
+      // Background wrapper classes
+      const background = marketingArgumentsComponent.background || 'None';
+      const hasBackground = background !== 'None';
+      const backgroundClasses: Record<string, string> = {
+        'None': '',
+        'Primary light': 'bg-primary-50 py-16',
+        'Neutral light': 'bg-neutral-50 py-16',
+      };
+      const bgClass = backgroundClasses[background] || '';
+
+      const content = (
         <MarketingArguments
           key={`${__component}-${component.id || index}`}
           arguments={args}
           columns={columns}
         />
+      );
+
+      // Wrap with background if specified, always include container
+      if (hasBackground) {
+        return (
+          <div key={`${__component}-${component.id || index}-wrapper`} className={bgClass}>
+            <div className="container-custom">
+              {content}
+            </div>
+          </div>
+        );
+      }
+
+      // No background - just container
+      return (
+        <div className="container-custom">
+          {content}
+        </div>
       );
     }
 
@@ -843,12 +931,36 @@ async function renderComponent(
 }
 
 /**
+ * Components that should render full-width (no container wrapper)
+ * These components handle their own width/layout
+ */
+const FULL_WIDTH_COMPONENTS = new Set([
+  'components.slider',
+  'components.section-divider',
+]);
+
+/**
+ * Components that have their own background wrapper (applied in renderComponent)
+ * These need container inside the background wrapper, not outside
+ */
+const BACKGROUND_COMPONENTS = new Set([
+  'components.service-cards',
+  'components.full-width-cards',
+  'components.marketing-arguments',
+]);
+
+/**
  * DynamicZone component renders an array of Strapi components
  *
  * Spacing logic:
  * - Standard spacing between components: mb-12 (48px)
  * - Headings use smaller margin (mb-6 / 24px) to stay visually connected to following content
  * - Last component has no bottom margin
+ *
+ * Container logic:
+ * - Most components wrapped in container-custom for proper content width
+ * - Full-width components (Slider, SectionDivider) render edge-to-edge
+ * - Components with backgrounds handle container internally
  */
 const DynamicZone: React.FC<DynamicZoneProps> = async ({
   components,
@@ -871,16 +983,29 @@ const DynamicZone: React.FC<DynamicZoneProps> = async ({
         if (!rendered) return null;
 
         const component = components[index];
-        const isHeading = component.__component === 'components.heading';
+        const componentType = component.__component;
+        const isHeading = componentType === 'components.heading';
         const isLast = index === renderedComponents.length - 1;
+        const isFullWidth = FULL_WIDTH_COMPONENTS.has(componentType);
+        const hasBackground = BACKGROUND_COMPONENTS.has(componentType);
 
         // Headings get smaller margin to stay close to next component
         // Last component gets no bottom margin
         const spacingClass = isLast ? '' : (isHeading ? 'mb-6' : 'mb-12');
 
+        // Full-width components don't get container wrapper
+        // Background components handle their own container (see renderComponent)
+        const needsContainer = !isFullWidth && !hasBackground;
+
         return (
           <div key={`wrapper-${index}`} className={spacingClass}>
-            {rendered}
+            {needsContainer ? (
+              <div className="container-custom">
+                {rendered}
+              </div>
+            ) : (
+              rendered
+            )}
           </div>
         );
       })}

@@ -23,6 +23,7 @@ import {
   IntranetPage,
   Tag,
   Footer,
+  Homepage,
 } from '@/types/strapi';
 
 // ============================================================================
@@ -208,6 +209,9 @@ const intranetMenuCache: Map<string, CacheEntry<Navigation>> = new Map();
 // Footer cache - keyed by locale
 const footerCache: Map<string, CacheEntry<Footer>> = new Map();
 
+// Homepage cache - keyed by locale
+const homepageCache: Map<string, CacheEntry<Homepage>> = new Map();
+
 function isCacheValid<T>(entry: CacheEntry<T> | undefined): entry is CacheEntry<T> {
   if (!entry) return false;
   return Date.now() - entry.timestamp < HIERARCHY_CACHE_TTL_MS;
@@ -276,6 +280,14 @@ export function invalidateCache(model: string, slug?: string, locale?: string) {
       }
       break;
 
+    case 'homepage':
+      if (locale) {
+        homepageCache.delete(locale);
+      } else {
+        homepageCache.clear();
+      }
+      break;
+
     default:
       // Unknown model - clear all caches to be safe
       console.log(`[Cache] Unknown model "${model}" - clearing all caches`);
@@ -286,6 +298,7 @@ export function invalidateCache(model: string, slug?: string, locale?: string) {
       pageHierarchyCache.clear();
       intranetPageHierarchyCache.clear();
       footerCache.clear();
+      homepageCache.clear();
       iconsCache = null;
   }
 }
@@ -778,6 +791,43 @@ export async function fetchFooter(locale: string = 'cs'): Promise<Footer | null>
     return footer || null;
   } catch (error) {
     console.error(`Failed to fetch footer for locale ${locale}:`, error);
+    return null;
+  }
+}
+
+/**
+ * Fetch homepage data (single type with page relation)
+ * Returns only the page slug - use fetchPageBySlug for full page content
+ * @param locale - Locale for i18n (default: 'cs')
+ */
+export async function fetchHomepage(locale: string = 'cs'): Promise<Homepage | null> {
+  // Check cache first
+  const cached = homepageCache.get(locale);
+  if (isCacheValid(cached)) {
+    return cached.data;
+  }
+
+  try {
+    // Fetch homepage with minimal population - only page slug
+    const response = await fetchAPI<StrapiResponse<Homepage>>('/homepage', {
+      locale,
+      populate: {
+        page: {
+          fields: ['slug'],
+        },
+      },
+    });
+
+    const homepage = response.data;
+
+    if (homepage) {
+      // Cache the result
+      homepageCache.set(locale, { data: homepage, timestamp: Date.now() });
+    }
+
+    return homepage || null;
+  } catch (error) {
+    console.error(`Failed to fetch homepage for locale ${locale}:`, error);
     return null;
   }
 }

@@ -18,8 +18,23 @@
       "enum": [
         "Two columns",
         "Three columns",
-        "Four columns"
+        "Four columns",
+        "Five columns"
       ]
+    },
+    "text_align": {
+      "type": "enumeration",
+      "default": "Left aligned",
+      "enum": ["Left aligned", "Center aligned"]
+    },
+    "card_clickable": {
+      "type": "boolean",
+      "default": false
+    },
+    "background": {
+      "type": "enumeration",
+      "default": "None",
+      "enum": ["None", "Primary light", "Neutral light"]
     }
   },
   "config": {}

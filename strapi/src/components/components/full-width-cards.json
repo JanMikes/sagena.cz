@@ -11,6 +11,11 @@
       "component": "elements.full-width-card",
       "repeatable": true,
       "required": true
+    },
+    "background": {
+      "type": "enumeration",
+      "default": "None",
+      "enum": ["None", "Primary light", "Neutral light"]
     }
   },
   "config": {}

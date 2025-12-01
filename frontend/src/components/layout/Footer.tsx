@@ -77,7 +77,7 @@ const Footer: React.FC<FooterProps> = ({ data, locale = 'cs' }) => {
   const gap = getGapValue(insuranceLogos?.gap);
 
   return (
-    <footer className="bg-gray-900 text-gray-300">
+    <footer className="bg-gray-900 text-gray-300 mt-16">
       {/* Newsletter Section - Hidden for now */}
       <div className="hidden border-b border-gray-800">
         <div className="container-custom py-12">

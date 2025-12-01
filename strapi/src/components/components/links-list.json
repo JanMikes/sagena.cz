@@ -12,6 +12,11 @@
       "repeatable": true,
       "required": true,
       "min": 1
+    },
+    "layout": {
+      "type": "enumeration",
+      "default": "Grid",
+      "enum": ["Grid", "Rows"]
     }
   },
   "config": {}

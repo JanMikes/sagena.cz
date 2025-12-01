@@ -12,22 +12,33 @@ interface LinkItem {
 
 interface LinksListProps {
   links: LinkItem[];
+  layout?: 'Grid' | 'Rows';
 }
 
-const LinksList: React.FC<LinksListProps> = ({ links }) => {
+const LinksList: React.FC<LinksListProps> = ({ links, layout = 'Grid' }) => {
+  const isGrid = layout === 'Grid';
+
+  const containerClass = isGrid
+    ? 'grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'
+    : 'space-y-3';
+
   return (
-    <div className="space-y-3">
+    <div className={containerClass}>
       {links.map((link, index) => {
         if (link.disabled) {
           return (
             <div
               key={index}
-              className="flex items-center justify-between p-4 bg-gray-100 border border-gray-200 rounded-lg opacity-60 cursor-not-allowed"
+              className={
+                isGrid
+                  ? 'text-center p-4 rounded-lg bg-gray-100 border border-gray-200 opacity-60 cursor-not-allowed'
+                  : 'flex items-center justify-between p-4 bg-gray-100 border border-gray-200 rounded-lg opacity-60 cursor-not-allowed'
+              }
             >
-              <div className="flex items-center space-x-3">
-                <AlertCircle className="w-5 h-5 text-gray-400 flex-shrink-0" />
-                <div>
-                  <span className="font-medium text-gray-500">
+              {isGrid ? (
+                <>
+                  <AlertCircle className="w-5 h-5 text-gray-400 mx-auto mb-2" />
+                  <span className="font-medium text-gray-500 block">
                     {link.title}
                   </span>
                   {link.disabledReason && (
@@ -35,11 +46,27 @@ const LinksList: React.FC<LinksListProps> = ({ links }) => {
                       {link.disabledReason}
                     </p>
                   )}
-                </div>
-              </div>
-              <span className="text-xs font-semibold text-gray-500 bg-gray-200 px-3 py-1 rounded-full">
-                Nedostupné
-              </span>
+                </>
+              ) : (
+                <>
+                  <div className="flex items-center space-x-3">
+                    <AlertCircle className="w-5 h-5 text-gray-400 flex-shrink-0" />
+                    <div>
+                      <span className="font-medium text-gray-500">
+                        {link.title}
+                      </span>
+                      {link.disabledReason && (
+                        <p className="text-sm text-gray-500 mt-1">
+                          {link.disabledReason}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                  <span className="text-xs font-semibold text-gray-500 bg-gray-200 px-3 py-1 rounded-full">
+                    Nedostupné
+                  </span>
+                </>
+              )}
             </div>
           );
         }
@@ -50,17 +77,30 @@ const LinksList: React.FC<LinksListProps> = ({ links }) => {
           ? { href: link.url, target: '_blank', rel: 'noopener noreferrer' }
           : { href: link.url };
 
+        const gridLinkClass =
+          'text-center p-4 rounded-lg bg-white hover:bg-primary-50 transition-colors border border-neutral-200 hover:border-primary-300 block';
+        const rowsLinkClass =
+          'flex items-center justify-between p-4 bg-white border border-gray-200 rounded-lg hover:border-primary-300 hover:bg-primary-50/30 transition-all group';
+
         return (
           <LinkComponent
             key={index}
             {...linkProps}
-            className="flex items-center justify-between p-4 bg-white border border-gray-200 rounded-lg hover:border-primary-300 hover:bg-primary-50/30 transition-all group"
+            className={isGrid ? gridLinkClass : rowsLinkClass}
           >
-            <span className="font-medium text-gray-900 group-hover:text-primary-600 transition-colors">
-              {link.title}
-            </span>
-            {isExternal && (
-              <ExternalLink className="w-5 h-5 text-gray-400 group-hover:text-primary-600 transition-colors" />
+            {isGrid ? (
+              <span className="text-primary-700 font-semibold">
+                {link.title}
+              </span>
+            ) : (
+              <>
+                <span className="font-medium text-gray-900 group-hover:text-primary-600 transition-colors">
+                  {link.title}
+                </span>
+                {isExternal && (
+                  <ExternalLink className="w-5 h-5 text-gray-400 group-hover:text-primary-600 transition-colors" />
+                )}
+              </>
             )}
           </LinkComponent>
         );

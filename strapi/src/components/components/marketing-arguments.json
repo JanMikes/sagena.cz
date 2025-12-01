@@ -20,6 +20,11 @@
         "Three columns",
         "Four columns"
       ]
+    },
+    "background": {
+      "type": "enumeration",
+      "default": "None",
+      "enum": ["None", "Primary light", "Neutral light"]
     }
   },
   "config": {}
