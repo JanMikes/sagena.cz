@@ -67,6 +67,8 @@ interface DynamicZoneProps {
   className?: string;
   locale?: string;
   compact?: boolean;
+  /** When true, DynamicZone won't add container wrappers (use when already inside a container) */
+  inContainer?: boolean;
 }
 
 /**
@@ -967,6 +969,7 @@ const DynamicZone: React.FC<DynamicZoneProps> = async ({
   className = '',
   locale = 'cs',
   compact = false,
+  inContainer = false,
 }) => {
   if (!components || components.length === 0) {
     return null;
@@ -995,7 +998,8 @@ const DynamicZone: React.FC<DynamicZoneProps> = async ({
 
         // Full-width components don't get container wrapper
         // Background components handle their own container (see renderComponent)
-        const needsContainer = !isFullWidth && !hasBackground;
+        // When inContainer is true, we're already inside a container so don't add another
+        const needsContainer = !inContainer && !isFullWidth && !hasBackground;
 
         return (
           <div key={`wrapper-${index}`} className={spacingClass}>
