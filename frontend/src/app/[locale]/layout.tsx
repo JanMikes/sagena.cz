@@ -1,9 +1,10 @@
 import { notFound } from 'next/navigation';
 import Header from '@/components/layout/Header';
-import { fetchNavigation } from '@/lib/strapi';
+import Footer from '@/components/layout/Footer';
+import { fetchNavigation, fetchFooter } from '@/lib/strapi';
 import { isValidLocale, getAlternateLocale, type Locale } from '@/i18n/config';
 import { LocaleProvider } from '@/contexts/LocaleContext';
-import type { NavigationItem } from '@/types/strapi';
+import type { NavigationItem, Footer as FooterType } from '@/types/strapi';
 
 // Force all pages under [locale] to be dynamically rendered (SSR)
 // This prevents static generation at build time, allowing build to succeed without Strapi
@@ -31,12 +32,16 @@ export default async function LocaleLayout({
     notFound();
   }
 
-  // Fetch navigation for current locale
+  // Fetch navigation and footer for current locale
   let navbarItems: NavigationItem[] = [];
+  let footer: FooterType | null = null;
   try {
-    navbarItems = await fetchNavigation(true, undefined, locale);
+    [navbarItems, footer] = await Promise.all([
+      fetchNavigation(true, undefined, locale),
+      fetchFooter(locale),
+    ]);
   } catch (error) {
-    console.error('Failed to fetch navigation from Strapi:', error);
+    console.error('Failed to fetch layout data from Strapi:', error);
   }
 
   const alternateLocale = getAlternateLocale(locale as Locale);
@@ -49,6 +54,7 @@ export default async function LocaleLayout({
         alternateLocale={alternateLocale}
       />
       <main>{children}</main>
+      <Footer data={footer} locale={locale} />
     </LocaleProvider>
   );
 }

@@ -517,6 +517,18 @@ export interface ElementsTextLink {
 }
 
 /**
+ * Elements: Links Section
+ * Location: strapi/src/components/elements/links-section.json
+ * Usage: Grouped links with a heading (used in footer)
+ */
+export interface ElementsLinksSection {
+  id: number;
+  __component?: 'elements.links-section';
+  heading: string;
+  links?: ElementsTextLink[];
+}
+
+/**
  * Elements: Icon Component
  * Location: strapi/src/components/elements/icon.json
  * Usage: Icon component wrapper containing a relation to Icon content type
@@ -839,6 +851,26 @@ export interface Navigation {
   navbar: boolean;  // Show in navbar
   footer: boolean;  // Show in footer
   link: ElementsLink;
+  locale?: string;
+  createdAt?: string;
+  updatedAt?: string;
+  publishedAt?: string;
+}
+
+/**
+ * Footer (single type)
+ * Location: strapi/src/api/footer/content-types/footer/schema.json
+ * Usage: Global footer content with contact info, links sections, and insurance logos
+ */
+export interface Footer {
+  id?: number;
+  documentId?: string;
+  text?: string | null;
+  contact_phone?: string | null;
+  contact_email?: string | null;
+  contact_address?: string | null;
+  links?: ElementsLinksSection[];
+  insurance_logos?: ComponentsPartnerLogos | null;
   locale?: string;
   createdAt?: string;
   updatedAt?: string;

@@ -1,0 +1,20 @@
+{
+  "collectionName": "components_elements_links_sections",
+  "info": {
+    "displayName": "links-section",
+    "icon": "bulletList"
+  },
+  "options": {},
+  "attributes": {
+    "heading": {
+      "type": "string",
+      "required": true
+    },
+    "links": {
+      "type": "component",
+      "component": "elements.text-link",
+      "repeatable": true
+    }
+  },
+  "config": {}
+}

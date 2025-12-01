@@ -28,7 +28,7 @@ import ButtonGroup from '@/components/layout/ButtonGroup';
 import ContactCards from '@/components/people/ContactCards';
 import DoctorProfile from '@/components/people/DoctorProfile';
 import NewsArticles from '@/components/content/NewsArticles';
-import { getStrapiMediaURL, getIconUrlById, fetchNewsArticles, fetchIntranetNewsArticles } from '@/lib/strapi';
+import { getStrapiMediaURL, getIconUrlById, fetchNewsArticles, fetchIntranetNewsArticles, resolveTextLink } from '@/lib/strapi';
 import {
   PageContentComponent,
   PageSidebarComponent,
@@ -67,72 +67,6 @@ interface DynamicZoneProps {
   className?: string;
   locale?: string;
   compact?: boolean;
-}
-
-/**
- * Resolve ElementsTextLink to href and disabled state
- * Priority: page > url > file > anchor
- */
-function resolveTextLink(link: ElementsTextLink, locale: string = 'cs'): {
-  url: string;
-  external: boolean;
-  disabled: boolean;
-  disabledReason?: string;
-} {
-  // Check if link is explicitly disabled
-  if (link.disabled) {
-    return {
-      url: '#',
-      external: false,
-      disabled: true,
-      disabledReason: 'Tento odkaz je momentálně nedostupný',
-    };
-  }
-
-  // Priority 1: Internal page
-  if (link.page?.slug) {
-    return {
-      url: `/${locale}/${link.page.slug}/`,
-      external: false,
-      disabled: false,
-    };
-  }
-
-  // Priority 2: External URL
-  if (link.url) {
-    return {
-      url: link.url,
-      external: link.url.startsWith('http'),
-      disabled: false,
-    };
-  }
-
-  // Priority 3: File
-  if (link.file) {
-    const fileData = link.file as StrapiMedia;
-    return {
-      url: fileData.attributes.url,
-      external: false,
-      disabled: false,
-    };
-  }
-
-  // Priority 4: Anchor only
-  if (link.anchor) {
-    return {
-      url: `#${link.anchor}`,
-      external: false,
-      disabled: false,
-    };
-  }
-
-  // Fallback: disabled if no valid target
-  return {
-    url: '#',
-    external: false,
-    disabled: true,
-    disabledReason: 'Odkaz nemá nastavenou cílovou stránku',
-  };
 }
 
 /**

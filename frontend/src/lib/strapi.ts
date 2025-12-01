@@ -10,16 +10,19 @@
 import {
   StrapiResponse,
   StrapiCollectionResponse,
+  StrapiMedia,
   Navigation,
   Page,
   NavigationItem,
   ElementsLink,
+  ElementsTextLink,
   ResolvedLink,
   Icon,
   NewsArticle,
   IntranetNewsArticle,
   IntranetPage,
   Tag,
+  Footer,
 } from '@/types/strapi';
 
 // ============================================================================
@@ -202,6 +205,9 @@ const intranetPageContentCache: Map<string, CacheEntry<IntranetPage>> = new Map(
 const navigationCache: Map<string, CacheEntry<Navigation>> = new Map();
 const intranetMenuCache: Map<string, CacheEntry<Navigation>> = new Map();
 
+// Footer cache - keyed by locale
+const footerCache: Map<string, CacheEntry<Footer>> = new Map();
+
 function isCacheValid<T>(entry: CacheEntry<T> | undefined): entry is CacheEntry<T> {
   if (!entry) return false;
   return Date.now() - entry.timestamp < HIERARCHY_CACHE_TTL_MS;
@@ -262,6 +268,14 @@ export function invalidateCache(model: string, slug?: string, locale?: string) {
       iconsCache = null;
       break;
 
+    case 'footer':
+      if (locale) {
+        footerCache.delete(locale);
+      } else {
+        footerCache.clear();
+      }
+      break;
+
     default:
       // Unknown model - clear all caches to be safe
       console.log(`[Cache] Unknown model "${model}" - clearing all caches`);
@@ -271,6 +285,7 @@ export function invalidateCache(model: string, slug?: string, locale?: string) {
       intranetMenuCache.clear();
       pageHierarchyCache.clear();
       intranetPageHierarchyCache.clear();
+      footerCache.clear();
       iconsCache = null;
   }
 }
@@ -574,6 +589,75 @@ export function resolveLink(
   return null;
 }
 
+/**
+ * Resolve ElementsTextLink to href and disabled state
+ * Priority: page > url > file > anchor
+ *
+ * @param link - The text link element from Strapi
+ * @param locale - Current locale for prefixing internal page links (default: 'cs')
+ */
+export function resolveTextLink(link: ElementsTextLink, locale: string = 'cs'): {
+  url: string;
+  external: boolean;
+  disabled: boolean;
+  disabledReason?: string;
+} {
+  // Check if link is explicitly disabled
+  if (link.disabled) {
+    return {
+      url: '#',
+      external: false,
+      disabled: true,
+      disabledReason: 'Tento odkaz je momentálně nedostupný',
+    };
+  }
+
+  // Priority 1: Internal page
+  if (link.page?.slug) {
+    return {
+      url: `/${locale}/${link.page.slug}/`,
+      external: false,
+      disabled: false,
+    };
+  }
+
+  // Priority 2: External URL
+  if (link.url) {
+    return {
+      url: link.url,
+      external: link.url.startsWith('http'),
+      disabled: false,
+    };
+  }
+
+  // Priority 3: File
+  if (link.file) {
+    const fileData = link.file as StrapiMedia;
+    return {
+      url: fileData.attributes.url,
+      external: false,
+      disabled: false,
+    };
+  }
+
+  // Priority 4: Anchor only
+  if (link.anchor) {
+    return {
+      url: `#${link.anchor}`,
+      external: false,
+      disabled: false,
+    };
+  }
+
+  // Fallback: disabled if no valid target
+  return {
+    url: '#',
+    external: false,
+    disabled: true,
+    disabledReason: 'Odkaz nemá nastavenou cílovou stránku',
+  };
+}
+
 // ============================================================================
 // Navigation API
 // ============================================================================
@@ -649,6 +733,53 @@ export async function fetchNavigation(
   navigationCache.set(cacheKey, { data: items as unknown as Navigation, timestamp: Date.now() });
 
   return items;
+}
+
+/**
+ * Fetch footer data
+ * @param locale - Locale for i18n (default: 'cs')
+ */
+export async function fetchFooter(locale: string = 'cs'): Promise<Footer | null> {
+  // Check cache first
+  const cached = footerCache.get(locale);
+  if (isCacheValid(cached)) {
+    return cached.data;
+  }
+
+  try {
+    // Fetch footer with nested population for links and insurance logos
+    const response = await fetchAPI<StrapiResponse<Footer>>('/footer', {
+      locale,
+      populate: {
+        links: {
+          populate: {
+            links: {
+              populate: ['page', 'file'],
+            },
+          },
+        },
+        insurance_logos: {
+          populate: {
+            partners: {
+              populate: ['logo'],
+            },
+          },
+        },
+      },
+    });
+
+    const footer = response.data;
+
+    if (footer) {
+      // Cache the result
+      footerCache.set(locale, { data: footer, timestamp: Date.now() });
+    }
+
+    return footer || null;
+  } catch (error) {
+    console.error(`Failed to fetch footer for locale ${locale}:`, error);
+    return null;
+  }
 }
 
 // ============================================================================

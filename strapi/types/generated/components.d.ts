@@ -509,6 +509,18 @@ export interface ElementsLink extends Struct.ComponentSchema {
   };
 }
 
+export interface ElementsLinksSection extends Struct.ComponentSchema {
+  collectionName: 'components_elements_links_sections';
+  info: {
+    displayName: 'links-section';
+    icon: 'bulletList';
+  };
+  attributes: {
+    heading: Schema.Attribute.String & Schema.Attribute.Required;
+    links: Schema.Attribute.Component<'elements.text-link', true>;
+  };
+}
+
 export interface ElementsMarketingArgument extends Struct.ComponentSchema {
   collectionName: 'components_elements_marketing_arguments';
   info: {
@@ -680,6 +692,7 @@ declare module '@strapi/strapi' {
       'elements.holiday': ElementsHoliday;
       'elements.icon': ElementsIcon;
       'elements.link': ElementsLink;
+      'elements.links-section': ElementsLinksSection;
       'elements.marketing-argument': ElementsMarketingArgument;
       'elements.opening-hours': ElementsOpeningHours;
       'elements.partner-logo': ElementsPartnerLogo;
