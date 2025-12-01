@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, X, Phone, Search } from 'lucide-react';
@@ -24,6 +24,7 @@ const Header: React.FC<HeaderProps> = ({
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const sentinelRef = useRef<HTMLDivElement>(null);
   const [searchModalOpen, setSearchModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const pathname = usePathname();
@@ -38,31 +39,37 @@ const Header: React.FC<HeaderProps> = ({
     return path.endsWith('/') ? path.slice(0, -1) : path;
   };
 
-  // Handle scroll with RAF throttling for smooth performance
+  // Use IntersectionObserver instead of scroll events for better performance
   useEffect(() => {
-    let ticking = false;
+    const sentinel = sentinelRef.current;
+    if (!sentinel) return;
 
-    const handleScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          setIsScrolled(window.scrollY > 200);
-          ticking = false;
-        });
-        ticking = true;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        // When sentinel is NOT intersecting (scrolled out of expanded zone), header is scrolled
+        setIsScrolled(!entry.isIntersecting);
+      },
+      {
+        // Expand observation zone by 200px above viewport - sentinel exits when scrolled 200px
+        rootMargin: '200px 0px 0px 0px',
+        threshold: 0,
       }
-    };
+    );
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    observer.observe(sentinel);
+    return () => observer.disconnect();
   }, []);
 
   return (
-    <header
-      className={`sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] ${
-        isScrolled ? '-translate-y-[60px]' : 'translate-y-0'
-      }`}
-      style={{ contain: 'layout paint' }}
-    >
+    <>
+      {/* Sentinel must be OUTSIDE sticky header to scroll with page content */}
+      <div ref={sentinelRef} aria-hidden="true" className="h-0 w-0 overflow-hidden" />
+      <header
+        className={`sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] ${
+          isScrolled ? '-translate-y-[60px]' : 'translate-y-0'
+        }`}
+        style={{ contain: 'layout paint' }}
+      >
       {/* Row 1: Logo, Phone, CTA - Slides up on scroll via transform */}
       <div
         className={`h-[60px] border-b border-gray-100 transition-[opacity,visibility] duration-200 ${
@@ -324,7 +331,8 @@ const Header: React.FC<HeaderProps> = ({
           </div>
         </div>
       </Modal>
-    </header>
+      </header>
+    </>
   );
 };
 

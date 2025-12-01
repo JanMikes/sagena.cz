@@ -78,7 +78,8 @@ async function renderComponent(
   component: PageContentComponent | PageSidebarComponent | IntranetPageContentComponent | IntranetPageSidebarComponent,
   index: number,
   locale: string = 'cs',
-  compact: boolean = false
+  compact: boolean = false,
+  inContainer: boolean = false
 ): Promise<React.ReactNode> {
   const { __component } = component;
 
@@ -221,19 +222,17 @@ async function renderComponent(
         />
       );
 
-      // Wrap with background if specified, always include container
+      // Wrap with background if specified
       if (hasBackground) {
         return (
           <div key={`${__component}-${component.id || index}-wrapper`} className={bgClass}>
-            <div className="container-custom">
-              {content}
-            </div>
+            {inContainer ? content : <div className="container-custom">{content}</div>}
           </div>
         );
       }
 
-      // No background - just container
-      return (
+      // No background - container only if not already in one
+      return inContainer ? content : (
         <div className="container-custom">
           {content}
         </div>
@@ -282,19 +281,17 @@ async function renderComponent(
         />
       );
 
-      // Wrap with background if specified, always include container
+      // Wrap with background if specified
       if (hasBackground) {
         return (
           <div key={`${__component}-${component.id || index}-wrapper`} className={bgClass}>
-            <div className="container-custom">
-              {content}
-            </div>
+            {inContainer ? content : <div className="container-custom">{content}</div>}
           </div>
         );
       }
 
-      // No background - just container
-      return (
+      // No background - container only if not already in one
+      return inContainer ? content : (
         <div className="container-custom">
           {content}
         </div>
@@ -465,19 +462,17 @@ async function renderComponent(
         />
       );
 
-      // Wrap with background if specified, always include container
+      // Wrap with background if specified
       if (hasBackground) {
         return (
           <div key={`${__component}-${component.id || index}-wrapper`} className={bgClass}>
-            <div className="container-custom">
-              {content}
-            </div>
+            {inContainer ? content : <div className="container-custom">{content}</div>}
           </div>
         );
       }
 
-      // No background - just container
-      return (
+      // No background - container only if not already in one
+      return inContainer ? content : (
         <div className="container-custom">
           {content}
         </div>
@@ -977,7 +972,7 @@ const DynamicZone: React.FC<DynamicZoneProps> = async ({
 
   // Render all components in parallel
   const renderedComponents = await Promise.all(
-    components.map((component, index) => renderComponent(component, index, locale, compact))
+    components.map((component, index) => renderComponent(component, index, locale, compact, inContainer))
   );
 
   return (
