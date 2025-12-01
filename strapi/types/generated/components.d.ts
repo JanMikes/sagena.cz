@@ -512,7 +512,7 @@ export interface ElementsLink extends Struct.ComponentSchema {
 export interface ElementsLinksSection extends Struct.ComponentSchema {
   collectionName: 'components_elements_links_sections';
   info: {
-    displayName: 'links-section';
+    displayName: 'Sloupec odkaz\u016F';
     icon: 'bulletList';
   };
   attributes: {
