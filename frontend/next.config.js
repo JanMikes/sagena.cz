@@ -1,3 +1,5 @@
+const { withSentryConfig } = require("@sentry/nextjs");
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // SSR mode (default) - no output: 'export'
@@ -8,4 +10,6 @@ const nextConfig = {
   trailingSlash: true,
 }
 
-module.exports = nextConfig
+module.exports = withSentryConfig(nextConfig, {
+  silent: !process.env.CI,
+});

@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@sentry/nextjs": "^10.31.0",
     "jose": "^6.1.2",
     "lucide-react": "^0.454.0",
     "marked": "^17.0.1",
