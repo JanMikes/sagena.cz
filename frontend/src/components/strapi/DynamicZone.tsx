@@ -110,6 +110,10 @@ async function renderComponent(
 
     case 'components.text': {
       const textComponent = component as ComponentsText;
+      // Skip if no text content
+      if (!textComponent.text) {
+        return null;
+      }
       return (
         <RichText
           key={`${__component}-${component.id || index}`}
@@ -123,8 +127,8 @@ async function renderComponent(
       return (
         <Alert
           key={`${__component}-${component.id || index}`}
-          type={alertComponent.type}
-          title={alertComponent.title}
+          type={alertComponent.type || 'info'}
+          title={alertComponent.title || ''}
           text={alertComponent.text}
         />
       );
@@ -133,17 +137,24 @@ async function renderComponent(
     case 'components.links-list': {
       const linksListComponent = component as ComponentsLinksList;
 
-      // Transform Strapi links to LinksList format
-      const links = (linksListComponent.links ?? []).map((link) => {
-        const resolved = resolveTextLink(link, locale);
-        return {
-          title: link.text,
-          url: resolved.url,
-          external: resolved.external,
-          disabled: resolved.disabled,
-          disabledReason: resolved.disabledReason,
-        };
-      });
+      // Transform Strapi links to LinksList format - filter out invalid links
+      const links = (linksListComponent.links ?? [])
+        .filter((link) => link?.text)
+        .map((link) => {
+          const resolved = link ? resolveTextLink(link, locale) : { url: '#', external: false, disabled: true };
+          return {
+            title: link?.text || '',
+            url: resolved.url,
+            external: resolved.external,
+            disabled: resolved.disabled,
+            disabledReason: resolved.disabledReason,
+          };
+        });
+
+      // Don't render if no valid links
+      if (links.length === 0) {
+        return null;
+      }
 
       return (
         <LinksList
@@ -156,11 +167,15 @@ async function renderComponent(
 
     case 'components.video': {
       const videoComponent = component as ComponentsVideo;
+      // Skip if no YouTube ID
+      if (!videoComponent.youtube_id) {
+        return null;
+      }
       return (
         <Video
           key={`${__component}-${component.id || index}`}
           youtubeId={videoComponent.youtube_id}
-          aspectRatio={videoComponent.aspect_ratio}
+          aspectRatio={videoComponent.aspect_ratio || '16:9'}
         />
       );
     }
@@ -182,7 +197,7 @@ async function renderComponent(
           const resolved = resolveTextLink(card.link, locale);
           if (!resolved.disabled) {
             link = {
-              text: card.link.text,
+              text: card.link?.text || '',
               url: resolved.url,
             };
           }
@@ -190,8 +205,8 @@ async function renderComponent(
 
         return {
           icon: iconUrl,
-          title: card.title,
-          description: card.description,
+          title: card.title || '',
+          description: card.description || '',
           link,
         };
       }));
@@ -329,7 +344,7 @@ async function renderComponent(
         }
 
         return {
-          name: doc.name,
+          name: doc.name || '',
           file: fileUrl,
           size: formattedSize,
           extension: extension,
@@ -386,9 +401,9 @@ async function renderComponent(
           : '';
 
         return {
-          name: partner.name,
+          name: partner.name || '',
           logo: logoUrl,
-          url: partner.url,
+          url: partner.url || undefined,
         };
       });
 
@@ -434,8 +449,8 @@ async function renderComponent(
         return {
           icon: iconUrl,
           number: arg.display_type === 'Number' ? (arg.number || undefined) : undefined,
-          title: arg.title,
-          description: arg.description,
+          title: arg.title || '',
+          description: arg.description || '',
         };
       }));
 
@@ -495,8 +510,8 @@ async function renderComponent(
         return {
           icon: iconUrl,
           number: item.display_type === 'Number' ? (item.number || undefined) : undefined,
-          title: item.title,
-          description: item.description,
+          title: item.title || '',
+          description: item.description || '',
         };
       }));
 
@@ -515,9 +530,9 @@ async function renderComponent(
       return (
         <SectionDivider
           key={`${__component}-${component.id || index}`}
-          spacing={sectionDividerComponent.spacing}
-          style={sectionDividerComponent.style}
-          color={sectionDividerComponent.color}
+          spacing={sectionDividerComponent.spacing || 'Medium'}
+          style={sectionDividerComponent.style || 'Solid line'}
+          color={sectionDividerComponent.color || 'Gray light'}
         />
       );
     }
@@ -549,8 +564,8 @@ async function renderComponent(
         }
 
         return {
-          title: slide.title,
-          description: slide.description,
+          title: slide.title || '',
+          description: slide.description || '',
           link,
           image: imageUrl,
           backgroundImage: backgroundImageUrl,
@@ -570,13 +585,18 @@ async function renderComponent(
     case 'components.gallery-slider': {
       const gallerySliderComponent = component as ComponentsGallerySlider;
 
-      // Transform Strapi data to component props
-      const photos = (gallerySliderComponent.photos ?? []).map((photo) => {
-        return {
+      // Transform Strapi data to component props - filter out photos with missing images
+      const photos = (gallerySliderComponent.photos ?? [])
+        .filter((photo) => photo?.image?.url)
+        .map((photo) => ({
           url: getStrapiMediaURL(photo.image.url),
-          alt: photo.image.alternativeText || photo.image.caption || undefined,
-        };
-      });
+          alt: photo.image?.alternativeText || photo.image?.caption || undefined,
+        }));
+
+      // Don't render if no valid photos
+      if (photos.length === 0) {
+        return null;
+      }
 
       return (
         <GallerySlider
@@ -597,14 +617,19 @@ async function renderComponent(
       };
       const columns = columnMap[photoGalleryComponent.columns] || 3;
 
-      // Transform Strapi data to component props
-      const photos = (photoGalleryComponent.photos ?? []).map((photo) => {
-        return {
+      // Transform Strapi data to component props - filter out photos with missing images
+      const photos = (photoGalleryComponent.photos ?? [])
+        .filter((photo) => photo?.image?.url)
+        .map((photo) => ({
           url: getStrapiMediaURL(photo.image.url),
-          alt: photo.image.alternativeText || undefined,
-          caption: photo.image.caption || undefined,
-        };
-      });
+          alt: photo.image?.alternativeText || undefined,
+          caption: photo.image?.caption || undefined,
+        }));
+
+      // Don't render if no valid photos
+      if (photos.length === 0) {
+        return null;
+      }
 
       return (
         <PhotoGallery
@@ -637,8 +662,8 @@ async function renderComponent(
           key={`${__component}-${component.id || index}`}
           title={directionsComponent.title || undefined}
           instructions={instructions}
-          description={directionsComponent.description}
-          style={directionsComponent.style}
+          description={directionsComponent.description || undefined}
+          style={directionsComponent.style || 'With numbers'}
         />
       );
     }
@@ -666,7 +691,7 @@ async function renderComponent(
         })) || [];
 
         return {
-          title: section.title,
+          title: section.title || '',
           description: section.description || null,
           contacts,
           files,
@@ -770,6 +795,12 @@ async function renderComponent(
     case 'components.doctor-profile': {
       const doctorProfileComponent = component as ComponentsDoctorProfile;
       const profile = doctorProfileComponent.profile;
+
+      // Handle missing profile data
+      if (!profile) {
+        return null;
+      }
+
       const person = profile.person?.person;
 
       // Extract photo URL from person if available
@@ -780,14 +811,14 @@ async function renderComponent(
 
       // Transform opening hours
       const openingHours = profile.openingHours?.map((hours) => ({
-        day: hours.day,
-        time: hours.time,
+        day: hours?.day || '',
+        time: hours?.time || '',
       })) || [];
 
       // Transform holiday
       const holiday = profile.holiday ? {
-        from: profile.holiday.from,
-        to: profile.holiday.to,
+        from: profile.holiday.from || '',
+        to: profile.holiday.to || '',
       } : undefined;
 
       return (
@@ -796,8 +827,8 @@ async function renderComponent(
           ambulanceTitle={profile.ambulanceTitle || undefined}
           photo={photoUrl}
           name={person?.name || ''}
-          department={profile.department}
-          positions={profile.positions?.map(p => p.title) || []}
+          department={profile.department || ''}
+          positions={profile.positions?.map(p => p?.title || '') || []}
           phone={person?.phone ?? undefined}
           email={person?.email ?? undefined}
           openingHours={openingHours}
