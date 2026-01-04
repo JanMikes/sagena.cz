@@ -34,40 +34,47 @@ interface PageProps {
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
-  const { locale, slug: slugArray } = await params;
+  try {
+    const { locale, slug: slugArray } = await params;
 
-  // Get the leaf slug (last segment) - this is the page's slug in Strapi
-  const leafSlug = slugArray[slugArray.length - 1];
+    // Get the leaf slug (last segment) - this is the page's slug in Strapi
+    const leafSlug = slugArray[slugArray.length - 1];
 
-  // Use Czech locale for static pages
-  const effectiveLocale = isStaticCzechPage(leafSlug) ? 'cs' : locale;
+    // Use Czech locale for static pages
+    const effectiveLocale = isStaticCzechPage(leafSlug) ? 'cs' : locale;
 
-  // Get hierarchy info (cached) and page content in parallel
-  const [hierarchy, page] = await Promise.all([
-    getPageHierarchy(leafSlug, effectiveLocale),
-    fetchPageBySlug(leafSlug, effectiveLocale),
-  ]);
+    // Get hierarchy info (cached) and page content in parallel
+    const [hierarchy, page] = await Promise.all([
+      getPageHierarchy(leafSlug, effectiveLocale),
+      fetchPageBySlug(leafSlug, effectiveLocale),
+    ]);
 
-  if (!page || !hierarchy) {
+    if (!page || !hierarchy) {
+      return {
+        title: 'Stránka nenalezena',
+      };
+    }
+
+    const alternateLocale = getAlternateLocale(locale as Locale);
+    const alternateSlug = page.localizations?.find(l => l.locale === alternateLocale)?.slug;
+
     return {
-      title: 'Stránka nenalezena',
+      title: `${page.title} | Sagena`,
+      description: page.meta_description || page.title,
+      alternates: {
+        canonical: `/${locale}/${hierarchy.canonicalPath}/`,
+        languages: {
+          [locale]: `/${locale}/${hierarchy.canonicalPath}/`,
+          ...(alternateSlug && { [alternateLocale]: `/${alternateLocale}/${alternateSlug}/` }),
+        },
+      },
+    };
+  } catch {
+    // Don't let metadata errors break the page
+    return {
+      title: 'Sagena',
     };
   }
-
-  const alternateLocale = getAlternateLocale(locale as Locale);
-  const alternateSlug = page.localizations?.find(l => l.locale === alternateLocale)?.slug;
-
-  return {
-    title: `${page.title} | Sagena`,
-    description: page.meta_description || page.title,
-    alternates: {
-      canonical: `/${locale}/${hierarchy.canonicalPath}/`,
-      languages: {
-        [locale]: `/${locale}/${hierarchy.canonicalPath}/`,
-        ...(alternateSlug && { [alternateLocale]: `/${alternateLocale}/${alternateSlug}/` }),
-      },
-    },
-  };
 }
 
 /**

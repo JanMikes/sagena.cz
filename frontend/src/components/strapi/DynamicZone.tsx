@@ -88,8 +88,9 @@ async function renderComponent(
   switch (__component) {
     case 'components.heading': {
       const headingComponent = component as ComponentsHeading;
-      // Extract number from "h2", "h3", etc.
-      const level = parseInt(headingComponent.type.substring(1)) as
+      // Extract number from "h2", "h3", etc. - default to h2 if type is missing
+      const typeStr = headingComponent.type || 'h2';
+      const level = (parseInt(typeStr.substring(1)) || 2) as
         | 2
         | 3
         | 4
@@ -102,7 +103,7 @@ async function renderComponent(
           level={level}
           id={headingComponent.anchor || undefined}
         >
-          {headingComponent.text}
+          {headingComponent.text || ''}
         </Heading>
       );
     }
@@ -252,17 +253,17 @@ async function renderComponent(
           ? await getIconUrlById(card.icon.icon.id)
           : null;
 
-        // Resolve link (required for full-width cards)
-        const resolved = resolveTextLink(card.link, locale);
+        // Resolve link (required for full-width cards) - handle missing link gracefully
+        const resolved = card.link ? resolveTextLink(card.link, locale) : null;
 
         return {
           icon: iconUrl,
-          title: card.title,
-          description: card.description,
-          link: {
-            text: card.link.text,
+          title: card.title || '',
+          description: card.description || '',
+          link: resolved ? {
+            text: card.link?.text || '',
             url: resolved.url,
-          },
+          } : { text: '', url: '#' },
         };
       }));
 
@@ -355,21 +356,21 @@ async function renderComponent(
     case 'components.job-posting': {
       const jobPostingComponent = component as ComponentsJobPosting;
 
-      // Resolve the CTA link
-      const resolved = resolveTextLink(jobPostingComponent.cta_link, locale);
+      // Resolve the CTA link - handle missing link gracefully
+      const resolved = jobPostingComponent.cta_link ? resolveTextLink(jobPostingComponent.cta_link, locale) : null;
 
       return (
         <JobPosting
           key={`${__component}-${component.id || index}`}
-          title={jobPostingComponent.title}
-          description={jobPostingComponent.description}
-          department={jobPostingComponent.department}
-          employment_type={jobPostingComponent.employment_type}
-          location={jobPostingComponent.location}
-          cta_link={{
-            text: jobPostingComponent.cta_link.text,
+          title={jobPostingComponent.title || ''}
+          description={jobPostingComponent.description || ''}
+          department={jobPostingComponent.department || ''}
+          employment_type={jobPostingComponent.employment_type || ''}
+          location={jobPostingComponent.location || ''}
+          cta_link={resolved ? {
+            text: jobPostingComponent.cta_link?.text || '',
             url: resolved.url,
-          }}
+          } : { text: '', url: '#' }}
         />
       );
     }
@@ -686,7 +687,7 @@ async function renderComponent(
 
       // Transform Strapi buttons to component format
       const buttons = (buttonGroupComponent.buttons ?? []).map((button) => {
-        const resolved = resolveTextLink(button.link, locale);
+        const resolved = button.link ? resolveTextLink(button.link, locale) : null;
 
         // Map Strapi variant/size values to component values
         const variantMap: Record<string, 'primary' | 'secondary' | 'outline' | 'ghost'> = {
@@ -703,10 +704,10 @@ async function renderComponent(
         };
 
         return {
-          text: button.link.text,
-          url: resolved.url,
-          external: resolved.external,
-          disabled: resolved.disabled,
+          text: button.link?.text || '',
+          url: resolved?.url || '#',
+          external: resolved?.external || false,
+          disabled: resolved?.disabled || !button.link,
           variant: variantMap[button.variant] || 'primary',
           size: sizeMap[button.size] || 'md',
         };
@@ -978,12 +979,20 @@ const DynamicZone: React.FC<DynamicZoneProps> = async ({
       try {
         return await renderComponent(component, index, locale, compact, inContainer);
       } catch (error) {
-        console.error(`Failed to render component ${component.__component}:`, error);
-        Sentry.captureException(error, { extra: { component: component.__component, index } });
+        const componentType = component?.__component || 'unknown';
+        console.error(`Failed to render component ${componentType}:`, error);
+
+        // Safely try to capture in Sentry (don't let Sentry errors break rendering)
+        try {
+          Sentry.captureException(error, { extra: { component: componentType, index } });
+        } catch {
+          // Ignore Sentry errors
+        }
+
         return (
           <ComponentError
-            key={`error-${component.__component}-${index}`}
-            componentType={component.__component}
+            key={`error-${componentType}-${index}`}
+            componentType={componentType}
             showDetails={process.env.NODE_ENV === 'development'}
           />
         );
