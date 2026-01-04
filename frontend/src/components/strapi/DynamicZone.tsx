@@ -6,7 +6,9 @@
  */
 
 import React from 'react';
+import * as Sentry from '@sentry/nextjs';
 import Heading from '@/components/typography/Heading';
+import { ComponentError } from '@/components/strapi/ComponentError';
 import RichText from '@/components/typography/RichText';
 import Alert from '@/components/interactive/Alert';
 import LinksList from '@/components/navigation/LinksList';
@@ -131,7 +133,7 @@ async function renderComponent(
       const linksListComponent = component as ComponentsLinksList;
 
       // Transform Strapi links to LinksList format
-      const links = linksListComponent.links.map((link) => {
+      const links = (linksListComponent.links ?? []).map((link) => {
         const resolved = resolveTextLink(link, locale);
         return {
           title: link.text,
@@ -166,7 +168,7 @@ async function renderComponent(
       const serviceCardsComponent = component as ComponentsServiceCards;
 
       // Transform Strapi data to ServiceCards component props
-      const cards = await Promise.all(serviceCardsComponent.cards.map(async (card) => {
+      const cards = await Promise.all((serviceCardsComponent.cards ?? []).map(async (card) => {
         // Get icon URL from cache by ID
         // Structure: card.icon (component) → icon (relation) → icon.id
         const iconUrl = card.icon?.icon?.id
@@ -243,7 +245,7 @@ async function renderComponent(
       const fullWidthCardsComponent = component as ComponentsFullWidthCards;
 
       // Transform Strapi data to FullWidthCards component props
-      const cards = await Promise.all(fullWidthCardsComponent.cards.map(async (card) => {
+      const cards = await Promise.all((fullWidthCardsComponent.cards ?? []).map(async (card) => {
         // Get icon URL from cache by ID
         // Structure: card.icon (component) → icon (relation) → icon.id
         const iconUrl = card.icon?.icon?.id
@@ -302,7 +304,7 @@ async function renderComponent(
       const documentsComponent = component as ComponentsDocuments;
 
       // Transform Strapi data to Documents component props
-      const documents = documentsComponent.documents.map((doc) => {
+      const documents = (documentsComponent.documents ?? []).map((doc) => {
         // Extract file data from Strapi media (Strapi v5 - no attributes wrapper)
         // URL is used directly thanks to Docker volume (same as images)
         const fileUrl = doc.file?.url || '#';
@@ -376,7 +378,7 @@ async function renderComponent(
       const partnerLogosComponent = component as ComponentsPartnerLogos;
 
       // Transform Strapi data to component props
-      const partners = partnerLogosComponent.partners.map((partner) => {
+      const partners = (partnerLogosComponent.partners ?? []).map((partner) => {
         // Extract logo URL from Strapi media
         const logoUrl = partner.logo?.url
           ? getStrapiMediaURL(partner.logo.url)
@@ -422,7 +424,7 @@ async function renderComponent(
       const marketingArgumentsComponent = component as ComponentsMarketingArguments;
 
       // Transform Strapi data to MarketingArguments component props
-      const args = await Promise.all(marketingArgumentsComponent.arguments.map(async (arg) => {
+      const args = await Promise.all((marketingArgumentsComponent.arguments ?? []).map(async (arg) => {
         // Get icon URL from cache by ID if display_type is Icon
         const iconUrl = arg.display_type === 'Icon' && arg.icon?.icon?.id
           ? await getIconUrlById(arg.icon.icon.id)
@@ -483,7 +485,7 @@ async function renderComponent(
       const timelineComponent = component as ComponentsTimeline;
 
       // Transform Strapi data to Timeline component props
-      const items = await Promise.all(timelineComponent.items.map(async (item) => {
+      const items = await Promise.all((timelineComponent.items ?? []).map(async (item) => {
         // Get icon URL from icon relation if display_type is Icon
         const iconUrl = item.display_type === 'Icon' && item.icon?.image?.url
           ? getStrapiMediaURL(item.icon.image.url)
@@ -523,7 +525,7 @@ async function renderComponent(
       const sliderComponent = component as ComponentsSlider;
 
       // Transform Strapi data to component props
-      const slides = sliderComponent.slides.map((slide) => {
+      const slides = (sliderComponent.slides ?? []).map((slide) => {
         // Extract image URLs from Strapi media
         const imageUrl = slide.image?.url
           ? getStrapiMediaURL(slide.image.url)
@@ -568,7 +570,7 @@ async function renderComponent(
       const gallerySliderComponent = component as ComponentsGallerySlider;
 
       // Transform Strapi data to component props
-      const photos = gallerySliderComponent.photos.map((photo) => {
+      const photos = (gallerySliderComponent.photos ?? []).map((photo) => {
         return {
           url: getStrapiMediaURL(photo.image.url),
           alt: photo.image.alternativeText || photo.image.caption || undefined,
@@ -595,7 +597,7 @@ async function renderComponent(
       const columns = columnMap[photoGalleryComponent.columns] || 3;
 
       // Transform Strapi data to component props
-      const photos = photoGalleryComponent.photos.map((photo) => {
+      const photos = (photoGalleryComponent.photos ?? []).map((photo) => {
         return {
           url: getStrapiMediaURL(photo.image.url),
           alt: photo.image.alternativeText || undefined,
@@ -616,7 +618,7 @@ async function renderComponent(
       const directionsComponent = component as ComponentsDirections;
 
       // Transform Strapi data to component props
-      const instructions = directionsComponent.instructions.map((step) => {
+      const instructions = (directionsComponent.instructions ?? []).map((step) => {
         // Extract icon URL from Strapi media relation
         const iconUrl = step.icon?.image?.url
           ? getStrapiMediaURL(step.icon.image.url)
@@ -644,7 +646,7 @@ async function renderComponent(
       const expandableSectionsComponent = component as ComponentsAccordionSections;
 
       // Transform sections array to component props
-      const sections = expandableSectionsComponent.sections.map((section: ElementsExpandableSection) => {
+      const sections = (expandableSectionsComponent.sections ?? []).map((section: ElementsExpandableSection) => {
         // Transform file attachments (using ElementsDocumentItem structure - no .attributes wrapper)
         const files = section.files?.map((file) => ({
           name: file.name,
@@ -683,7 +685,7 @@ async function renderComponent(
       const buttonGroupComponent = component as ComponentsButtonGroup;
 
       // Transform Strapi buttons to component format
-      const buttons = buttonGroupComponent.buttons.map((button) => {
+      const buttons = (buttonGroupComponent.buttons ?? []).map((button) => {
         const resolved = resolveTextLink(button.link, locale);
 
         // Map Strapi variant/size values to component values
@@ -738,7 +740,7 @@ async function renderComponent(
       const contactCardsComponent = component as ComponentsContactCards;
 
       // Transform Strapi contact cards to component format
-      const cards = contactCardsComponent.cards.map((card) => {
+      const cards = (contactCardsComponent.cards ?? []).map((card) => {
         const person = card.person?.person;
 
         // Extract photo URL from person if available
@@ -970,9 +972,23 @@ const DynamicZone: React.FC<DynamicZoneProps> = async ({
     return null;
   }
 
-  // Render all components in parallel
+  // Render all components in parallel with error isolation
   const renderedComponents = await Promise.all(
-    components.map((component, index) => renderComponent(component, index, locale, compact, inContainer))
+    components.map(async (component, index) => {
+      try {
+        return await renderComponent(component, index, locale, compact, inContainer);
+      } catch (error) {
+        console.error(`Failed to render component ${component.__component}:`, error);
+        Sentry.captureException(error, { extra: { component: component.__component, index } });
+        return (
+          <ComponentError
+            key={`error-${component.__component}-${index}`}
+            componentType={component.__component}
+            showDetails={process.env.NODE_ENV === 'development'}
+          />
+        );
+      }
+    })
   );
 
   return (

@@ -1347,7 +1347,9 @@ export async function fetchPageBySlug(
     return page;
   } catch (error) {
     console.error(`Failed to fetch page: ${slug}`, error);
-    return null;
+    // Re-throw to distinguish between "page not found" (null) and "fetch error" (throws)
+    // This allows page.tsx to show error page instead of 404 for connection issues
+    throw error;
   }
 }
 
