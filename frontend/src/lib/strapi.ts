@@ -318,6 +318,41 @@ export function clearAllCaches() {
 }
 
 /**
+ * Get cache status for debugging
+ */
+export function getCacheStatus() {
+  const now = Date.now();
+  const ttl = HIERARCHY_CACHE_TTL_MS;
+
+  const getCacheInfo = <T>(cache: Map<string, CacheEntry<T>>) => {
+    const entries: Record<string, { age: number; valid: boolean }> = {};
+    cache.forEach((entry, key) => {
+      const age = now - entry.timestamp;
+      entries[key] = {
+        age: Math.round(age / 1000),
+        valid: age < ttl,
+      };
+    });
+    return { size: cache.size, entries };
+  };
+
+  return {
+    ttlSeconds: ttl / 1000,
+    caches: {
+      pageContent: getCacheInfo(pageContentCache),
+      intranetPageContent: getCacheInfo(intranetPageContentCache),
+      navigation: getCacheInfo(navigationCache),
+      intranetMenu: getCacheInfo(intranetMenuCache),
+      pageHierarchy: getCacheInfo(pageHierarchyCache),
+      intranetPageHierarchy: getCacheInfo(intranetPageHierarchyCache),
+      footer: getCacheInfo(footerCache),
+      homepage: getCacheInfo(homepageCache),
+      icons: { hasData: iconsCache !== null },
+    },
+  };
+}
+
+/**
  * Fetch all pages with shallow parent info and build hierarchy map
  * This is more efficient than deep population on each page fetch
  */
