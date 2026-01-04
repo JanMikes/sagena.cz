@@ -663,7 +663,7 @@ async function renderComponent(
           title={directionsComponent.title || undefined}
           instructions={instructions}
           description={directionsComponent.description || undefined}
-          style={directionsComponent.style || 'With numbers'}
+          style={directionsComponent.style || 'Style 1'}
         />
       );
     }
