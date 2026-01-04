@@ -14,6 +14,7 @@
 
 import { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
+import * as Sentry from '@sentry/nextjs';
 import { fetchPageBySlug, hasSidebar, getPageHierarchy } from '@/lib/strapi';
 import DynamicZone from '@/components/strapi/DynamicZone';
 import SidePanel from '@/components/layout/SidePanel';
@@ -69,8 +70,14 @@ export async function generateMetadata({
         },
       },
     };
-  } catch {
-    // Don't let metadata errors break the page
+  } catch (error) {
+    // Log metadata errors but don't let them break the page
+    console.error('[generateMetadata] Error generating metadata:', error);
+    try {
+      Sentry.captureException(error, { extra: { context: 'generateMetadata' } });
+    } catch {
+      // Ignore Sentry errors
+    }
     return {
       title: 'Sagena',
     };
@@ -89,14 +96,32 @@ export default async function Page({ params }: PageProps) {
   // Use Czech locale for static demonstration pages
   const effectiveLocale = isStaticCzechPage(leafSlug) ? 'cs' : locale;
 
-  // Get hierarchy info (cached) and page content in parallel
-  const [hierarchy, page] = await Promise.all([
-    getPageHierarchy(leafSlug, effectiveLocale),
-    fetchPageBySlug(leafSlug, effectiveLocale),
-  ]);
+  let hierarchy;
+  let page;
 
-  // Show 404 if page not found
+  try {
+    // Get hierarchy info (cached) and page content in parallel
+    [hierarchy, page] = await Promise.all([
+      getPageHierarchy(leafSlug, effectiveLocale),
+      fetchPageBySlug(leafSlug, effectiveLocale),
+    ]);
+  } catch (error) {
+    // Log fetch errors - these should NOT result in 404
+    console.error(`[Page] Error fetching page data for slug="${leafSlug}" locale="${effectiveLocale}":`, error);
+    try {
+      Sentry.captureException(error, {
+        extra: { slug: leafSlug, locale: effectiveLocale, context: 'fetchPageData' }
+      });
+    } catch {
+      // Ignore Sentry errors
+    }
+    // Re-throw to let error.tsx handle it (NOT 404)
+    throw error;
+  }
+
+  // Show 404 only if page genuinely doesn't exist (not on errors)
   if (!page || !hierarchy) {
+    console.warn(`[Page] Page not found: slug="${leafSlug}" locale="${effectiveLocale}" page=${!!page} hierarchy=${!!hierarchy}`);
     notFound();
   }
 
