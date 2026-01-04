@@ -253,11 +253,9 @@ export function invalidateCache(model: string, slug?: string, locale?: string) {
       break;
 
     case 'navigation':
-      if (locale) {
-        navigationCache.delete(locale);
-      } else {
-        navigationCache.clear();
-      }
+      // Always clear all navigation cache entries since they use complex keys
+      // like "${locale}:navbar=${navbar}:footer=${footer}"
+      navigationCache.clear();
       break;
 
     case 'intranet-menu':
@@ -301,6 +299,22 @@ export function invalidateCache(model: string, slug?: string, locale?: string) {
       homepageCache.clear();
       iconsCache = null;
   }
+}
+
+/**
+ * Clear all caches - useful for manual invalidation or debugging
+ */
+export function clearAllCaches() {
+  console.log('[Cache] Clearing ALL caches');
+  pageContentCache.clear();
+  intranetPageContentCache.clear();
+  navigationCache.clear();
+  intranetMenuCache.clear();
+  pageHierarchyCache.clear();
+  intranetPageHierarchyCache.clear();
+  footerCache.clear();
+  homepageCache.clear();
+  iconsCache = null;
 }
 
 /**
