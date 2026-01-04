@@ -403,7 +403,7 @@ async function renderComponent(
         return {
           name: partner.name || '',
           logo: logoUrl,
-          url: partner.url || undefined,
+          url: partner.url || '',
         };
       });
 
