@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { X, ExternalLink } from 'lucide-react';
+import RichText from '@/components/typography/RichText';
 
 interface PopupModalProps {
   title?: string | null;
@@ -88,7 +89,7 @@ const PopupModal: React.FC<PopupModalProps> = ({ title, description, link }) => 
         {/* Content */}
         <div className={title ? 'p-6' : 'p-8 pt-12'}>
           {description && (
-            <p className="text-gray-600 leading-relaxed">{description}</p>
+            <RichText content={description} size="base" />
           )}
 
           {link && link.text && link.url && (

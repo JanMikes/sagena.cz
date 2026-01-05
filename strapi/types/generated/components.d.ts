@@ -287,7 +287,7 @@ export interface ComponentsPopup extends Struct.ComponentSchema {
     icon: 'bell';
   };
   attributes: {
-    description: Schema.Attribute.Text;
+    description: Schema.Attribute.RichText;
     link: Schema.Attribute.Component<'elements.text-link', false>;
     title: Schema.Attribute.String;
   };
