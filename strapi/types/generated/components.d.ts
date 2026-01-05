@@ -180,6 +180,25 @@ export interface ComponentsLinksList extends Struct.ComponentSchema {
   };
 }
 
+export interface ComponentsLocationCards extends Struct.ComponentSchema {
+  collectionName: 'components_components_location_cards';
+  info: {
+    displayName: 'Karty pobo\u010Dek';
+    icon: 'apps';
+  };
+  attributes: {
+    background: Schema.Attribute.Enumeration<
+      ['None', 'Primary light', 'Neutral light']
+    > &
+      Schema.Attribute.DefaultTo<'None'>;
+    cards: Schema.Attribute.Component<'elements.location-card', true>;
+    columns: Schema.Attribute.Enumeration<
+      ['Two columns', 'Three columns', 'Four columns']
+    > &
+      Schema.Attribute.DefaultTo<'Three columns'>;
+  };
+}
+
 export interface ComponentsMarketingArguments extends Struct.ComponentSchema {
   collectionName: 'components_components_marketing_arguments';
   info: {
@@ -510,6 +529,24 @@ export interface ElementsLinksSection extends Struct.ComponentSchema {
   };
 }
 
+export interface ElementsLocationCard extends Struct.ComponentSchema {
+  collectionName: 'components_elements_location_cards';
+  info: {
+    displayName: 'Karta pobocky';
+    icon: 'pinMap';
+  };
+  attributes: {
+    address: Schema.Attribute.Text;
+    description: Schema.Attribute.Text;
+    email: Schema.Attribute.String;
+    link: Schema.Attribute.Component<'elements.text-link', false>;
+    map_link: Schema.Attribute.String;
+    phone: Schema.Attribute.String;
+    photo: Schema.Attribute.Media<'images'>;
+    title: Schema.Attribute.String;
+  };
+}
+
 export interface ElementsMarketingArgument extends Struct.ComponentSchema {
   collectionName: 'components_elements_marketing_arguments';
   info: {
@@ -661,6 +698,7 @@ declare module '@strapi/strapi' {
       'components.intranet-news-articles': ComponentsIntranetNewsArticles;
       'components.job-posting': ComponentsJobPosting;
       'components.links-list': ComponentsLinksList;
+      'components.location-cards': ComponentsLocationCards;
       'components.marketing-arguments': ComponentsMarketingArguments;
       'components.news-articles': ComponentsNewsArticles;
       'components.partner-logos': ComponentsPartnerLogos;
@@ -682,6 +720,7 @@ declare module '@strapi/strapi' {
       'elements.icon': ElementsIcon;
       'elements.link': ElementsLink;
       'elements.links-section': ElementsLinksSection;
+      'elements.location-card': ElementsLocationCard;
       'elements.marketing-argument': ElementsMarketingArgument;
       'elements.opening-hours': ElementsOpeningHours;
       'elements.partner-logo': ElementsPartnerLogo;

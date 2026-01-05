@@ -725,6 +725,7 @@ export interface ApiIntranetPageIntranetPage
         'components.button-group',
         'components.alert',
         'components.accordion-sections',
+        'components.location-cards',
       ]
     > &
       Schema.Attribute.Required &
@@ -973,6 +974,7 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
         'components.doctor-profile',
         'components.news-articles',
         'components.accordion-sections',
+        'components.location-cards',
       ]
     > &
       Schema.Attribute.Required &

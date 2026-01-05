@@ -1,0 +1,26 @@
+{
+  "collectionName": "components_components_location_cards",
+  "info": {
+    "displayName": "Karty poboček",
+    "icon": "apps"
+  },
+  "options": {},
+  "attributes": {
+    "cards": {
+      "type": "component",
+      "component": "elements.location-card",
+      "repeatable": true
+    },
+    "columns": {
+      "type": "enumeration",
+      "default": "Three columns",
+      "enum": ["Two columns", "Three columns", "Four columns"]
+    },
+    "background": {
+      "type": "enumeration",
+      "default": "None",
+      "enum": ["None", "Primary light", "Neutral light"]
+    }
+  },
+  "config": {}
+}

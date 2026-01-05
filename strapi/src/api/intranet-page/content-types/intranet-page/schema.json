@@ -76,7 +76,8 @@
         "components.contact-cards",
         "components.button-group",
         "components.alert",
-        "components.accordion-sections"
+        "components.accordion-sections",
+        "components.location-cards"
       ],
       "required": true
     },

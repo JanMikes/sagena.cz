@@ -30,6 +30,7 @@ import ContactCard from '@/components/people/ContactCard';
 import Directions from '@/components/layout/Directions';
 import SectionDivider from '@/components/layout/SectionDivider';
 import ButtonGroup from '@/components/layout/ButtonGroup';
+import LocationCards from '@/components/content/LocationCards';
 import Badge from '@/components/ui/Badge';
 import Card from '@/components/ui/Card';
 import PartnerLogos from '@/components/content/PartnerLogos';
@@ -314,6 +315,44 @@ Centrum Zdraví Sagena poskytuje **komplexní zdravotní péči** již více ne�
       <Heading level={2}>Kontaktní karty</Heading>
       <ContactCard name="Jan Novák" email="novak@sagena.cz" phone="+420 553 030 800" />
       <ContactCard name="Marie Svobodová" email="svobodova@sagena.cz" phone="+420 553 030 801" />
+
+      <SectionDivider />
+
+      <Heading level={2}>Karty poboček</Heading>
+      <LocationCards
+        columns={3}
+        cards={[
+          {
+            title: 'Pobočka Frýdek-Místek',
+            photo: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=400',
+            photoAlt: 'Budova pobočky Frýdek-Místek',
+            address: 'Palackého 123\n738 01 Frýdek-Místek',
+            phone: '+420 553 030 800',
+            email: 'fm@sagena.cz',
+            description: 'Hlavní pobočka s kompletním vybavením pro kardiologii a neurologii.',
+            link: { text: 'Více informací', url: '#', external: false },
+            mapLink: 'https://maps.google.com',
+          },
+          {
+            title: 'Pobočka Ostrava',
+            photo: 'https://images.unsplash.com/photo-1538108149393-fbbd81895907?w=400',
+            photoAlt: 'Budova pobočky Ostrava',
+            address: 'Hlavní třída 456\n702 00 Ostrava',
+            phone: '+420 596 123 456',
+            email: 'ostrava@sagena.cz',
+            description: 'Moderní pracoviště s ambulancemi a rehabilitačním centrem.',
+            link: { text: 'Více informací', url: '#', external: false },
+            mapLink: 'https://maps.google.com',
+          },
+          {
+            title: 'Pobočka Havířov',
+            address: 'Nádražní 789\n736 01 Havířov',
+            phone: '+420 596 789 012',
+            email: 'havirov@sagena.cz',
+            description: 'Specializované pracoviště pro ortopedii.',
+          },
+        ]}
+      />
 
       <SectionDivider />
 

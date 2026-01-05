@@ -1178,6 +1178,20 @@ export async function fetchPageBySlug(
                 },
               },
             },
+            'components.location-cards': {
+              populate: {
+                cards: {
+                  populate: {
+                    photo: {
+                      fields: ['url', 'alternativeText', 'width', 'height'],
+                    },
+                    link: {
+                      populate: ['page', 'file'],
+                    },
+                  },
+                },
+              },
+            },
           },
         },
         sidebar: {
@@ -1933,6 +1947,20 @@ export async function fetchIntranetPageBySlug(
                 tags: true,
                 show_all_link: {
                   populate: ['page', 'file'],
+                },
+              },
+            },
+            'components.location-cards': {
+              populate: {
+                cards: {
+                  populate: {
+                    photo: {
+                      fields: ['url', 'alternativeText', 'width', 'height'],
+                    },
+                    link: {
+                      populate: ['page', 'file'],
+                    },
+                  },
                 },
               },
             },

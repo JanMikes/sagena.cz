@@ -1,0 +1,39 @@
+{
+  "collectionName": "components_elements_location_cards",
+  "info": {
+    "displayName": "Karta pobocky",
+    "icon": "pinMap"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "photo": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    },
+    "address": {
+      "type": "text"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text"
+    },
+    "link": {
+      "type": "component",
+      "component": "elements.text-link",
+      "repeatable": false
+    },
+    "map_link": {
+      "type": "string"
+    }
+  },
+  "config": {}
+}

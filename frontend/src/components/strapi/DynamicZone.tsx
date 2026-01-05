@@ -30,6 +30,7 @@ import ButtonGroup from '@/components/layout/ButtonGroup';
 import ContactCards from '@/components/people/ContactCards';
 import DoctorProfile from '@/components/people/DoctorProfile';
 import NewsArticles from '@/components/content/NewsArticles';
+import LocationCards from '@/components/content/LocationCards';
 import { getStrapiMediaURL, getIconUrlById, fetchNewsArticles, fetchIntranetNewsArticles, resolveTextLink } from '@/lib/strapi';
 import {
   PageContentComponent,
@@ -60,6 +61,7 @@ import {
   ComponentsDoctorProfile,
   ComponentsNewsArticles,
   ComponentsIntranetNewsArticles,
+  ComponentsLocationCards,
   ElementsTextLink,
   StrapiMedia,
 } from '@/types/strapi';
@@ -965,6 +967,86 @@ async function renderComponent(
       );
     }
 
+    case 'components.location-cards': {
+      const locationCardsComponent = component as ComponentsLocationCards;
+
+      // Transform Strapi data to LocationCards component props
+      const cards = (locationCardsComponent.cards ?? []).map((card) => {
+        // Extract photo URL from Strapi media
+        const photoUrl = card.photo?.url
+          ? getStrapiMediaURL(card.photo.url)
+          : null;
+
+        // Resolve link if provided
+        let link: { text: string; url: string; external: boolean } | undefined;
+        if (card.link) {
+          const resolved = resolveTextLink(card.link, locale);
+          if (!resolved.disabled) {
+            link = {
+              text: card.link.text || '',
+              url: resolved.url,
+              external: resolved.external,
+            };
+          }
+        }
+
+        return {
+          title: card.title || undefined,
+          photo: photoUrl,
+          photoAlt: card.photo?.alternativeText || card.title || undefined,
+          address: card.address || undefined,
+          phone: card.phone || undefined,
+          email: card.email || undefined,
+          description: card.description || undefined,
+          link,
+          mapLink: card.map_link || undefined,
+        };
+      });
+
+      // Convert column enum to number
+      const columnMap: Record<string, 2 | 3 | 4> = {
+        'Two columns': 2,
+        'Three columns': 3,
+        'Four columns': 4,
+      };
+      const columnsKey = locationCardsComponent.columns ?? 'Three columns';
+      const columns = columnMap[columnsKey] || 3;
+
+      // Background wrapper classes
+      const background = locationCardsComponent.background ?? 'None';
+      const hasBackground = background !== 'None';
+      const backgroundClasses: Record<string, string> = {
+        'None': '',
+        'Primary light': 'bg-primary-50 py-16',
+        'Neutral light': 'bg-neutral-50 py-16',
+      };
+      const bgClass = backgroundClasses[background] || '';
+
+      const content = (
+        <LocationCards
+          key={`${__component}-${component.id || index}`}
+          cards={cards}
+          columns={columns}
+        />
+      );
+
+      // Wrap with background if specified
+      if (hasBackground) {
+        return (
+          <div key={`${__component}-${component.id || index}-wrapper`} className={bgClass}>
+            {inContainer ? content : <div className="container-custom">{content}</div>}
+          </div>
+        );
+      }
+
+      // No background - container only if not already in one
+      return inContainer ? content : (
+        <div className="container-custom">
+          {content}
+        </div>
+      );
+    }
+
     default:
       // Log unknown component types for debugging
       console.warn(`Unknown component type: ${__component}`);
@@ -989,6 +1071,7 @@ const BACKGROUND_COMPONENTS = new Set([
   'components.service-cards',
   'components.full-width-cards',
   'components.marketing-arguments',
+  'components.location-cards',
 ]);
 
 /**
