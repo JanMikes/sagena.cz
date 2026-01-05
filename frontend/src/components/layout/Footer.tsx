@@ -5,7 +5,7 @@ import { Mail, Phone, MapPin, Facebook, Instagram, Linkedin } from 'lucide-react
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import { resolveTextLink, getStrapiMediaURL } from '@/lib/strapi';
-import type { Footer as FooterType, NavigationItem } from '@/types/strapi';
+import type { Footer as FooterType, NavigationItem, ElementsTextLink } from '@/types/strapi';
 
 interface FooterProps {
   data: FooterType | null;
@@ -149,36 +149,78 @@ const Footer: React.FC<FooterProps> = ({ data, locale = 'cs', footerNavigation =
             </div>
           </div>
 
-          {/* Footer Navigation - Takes remaining 8 columns */}
-          {footerNavigation.length > 0 && (
-            <div className="lg:col-span-8">
-              <nav>
-                <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-x-8 gap-y-3">
-                  {footerNavigation.map((item, index) => (
-                    <li key={index}>
-                      {item.target === '_blank' ? (
-                        <a
-                          href={item.href}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-gray-400 hover:text-white transition-colors"
-                        >
-                          {item.name}
-                        </a>
-                      ) : (
-                        <Link
-                          href={item.href}
-                          className="text-gray-400 hover:text-white transition-colors"
-                        >
-                          {item.name}
-                        </Link>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              </nav>
+          {/* Footer Links - Takes remaining 8 columns */}
+          {(data?.links && data.links.length > 0) || footerNavigation.length > 0 ? (
+            <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+              {/* Links from footer single collection (grouped sections) */}
+              {data?.links?.map((section, sectionIndex) => (
+                <div key={section.id || sectionIndex}>
+                  {section.heading && (
+                    <h4 className="text-white font-semibold mb-4">{section.heading}</h4>
+                  )}
+                  {section.links && section.links.length > 0 && (
+                    <ul className="space-y-2">
+                      {section.links.map((link, linkIndex) => {
+                        const resolved = resolveTextLink(link, locale);
+                        if (resolved.disabled) return null;
+                        return (
+                          <li key={link.id || linkIndex}>
+                            {resolved.external ? (
+                              <a
+                                href={resolved.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-gray-400 hover:text-white transition-colors"
+                              >
+                                {link.text}
+                              </a>
+                            ) : (
+                              <Link
+                                href={resolved.url}
+                                className="text-gray-400 hover:text-white transition-colors"
+                              >
+                                {link.text}
+                              </Link>
+                            )}
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  )}
+                </div>
+              ))}
+
+              {/* Navigation items where footer=true */}
+              {footerNavigation.length > 0 && (
+                <div>
+                  <h4 className="text-white font-semibold mb-4">Navigace</h4>
+                  <ul className="space-y-2">
+                    {footerNavigation.map((item, index) => (
+                      <li key={index}>
+                        {item.target === '_blank' ? (
+                          <a
+                            href={item.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-gray-400 hover:text-white transition-colors"
+                          >
+                            {item.name}
+                          </a>
+                        ) : (
+                          <Link
+                            href={item.href}
+                            className="text-gray-400 hover:text-white transition-colors"
+                          >
+                            {item.name}
+                          </Link>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
-          )}
+          ) : null}
         </div>
 
         {/* Insurance Logos */}
