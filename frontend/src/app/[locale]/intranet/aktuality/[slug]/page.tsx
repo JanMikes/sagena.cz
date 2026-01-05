@@ -66,8 +66,8 @@ export async function generateMetadata({
     };
   }
 
-  const imageUrl = article.image?.attributes?.url
-    ? getStrapiMediaURL(article.image.attributes.url)
+  const imageUrl = article.image?.url
+    ? getStrapiMediaURL(article.image.url)
     : undefined;
 
   return {
@@ -134,10 +134,10 @@ export default async function IntranetNewsArticlePage({ params }: IntranetNewsAr
   // For intranet news articles, redirect to the alternate locale's news listing
   const alternateLocaleUrl = `/${alternateLocale}/intranet/aktuality/`;
 
-  const imageUrl = article.image?.attributes?.url
-    ? getStrapiMediaURL(article.image.attributes.url)
+  const imageUrl = article.image?.url
+    ? getStrapiMediaURL(article.image.url)
     : undefined;
-  const imageAlt = article.image?.attributes?.alternativeText || article.title;
+  const imageAlt = article.image?.alternativeText || article.title;
 
   return (
     <div className="min-h-screen bg-gray-50">

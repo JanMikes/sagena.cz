@@ -58,10 +58,10 @@ export default async function NewsListingPage({ params }: NewsListingPageProps) 
     title: article.title,
     date: article.date || new Date().toISOString(),
     text: article.text || '',
-    image: article.image?.attributes?.url
-      ? getStrapiMediaURL(article.image.attributes.url)
+    image: article.image?.url
+      ? getStrapiMediaURL(article.image.url)
       : undefined,
-    imageAlt: article.image?.attributes?.alternativeText || article.title,
+    imageAlt: article.image?.alternativeText || article.title,
     tags: article.tags?.map((tag) => ({
       name: tag.name,
       slug: tag.slug,

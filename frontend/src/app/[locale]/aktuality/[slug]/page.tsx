@@ -37,8 +37,8 @@ export async function generateMetadata({
     };
   }
 
-  const imageUrl = article.image?.attributes?.url
-    ? getStrapiMediaURL(article.image.attributes.url)
+  const imageUrl = article.image?.url
+    ? getStrapiMediaURL(article.image.url)
     : undefined;
 
   return {
@@ -69,11 +69,11 @@ export default async function NewsArticlePage({ params }: NewsArticlePageProps) 
   // For news articles, redirect to the alternate locale's news listing (since articles may not have translations)
   const alternateLocaleUrl = `/${alternateLocale}/aktuality/`;
 
-  const imageUrl = article.image?.attributes?.url
-    ? getStrapiMediaURL(article.image.attributes.url)
+  const imageUrl = article.image?.url
+    ? getStrapiMediaURL(article.image.url)
     : undefined;
 
-  const imageAlt = article.image?.attributes?.alternativeText || article.title;
+  const imageAlt = article.image?.alternativeText || article.title;
 
   const backText = locale === 'en' ? 'Back to news' : 'Zpět na aktuality';
 
