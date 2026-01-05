@@ -179,38 +179,47 @@ export default async function Page({ params }: PageProps) {
         </div>
       </div>
 
-      {/* Page Content Layout */}
-      {showSidebar ? (
-        /* Two-column layout with sidebar - needs container around grid */
-        <div className="container-custom py-12">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Main Content */}
-            <div className="lg:col-span-2 space-y-8">
-              {/* Breadcrumb Navigation */}
+      {/* Page Content Layout with gradient background */}
+      <div
+        style={{
+          background: `
+            linear-gradient(to bottom, transparent, #FFF 100vh),
+            linear-gradient(to right, #E7EFF7, #F8F2FD)
+          `,
+        }}
+      >
+        {showSidebar ? (
+          /* Two-column layout with sidebar - needs container around grid */
+          <div className="container-custom py-12">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              {/* Main Content */}
+              <div className="lg:col-span-2 space-y-8">
+                {/* Breadcrumb Navigation */}
+                <Breadcrumb items={breadcrumbItems} />
+
+                <DynamicZone components={page.content} locale={locale} inContainer />
+              </div>
+
+              {/* Sidebar */}
+              <div className="lg:col-span-1">
+                <SidePanel>
+                  <DynamicZone components={page.sidebar || []} locale={locale} compact inContainer />
+                </SidePanel>
+              </div>
+            </div>
+          </div>
+        ) : (
+          /* Full-width layout - DynamicZone handles its own containers */
+          <div className="py-12">
+            {/* Breadcrumb needs its own container */}
+            <div className="container-custom mb-8">
               <Breadcrumb items={breadcrumbItems} />
-
-              <DynamicZone components={page.content} locale={locale} inContainer />
             </div>
 
-            {/* Sidebar */}
-            <div className="lg:col-span-1">
-              <SidePanel>
-                <DynamicZone components={page.sidebar || []} locale={locale} compact inContainer />
-              </SidePanel>
-            </div>
+            <DynamicZone components={page.content} locale={locale} />
           </div>
-        </div>
-      ) : (
-        /* Full-width layout - DynamicZone handles its own containers */
-        <div className="py-12">
-          {/* Breadcrumb needs its own container */}
-          <div className="container-custom mb-8">
-            <Breadcrumb items={breadcrumbItems} />
-          </div>
-
-          <DynamicZone components={page.content} locale={locale} />
-        </div>
-      )}
+        )}
+      </div>
     </>
   );
 }
