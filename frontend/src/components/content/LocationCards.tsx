@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { MapPin, Phone, Mail, ArrowRight, Map } from 'lucide-react';
+import { MapPin, Phone, Mail, ArrowRight, Map, Clock } from 'lucide-react';
 
 interface LocationCardData {
   title?: string;
@@ -17,6 +17,7 @@ interface LocationCardData {
     external: boolean;
   };
   mapLink?: string;
+  openingHours?: { day: string; time: string }[];
 }
 
 interface LocationCardsProps {
@@ -99,6 +100,33 @@ const LocationCards: React.FC<LocationCardsProps> = ({
                   <Mail className="w-5 h-5 flex-shrink-0 text-primary-600" />
                   <span className="text-sm">{card.email}</span>
                 </a>
+              )}
+
+              {/* Opening Hours */}
+              {card.openingHours && card.openingHours.length > 0 && (
+                <div className="flex items-start space-x-3 text-gray-600 pt-2">
+                  <Clock className="w-5 h-5 flex-shrink-0 text-primary-600 mt-0.5" />
+                  <div className="text-sm space-y-1 flex-1">
+                    {Object.entries(
+                      card.openingHours.reduce<Record<string, string[]>>((acc, hours) => {
+                        if (!acc[hours.day]) {
+                          acc[hours.day] = [];
+                        }
+                        acc[hours.day].push(hours.time);
+                        return acc;
+                      }, {})
+                    ).map(([day, times]) => (
+                      <div key={day} className="flex justify-between">
+                        <span className="font-medium">{day}</span>
+                        <div className="text-right">
+                          {times.map((time, index) => (
+                            <div key={index}>{time}</div>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               )}
             </div>
 

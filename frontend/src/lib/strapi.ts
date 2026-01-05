@@ -1195,6 +1195,7 @@ export async function fetchPageBySlug(
                     link: {
                       populate: ['page', 'file'],
                     },
+                    opening_hours: true,
                   },
                 },
               },
@@ -1974,6 +1975,7 @@ export async function fetchIntranetPageBySlug(
                     link: {
                       populate: ['page', 'file'],
                     },
+                    opening_hours: true,
                   },
                 },
               },

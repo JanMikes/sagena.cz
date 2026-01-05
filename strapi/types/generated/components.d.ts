@@ -554,6 +554,7 @@ export interface ElementsLocationCard extends Struct.ComponentSchema {
     email: Schema.Attribute.String;
     link: Schema.Attribute.Component<'elements.text-link', false>;
     map_link: Schema.Attribute.String;
+    opening_hours: Schema.Attribute.Component<'elements.opening-hours', true>;
     phone: Schema.Attribute.String;
     photo: Schema.Attribute.Media<'images'>;
     title: Schema.Attribute.String;

@@ -1033,6 +1033,10 @@ async function renderComponent(
           description: card.description || undefined,
           link,
           mapLink: card.map_link || undefined,
+          openingHours: card.opening_hours?.map((hours) => ({
+            day: hours?.day || '',
+            time: hours?.time || '',
+          })) || undefined,
         };
       });
 

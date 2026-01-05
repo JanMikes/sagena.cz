@@ -33,6 +33,11 @@
     },
     "map_link": {
       "type": "string"
+    },
+    "opening_hours": {
+      "type": "component",
+      "component": "elements.opening-hours",
+      "repeatable": true
     }
   },
   "config": {}

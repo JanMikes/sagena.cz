@@ -761,6 +761,7 @@ export interface ElementsLocationCard {
   description?: string | null;
   link?: ElementsTextLink | null;
   map_link?: string | null;
+  opening_hours?: ElementsOpeningHours[] | null;
 }
 
 /**
