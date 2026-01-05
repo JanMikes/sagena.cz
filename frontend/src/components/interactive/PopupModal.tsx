@@ -13,10 +13,29 @@ interface PopupModalProps {
     url: string;
     external?: boolean;
   } | null;
+  rememberDismissal?: boolean;
+  popupId?: number;
 }
 
-const PopupModal: React.FC<PopupModalProps> = ({ title, description, link }) => {
-  const [isOpen, setIsOpen] = useState(true);
+const PopupModal: React.FC<PopupModalProps> = ({
+  title,
+  description,
+  link,
+  rememberDismissal,
+  popupId,
+}) => {
+  // Generate storage key using globally unique Strapi component ID
+  const storageKey = popupId ? `popup-dismissed-${popupId}` : null;
+
+  // Check if popup was previously dismissed (only if rememberDismissal is enabled)
+  const getInitialState = () => {
+    if (rememberDismissal && storageKey && typeof window !== 'undefined') {
+      return localStorage.getItem(storageKey) !== 'true';
+    }
+    return true;
+  };
+
+  const [isOpen, setIsOpen] = useState(getInitialState);
 
   // Check if there's any content to show
   const hasContent = !!(title || description || link);
@@ -40,6 +59,10 @@ const PopupModal: React.FC<PopupModalProps> = ({ title, description, link }) => 
   if (!isOpen) return null;
 
   const handleClose = () => {
+    // Save dismissal to localStorage if rememberDismissal is enabled
+    if (rememberDismissal && storageKey) {
+      localStorage.setItem(storageKey, 'true');
+    }
     setIsOpen(false);
   };
 

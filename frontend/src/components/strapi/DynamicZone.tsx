@@ -165,6 +165,8 @@ async function renderComponent(
           title={popupComponent.title ?? undefined}
           description={popupComponent.description ?? undefined}
           link={resolvedLink}
+          rememberDismissal={popupComponent.rememberDismissal ?? false}
+          popupId={popupComponent.id}
         />
       );
     }

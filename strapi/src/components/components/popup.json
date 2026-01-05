@@ -16,6 +16,10 @@
       "type": "component",
       "component": "elements.text-link",
       "repeatable": false
+    },
+    "rememberDismissal": {
+      "type": "boolean",
+      "default": false
     }
   },
   "config": {}

@@ -218,6 +218,7 @@ export interface ComponentsPopup {
   title?: string | null;
   description?: string | null;
   link?: ElementsTextLink | null;
+  rememberDismissal?: boolean | null;
 }
 
 /**

@@ -289,6 +289,8 @@ export interface ComponentsPopup extends Struct.ComponentSchema {
   attributes: {
     description: Schema.Attribute.RichText;
     link: Schema.Attribute.Component<'elements.text-link', false>;
+    rememberDismissal: Schema.Attribute.Boolean &
+      Schema.Attribute.DefaultTo<false>;
     title: Schema.Attribute.String;
   };
 }
