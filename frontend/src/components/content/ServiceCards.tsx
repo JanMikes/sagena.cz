@@ -36,8 +36,8 @@ const ServiceCards: React.FC<ServiceCardsProps> = ({
   const isCentered = textAlign === 'Center aligned';
   const textAlignClass = isCentered ? 'text-center' : '';
   const iconContainerClass = isCentered
-    ? 'flex items-center justify-center w-14 h-14 bg-primary-100 rounded-xl mb-4 mx-auto'
-    : 'flex items-center justify-center w-14 h-14 bg-primary-100 rounded-xl mb-4';
+    ? 'flex items-center justify-center w-14 h-14 mb-4 mx-auto'
+    : 'flex items-center justify-center w-14 h-14 mb-4';
 
   return (
     <div className={`grid grid-cols-1 ${gridCols[columns]} gap-6`}>
@@ -52,9 +52,9 @@ const ServiceCards: React.FC<ServiceCardsProps> = ({
                 <Image
                   src={card.icon}
                   alt=""
-                  width={28}
-                  height={28}
-                  className="w-7 h-7 object-contain"
+                  width={56}
+                  height={56}
+                  className="w-14 h-14 object-contain"
                 />
               </div>
             )}
