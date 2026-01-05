@@ -633,11 +633,10 @@ export function resolveLink(
   }
 
   // File download
-  // Strapi returns file relation directly (not wrapped in .data)
+  // Strapi v5 returns file relation directly (no .data or .attributes wrapper)
   if (link.file) {
-    const fileUrl = link.file.attributes.url;
     return {
-      href: getStrapiURL(fileUrl),
+      href: getStrapiURL(link.file.url),
       target: '_blank',
       download: true,
     };
@@ -693,10 +692,10 @@ export function resolveTextLink(link: ElementsTextLink, locale: string = 'cs'): 
   }
 
   // Priority 3: File
+  // Strapi v5 returns file relation directly (no .data or .attributes wrapper)
   if (link.file) {
-    const fileData = link.file as StrapiMedia;
     return {
-      url: fileData.attributes.url,
+      url: link.file.url,
       external: false,
       disabled: false,
     };
