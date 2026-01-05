@@ -81,10 +81,10 @@ const Slider: React.FC<SliderProps> = ({
           <div className="container-custom px-16 md:px-20 lg:px-24">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
               <div className="text-white">
-                <h2 className="text-4xl md:text-5xl font-bold mb-4 leading-tight">
+                <h2 className="text-3xl md:text-4xl font-bold mb-4 leading-tight">
                   {slide.title}
                 </h2>
-                <p className="text-xl text-primary-100 mb-6 leading-relaxed">
+                <p className="text-lg text-primary-100 mb-6 leading-relaxed">
                   {slide.description}
                 </p>
                 {slide.link && !slide.link.disabled && (
