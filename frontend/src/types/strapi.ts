@@ -712,6 +712,8 @@ export interface ElementsSlide {
     width?: number;
     height?: number;
   } | null;
+  image_position?: 'left' | 'right' | null;
+  text_position?: 'top' | 'middle' | 'bottom' | null;
 }
 
 /**

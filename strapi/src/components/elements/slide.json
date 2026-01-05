@@ -29,6 +29,16 @@
       "multiple": false,
       "required": false,
       "allowedTypes": ["images"]
+    },
+    "image_position": {
+      "type": "enumeration",
+      "enum": ["left", "right"],
+      "default": "right"
+    },
+    "text_position": {
+      "type": "enumeration",
+      "enum": ["top", "middle", "bottom"],
+      "default": "middle"
     }
   },
   "config": {}

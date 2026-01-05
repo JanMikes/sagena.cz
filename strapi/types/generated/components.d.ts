@@ -661,7 +661,11 @@ export interface ElementsSlide extends Struct.ComponentSchema {
     background_image: Schema.Attribute.Media<'images'>;
     description: Schema.Attribute.Text;
     image: Schema.Attribute.Media<'images'>;
+    image_position: Schema.Attribute.Enumeration<['left', 'right']> &
+      Schema.Attribute.DefaultTo<'right'>;
     link: Schema.Attribute.Component<'elements.text-link', false>;
+    text_position: Schema.Attribute.Enumeration<['top', 'middle', 'bottom']> &
+      Schema.Attribute.DefaultTo<'middle'>;
     title: Schema.Attribute.String;
   };
 }

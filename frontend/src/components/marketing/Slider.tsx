@@ -18,6 +18,8 @@ interface Slide {
   } | null;
   image?: string | null;
   backgroundImage?: string | null;
+  imagePosition?: 'left' | 'right';
+  textPosition?: 'top' | 'middle' | 'bottom';
 }
 
 interface SliderProps {
@@ -79,28 +81,34 @@ const Slider: React.FC<SliderProps> = ({
         {/* Content */}
         <div className="relative h-full flex items-center">
           <div className="container-custom px-16 md:px-20 lg:px-24">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-              <div className="text-white">
-                <h2 className="text-3xl md:text-4xl font-bold mb-4 leading-tight">
-                  {slide.title}
-                </h2>
-                <p className="text-lg text-primary-100 mb-6 leading-relaxed">
-                  {slide.description}
-                </p>
-                {slide.link && !slide.link.disabled && (
-                  <Link
-                    href={slide.link.url}
-                    target={slide.link.external ? '_blank' : undefined}
-                    rel={slide.link.external ? 'noopener noreferrer' : undefined}
-                    className="inline-flex items-center space-x-2 bg-white text-primary-600 px-6 py-3 rounded-lg font-semibold hover:bg-primary-50 transition-colors group"
-                  >
-                    <span>{slide.link.text}</span>
-                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                  </Link>
-                )}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center h-full">
+              <div className={`text-white flex flex-col ${
+                slide.textPosition === 'top' ? 'justify-start' :
+                slide.textPosition === 'bottom' ? 'justify-end' :
+                'justify-center'
+              } h-full py-8 ${slide.imagePosition === 'left' ? 'lg:order-2' : 'lg:order-1'}`}>
+                <div>
+                  <h2 className="text-3xl md:text-4xl font-bold mb-4 leading-tight">
+                    {slide.title}
+                  </h2>
+                  <p className="text-lg text-primary-100 mb-6 leading-relaxed">
+                    {slide.description}
+                  </p>
+                  {slide.link && !slide.link.disabled && (
+                    <Link
+                      href={slide.link.url}
+                      target={slide.link.external ? '_blank' : undefined}
+                      rel={slide.link.external ? 'noopener noreferrer' : undefined}
+                      className="inline-flex items-center space-x-2 bg-white text-primary-600 px-6 py-3 rounded-lg font-semibold hover:bg-primary-50 transition-colors group"
+                    >
+                      <span>{slide.link.text}</span>
+                      <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                    </Link>
+                  )}
+                </div>
               </div>
               {slide.image && (
-                <div className="hidden lg:block">
+                <div className={`hidden lg:block ${slide.imagePosition === 'left' ? 'lg:order-1' : 'lg:order-2'}`}>
                   <img
                     src={slide.image}
                     alt={slide.title}

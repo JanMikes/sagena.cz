@@ -611,6 +611,8 @@ async function renderComponent(
           link,
           image: imageUrl,
           backgroundImage: backgroundImageUrl,
+          imagePosition: slide.image_position || 'right',
+          textPosition: slide.text_position || 'middle',
         };
       });
 
