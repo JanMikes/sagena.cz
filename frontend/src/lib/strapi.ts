@@ -907,6 +907,11 @@ export async function fetchPageBySlug(
     // This allows us to deeply populate relations within each component type
     const response = await fetchAPI<StrapiCollectionResponse<Page>>('/pages', {
       locale,
+      filters: {
+        slug: {
+          $eq: slug,
+        },
+      },
       populate: {
         content: {
           on: {
@@ -1329,17 +1334,12 @@ export async function fetchPageBySlug(
       },
     });
 
+    // With slug filter, we expect at most one result
     if (!response.data || response.data.length === 0) {
       return null;
     }
 
-    // Filter by slug client-side
-    // Strapi returns data directly, not wrapped in attributes
-    const page = response.data.find(p => p.slug === slug);
-
-    if (!page) {
-      return null;
-    }
+    const page = response.data[0];
 
     // Cache the result
     pageContentCache.set(cacheKey, { data: page, timestamp: Date.now() });
