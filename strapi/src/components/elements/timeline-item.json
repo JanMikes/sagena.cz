@@ -8,11 +8,11 @@
   "attributes": {
     "display_type": {
       "type": "enumeration",
-      "required": true,
       "enum": [
         "Icon",
         "Number"
-      ]
+      ],
+      "default": "Number"
     },
     "icon": {
       "type": "relation",
@@ -23,12 +23,10 @@
       "type": "string"
     },
     "title": {
-      "type": "string",
-      "required": true
+      "type": "string"
     },
     "description": {
-      "type": "text",
-      "required": true
+      "type": "text"
     }
   },
   "config": {}

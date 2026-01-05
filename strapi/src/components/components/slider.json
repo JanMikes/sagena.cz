@@ -9,8 +9,7 @@
     "slides": {
       "type": "component",
       "component": "elements.slide",
-      "repeatable": true,
-      "required": true
+      "repeatable": true
     },
     "autoplay": {
       "type": "boolean",

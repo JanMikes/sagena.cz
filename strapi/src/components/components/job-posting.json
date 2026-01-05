@@ -7,30 +7,24 @@
   "options": {},
   "attributes": {
     "title": {
-      "type": "string",
-      "required": true
+      "type": "string"
     },
     "description": {
-      "type": "text",
-      "required": true
+      "type": "text"
     },
     "department": {
-      "type": "string",
-      "required": true
+      "type": "string"
     },
     "employment_type": {
-      "type": "string",
-      "required": true
+      "type": "string"
     },
     "location": {
-      "type": "string",
-      "required": true
+      "type": "string"
     },
     "cta_link": {
       "type": "component",
       "component": "elements.text-link",
-      "repeatable": false,
-      "required": true
+      "repeatable": false
     }
   },
   "config": {}

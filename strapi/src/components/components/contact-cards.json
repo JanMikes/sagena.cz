@@ -9,8 +9,7 @@
     "cards": {
       "type": "component",
       "component": "elements.contact-card",
-      "repeatable": true,
-      "required": true
+      "repeatable": true
     }
   },
   "config": {}

@@ -40,7 +40,7 @@
 7. **Shallow population** → Using `populate: '*'` when nested relations need explicit population
 8. **Client component overuse** → Adding `'use client'` when not needed (increases bundle size, loses SSR benefits)
 9. **Inline styles** → Using `style={{}}` instead of Tailwind classes (breaks design system)
-10. **Forgetting build test** → Pushing changes without running `npm run lint` or production Docker build first
+10. **Forgetting build test** → Pushing changes without running `docker compose exec frontend npm run lint` or production Docker build first
 
 ## 🔧 Quick Command Reference
 
@@ -84,7 +84,7 @@ docker build -t sagena-frontend-test ./frontend
 **What each test catches:**
 | Test | Catches | Speed |
 |------|---------|-------|
-| `npm run lint` | TypeScript errors, ESLint issues | ~5s |
+| `docker compose exec frontend npm run lint` | TypeScript errors, ESLint issues | ~5s |
 | `docker build` | Compilation errors, missing dependencies | ~30-60s |
 
 ## 🏥 Domain Context

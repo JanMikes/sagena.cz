@@ -7,17 +7,16 @@
   "options": {},
   "attributes": {
     "youtube_id": {
-      "type": "string",
-      "required": true
+      "type": "string"
     },
     "aspect_ratio": {
       "type": "enumeration",
-      "required": true,
       "enum": [
         "Ratio 16/9",
         "Ratio 4/3",
         "Ratio 1/1"
-      ]
+      ],
+      "default": "Ratio 16/9"
     }
   },
   "config": {}

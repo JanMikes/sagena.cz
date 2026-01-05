@@ -9,7 +9,7 @@
     "display_type": {
       "type": "enumeration",
       "enum": ["Icon", "Number"],
-      "required": true
+      "default": "Icon"
     },
     "icon": {
       "type": "component",
@@ -20,12 +20,10 @@
       "type": "string"
     },
     "title": {
-      "type": "string",
-      "required": true
+      "type": "string"
     },
     "description": {
-      "type": "text",
-      "required": true
+      "type": "text"
     }
   },
   "config": {}

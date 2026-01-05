@@ -9,8 +9,7 @@
     "partners": {
       "type": "component",
       "component": "elements.partner-logo",
-      "repeatable": true,
-      "required": true
+      "repeatable": true
     },
     "grayscale": {
       "type": "boolean",

@@ -7,8 +7,7 @@ export interface ComponentsAccordionSections extends Struct.ComponentSchema {
     icon: 'expand';
   };
   attributes: {
-    sections: Schema.Attribute.Component<'elements.expandable-section', true> &
-      Schema.Attribute.Required;
+    sections: Schema.Attribute.Component<'elements.expandable-section', true>;
   };
 }
 
@@ -20,11 +19,10 @@ export interface ComponentsAlert extends Struct.ComponentSchema {
   };
   attributes: {
     text: Schema.Attribute.Text;
-    title: Schema.Attribute.String & Schema.Attribute.Required;
+    title: Schema.Attribute.String;
     type: Schema.Attribute.Enumeration<
       ['info', 'success', 'warning', 'error']
     > &
-      Schema.Attribute.Required &
       Schema.Attribute.DefaultTo<'info'>;
   };
 }
@@ -40,8 +38,7 @@ export interface ComponentsButtonGroup extends Struct.ComponentSchema {
       ['Left aligned', 'Center aligned', 'Right aligned']
     > &
       Schema.Attribute.DefaultTo<'Left aligned'>;
-    buttons: Schema.Attribute.Component<'elements.button', true> &
-      Schema.Attribute.Required;
+    buttons: Schema.Attribute.Component<'elements.button', true>;
     spacing: Schema.Attribute.Enumeration<
       ['Small spacing', 'Medium spacing', 'Large spacing']
     > &
@@ -56,8 +53,7 @@ export interface ComponentsContactCards extends Struct.ComponentSchema {
     icon: 'user';
   };
   attributes: {
-    cards: Schema.Attribute.Component<'elements.contact-card', true> &
-      Schema.Attribute.Required;
+    cards: Schema.Attribute.Component<'elements.contact-card', true>;
   };
 }
 
@@ -69,8 +65,7 @@ export interface ComponentsDirections extends Struct.ComponentSchema {
   };
   attributes: {
     description: Schema.Attribute.RichText;
-    instructions: Schema.Attribute.Component<'elements.direction-step', true> &
-      Schema.Attribute.Required;
+    instructions: Schema.Attribute.Component<'elements.direction-step', true>;
     style: Schema.Attribute.Enumeration<['Style 1', 'Style 2']> &
       Schema.Attribute.DefaultTo<'Style 1'>;
     title: Schema.Attribute.String;
@@ -84,8 +79,7 @@ export interface ComponentsDoctorProfile extends Struct.ComponentSchema {
     icon: 'user';
   };
   attributes: {
-    profile: Schema.Attribute.Component<'elements.doctor-profile', false> &
-      Schema.Attribute.Required;
+    profile: Schema.Attribute.Component<'elements.doctor-profile', false>;
   };
 }
 
@@ -100,8 +94,7 @@ export interface ComponentsDocuments extends Struct.ComponentSchema {
       ['Single column', 'Two columns', 'Three columns']
     > &
       Schema.Attribute.DefaultTo<'Three columns'>;
-    documents: Schema.Attribute.Component<'elements.document-item', true> &
-      Schema.Attribute.Required;
+    documents: Schema.Attribute.Component<'elements.document-item', true>;
   };
 }
 
@@ -116,8 +109,7 @@ export interface ComponentsFullWidthCards extends Struct.ComponentSchema {
       ['None', 'Primary light', 'Neutral light']
     > &
       Schema.Attribute.DefaultTo<'None'>;
-    cards: Schema.Attribute.Component<'elements.full-width-card', true> &
-      Schema.Attribute.Required;
+    cards: Schema.Attribute.Component<'elements.full-width-card', true>;
   };
 }
 
@@ -128,8 +120,7 @@ export interface ComponentsGallerySlider extends Struct.ComponentSchema {
     icon: 'landscape';
   };
   attributes: {
-    photos: Schema.Attribute.Component<'elements.photo', true> &
-      Schema.Attribute.Required;
+    photos: Schema.Attribute.Component<'elements.photo', true>;
   };
 }
 
@@ -141,9 +132,9 @@ export interface ComponentsHeading extends Struct.ComponentSchema {
   };
   attributes: {
     anchor: Schema.Attribute.String;
-    text: Schema.Attribute.String & Schema.Attribute.Required;
+    text: Schema.Attribute.String;
     type: Schema.Attribute.Enumeration<['h2', 'h3', 'h4', 'h5', 'h6']> &
-      Schema.Attribute.Required;
+      Schema.Attribute.DefaultTo<'h2'>;
   };
 }
 
@@ -154,9 +145,7 @@ export interface ComponentsIntranetNewsArticles extends Struct.ComponentSchema {
     icon: 'briefcase';
   };
   attributes: {
-    limit: Schema.Attribute.Integer &
-      Schema.Attribute.Required &
-      Schema.Attribute.DefaultTo<3>;
+    limit: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<3>;
     show_all_link: Schema.Attribute.Component<'elements.text-link', false>;
     tags: Schema.Attribute.Relation<'oneToMany', 'api::tag.tag'>;
   };
@@ -169,13 +158,12 @@ export interface ComponentsJobPosting extends Struct.ComponentSchema {
     icon: 'briefcase';
   };
   attributes: {
-    cta_link: Schema.Attribute.Component<'elements.text-link', false> &
-      Schema.Attribute.Required;
-    department: Schema.Attribute.String & Schema.Attribute.Required;
-    description: Schema.Attribute.Text & Schema.Attribute.Required;
-    employment_type: Schema.Attribute.String & Schema.Attribute.Required;
-    location: Schema.Attribute.String & Schema.Attribute.Required;
-    title: Schema.Attribute.String & Schema.Attribute.Required;
+    cta_link: Schema.Attribute.Component<'elements.text-link', false>;
+    department: Schema.Attribute.String;
+    description: Schema.Attribute.Text;
+    employment_type: Schema.Attribute.String;
+    location: Schema.Attribute.String;
+    title: Schema.Attribute.String;
   };
 }
 
@@ -188,14 +176,7 @@ export interface ComponentsLinksList extends Struct.ComponentSchema {
   attributes: {
     layout: Schema.Attribute.Enumeration<['Grid', 'Rows']> &
       Schema.Attribute.DefaultTo<'Grid'>;
-    links: Schema.Attribute.Component<'elements.text-link', true> &
-      Schema.Attribute.Required &
-      Schema.Attribute.SetMinMax<
-        {
-          min: 1;
-        },
-        number
-      >;
+    links: Schema.Attribute.Component<'elements.text-link', true>;
   };
 }
 
@@ -206,8 +187,7 @@ export interface ComponentsMarketingArguments extends Struct.ComponentSchema {
     icon: 'apps';
   };
   attributes: {
-    arguments: Schema.Attribute.Component<'elements.marketing-argument', true> &
-      Schema.Attribute.Required;
+    arguments: Schema.Attribute.Component<'elements.marketing-argument', true>;
     background: Schema.Attribute.Enumeration<
       ['None', 'Primary light', 'Neutral light']
     > &
@@ -227,7 +207,6 @@ export interface ComponentsNewsArticles extends Struct.ComponentSchema {
   };
   attributes: {
     limit: Schema.Attribute.Integer &
-      Schema.Attribute.Required &
       Schema.Attribute.SetMinMax<
         {
           max: 20;
@@ -263,8 +242,7 @@ export interface ComponentsPartnerLogos extends Struct.ComponentSchema {
     > &
       Schema.Attribute.DefaultTo<'Medium spacing'>;
     grayscale: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
-    partners: Schema.Attribute.Component<'elements.partner-logo', true> &
-      Schema.Attribute.Required;
+    partners: Schema.Attribute.Component<'elements.partner-logo', true>;
   };
 }
 
@@ -279,8 +257,7 @@ export interface ComponentsPhotoGallery extends Struct.ComponentSchema {
       ['Two columns', 'Three columns', 'Four columns']
     > &
       Schema.Attribute.DefaultTo<'Three columns'>;
-    photos: Schema.Attribute.Component<'elements.photo', true> &
-      Schema.Attribute.Required;
+    photos: Schema.Attribute.Component<'elements.photo', true>;
   };
 }
 
@@ -323,8 +300,7 @@ export interface ComponentsServiceCards extends Struct.ComponentSchema {
       Schema.Attribute.DefaultTo<'None'>;
     card_clickable: Schema.Attribute.Boolean &
       Schema.Attribute.DefaultTo<false>;
-    cards: Schema.Attribute.Component<'elements.service-card', true> &
-      Schema.Attribute.Required;
+    cards: Schema.Attribute.Component<'elements.service-card', true>;
     columns: Schema.Attribute.Enumeration<
       ['Two columns', 'Three columns', 'Four columns', 'Five columns']
     > &
@@ -346,8 +322,7 @@ export interface ComponentsSlider extends Struct.ComponentSchema {
     autoplay: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     autoplay_interval: Schema.Attribute.Integer &
       Schema.Attribute.DefaultTo<5000>;
-    slides: Schema.Attribute.Component<'elements.slide', true> &
-      Schema.Attribute.Required;
+    slides: Schema.Attribute.Component<'elements.slide', true>;
   };
 }
 
@@ -358,7 +333,7 @@ export interface ComponentsText extends Struct.ComponentSchema {
     icon: 'bold';
   };
   attributes: {
-    text: Schema.Attribute.RichText & Schema.Attribute.Required;
+    text: Schema.Attribute.RichText;
   };
 }
 
@@ -369,8 +344,7 @@ export interface ComponentsTimeline extends Struct.ComponentSchema {
     icon: 'bulletList';
   };
   attributes: {
-    items: Schema.Attribute.Component<'elements.timeline-item', true> &
-      Schema.Attribute.Required;
+    items: Schema.Attribute.Component<'elements.timeline-item', true>;
   };
 }
 
@@ -384,8 +358,8 @@ export interface ComponentsVideo extends Struct.ComponentSchema {
     aspect_ratio: Schema.Attribute.Enumeration<
       ['Ratio 16/9', 'Ratio 4/3', 'Ratio 1/1']
     > &
-      Schema.Attribute.Required;
-    youtube_id: Schema.Attribute.String & Schema.Attribute.Required;
+      Schema.Attribute.DefaultTo<'Ratio 16/9'>;
+    youtube_id: Schema.Attribute.String;
   };
 }
 
@@ -396,8 +370,7 @@ export interface ElementsButton extends Struct.ComponentSchema {
     icon: 'cursor';
   };
   attributes: {
-    link: Schema.Attribute.Component<'elements.text-link', false> &
-      Schema.Attribute.Required;
+    link: Schema.Attribute.Component<'elements.text-link', false>;
     size: Schema.Attribute.Enumeration<['Small', 'Medium', 'Large']> &
       Schema.Attribute.DefaultTo<'Medium'>;
     variant: Schema.Attribute.Enumeration<
@@ -414,8 +387,7 @@ export interface ElementsContactCard extends Struct.ComponentSchema {
     icon: 'user';
   };
   attributes: {
-    person: Schema.Attribute.Component<'elements.person', false> &
-      Schema.Attribute.Required;
+    person: Schema.Attribute.Component<'elements.person', false>;
   };
 }
 
@@ -440,11 +412,10 @@ export interface ElementsDoctorProfile extends Struct.ComponentSchema {
   };
   attributes: {
     ambulanceTitle: Schema.Attribute.String;
-    department: Schema.Attribute.String & Schema.Attribute.Required;
+    department: Schema.Attribute.String;
     holiday: Schema.Attribute.Component<'elements.holiday', false>;
     openingHours: Schema.Attribute.Component<'elements.opening-hours', true>;
-    person: Schema.Attribute.Component<'elements.person', false> &
-      Schema.Attribute.Required;
+    person: Schema.Attribute.Component<'elements.person', false>;
     positions: Schema.Attribute.Component<'elements.position', true>;
   };
 }
@@ -456,9 +427,8 @@ export interface ElementsDocumentItem extends Struct.ComponentSchema {
     icon: 'fileText';
   };
   attributes: {
-    file: Schema.Attribute.Media<'files' | 'images' | 'videos' | 'audios'> &
-      Schema.Attribute.Required;
-    name: Schema.Attribute.String & Schema.Attribute.Required;
+    file: Schema.Attribute.Media<'files' | 'images' | 'videos' | 'audios'>;
+    name: Schema.Attribute.String;
   };
 }
 
@@ -473,7 +443,7 @@ export interface ElementsExpandableSection extends Struct.ComponentSchema {
     default_open: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     description: Schema.Attribute.RichText;
     files: Schema.Attribute.Component<'elements.document-item', true>;
-    title: Schema.Attribute.String & Schema.Attribute.Required;
+    title: Schema.Attribute.String;
   };
 }
 
@@ -484,11 +454,10 @@ export interface ElementsFullWidthCard extends Struct.ComponentSchema {
     icon: 'apps';
   };
   attributes: {
-    description: Schema.Attribute.Text & Schema.Attribute.Required;
+    description: Schema.Attribute.Text;
     icon: Schema.Attribute.Component<'elements.icon', false>;
-    link: Schema.Attribute.Component<'elements.text-link', false> &
-      Schema.Attribute.Required;
-    title: Schema.Attribute.String & Schema.Attribute.Required;
+    link: Schema.Attribute.Component<'elements.text-link', false>;
+    title: Schema.Attribute.String;
   };
 }
 
@@ -499,8 +468,8 @@ export interface ElementsHoliday extends Struct.ComponentSchema {
     icon: 'plane';
   };
   attributes: {
-    from: Schema.Attribute.Date & Schema.Attribute.Required;
-    to: Schema.Attribute.Date & Schema.Attribute.Required;
+    from: Schema.Attribute.Date;
+    to: Schema.Attribute.Date;
   };
 }
 
@@ -536,7 +505,7 @@ export interface ElementsLinksSection extends Struct.ComponentSchema {
     icon: 'bulletList';
   };
   attributes: {
-    heading: Schema.Attribute.String & Schema.Attribute.Required;
+    heading: Schema.Attribute.String;
     links: Schema.Attribute.Component<'elements.text-link', true>;
   };
 }
@@ -548,12 +517,12 @@ export interface ElementsMarketingArgument extends Struct.ComponentSchema {
     icon: 'bulletList';
   };
   attributes: {
-    description: Schema.Attribute.Text & Schema.Attribute.Required;
+    description: Schema.Attribute.Text;
     display_type: Schema.Attribute.Enumeration<['Icon', 'Number']> &
-      Schema.Attribute.Required;
+      Schema.Attribute.DefaultTo<'Icon'>;
     icon: Schema.Attribute.Component<'elements.icon', false>;
     number: Schema.Attribute.String;
-    title: Schema.Attribute.String & Schema.Attribute.Required;
+    title: Schema.Attribute.String;
   };
 }
 
@@ -564,8 +533,8 @@ export interface ElementsOpeningHours extends Struct.ComponentSchema {
     icon: 'clock';
   };
   attributes: {
-    day: Schema.Attribute.String & Schema.Attribute.Required;
-    time: Schema.Attribute.String & Schema.Attribute.Required;
+    day: Schema.Attribute.String;
+    time: Schema.Attribute.String;
   };
 }
 
@@ -576,9 +545,9 @@ export interface ElementsPartnerLogo extends Struct.ComponentSchema {
     icon: 'briefcase';
   };
   attributes: {
-    logo: Schema.Attribute.Media<'images'> & Schema.Attribute.Required;
-    name: Schema.Attribute.String & Schema.Attribute.Required;
-    url: Schema.Attribute.String & Schema.Attribute.Required;
+    logo: Schema.Attribute.Media<'images'>;
+    name: Schema.Attribute.String;
+    url: Schema.Attribute.String;
   };
 }
 
@@ -600,7 +569,7 @@ export interface ElementsPhoto extends Struct.ComponentSchema {
     icon: 'picture';
   };
   attributes: {
-    image: Schema.Attribute.Media<'images'> & Schema.Attribute.Required;
+    image: Schema.Attribute.Media<'images'>;
   };
 }
 
@@ -611,7 +580,7 @@ export interface ElementsPosition extends Struct.ComponentSchema {
     icon: 'briefcase';
   };
   attributes: {
-    title: Schema.Attribute.String & Schema.Attribute.Required;
+    title: Schema.Attribute.String;
   };
 }
 
@@ -625,7 +594,7 @@ export interface ElementsServiceCard extends Struct.ComponentSchema {
     description: Schema.Attribute.Text;
     icon: Schema.Attribute.Component<'elements.icon', false>;
     link: Schema.Attribute.Component<'elements.text-link', false>;
-    title: Schema.Attribute.String & Schema.Attribute.Required;
+    title: Schema.Attribute.String;
   };
 }
 
@@ -637,10 +606,10 @@ export interface ElementsSlide extends Struct.ComponentSchema {
   };
   attributes: {
     background_image: Schema.Attribute.Media<'images'>;
-    description: Schema.Attribute.Text & Schema.Attribute.Required;
+    description: Schema.Attribute.Text;
     image: Schema.Attribute.Media<'images'>;
     link: Schema.Attribute.Component<'elements.text-link', false>;
-    title: Schema.Attribute.String & Schema.Attribute.Required;
+    title: Schema.Attribute.String;
   };
 }
 
@@ -655,7 +624,7 @@ export interface ElementsTextLink extends Struct.ComponentSchema {
     disabled: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     file: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     page: Schema.Attribute.Relation<'oneToOne', 'api::page.page'>;
-    text: Schema.Attribute.String & Schema.Attribute.Required;
+    text: Schema.Attribute.String;
     url: Schema.Attribute.String;
   };
 }
@@ -667,12 +636,12 @@ export interface ElementsTimelineItem extends Struct.ComponentSchema {
     icon: 'bulletList';
   };
   attributes: {
-    description: Schema.Attribute.Text & Schema.Attribute.Required;
+    description: Schema.Attribute.Text;
     display_type: Schema.Attribute.Enumeration<['Icon', 'Number']> &
-      Schema.Attribute.Required;
+      Schema.Attribute.DefaultTo<'Number'>;
     icon: Schema.Attribute.Relation<'oneToOne', 'api::icon.icon'>;
     number: Schema.Attribute.String;
-    title: Schema.Attribute.String & Schema.Attribute.Required;
+    title: Schema.Attribute.String;
   };
 }
 

@@ -7,8 +7,7 @@
   "options": {},
   "attributes": {
     "text": {
-      "type": "richtext",
-      "required": true
+      "type": "richtext"
     }
   },
   "config": {}

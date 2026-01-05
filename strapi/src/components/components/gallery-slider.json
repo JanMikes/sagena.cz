@@ -9,8 +9,7 @@
     "photos": {
       "type": "component",
       "component": "elements.photo",
-      "repeatable": true,
-      "required": true
+      "repeatable": true
     }
   },
   "config": {}

@@ -9,33 +9,28 @@
     "person": {
       "type": "component",
       "component": "elements.person",
-      "repeatable": false,
-      "required": true
+      "repeatable": false
     },
     "ambulanceTitle": {
       "type": "string"
     },
     "department": {
-      "type": "string",
-      "required": true
+      "type": "string"
     },
     "positions": {
       "type": "component",
       "component": "elements.position",
-      "repeatable": true,
-      "required": false
+      "repeatable": true
     },
     "openingHours": {
       "type": "component",
       "component": "elements.opening-hours",
-      "repeatable": true,
-      "required": false
+      "repeatable": true
     },
     "holiday": {
       "type": "component",
       "component": "elements.holiday",
-      "repeatable": false,
-      "required": false
+      "repeatable": false
     }
   },
   "config": {}

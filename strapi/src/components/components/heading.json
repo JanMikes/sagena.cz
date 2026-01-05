@@ -7,19 +7,18 @@
   "options": {},
   "attributes": {
     "text": {
-      "type": "string",
-      "required": true
+      "type": "string"
     },
     "type": {
       "type": "enumeration",
-      "required": true,
       "enum": [
         "h2",
         "h3",
         "h4",
         "h5",
         "h6"
-      ]
+      ],
+      "default": "h2"
     },
     "anchor": {
       "type": "string"

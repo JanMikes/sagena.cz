@@ -7,12 +7,10 @@
   "options": {},
   "attributes": {
     "day": {
-      "type": "string",
-      "required": true
+      "type": "string"
     },
     "time": {
-      "type": "string",
-      "required": true
+      "type": "string"
     }
   },
   "config": {}

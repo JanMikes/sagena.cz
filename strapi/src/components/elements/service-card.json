@@ -12,8 +12,7 @@
       "repeatable": false
     },
     "title": {
-      "type": "string",
-      "required": true
+      "type": "string"
     },
     "description": {
       "type": "text"

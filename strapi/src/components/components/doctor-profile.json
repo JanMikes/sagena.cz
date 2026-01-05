@@ -9,8 +9,7 @@
     "profile": {
       "type": "component",
       "component": "elements.doctor-profile",
-      "repeatable": false,
-      "required": true
+      "repeatable": false
     }
   },
   "config": {}

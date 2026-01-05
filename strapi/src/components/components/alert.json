@@ -8,7 +8,6 @@
   "attributes": {
     "type": {
       "type": "enumeration",
-      "required": true,
       "default": "info",
       "enum": [
         "info",
@@ -18,8 +17,7 @@
       ]
     },
     "title": {
-      "type": "string",
-      "required": true
+      "type": "string"
     },
     "text": {
       "type": "text"

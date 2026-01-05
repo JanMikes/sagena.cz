@@ -12,18 +12,15 @@
       "repeatable": false
     },
     "title": {
-      "type": "string",
-      "required": true
+      "type": "string"
     },
     "description": {
-      "type": "text",
-      "required": true
+      "type": "text"
     },
     "link": {
       "type": "component",
       "component": "elements.text-link",
-      "repeatable": false,
-      "required": true
+      "repeatable": false
     }
   },
   "config": {}

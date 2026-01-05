@@ -15,8 +15,6 @@ export async function POST(request: NextRequest) {
   }
 
   const body = await request.json();
-  console.log('[Webhook] Payload:', JSON.stringify(body, null, 2));
-
   const { event, model, entry } = body;
 
   console.log(`[Webhook] Processing: ${event} on ${model}${entry?.slug ? `:${entry.slug}` : ''}${entry?.locale ? ` (${entry.locale})` : ''}`);

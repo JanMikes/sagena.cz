@@ -9,8 +9,7 @@
     "documents": {
       "type": "component",
       "component": "elements.document-item",
-      "repeatable": true,
-      "required": true
+      "repeatable": true
     },
     "columns": {
       "type": "enumeration",

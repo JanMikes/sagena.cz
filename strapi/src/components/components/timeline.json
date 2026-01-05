@@ -9,8 +9,7 @@
     "items": {
       "type": "component",
       "component": "elements.timeline-item",
-      "repeatable": true,
-      "required": true
+      "repeatable": true
     }
   },
   "config": {}

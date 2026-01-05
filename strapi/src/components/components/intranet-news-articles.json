@@ -13,7 +13,6 @@
     },
     "limit": {
       "type": "integer",
-      "required": true,
       "default": 3
     },
     "show_all_link": {

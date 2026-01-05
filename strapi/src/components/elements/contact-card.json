@@ -9,8 +9,7 @@
     "person": {
       "type": "component",
       "component": "elements.person",
-      "repeatable": false,
-      "required": true
+      "repeatable": false
     }
   },
   "config": {}

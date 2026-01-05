@@ -7,12 +7,10 @@
   "options": {},
   "attributes": {
     "from": {
-      "type": "date",
-      "required": true
+      "type": "date"
     },
     "to": {
-      "type": "date",
-      "required": true
+      "type": "date"
     }
   },
   "config": {}

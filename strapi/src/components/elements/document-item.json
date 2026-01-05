@@ -7,13 +7,11 @@
   "options": {},
   "attributes": {
     "name": {
-      "type": "string",
-      "required": true
+      "type": "string"
     },
     "file": {
       "type": "media",
       "multiple": false,
-      "required": true,
       "allowedTypes": ["files", "images", "videos", "audios"]
     }
   },

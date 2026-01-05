@@ -8,8 +8,7 @@
     "sections": {
       "type": "component",
       "component": "elements.expandable-section",
-      "repeatable": true,
-      "required": true
+      "repeatable": true
     }
   }
 }

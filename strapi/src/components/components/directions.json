@@ -12,8 +12,7 @@
     "instructions": {
       "type": "component",
       "component": "elements.direction-step",
-      "repeatable": true,
-      "required": true
+      "repeatable": true
     },
     "description": {
       "type": "richtext"

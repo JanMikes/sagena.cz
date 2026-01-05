@@ -9,8 +9,7 @@
     "buttons": {
       "type": "component",
       "component": "elements.button",
-      "repeatable": true,
-      "required": true
+      "repeatable": true
     },
     "alignment": {
       "type": "enumeration",

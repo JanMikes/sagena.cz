@@ -9,8 +9,7 @@
     "link": {
       "type": "component",
       "component": "elements.text-link",
-      "repeatable": false,
-      "required": true
+      "repeatable": false
     },
     "variant": {
       "type": "enumeration",

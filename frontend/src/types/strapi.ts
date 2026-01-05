@@ -178,9 +178,9 @@ export interface IntranetNewsArticle {
 export interface ComponentsHeading {
   id: number;
   __component: 'components.heading';
-  text: string;
-  type: 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
-  anchor?: string;
+  text?: string | null;
+  type?: 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | null;
+  anchor?: string | null;
 }
 
 /**
@@ -191,7 +191,7 @@ export interface ComponentsHeading {
 export interface ComponentsText {
   id: number;
   __component: 'components.text';
-  text: string; // Rich text HTML content
+  text?: string | null; // Rich text HTML content
 }
 
 /**
@@ -202,9 +202,9 @@ export interface ComponentsText {
 export interface ComponentsAlert {
   id: number;
   __component: 'components.alert';
-  type: 'info' | 'success' | 'warning' | 'error';
-  title: string;
-  text?: string;
+  type?: 'info' | 'success' | 'warning' | 'error' | null;
+  title?: string | null;
+  text?: string | null;
 }
 
 /**
@@ -215,8 +215,8 @@ export interface ComponentsAlert {
 export interface ComponentsLinksList {
   id: number;
   __component: 'components.links-list';
-  links: ElementsTextLink[];
-  layout?: 'Grid' | 'Rows';
+  links?: ElementsTextLink[] | null;
+  layout?: 'Grid' | 'Rows' | null;
 }
 
 /**
@@ -227,8 +227,8 @@ export interface ComponentsLinksList {
 export interface ComponentsVideo {
   id: number;
   __component: 'components.video';
-  youtube_id: string;
-  aspect_ratio: 'Ratio 16/9' | 'Ratio 4/3' | 'Ratio 1/1';
+  youtube_id?: string | null;
+  aspect_ratio?: 'Ratio 16/9' | 'Ratio 4/3' | 'Ratio 1/1' | null;
 }
 
 /**
@@ -239,11 +239,11 @@ export interface ComponentsVideo {
 export interface ComponentsServiceCards {
   id: number;
   __component: 'components.service-cards';
-  cards: ElementsServiceCard[];
-  columns: 'Two columns' | 'Three columns' | 'Four columns' | 'Five columns';
-  text_align?: 'Left aligned' | 'Center aligned';
-  card_clickable?: boolean;
-  background?: 'None' | 'Primary light' | 'Neutral light';
+  cards?: ElementsServiceCard[] | null;
+  columns?: 'Two columns' | 'Three columns' | 'Four columns' | 'Five columns' | null;
+  text_align?: 'Left aligned' | 'Center aligned' | null;
+  card_clickable?: boolean | null;
+  background?: 'None' | 'Primary light' | 'Neutral light' | null;
 }
 
 /**
@@ -254,8 +254,8 @@ export interface ComponentsServiceCards {
 export interface ComponentsFullWidthCards {
   id: number;
   __component: 'components.full-width-cards';
-  cards: ElementsFullWidthCard[];
-  background?: 'None' | 'Primary light' | 'Neutral light';
+  cards?: ElementsFullWidthCard[] | null;
+  background?: 'None' | 'Primary light' | 'Neutral light' | null;
 }
 
 /**
@@ -266,8 +266,8 @@ export interface ComponentsFullWidthCards {
 export interface ComponentsDocuments {
   id: number;
   __component: 'components.documents';
-  documents: ElementsDocumentItem[];
-  columns: 'Single column' | 'Two columns' | 'Three columns';
+  documents?: ElementsDocumentItem[] | null;
+  columns?: 'Single column' | 'Two columns' | 'Three columns' | null;
 }
 
 /**
@@ -278,12 +278,12 @@ export interface ComponentsDocuments {
 export interface ComponentsJobPosting {
   id: number;
   __component: 'components.job-posting';
-  title: string;
-  description: string;
-  department: string;
-  employment_type: string;
-  location: string;
-  cta_link: ElementsTextLink;
+  title?: string | null;
+  description?: string | null;
+  department?: string | null;
+  employment_type?: string | null;
+  location?: string | null;
+  cta_link?: ElementsTextLink | null;
 }
 
 /**
@@ -294,10 +294,10 @@ export interface ComponentsJobPosting {
 export interface ComponentsPartnerLogos {
   id: number;
   __component: 'components.partner-logos';
-  partners: ElementsPartnerLogo[];
-  grayscale: boolean;
-  columns: 'Two columns' | 'Three columns' | 'Four columns' | 'Five columns' | 'Six columns';
-  gap: 'Small spacing' | 'Medium spacing' | 'Large spacing';
+  partners?: ElementsPartnerLogo[] | null;
+  grayscale?: boolean | null;
+  columns?: 'Two columns' | 'Three columns' | 'Four columns' | 'Five columns' | 'Six columns' | null;
+  gap?: 'Small spacing' | 'Medium spacing' | 'Large spacing' | null;
 }
 
 /**
@@ -308,9 +308,9 @@ export interface ComponentsPartnerLogos {
 export interface ComponentsMarketingArguments {
   id: number;
   __component: 'components.marketing-arguments';
-  arguments: ElementsMarketingArgument[];
-  columns: 'Two columns' | 'Three columns' | 'Four columns';
-  background?: 'None' | 'Primary light' | 'Neutral light';
+  arguments?: ElementsMarketingArgument[] | null;
+  columns?: 'Two columns' | 'Three columns' | 'Four columns' | null;
+  background?: 'None' | 'Primary light' | 'Neutral light' | null;
 }
 
 /**
@@ -321,7 +321,7 @@ export interface ComponentsMarketingArguments {
 export interface ComponentsTimeline {
   id: number;
   __component: 'components.timeline';
-  items: ElementsTimelineItem[];
+  items?: ElementsTimelineItem[] | null;
 }
 
 /**
@@ -332,9 +332,9 @@ export interface ComponentsTimeline {
 export interface ComponentsSectionDivider {
   id: number;
   __component: 'components.section-divider';
-  spacing: 'Small spacing' | 'Medium spacing' | 'Large spacing';
-  style: 'Solid line' | 'Dashed line' | 'Dotted line' | 'Double line' | 'Gradient line';
-  color: 'Gray' | 'Primary blue';
+  spacing?: 'Small spacing' | 'Medium spacing' | 'Large spacing' | null;
+  style?: 'Solid line' | 'Dashed line' | 'Dotted line' | 'Double line' | 'Gradient line' | null;
+  color?: 'Gray' | 'Primary blue' | null;
 }
 
 /**
@@ -345,8 +345,8 @@ export interface ComponentsSectionDivider {
 export interface ComponentsSlider {
   id: number;
   __component: 'components.slider';
-  slides: ElementsSlide[];
-  autoplay: boolean;
+  slides?: ElementsSlide[] | null;
+  autoplay?: boolean | null;
   autoplay_interval?: number | null;
 }
 
@@ -358,7 +358,7 @@ export interface ComponentsSlider {
 export interface ComponentsGallerySlider {
   id: number;
   __component: 'components.gallery-slider';
-  photos: ElementsPhoto[];
+  photos?: ElementsPhoto[] | null;
 }
 
 /**
@@ -369,8 +369,8 @@ export interface ComponentsGallerySlider {
 export interface ComponentsPhotoGallery {
   id: number;
   __component: 'components.photo-gallery';
-  photos: ElementsPhoto[];
-  columns: 'Two columns' | 'Three columns' | 'Four columns';
+  photos?: ElementsPhoto[] | null;
+  columns?: 'Two columns' | 'Three columns' | 'Four columns' | null;
 }
 
 /**
@@ -382,9 +382,9 @@ export interface ComponentsDirections {
   id: number;
   __component: 'components.directions';
   title?: string | null;  // Optional title (default: "Jak nás najít")
-  instructions: ElementsDirectionStep[];  // Required array of direction steps
+  instructions?: ElementsDirectionStep[] | null;  // Array of direction steps
   description?: string | null;  // Optional markdown description shown below steps
-  style?: 'Style 1' | 'Style 2';  // Style variant (Style 1 = white bg, Style 2 = primary gradient)
+  style?: 'Style 1' | 'Style 2' | null;  // Style variant (Style 1 = white bg, Style 2 = primary gradient)
 }
 
 /**
@@ -395,7 +395,7 @@ export interface ComponentsDirections {
 export interface ComponentsAccordionSections {
   id: number;
   __component: 'components.accordion-sections';
-  sections: ElementsExpandableSection[];  // Array of expandable section items
+  sections?: ElementsExpandableSection[] | null;  // Array of expandable section items
 }
 
 /**
@@ -406,10 +406,10 @@ export interface ComponentsAccordionSections {
 export interface ElementsExpandableSection {
   id: number;
   __component?: 'elements.expandable-section';
-  title: string;  // Required section title
+  title?: string | null;  // Section title
   description?: string | null;  // Optional section content
-  default_open?: boolean;  // Default: false (Initially collapsed)
-  files?: ElementsDocumentItem[];  // Optional array of file attachments
+  default_open?: boolean | null;  // Default: false (Initially collapsed)
+  files?: ElementsDocumentItem[] | null;  // Optional array of file attachments
   contacts?: ComponentsContactCards | null;  // Optional contact cards component
 }
 
@@ -421,9 +421,9 @@ export interface ElementsExpandableSection {
 export interface ComponentsButtonGroup {
   id: number;
   __component: 'components.button-group';
-  buttons: ElementsButton[];  // Array of button items
-  alignment: 'Left aligned' | 'Center aligned' | 'Right aligned';
-  spacing: 'Small spacing' | 'Medium spacing' | 'Large spacing';
+  buttons?: ElementsButton[] | null;  // Array of button items
+  alignment?: 'Left aligned' | 'Center aligned' | 'Right aligned' | null;
+  spacing?: 'Small spacing' | 'Medium spacing' | 'Large spacing' | null;
 }
 
 /**
@@ -434,7 +434,7 @@ export interface ComponentsButtonGroup {
 export interface ComponentsContactCards {
   id: number;
   __component: 'components.contact-cards';
-  cards: ElementsContactCard[];  // Array of contact card items
+  cards?: ElementsContactCard[] | null;  // Array of contact card items
 }
 
 /**
@@ -445,7 +445,7 @@ export interface ComponentsContactCards {
 export interface ComponentsDoctorProfile {
   id: number;
   __component: 'components.doctor-profile';
-  profile: ElementsDoctorProfile;  // Single doctor profile
+  profile?: ElementsDoctorProfile | null;  // Single doctor profile
 }
 
 /**
@@ -461,8 +461,8 @@ export interface ComponentsDoctorProfile {
 export interface ComponentsNewsArticles {
   id: number;
   __component: 'components.news-articles';
-  tags?: Tag[];  // Optional tags filter (OR logic)
-  limit: number;  // Number of articles to display (default: 3)
+  tags?: Tag[] | null;  // Optional tags filter (OR logic)
+  limit?: number | null;  // Number of articles to display (default: 3)
   show_all_link?: ElementsTextLink | null;  // Optional "show all" link
 }
 
@@ -479,8 +479,8 @@ export interface ComponentsNewsArticles {
 export interface ComponentsIntranetNewsArticles {
   id: number;
   __component: 'components.intranet-news-articles';
-  tags?: Tag[];  // Optional tags filter (OR logic)
-  limit: number;  // Number of articles to display (default: 3)
+  tags?: Tag[] | null;  // Optional tags filter (OR logic)
+  limit?: number | null;  // Number of articles to display (default: 3)
   show_all_link?: ElementsTextLink | null;  // Optional "show all" link
 }
 
@@ -514,12 +514,12 @@ export interface ElementsLink {
 export interface ElementsTextLink {
   id: number;
   __component?: 'elements.text-link';
-  text: string;        // Display text for the link
-  page?: Page;         // Internal page reference (returned directly, not wrapped)
+  text?: string | null;        // Display text for the link
+  page?: Page | null;         // Internal page reference (returned directly, not wrapped)
   anchor?: string | null;  // Anchor/hash for URL (#section)
   url?: string | null;     // External URL
-  file?: StrapiMedia;  // File download (returned directly, not wrapped)
-  disabled?: boolean;  // Whether link is disabled
+  file?: StrapiMedia | null;  // File download (returned directly, not wrapped)
+  disabled?: boolean | null;  // Whether link is disabled
 }
 
 /**
@@ -530,8 +530,8 @@ export interface ElementsTextLink {
 export interface ElementsLinksSection {
   id: number;
   __component?: 'elements.links-section';
-  heading: string;
-  links?: ElementsTextLink[];
+  heading?: string | null;
+  links?: ElementsTextLink[] | null;
 }
 
 /**
@@ -555,10 +555,10 @@ export interface ElementsIcon {
 export interface ElementsServiceCard {
   id: number;
   __component?: 'elements.service-card';
-  icon?: ElementsIcon;  // Optional icon component (elements.icon)
-  title: string;
-  description?: string;
-  link?: ElementsTextLink;  // Optional link (not required)
+  icon?: ElementsIcon | null;  // Optional icon component (elements.icon)
+  title?: string | null;
+  description?: string | null;
+  link?: ElementsTextLink | null;  // Optional link (not required)
 }
 
 /**
@@ -571,10 +571,10 @@ export interface ElementsServiceCard {
 export interface ElementsFullWidthCard {
   id: number;
   __component?: 'elements.full-width-card';
-  icon?: ElementsIcon;  // Optional icon component (elements.icon)
-  title: string;
-  description: string;
-  link: ElementsTextLink;  // Required link
+  icon?: ElementsIcon | null;  // Optional icon component (elements.icon)
+  title?: string | null;
+  description?: string | null;
+  link?: ElementsTextLink | null;
 }
 
 /**
@@ -586,15 +586,15 @@ export interface ElementsFullWidthCard {
 export interface ElementsDocumentItem {
   id: number;
   __component?: 'elements.document-item';
-  name: string;
-  file: {
+  name?: string | null;
+  file?: {
     id: number;
     documentId: string;
     url: string;
     name: string;
     ext: string;  // e.g., ".pdf", ".svg"
     size: number; // Size in KB (e.g., 1.27)
-  };
+  } | null;
 }
 
 /**
@@ -607,8 +607,8 @@ export interface ElementsDocumentItem {
 export interface ElementsPartnerLogo {
   id: number;
   __component?: 'elements.partner-logo';
-  name: string;
-  logo: {
+  name?: string | null;
+  logo?: {
     id: number;
     documentId: string;
     url: string;
@@ -616,8 +616,8 @@ export interface ElementsPartnerLogo {
     alternativeText?: string | null;
     width?: number;
     height?: number;
-  };
-  url: string;
+  } | null;
+  url?: string | null;
 }
 
 /**
@@ -630,11 +630,11 @@ export interface ElementsPartnerLogo {
 export interface ElementsMarketingArgument {
   id: number;
   __component?: 'elements.marketing-argument';
-  display_type: 'Icon' | 'Number';
-  icon?: ElementsIcon;  // Optional icon component (elements.icon) - required if display_type = Icon
+  display_type?: 'Icon' | 'Number' | null;
+  icon?: ElementsIcon | null;  // Optional icon component (elements.icon) - required if display_type = Icon
   number?: string | null;  // e.g., "15+", "100%" - required if display_type = Number
-  title: string;
-  description: string;
+  title?: string | null;
+  description?: string | null;
 }
 
 /**
@@ -647,11 +647,11 @@ export interface ElementsMarketingArgument {
 export interface ElementsTimelineItem {
   id: number;
   __component?: 'elements.timeline-item';
-  display_type: 'Icon' | 'Number';
-  icon?: Icon;  // Optional icon relation (oneToOne to api::icon.icon) - required if display_type = Icon
+  display_type?: 'Icon' | 'Number' | null;
+  icon?: Icon | null;  // Optional icon relation (oneToOne to api::icon.icon) - required if display_type = Icon
   number?: string | null;  // e.g., "1", "2", "3" - required if display_type = Number
-  title: string;
-  description: string;
+  title?: string | null;
+  description?: string | null;
 }
 
 /**
@@ -664,8 +664,8 @@ export interface ElementsTimelineItem {
 export interface ElementsSlide {
   id: number;
   __component?: 'elements.slide';
-  title: string;
-  description: string;
+  title?: string | null;
+  description?: string | null;
   link?: ElementsTextLink | null;  // Optional link
   image?: {
     id: number;
@@ -697,7 +697,7 @@ export interface ElementsSlide {
 export interface ElementsPhoto {
   id: number;
   __component?: 'elements.photo';
-  image: {
+  image?: {
     id: number;
     documentId: string;
     url: string;
@@ -706,7 +706,7 @@ export interface ElementsPhoto {
     caption?: string | null;
     width?: number;
     height?: number;
-  };
+  } | null;
 }
 
 /**
@@ -734,9 +734,9 @@ export interface ElementsDirectionStep {
 export interface ElementsButton {
   id: number;
   __component?: 'elements.button';
-  link: ElementsTextLink;  // Required link
-  variant: 'Primary' | 'Secondary' | 'Outline' | 'Ghost';
-  size: 'Small' | 'Medium' | 'Large';
+  link?: ElementsTextLink | null;
+  variant?: 'Primary' | 'Secondary' | 'Outline' | 'Ghost' | null;
+  size?: 'Small' | 'Medium' | 'Large' | null;
 }
 
 /**
@@ -760,8 +760,8 @@ export interface ElementsPerson {
 export interface ElementsOpeningHours {
   id: number;
   __component?: 'elements.opening-hours';
-  day: string;  // Day name (e.g., "Pondělí")
-  time: string;  // Time range (e.g., "8:00 - 16:00")
+  day?: string | null;  // Day name (e.g., "Pondělí")
+  time?: string | null;  // Time range (e.g., "8:00 - 16:00")
 }
 
 /**
@@ -772,8 +772,8 @@ export interface ElementsOpeningHours {
 export interface ElementsHoliday {
   id: number;
   __component?: 'elements.holiday';
-  from: string;  // Start date (ISO format)
-  to: string;    // End date (ISO format)
+  from?: string | null;  // Start date (ISO format)
+  to?: string | null;    // End date (ISO format)
 }
 
 /**
@@ -786,7 +786,7 @@ export interface ElementsHoliday {
 export interface ElementsContactCard {
   id: number;
   __component?: 'elements.contact-card';
-  person: ElementsPerson;  // Required person reference
+  person?: ElementsPerson | null;  // Person reference
 }
 
 /**
@@ -797,7 +797,7 @@ export interface ElementsContactCard {
 export interface ElementsPosition {
   id: number;
   __component?: 'elements.position';
-  title: string;
+  title?: string | null;
 }
 
 /**
@@ -810,11 +810,11 @@ export interface ElementsPosition {
 export interface ElementsDoctorProfile {
   id: number;
   __component?: 'elements.doctor-profile';
-  person: ElementsPerson;  // Required person reference
+  person?: ElementsPerson | null;  // Person reference
   ambulanceTitle?: string | null;  // Optional ambulance title
-  department: string;  // Required department name
+  department?: string | null;  // Department name
   positions?: ElementsPosition[] | null;  // Optional array of position components
-  openingHours?: ElementsOpeningHours[];  // Optional array of opening hours
+  openingHours?: ElementsOpeningHours[] | null;  // Optional array of opening hours
   holiday?: ElementsHoliday | null;  // Optional holiday period
 }
 
