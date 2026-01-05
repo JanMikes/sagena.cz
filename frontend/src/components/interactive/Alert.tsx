@@ -5,6 +5,7 @@ import {
   XCircle,
   AlertTriangle,
 } from 'lucide-react';
+import RichText from '@/components/typography/RichText';
 
 interface AlertProps {
   type?: 'info' | 'success' | 'warning' | 'error';
@@ -67,7 +68,7 @@ const Alert: React.FC<AlertProps> = ({
             {title}
           </h3>
           {text && (
-            <div className={`text-sm ${config.textClass}`}>{text}</div>
+            <RichText content={text} size="sm" className={config.textClass} />
           )}
         </div>
       </div>

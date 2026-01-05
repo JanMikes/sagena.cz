@@ -18,7 +18,7 @@ export interface ComponentsAlert extends Struct.ComponentSchema {
     icon: 'bell';
   };
   attributes: {
-    text: Schema.Attribute.Text;
+    text: Schema.Attribute.RichText;
     title: Schema.Attribute.String;
     type: Schema.Attribute.Enumeration<
       ['info', 'success', 'warning', 'error']
