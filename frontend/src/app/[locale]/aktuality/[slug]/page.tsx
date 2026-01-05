@@ -153,11 +153,11 @@ export default async function NewsArticlePage({ params }: NewsArticlePageProps) 
             )}
 
             {/* Video section */}
-            {article.video && (
+            {article.video?.youtube_id && (
               <div className="mb-8">
                 <Video
                   youtubeId={article.video.youtube_id}
-                  aspectRatio={article.video.aspect_ratio}
+                  aspectRatio={article.video.aspect_ratio ?? undefined}
                 />
               </div>
             )}
@@ -190,7 +190,7 @@ export default async function NewsArticlePage({ params }: NewsArticlePageProps) 
                 </h2>
                 <Documents
                   documents={article.documents.documents.map((doc) => ({
-                    name: doc.name,
+                    name: doc.name || '',
                     file: doc.file?.url ? getStrapiMediaURL(doc.file.url) : '',
                     extension: doc.file?.ext?.replace('.', '') || '',
                     size: doc.file?.size

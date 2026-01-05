@@ -129,7 +129,7 @@ async function renderComponent(
           key={`${__component}-${component.id || index}`}
           type={alertComponent.type || 'info'}
           title={alertComponent.title || ''}
-          text={alertComponent.text}
+          text={alertComponent.text ?? undefined}
         />
       );
     }
@@ -175,7 +175,7 @@ async function renderComponent(
         <Video
           key={`${__component}-${component.id || index}`}
           youtubeId={videoComponent.youtube_id}
-          aspectRatio={videoComponent.aspect_ratio || '16:9'}
+          aspectRatio={videoComponent.aspect_ratio ?? undefined}
         />
       );
     }
@@ -218,10 +218,11 @@ async function renderComponent(
         'Four columns': 4,
         'Five columns': 5,
       };
-      const columns = columnMap[serviceCardsComponent.columns] || 3;
+      const columnsKey = serviceCardsComponent.columns ?? 'Three columns';
+      const columns = columnMap[columnsKey] || 3;
 
       // Background wrapper classes
-      const background = serviceCardsComponent.background || 'None';
+      const background = serviceCardsComponent.background ?? 'None';
       const hasBackground = background !== 'None';
       const backgroundClasses: Record<string, string> = {
         'None': '',
@@ -235,8 +236,8 @@ async function renderComponent(
           key={`${__component}-${component.id || index}`}
           cards={cards}
           columns={columns}
-          textAlign={serviceCardsComponent.text_align}
-          cardClickable={serviceCardsComponent.card_clickable}
+          textAlign={serviceCardsComponent.text_align ?? undefined}
+          cardClickable={serviceCardsComponent.card_clickable ?? undefined}
         />
       );
 
@@ -357,7 +358,8 @@ async function renderComponent(
         'Two columns': 2,
         'Three columns': 3,
       };
-      const columns = columnMap[documentsComponent.columns] || 3;
+      const documentsColumnsKey = documentsComponent.columns ?? 'Three columns';
+      const columns = columnMap[documentsColumnsKey] || 3;
 
       return (
         <Documents
@@ -415,7 +417,8 @@ async function renderComponent(
         'Five columns': 5,
         'Six columns': 6,
       };
-      const columns = columnMap[partnerLogosComponent.columns] || 6;
+      const partnerColumnsKey = partnerLogosComponent.columns ?? 'Six columns';
+      const columns = columnMap[partnerColumnsKey] || 6;
 
       // Map gap enum to string
       const gapMap: Record<string, 'small' | 'medium' | 'large'> = {
@@ -423,13 +426,14 @@ async function renderComponent(
         'Medium spacing': 'medium',
         'Large spacing': 'large',
       };
-      const gap = gapMap[partnerLogosComponent.gap] || 'medium';
+      const partnerGapKey = partnerLogosComponent.gap ?? 'Medium spacing';
+      const gap = gapMap[partnerGapKey] || 'medium';
 
       return (
         <PartnerLogos
           key={`${__component}-${component.id || index}`}
           partners={partners}
-          grayscale={partnerLogosComponent.grayscale}
+          grayscale={partnerLogosComponent.grayscale ?? undefined}
           columns={columns}
           gap={gap}
         />
@@ -460,10 +464,11 @@ async function renderComponent(
         'Three columns': 3,
         'Four columns': 4,
       };
-      const columns = columnMap[marketingArgumentsComponent.columns] || 3;
+      const marketingColumnsKey = marketingArgumentsComponent.columns ?? 'Three columns';
+      const columns = columnMap[marketingColumnsKey] || 3;
 
       // Background wrapper classes
-      const background = marketingArgumentsComponent.background || 'None';
+      const background = marketingArgumentsComponent.background ?? 'None';
       const hasBackground = background !== 'None';
       const backgroundClasses: Record<string, string> = {
         'None': '',
@@ -530,9 +535,9 @@ async function renderComponent(
       return (
         <SectionDivider
           key={`${__component}-${component.id || index}`}
-          spacing={sectionDividerComponent.spacing || 'Medium'}
-          style={sectionDividerComponent.style || 'Solid line'}
-          color={sectionDividerComponent.color || 'Gray light'}
+          spacing={sectionDividerComponent.spacing ?? undefined}
+          style={sectionDividerComponent.style ?? undefined}
+          color={sectionDividerComponent.color ?? undefined}
         />
       );
     }
@@ -556,7 +561,7 @@ async function renderComponent(
         if (slide.link) {
           const resolved = resolveTextLink(slide.link, locale);
           link = {
-            text: slide.link.text,
+            text: slide.link.text || '',
             url: resolved.url,
             external: resolved.external,
             disabled: resolved.disabled,
@@ -576,8 +581,8 @@ async function renderComponent(
         <Slider
           key={`${__component}-${component.id || index}`}
           slides={slides}
-          autoplay={sliderComponent.autoplay}
-          autoplayInterval={sliderComponent.autoplay_interval || 5000}
+          autoplay={sliderComponent.autoplay ?? undefined}
+          autoplayInterval={sliderComponent.autoplay_interval ?? undefined}
         />
       );
     }
@@ -589,7 +594,7 @@ async function renderComponent(
       const photos = (gallerySliderComponent.photos ?? [])
         .filter((photo) => photo?.image?.url)
         .map((photo) => ({
-          url: getStrapiMediaURL(photo.image.url),
+          url: getStrapiMediaURL(photo.image!.url),
           alt: photo.image?.alternativeText || photo.image?.caption || undefined,
         }));
 
@@ -615,13 +620,14 @@ async function renderComponent(
         'Three columns': 3,
         'Four columns': 4,
       };
-      const columns = columnMap[photoGalleryComponent.columns] || 3;
+      const photoGalleryColumnsKey = photoGalleryComponent.columns ?? 'Three columns';
+      const columns = columnMap[photoGalleryColumnsKey] || 3;
 
       // Transform Strapi data to component props - filter out photos with missing images
       const photos = (photoGalleryComponent.photos ?? [])
         .filter((photo) => photo?.image?.url)
         .map((photo) => ({
-          url: getStrapiMediaURL(photo.image.url),
+          url: getStrapiMediaURL(photo.image!.url),
           alt: photo.image?.alternativeText || undefined,
           caption: photo.image?.caption || undefined,
         }));
@@ -675,7 +681,7 @@ async function renderComponent(
       const sections = (expandableSectionsComponent.sections ?? []).map((section: ElementsExpandableSection) => {
         // Transform file attachments (using ElementsDocumentItem structure - no .attributes wrapper)
         const files = section.files?.map((file) => ({
-          name: file.name,
+          name: file.name || '',
           url: file.file?.url ? getStrapiMediaURL(file.file.url) : '',
           ext: file.file?.ext || '',
           size: file.file?.size || 0,
@@ -684,15 +690,15 @@ async function renderComponent(
         // Transform contacts from Strapi structure to component format
         const contacts = section.contacts?.cards?.map(card => ({
           name: card.person?.person?.name || '',
-          email: card.person?.person?.email,
-          phone: card.person?.person?.phone,
+          email: card.person?.person?.email ?? undefined,
+          phone: card.person?.person?.phone ?? undefined,
           photo: card.person?.person?.photo?.url ? getStrapiMediaURL(card.person.person.photo.url) : null,
-          gender: card.person?.person?.gender,
+          gender: card.person?.person?.gender ?? undefined,
         })) || [];
 
         return {
           title: section.title || '',
-          description: section.description || null,
+          description: section.description ?? undefined,
           contacts,
           files,
           defaultOpen: section.default_open || false,
@@ -728,13 +734,15 @@ async function renderComponent(
           'Large': 'lg',
         };
 
+        const variantKey = button.variant ?? 'Primary';
+        const sizeKey = button.size ?? 'Medium';
         return {
           text: button.link?.text || '',
           url: resolved?.url || '#',
           external: resolved?.external || false,
           disabled: resolved?.disabled || !button.link,
-          variant: variantMap[button.variant] || 'primary',
-          size: sizeMap[button.size] || 'md',
+          variant: variantMap[variantKey] || 'primary',
+          size: sizeMap[sizeKey] || 'md',
         };
       });
 
@@ -752,12 +760,15 @@ async function renderComponent(
         'Large spacing': 'large',
       };
 
+      const alignmentKey = buttonGroupComponent.alignment ?? 'Left aligned';
+      const spacingKey = buttonGroupComponent.spacing ?? 'Medium spacing';
+
       return (
         <ButtonGroup
           key={`${__component}-${component.id || index}`}
           buttons={buttons}
-          alignment={alignmentMap[buttonGroupComponent.alignment] || 'left'}
-          spacing={spacingMap[buttonGroupComponent.spacing] || 'medium'}
+          alignment={alignmentMap[alignmentKey] || 'left'}
+          spacing={spacingMap[spacingKey] || 'medium'}
         />
       );
     }
@@ -877,7 +888,7 @@ async function renderComponent(
         const resolved = resolveTextLink(newsArticlesComponent.show_all_link, locale);
         if (!resolved.disabled) {
           showAllLink = {
-            text: newsArticlesComponent.show_all_link.text,
+            text: newsArticlesComponent.show_all_link.text || '',
             url: resolved.url,
           };
         }
@@ -936,7 +947,7 @@ async function renderComponent(
         const resolved = resolveTextLink(intranetNewsArticlesComponent.show_all_link, locale);
         if (!resolved.disabled) {
           showAllLink = {
-            text: intranetNewsArticlesComponent.show_all_link.text,
+            text: intranetNewsArticlesComponent.show_all_link.text || '',
             url: resolved.url,
           };
         }

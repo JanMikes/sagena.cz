@@ -73,8 +73,8 @@ const Footer: React.FC<FooterProps> = ({ data, locale = 'cs' }) => {
   };
 
   const insuranceLogos = data?.insurance_logos;
-  const columns = getColumnsNumber(insuranceLogos?.columns);
-  const gap = getGapValue(insuranceLogos?.gap);
+  const columns = getColumnsNumber(insuranceLogos?.columns ?? undefined);
+  const gap = getGapValue(insuranceLogos?.gap ?? undefined);
 
   return (
     <footer className="bg-gray-900 text-gray-300 mt-16">
@@ -198,18 +198,20 @@ const Footer: React.FC<FooterProps> = ({ data, locale = 'cs' }) => {
             <div
               className={`grid ${gridColumns[columns]} ${gapStyles[gap]} items-center justify-items-center`}
             >
-              {insuranceLogos.partners.map((partner, index) => (
+              {insuranceLogos.partners
+                .filter((partner) => partner.logo?.url)
+                .map((partner, index) => (
                 <a
                   key={partner.id || index}
-                  href={partner.url}
+                  href={partner.url || '#'}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center w-full h-full p-4 bg-gray-800 border border-gray-700 rounded-lg hover:border-gray-600 hover:bg-gray-750 transition-all duration-300"
-                  aria-label={partner.name}
+                  aria-label={partner.name || ''}
                 >
                   <Image
-                    src={getStrapiMediaURL(partner.logo.url)}
-                    alt={partner.logo.alternativeText || partner.name}
+                    src={getStrapiMediaURL(partner.logo!.url)}
+                    alt={partner.logo!.alternativeText || partner.name || ''}
                     width={120}
                     height={60}
                     className={`w-full h-auto max-h-12 object-contain ${
