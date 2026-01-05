@@ -79,9 +79,9 @@ const Slider: React.FC<SliderProps> = ({
         )}
 
         {/* Content */}
-        <div className="relative h-full flex items-center">
-          <div className="container-custom px-16 md:px-20 lg:px-24">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center h-full">
+        <div className="relative h-full">
+          <div className="container-custom px-16 md:px-20 lg:px-24 h-full">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 h-full">
               <div className={`text-white flex flex-col ${
                 slide.textPosition === 'top' ? 'justify-start' :
                 slide.textPosition === 'bottom' ? 'justify-end' :
@@ -108,7 +108,7 @@ const Slider: React.FC<SliderProps> = ({
                 </div>
               </div>
               {slide.image && (
-                <div className={`hidden lg:block ${slide.imagePosition === 'left' ? 'lg:order-1' : 'lg:order-2'}`}>
+                <div className={`hidden lg:flex lg:items-center ${slide.imagePosition === 'left' ? 'lg:order-1' : 'lg:order-2'}`}>
                   <img
                     src={slide.image}
                     alt={slide.title}
