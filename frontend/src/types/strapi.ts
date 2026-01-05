@@ -35,26 +35,26 @@ export interface StrapiCollectionResponse<T> {
 
 /**
  * Strapi media/file type
+ * NOTE: Strapi v5 returns media directly without .attributes wrapper for populated relations
  */
 export interface StrapiMedia {
   id: number;
-  attributes: {
-    name: string;
-    alternativeText?: string;
-    caption?: string;
-    width?: number;
-    height?: number;
-    formats?: Record<string, StrapiMediaFormat>;
-    hash: string;
-    ext: string;
-    mime: string;
-    size: number;
-    url: string;
-    previewUrl?: string;
-    provider: string;
-    createdAt: string;
-    updatedAt: string;
-  };
+  documentId?: string;
+  name: string;
+  alternativeText?: string | null;
+  caption?: string | null;
+  width?: number;
+  height?: number;
+  formats?: Record<string, StrapiMediaFormat>;
+  hash?: string;
+  ext?: string;
+  mime?: string;
+  size?: number;
+  url: string;
+  previewUrl?: string;
+  provider?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface StrapiMediaFormat {
