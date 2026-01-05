@@ -255,7 +255,9 @@ const Header: React.FC<HeaderProps> = ({
         </div>
       </nav>
 
-      {/* Search Modal */}
+      </header>
+
+      {/* Search Modal - Must be outside header to avoid transform issues */}
       <Modal
         isOpen={searchModalOpen}
         onClose={() => setSearchModalOpen(false)}
@@ -330,7 +332,6 @@ const Header: React.FC<HeaderProps> = ({
           </div>
         </div>
       </Modal>
-      </header>
     </>
   );
 };
