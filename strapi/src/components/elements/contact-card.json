@@ -10,6 +10,9 @@
       "type": "component",
       "component": "elements.person",
       "repeatable": false
+    },
+    "funkce": {
+      "type": "string"
     }
   },
   "config": {}

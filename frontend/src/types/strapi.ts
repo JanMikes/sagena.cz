@@ -845,6 +845,7 @@ export interface ElementsContactCard {
   id: number;
   __component?: 'elements.contact-card';
   person?: ElementsPerson | null;  // Person reference
+  funkce?: string | null;  // Optional role/function
 }
 
 /**

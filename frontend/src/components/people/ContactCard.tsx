@@ -7,9 +7,10 @@ interface ContactCardProps {
   phone?: string | null;
   photo?: string | null;
   gender?: string | null;
+  funkce?: string | null;
 }
 
-const ContactCard: React.FC<ContactCardProps> = ({ name, email, phone, photo }) => {
+const ContactCard: React.FC<ContactCardProps> = ({ name, email, phone, photo, funkce }) => {
   const getInitials = (name: string) => {
     return name
       .split(' ')
@@ -37,6 +38,9 @@ const ContactCard: React.FC<ContactCardProps> = ({ name, email, phone, photo }) 
       {/* Info */}
       <div className="flex-1 min-w-0">
         <h4 className="font-semibold text-gray-900 truncate">{name}</h4>
+        {funkce && (
+          <p className="text-sm text-gray-500 truncate">{funkce}</p>
+        )}
         <div className="space-y-1 mt-1">
           {email && (
             <a

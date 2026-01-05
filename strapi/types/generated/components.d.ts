@@ -421,6 +421,7 @@ export interface ElementsContactCard extends Struct.ComponentSchema {
     icon: 'user';
   };
   attributes: {
+    funkce: Schema.Attribute.String;
     person: Schema.Attribute.Component<'elements.person', false>;
   };
 }

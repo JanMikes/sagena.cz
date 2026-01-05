@@ -831,6 +831,7 @@ async function renderComponent(
           phone: person?.phone || null,
           photo: photoUrl,
           gender: person?.gender || null,
+          funkce: card.funkce || null,
         };
       });
 
