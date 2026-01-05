@@ -34,11 +34,13 @@ export default async function LocaleLayout({
 
   // Fetch navigation and footer for current locale
   let navbarItems: NavigationItem[] = [];
+  let footerNavItems: NavigationItem[] = [];
   let footer: FooterType | null = null;
   try {
-    [navbarItems, footer] = await Promise.all([
+    [navbarItems, footer, footerNavItems] = await Promise.all([
       fetchNavigation(true, undefined, locale),
       fetchFooter(locale),
+      fetchNavigation(undefined, true, locale),
     ]);
   } catch (error) {
     console.error('Failed to fetch layout data from Strapi:', error);
@@ -54,7 +56,7 @@ export default async function LocaleLayout({
         alternateLocale={alternateLocale}
       />
       <main>{children}</main>
-      <Footer data={footer} locale={locale} />
+      <Footer data={footer} locale={locale} footerNavigation={footerNavItems} />
     </LocaleProvider>
   );
 }

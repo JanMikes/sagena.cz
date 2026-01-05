@@ -5,11 +5,12 @@ import { Mail, Phone, MapPin, Facebook, Instagram, Linkedin } from 'lucide-react
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import { resolveTextLink, getStrapiMediaURL } from '@/lib/strapi';
-import type { Footer as FooterType } from '@/types/strapi';
+import type { Footer as FooterType, NavigationItem } from '@/types/strapi';
 
 interface FooterProps {
   data: FooterType | null;
   locale?: string;
+  footerNavigation?: NavigationItem[];
 }
 
 const translations = {
@@ -33,7 +34,7 @@ const translations = {
   },
 } as const;
 
-const Footer: React.FC<FooterProps> = ({ data, locale = 'cs' }) => {
+const Footer: React.FC<FooterProps> = ({ data, locale = 'cs', footerNavigation = [] }) => {
   const t = translations[locale as keyof typeof translations] || translations.cs;
   // Transform columns value from Strapi to number
   const getColumnsNumber = (columns?: string): 2 | 3 | 4 | 5 | 6 => {
@@ -148,46 +149,34 @@ const Footer: React.FC<FooterProps> = ({ data, locale = 'cs' }) => {
             </div>
           </div>
 
-          {/* Link Sections - Takes remaining 8 columns */}
-          {data?.links && data.links.length > 0 && (
+          {/* Footer Navigation - Takes remaining 8 columns */}
+          {footerNavigation.length > 0 && (
             <div className="lg:col-span-8">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                {data.links.map((section) => (
-                  <div key={section.id}>
-                    <h4 className="text-white font-semibold mb-4">{section.heading}</h4>
-                    <ul className="space-y-2">
-                      {section.links?.map((link) => {
-                        const resolved = resolveTextLink(link, locale);
-                        return (
-                          <li key={link.id}>
-                            {resolved.disabled ? (
-                              <span className="text-gray-600 cursor-not-allowed">
-                                {link.text}
-                              </span>
-                            ) : resolved.external ? (
-                              <a
-                                href={resolved.url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-gray-400 hover:text-white transition-colors"
-                              >
-                                {link.text}
-                              </a>
-                            ) : (
-                              <Link
-                                href={resolved.url}
-                                className="text-gray-400 hover:text-white transition-colors"
-                              >
-                                {link.text}
-                              </Link>
-                            )}
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </div>
-                ))}
-              </div>
+              <nav>
+                <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-x-8 gap-y-3">
+                  {footerNavigation.map((item, index) => (
+                    <li key={index}>
+                      {item.target === '_blank' ? (
+                        <a
+                          href={item.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-gray-400 hover:text-white transition-colors"
+                        >
+                          {item.name}
+                        </a>
+                      ) : (
+                        <Link
+                          href={item.href}
+                          className="text-gray-400 hover:text-white transition-colors"
+                        >
+                          {item.name}
+                        </Link>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </nav>
             </div>
           )}
         </div>
