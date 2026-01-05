@@ -918,6 +918,13 @@ export async function fetchPageBySlug(
             'components.heading': { populate: '*' },
             'components.text': { populate: '*' },
             'components.alert': { populate: '*' },
+            'components.popup': {
+              populate: {
+                link: {
+                  populate: ['page', 'file'],
+                },
+              },
+            },
             'components.video': { populate: '*' },
             'components.links-list': {
               populate: {
@@ -1682,6 +1689,13 @@ export async function fetchIntranetPageBySlug(
             'components.heading': { populate: '*' },
             'components.text': { populate: '*' },
             'components.alert': { populate: '*' },
+            'components.popup': {
+              populate: {
+                link: {
+                  populate: ['page', 'file'],
+                },
+              },
+            },
             'components.video': { populate: '*' },
             'components.links-list': {
               populate: {

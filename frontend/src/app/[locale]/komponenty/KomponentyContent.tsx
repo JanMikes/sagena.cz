@@ -1,9 +1,9 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 // Import all components
-import Modal from '@/components/interactive/Modal';
+import PopupModal from '@/components/interactive/PopupModal';
 import ExpandableSection from '@/components/interactive/ExpandableSection';
 import Alert from '@/components/interactive/Alert';
 import ServiceCards from '@/components/content/ServiceCards';
@@ -37,27 +37,13 @@ import PartnerLogos from '@/components/content/PartnerLogos';
 import { insuranceProviders, medicalPartners } from '@/data/partners';
 
 export default function KomponentyPage() {
-  const [modalOpen, setModalOpen] = useState(false);
-
-  // Show modal on page load
-  useEffect(() => {
-    const timer = setTimeout(() => setModalOpen(true), 500);
-    return () => clearTimeout(timer);
-  }, []);
-
   return (
     <>
-      <Modal
-        isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
+      <PopupModal
         title="Vítejte na stránce komponent"
-        size="md"
-      >
-        <RichText content="Tato stránka obsahuje přehled všech dostupných komponent, které můžete použít při tvorbě obsahu." />
-        <ButtonGroup
-          buttons={[{ text: 'Rozumím', variant: 'primary', onClick: () => setModalOpen(false) }]}
-        />
-      </Modal>
+        description="Tato stránka obsahuje přehled všech dostupných komponent, které můžete použít při tvorbě obsahu."
+        link={{ text: 'Rozumím', url: '/cs/komponenty/' }}
+      />
 
       <Slider
         slides={[

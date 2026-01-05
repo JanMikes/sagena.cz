@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_components_popup",
+  "info": {
+    "displayName": "Popup",
+    "icon": "bell"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text"
+    },
+    "link": {
+      "type": "component",
+      "component": "elements.text-link",
+      "repeatable": false
+    }
+  },
+  "config": {}
+}

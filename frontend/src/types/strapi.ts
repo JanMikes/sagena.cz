@@ -208,6 +208,19 @@ export interface ComponentsAlert {
 }
 
 /**
+ * Components: Popup
+ * Location: strapi/src/components/components/popup.json
+ * Usage: Page load popup/modal with optional title, description, and CTA link
+ */
+export interface ComponentsPopup {
+  id: number;
+  __component: 'components.popup';
+  title?: string | null;
+  description?: string | null;
+  link?: ElementsTextLink | null;
+}
+
+/**
  * Components: Links List
  * Location: strapi/src/components/components/links-list.json
  * Usage: List of text links (navigation, quick links, etc.)
@@ -866,7 +879,7 @@ export interface ElementsDoctorProfile {
 /**
  * Page content dynamic zone - all components that can appear in page content area
  */
-export type PageContentComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsLinksList | ComponentsVideo | ComponentsServiceCards | ComponentsFullWidthCards | ComponentsDocuments | ComponentsJobPosting | ComponentsPartnerLogos | ComponentsMarketingArguments | ComponentsTimeline | ComponentsSectionDivider | ComponentsSlider | ComponentsGallerySlider | ComponentsPhotoGallery | ComponentsDirections | ComponentsAccordionSections | ComponentsButtonGroup | ComponentsContactCards | ComponentsDoctorProfile | ComponentsNewsArticles | ComponentsLocationCards;
+export type PageContentComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsPopup | ComponentsLinksList | ComponentsVideo | ComponentsServiceCards | ComponentsFullWidthCards | ComponentsDocuments | ComponentsJobPosting | ComponentsPartnerLogos | ComponentsMarketingArguments | ComponentsTimeline | ComponentsSectionDivider | ComponentsSlider | ComponentsGallerySlider | ComponentsPhotoGallery | ComponentsDirections | ComponentsAccordionSections | ComponentsButtonGroup | ComponentsContactCards | ComponentsDoctorProfile | ComponentsNewsArticles | ComponentsLocationCards;
 
 /**
  * Page sidebar dynamic zone - all components that can appear in page sidebar
@@ -877,7 +890,7 @@ export type PageSidebarComponent = ComponentsHeading | ComponentsText | Componen
  * Intranet page content dynamic zone - all components that can appear in intranet page content area
  * Same as PageContentComponent but includes ComponentsIntranetNewsArticles
  */
-export type IntranetPageContentComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsLinksList | ComponentsVideo | ComponentsServiceCards | ComponentsFullWidthCards | ComponentsDocuments | ComponentsJobPosting | ComponentsPartnerLogos | ComponentsMarketingArguments | ComponentsTimeline | ComponentsSectionDivider | ComponentsSlider | ComponentsGallerySlider | ComponentsPhotoGallery | ComponentsDirections | ComponentsAccordionSections | ComponentsButtonGroup | ComponentsContactCards | ComponentsDoctorProfile | ComponentsNewsArticles | ComponentsIntranetNewsArticles | ComponentsLocationCards;
+export type IntranetPageContentComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsPopup | ComponentsLinksList | ComponentsVideo | ComponentsServiceCards | ComponentsFullWidthCards | ComponentsDocuments | ComponentsJobPosting | ComponentsPartnerLogos | ComponentsMarketingArguments | ComponentsTimeline | ComponentsSectionDivider | ComponentsSlider | ComponentsGallerySlider | ComponentsPhotoGallery | ComponentsDirections | ComponentsAccordionSections | ComponentsButtonGroup | ComponentsContactCards | ComponentsDoctorProfile | ComponentsNewsArticles | ComponentsIntranetNewsArticles | ComponentsLocationCards;
 
 /**
  * Intranet page sidebar dynamic zone - all components that can appear in intranet page sidebar

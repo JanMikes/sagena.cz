@@ -77,7 +77,8 @@
         "components.doctor-profile",
         "components.news-articles",
         "components.accordion-sections",
-        "components.location-cards"
+        "components.location-cards",
+        "components.popup"
       ],
       "required": true
     },

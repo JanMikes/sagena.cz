@@ -1,0 +1,123 @@
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { X, ExternalLink } from 'lucide-react';
+
+interface PopupModalProps {
+  title?: string | null;
+  description?: string | null;
+  link?: {
+    text: string;
+    url: string;
+    external?: boolean;
+  } | null;
+}
+
+const PopupModal: React.FC<PopupModalProps> = ({ title, description, link }) => {
+  const [isOpen, setIsOpen] = useState(true);
+
+  // Check if there's any content to show
+  const hasContent = !!(title || description || link);
+
+  useEffect(() => {
+    if (isOpen && hasContent) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen, hasContent]);
+
+  // If no content at all, don't render anything
+  if (!hasContent) {
+    return null;
+  }
+
+  if (!isOpen) return null;
+
+  const handleClose = () => {
+    setIsOpen(false);
+  };
+
+  return (
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+      {/* Backdrop */}
+      <div
+        className="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity"
+        onClick={handleClose}
+        aria-hidden="true"
+      />
+
+      {/* Modal */}
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={title ? 'popup-title' : undefined}
+        className="relative bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-auto animate-in zoom-in-95 duration-300"
+      >
+        {/* Header with title */}
+        {title && (
+          <div className="flex items-center justify-between p-6 border-b border-gray-200">
+            <h3 id="popup-title" className="text-2xl font-bold text-gray-900">
+              {title}
+            </h3>
+            <button
+              onClick={handleClose}
+              className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+              aria-label="Zavřít"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+        )}
+
+        {/* Close button without title */}
+        {!title && (
+          <button
+            onClick={handleClose}
+            className="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors z-10"
+            aria-label="Zavřít"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        )}
+
+        {/* Content */}
+        <div className={title ? 'p-6' : 'p-8 pt-12'}>
+          {description && (
+            <p className="text-gray-600 leading-relaxed">{description}</p>
+          )}
+
+          {link && link.text && link.url && (
+            <div className={description ? 'mt-6' : ''}>
+              {link.external ? (
+                <a
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-primary-600 text-white font-semibold rounded-lg hover:bg-primary-700 transition-colors"
+                >
+                  {link.text}
+                  <ExternalLink className="w-4 h-4" />
+                </a>
+              ) : (
+                <Link
+                  href={link.url}
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-primary-600 text-white font-semibold rounded-lg hover:bg-primary-700 transition-colors"
+                  onClick={handleClose}
+                >
+                  {link.text}
+                </Link>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default PopupModal;

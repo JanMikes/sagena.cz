@@ -77,7 +77,8 @@
         "components.button-group",
         "components.alert",
         "components.accordion-sections",
-        "components.location-cards"
+        "components.location-cards",
+        "components.popup"
       ],
       "required": true
     },

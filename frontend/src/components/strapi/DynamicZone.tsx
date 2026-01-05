@@ -11,6 +11,7 @@ import Heading from '@/components/typography/Heading';
 import { ComponentError } from '@/components/strapi/ComponentError';
 import RichText from '@/components/typography/RichText';
 import Alert from '@/components/interactive/Alert';
+import PopupModal from '@/components/interactive/PopupModal';
 import LinksList from '@/components/navigation/LinksList';
 import Video from '@/components/content/Video';
 import ServiceCards from '@/components/content/ServiceCards';
@@ -40,6 +41,7 @@ import {
   ComponentsHeading,
   ComponentsText,
   ComponentsAlert,
+  ComponentsPopup,
   ComponentsLinksList,
   ComponentsVideo,
   ComponentsServiceCards,
@@ -132,6 +134,37 @@ async function renderComponent(
           type={alertComponent.type || 'info'}
           title={alertComponent.title || ''}
           text={alertComponent.text ?? undefined}
+        />
+      );
+    }
+
+    case 'components.popup': {
+      const popupComponent = component as ComponentsPopup;
+
+      // Skip if completely empty
+      if (!popupComponent.title && !popupComponent.description && !popupComponent.link) {
+        return null;
+      }
+
+      // Resolve link if present
+      let resolvedLink = null;
+      if (popupComponent.link) {
+        const resolved = resolveTextLink(popupComponent.link, locale);
+        if (!resolved.disabled) {
+          resolvedLink = {
+            text: popupComponent.link.text || '',
+            url: resolved.url,
+            external: resolved.external,
+          };
+        }
+      }
+
+      return (
+        <PopupModal
+          key={`${__component}-${component.id || index}`}
+          title={popupComponent.title ?? undefined}
+          description={popupComponent.description ?? undefined}
+          link={resolvedLink}
         />
       );
     }
@@ -1061,6 +1094,7 @@ async function renderComponent(
 const FULL_WIDTH_COMPONENTS = new Set([
   'components.slider',
   'components.section-divider',
+  'components.popup',
 ]);
 
 /**
@@ -1072,6 +1106,14 @@ const BACKGROUND_COMPONENTS = new Set([
   'components.full-width-cards',
   'components.marketing-arguments',
   'components.location-cards',
+]);
+
+/**
+ * Overlay components that render as fixed positioned overlays
+ * These don't need spacing as they don't take up space in the content flow
+ */
+const OVERLAY_COMPONENTS = new Set([
+  'components.popup',
 ]);
 
 /**
@@ -1136,10 +1178,12 @@ const DynamicZone: React.FC<DynamicZoneProps> = async ({
         const isLast = index === renderedComponents.length - 1;
         const isFullWidth = FULL_WIDTH_COMPONENTS.has(componentType);
         const hasBackground = BACKGROUND_COMPONENTS.has(componentType);
+        const isOverlay = OVERLAY_COMPONENTS.has(componentType);
 
         // Headings get smaller margin to stay close to next component
         // Last component gets no bottom margin
-        const spacingClass = isLast ? '' : (isHeading ? 'mb-6' : 'mb-12');
+        // Overlay components get no margin as they don't take up space in the content flow
+        const spacingClass = isLast || isOverlay ? '' : (isHeading ? 'mb-6' : 'mb-12');
 
         // Full-width components don't get container wrapper
         // Background components handle their own container (see renderComponent)

@@ -280,6 +280,19 @@ export interface ComponentsPhotoGallery extends Struct.ComponentSchema {
   };
 }
 
+export interface ComponentsPopup extends Struct.ComponentSchema {
+  collectionName: 'components_components_popup';
+  info: {
+    displayName: 'Popup';
+    icon: 'bell';
+  };
+  attributes: {
+    description: Schema.Attribute.Text;
+    link: Schema.Attribute.Component<'elements.text-link', false>;
+    title: Schema.Attribute.String;
+  };
+}
+
 export interface ComponentsSectionDivider extends Struct.ComponentSchema {
   collectionName: 'components_components_section_dividers';
   info: {
@@ -703,6 +716,7 @@ declare module '@strapi/strapi' {
       'components.news-articles': ComponentsNewsArticles;
       'components.partner-logos': ComponentsPartnerLogos;
       'components.photo-gallery': ComponentsPhotoGallery;
+      'components.popup': ComponentsPopup;
       'components.section-divider': ComponentsSectionDivider;
       'components.service-cards': ComponentsServiceCards;
       'components.slider': ComponentsSlider;
