@@ -35,13 +35,13 @@ const Timeline: React.FC<TimelineProps> = ({ items, compact = false }) => {
               {/* Icon or Number */}
               <div className="relative flex-shrink-0">
                 {item.icon && (
-                  <div className={`flex items-center justify-center ${iconSize} bg-primary-600 rounded-full z-10 relative border-4 border-white shadow-md`}>
+                  <div className={`flex items-center justify-center ${iconSize} z-10 relative`}>
                     <Image
                       src={item.icon}
                       alt=""
-                      width={compact ? 20 : 28}
-                      height={compact ? 20 : 28}
-                      className={`${imageSize} object-contain brightness-0 invert`}
+                      width={compact ? 48 : 64}
+                      height={compact ? 48 : 64}
+                      className={`${iconSize} object-contain`}
                     />
                   </div>
                 )}

@@ -50,13 +50,13 @@ const FullWidthCards: React.FC<FullWidthCardsProps> = ({ cards }) => {
             className="flex items-center space-x-4 p-6 bg-white border border-gray-200 rounded-xl hover:border-primary-300 hover:shadow-md hover:bg-primary-50/30 transition-all duration-300 group w-full"
           >
             {card.icon && (
-              <div className="flex items-center justify-center w-12 h-12 bg-primary-100 rounded-lg flex-shrink-0 group-hover:bg-primary-600 transition-colors">
+              <div className="flex items-center justify-center w-12 h-12 flex-shrink-0">
                 <Image
                   src={card.icon}
                   alt=""
-                  width={24}
-                  height={24}
-                  className="w-6 h-6 object-contain group-hover:brightness-0 group-hover:invert transition-all"
+                  width={48}
+                  height={48}
+                  className="w-12 h-12 object-contain"
                 />
               </div>
             )}

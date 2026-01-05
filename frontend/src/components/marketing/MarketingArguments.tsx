@@ -31,13 +31,13 @@ const MarketingArguments: React.FC<MarketingArgumentsProps> = ({
             {/* Icon or Number */}
             <div className="flex items-center justify-center mb-4">
               {arg.icon && (
-                <div className="flex items-center justify-center w-16 h-16 bg-primary-600 rounded-2xl">
+                <div className="flex items-center justify-center w-16 h-16">
                   <Image
                     src={arg.icon}
                     alt=""
-                    width={32}
-                    height={32}
-                    className="w-8 h-8 object-contain brightness-0 invert"
+                    width={64}
+                    height={64}
+                    className="w-16 h-16 object-contain"
                   />
                 </div>
               )}

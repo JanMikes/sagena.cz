@@ -33,7 +33,9 @@ const Directions: React.FC<DirectionsProps> = ({
     ? 'text-2xl font-bold text-white mb-6'
     : 'text-2xl font-bold text-gray-900 mb-6';
 
-  const iconContainerClasses = isStyle2
+  const iconContainerClasses = 'flex items-center justify-center w-12 h-12 flex-shrink-0';
+
+  const numberContainerClasses = isStyle2
     ? 'flex items-center justify-center w-12 h-12 bg-white/20 backdrop-blur-sm rounded-lg flex-shrink-0'
     : 'flex items-center justify-center w-12 h-12 bg-primary-100 rounded-lg flex-shrink-0';
 
@@ -65,13 +67,13 @@ const Directions: React.FC<DirectionsProps> = ({
                 <Image
                   src={instruction.icon}
                   alt=""
-                  width={24}
-                  height={24}
-                  className={isStyle2 ? 'w-6 h-6 object-contain brightness-0 invert' : 'w-6 h-6 object-contain'}
+                  width={48}
+                  height={48}
+                  className="w-12 h-12 object-contain"
                 />
               </div>
             ) : (
-              <div className={iconContainerClasses}>
+              <div className={numberContainerClasses}>
                 <span className={stepNumberClasses}>
                   {index + 1}
                 </span>
