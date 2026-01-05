@@ -108,6 +108,9 @@ export const config = {
   // Match all paths except:
   // - _next (Next.js internals)
   // - api routes
-  // - static files (files with extensions)
-  matcher: ['/((?!_next|api|favicon.ico|uploads|.*\\..*).*)'],
+  // - static files (common extensions)
+  // - common auto-requested files
+  matcher: [
+    '/((?!_next|api|uploads|favicon\\.ico|apple-touch-icon.*|.*\\.(?:png|jpg|jpeg|gif|svg|ico|webp|js|css|woff|woff2|ttf|eot|json|xml|txt|map)$).*)',
+  ],
 };
