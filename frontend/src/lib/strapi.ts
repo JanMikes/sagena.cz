@@ -747,6 +747,7 @@ export async function fetchNavigation(
   // we must explicitly populate those nested relations
   const params: Record<string, any> = {
     locale,
+    sort: 'sortOrder:asc',
     populate: {
       link: {
         populate: ['page', 'file'],
