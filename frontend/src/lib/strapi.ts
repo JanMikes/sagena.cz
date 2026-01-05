@@ -1151,7 +1151,7 @@ export async function fetchPageBySlug(
             },
             'components.doctor-profile': {
               populate: {
-                profile: {
+                profiles: {
                   populate: {
                     person: {
                       populate: {
@@ -1294,7 +1294,7 @@ export async function fetchPageBySlug(
             },
             'components.doctor-profile': {
               populate: {
-                profile: {
+                profiles: {
                   populate: {
                     person: {
                       populate: {
@@ -1923,7 +1923,7 @@ export async function fetchIntranetPageBySlug(
             },
             'components.doctor-profile': {
               populate: {
-                profile: {
+                profiles: {
                   populate: {
                     person: {
                       populate: {
@@ -2026,7 +2026,7 @@ export async function fetchIntranetPageBySlug(
             },
             'components.doctor-profile': {
               populate: {
-                profile: {
+                profiles: {
                   populate: {
                     person: {
                       populate: {

@@ -1,15 +1,20 @@
 {
   "collectionName": "components_components_doctor_profiles",
   "info": {
-    "displayName": "Doktor, ambulance",
+    "displayName": "Doktoři, ambulance",
     "icon": "user"
   },
   "options": {},
   "attributes": {
-    "profile": {
+    "profiles": {
       "type": "component",
       "component": "elements.doctor-profile",
-      "repeatable": false
+      "repeatable": true
+    },
+    "columns": {
+      "type": "enumeration",
+      "enum": ["Two columns", "Three columns", "Four columns"],
+      "default": "Three columns"
     }
   },
   "config": {}

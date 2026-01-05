@@ -845,46 +845,67 @@ async function renderComponent(
 
     case 'components.doctor-profile': {
       const doctorProfileComponent = component as ComponentsDoctorProfile;
-      const profile = doctorProfileComponent.profile;
+      const profiles = doctorProfileComponent.profiles;
 
-      // Handle missing profile data
-      if (!profile) {
+      // Handle missing profiles data
+      if (!profiles || profiles.length === 0) {
         return null;
       }
 
-      const person = profile.person?.person;
+      // Column mapping (same pattern as other grid components)
+      const columnMap: Record<string, 2 | 3 | 4> = {
+        'Two columns': 2,
+        'Three columns': 3,
+        'Four columns': 4,
+      };
+      const columnsKey = doctorProfileComponent.columns ?? 'Three columns';
+      const columns = columnMap[columnsKey] || 3;
 
-      // Extract photo URL from person if available
-      // Strapi v5 returns media directly when populated with specific fields
-      const photoUrl = person?.photo?.url
-        ? getStrapiMediaURL(person.photo.url)
-        : undefined;
-
-      // Transform opening hours
-      const openingHours = profile.openingHours?.map((hours) => ({
-        day: hours?.day || '',
-        time: hours?.time || '',
-      })) || [];
-
-      // Transform holiday
-      const holiday = profile.holiday ? {
-        from: profile.holiday.from || '',
-        to: profile.holiday.to || '',
-      } : undefined;
+      const gridCols = {
+        2: 'md:grid-cols-2',
+        3: 'md:grid-cols-2 lg:grid-cols-3',
+        4: 'md:grid-cols-2 lg:grid-cols-4',
+      };
 
       return (
-        <DoctorProfile
-          key={`${__component}-${component.id || index}`}
-          ambulanceTitle={profile.ambulanceTitle || undefined}
-          photo={photoUrl}
-          name={person?.name || ''}
-          department={profile.department || ''}
-          positions={profile.positions?.map(p => p?.title || '') || []}
-          phone={person?.phone ?? undefined}
-          email={person?.email ?? undefined}
-          openingHours={openingHours}
-          holiday={holiday}
-        />
+        <div key={`${__component}-${component.id || index}`} className={`grid grid-cols-1 ${gridCols[columns]} gap-6`}>
+          {profiles.map((profile, profileIndex) => {
+            const person = profile.person?.person;
+
+            // Extract photo URL from person if available
+            // Strapi v5 returns media directly when populated with specific fields
+            const photoUrl = person?.photo?.url
+              ? getStrapiMediaURL(person.photo.url)
+              : undefined;
+
+            // Transform opening hours
+            const openingHours = profile.openingHours?.map((hours) => ({
+              day: hours?.day || '',
+              time: hours?.time || '',
+            })) || [];
+
+            // Transform holiday
+            const holiday = profile.holiday ? {
+              from: profile.holiday.from || '',
+              to: profile.holiday.to || '',
+            } : undefined;
+
+            return (
+              <DoctorProfile
+                key={profile.id || profileIndex}
+                ambulanceTitle={profile.ambulanceTitle || undefined}
+                photo={photoUrl}
+                name={person?.name || ''}
+                department={profile.department || ''}
+                positions={profile.positions?.map(p => p?.title || '') || []}
+                phone={person?.phone ?? undefined}
+                email={person?.email ?? undefined}
+                openingHours={openingHours}
+                holiday={holiday}
+              />
+            );
+          })}
+        </div>
       );
     }
 

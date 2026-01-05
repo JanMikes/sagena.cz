@@ -459,7 +459,8 @@ export interface ComponentsContactCards {
 export interface ComponentsDoctorProfile {
   id: number;
   __component: 'components.doctor-profile';
-  profile?: ElementsDoctorProfile | null;  // Single doctor profile
+  profiles?: ElementsDoctorProfile[] | null;  // Multiple doctor profiles
+  columns?: 'Two columns' | 'Three columns' | 'Four columns' | null;  // Grid layout
 }
 
 /**

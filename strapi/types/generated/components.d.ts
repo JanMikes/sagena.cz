@@ -75,11 +75,15 @@ export interface ComponentsDirections extends Struct.ComponentSchema {
 export interface ComponentsDoctorProfile extends Struct.ComponentSchema {
   collectionName: 'components_components_doctor_profiles';
   info: {
-    displayName: 'Doktor, ambulance';
+    displayName: 'Dokto\u0159i, ambulance';
     icon: 'user';
   };
   attributes: {
-    profile: Schema.Attribute.Component<'elements.doctor-profile', false>;
+    columns: Schema.Attribute.Enumeration<
+      ['Two columns', 'Three columns', 'Four columns']
+    > &
+      Schema.Attribute.DefaultTo<'Three columns'>;
+    profiles: Schema.Attribute.Component<'elements.doctor-profile', true>;
   };
 }
 
