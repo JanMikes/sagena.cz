@@ -14,6 +14,7 @@ interface ContactCardData {
   phone?: string | null;
   photo?: string | null;
   gender?: 'man' | 'woman' | null;
+  funkce?: string | null;
 }
 
 interface ExpandableSectionData {

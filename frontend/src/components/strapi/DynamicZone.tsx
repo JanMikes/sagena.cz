@@ -733,6 +733,7 @@ async function renderComponent(
           phone: card.person?.person?.phone ?? undefined,
           photo: card.person?.person?.photo?.url ? getStrapiMediaURL(card.person.person.photo.url) : null,
           gender: card.person?.person?.gender ?? undefined,
+          funkce: card.funkce ?? undefined,
         })) || [];
 
         return {
