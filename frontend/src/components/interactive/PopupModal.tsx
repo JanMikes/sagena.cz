@@ -27,15 +27,18 @@ const PopupModal: React.FC<PopupModalProps> = ({
   // Generate storage key using globally unique Strapi component ID
   const storageKey = popupId ? `popup-dismissed-${popupId}` : null;
 
-  // Check if popup was previously dismissed (only if rememberDismissal is enabled)
-  const getInitialState = () => {
-    if (rememberDismissal && storageKey && typeof window !== 'undefined') {
-      return localStorage.getItem(storageKey) !== 'true';
-    }
-    return true;
-  };
+  // Track hydration state to prevent flash
+  const [mounted, setMounted] = useState(!rememberDismissal);
+  const [isOpen, setIsOpen] = useState(true);
 
-  const [isOpen, setIsOpen] = useState(getInitialState);
+  // Check localStorage after hydration to avoid SSR mismatch
+  useEffect(() => {
+    if (rememberDismissal && storageKey) {
+      const wasDismissed = localStorage.getItem(storageKey) === 'true';
+      setIsOpen(!wasDismissed);
+    }
+    setMounted(true);
+  }, [rememberDismissal, storageKey]);
 
   // Check if there's any content to show
   const hasContent = !!(title || description || link);
@@ -55,6 +58,9 @@ const PopupModal: React.FC<PopupModalProps> = ({
   if (!hasContent) {
     return null;
   }
+
+  // Wait for hydration when rememberDismissal is enabled to prevent flash
+  if (!mounted) return null;
 
   if (!isOpen) return null;
 
