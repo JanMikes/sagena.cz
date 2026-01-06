@@ -264,23 +264,31 @@ const Footer: React.FC<FooterProps> = ({ data, locale = 'cs', footerNavigation =
           </p>
           <div className="flex items-center space-x-4">
             <a
-              href="#"
+              href="https://www.facebook.com/centrumzdravisagena/?locale=cs_CZ"
+              target="_blank"
+              rel="noopener noreferrer"
               className="w-10 h-10 flex items-center justify-center bg-gray-800 hover:bg-primary-600 text-gray-400 hover:text-white rounded-lg transition-all"
             >
               <Facebook className="w-5 h-5" />
             </a>
             <a
-              href="#"
+              href="https://www.instagram.com/sagena_zdravotnicke_zarizeni/"
+              target="_blank"
+              rel="noopener noreferrer"
               className="w-10 h-10 flex items-center justify-center bg-gray-800 hover:bg-primary-600 text-gray-400 hover:text-white rounded-lg transition-all"
             >
               <Instagram className="w-5 h-5" />
             </a>
+            {/* LinkedIn - hidden until link is provided
             <a
               href="#"
+              target="_blank"
+              rel="noopener noreferrer"
               className="w-10 h-10 flex items-center justify-center bg-gray-800 hover:bg-primary-600 text-gray-400 hover:text-white rounded-lg transition-all"
             >
               <Linkedin className="w-5 h-5" />
             </a>
+            */}
           </div>
         </div>
       </div>
