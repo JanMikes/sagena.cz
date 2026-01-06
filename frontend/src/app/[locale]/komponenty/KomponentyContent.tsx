@@ -45,32 +45,6 @@ export default function KomponentyPage() {
         link={{ text: 'Rozumím', url: '/cs/komponenty/' }}
       />
 
-      {/* Page Header Demo - Slider with overlapping ServiceCards */}
-      <div className="relative">
-        <Slider
-          slides={[
-            {
-              title: 'Knihovna komponent',
-              description: 'Přehled všech dostupných komponent pro tvorbu obsahu',
-            },
-          ]}
-        />
-        <div className="relative z-10 -mt-16 md:-mt-24">
-          <div className="container-custom">
-            <div className="bg-white rounded-xl shadow-xl p-6 md:p-8">
-              <ServiceCards
-                columns={3}
-                cards={[
-                  { icon: null, title: 'Interaktivní', description: 'Tlačítka, formuláře a rozbalovací sekce' },
-                  { icon: null, title: 'Obsah', description: 'Karty, dokumenty, videa a aktuality' },
-                  { icon: null, title: 'Marketing', description: 'Slidery, galerie a časové osy' },
-                ]}
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-
       <div className="container-custom py-12 space-y-8">
         <Breadcrumb items={[{ label: 'Komponenty', href: '/komponenty' }, { label: 'Aktuální stránka' }]} />
 

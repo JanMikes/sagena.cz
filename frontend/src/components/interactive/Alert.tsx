@@ -59,16 +59,16 @@ const Alert: React.FC<AlertProps> = ({
       className={`border-l-4 rounded-r-lg p-4 ${config.containerClass} ${className}`}
       role="alert"
     >
-      <div className="flex items-start gap-4">
+      <div className="flex items-center gap-4">
         <div className="flex-shrink-0">
           <IconComponent className={`w-12 h-12 ${config.iconClass}`} />
         </div>
-        <div className="flex-1 pt-1">
-          <h3 className={`text-sm font-medium ${config.titleClass} mb-1`}>
+        <div className="flex-1">
+          <h3 className={`text-base font-bold ${config.titleClass} mb-1`}>
             {title}
           </h3>
           {text && (
-            <RichText content={text} size="sm" className={config.textClass} />
+            <RichText content={text} size="sm" className={`${config.textClass} font-normal`} />
           )}
         </div>
       </div>

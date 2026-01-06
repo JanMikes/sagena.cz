@@ -187,11 +187,7 @@ export default async function Page({ params }: PageProps) {
       >
         {/* Header - dynamic from Strapi (only for pages with slider or service_cards) */}
         {hasPageHeader && (
-          <>
-            {/* Visually hidden but accessible title for SEO */}
-            <h1 className="sr-only">{page.title}</h1>
-            <PageHeader header={page.header!} locale={locale} />
-          </>
+          <PageHeader header={page.header!} locale={locale} />
         )}
         {showSidebar ? (
           /* Two-column layout with sidebar - breadcrumb above, sidebar starts at H1 level */
@@ -203,10 +199,8 @@ export default async function Page({ params }: PageProps) {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-6">
               {/* Main Content */}
               <div className="lg:col-span-2 space-y-8">
-                {/* Page Title (when no PageHeader) */}
-                {!hasPageHeader && (
-                  <h1 className="text-4xl md:text-5xl font-bold text-primary-600">{page.title}</h1>
-                )}
+                {/* Page Title */}
+                <h1 className="text-4xl md:text-5xl font-bold text-primary-600">{page.title}</h1>
 
                 <DynamicZone components={page.content} locale={locale} inContainer />
               </div>
@@ -226,10 +220,8 @@ export default async function Page({ params }: PageProps) {
             <div className="container-custom mb-8">
               <Breadcrumb items={breadcrumbItems} />
 
-              {/* Page Title (when no PageHeader) */}
-              {!hasPageHeader && (
-                <h1 className="text-4xl md:text-5xl font-bold text-primary-600 mt-6">{page.title}</h1>
-              )}
+              {/* Page Title */}
+              <h1 className="text-4xl md:text-5xl font-bold text-primary-600 mt-6">{page.title}</h1>
             </div>
 
             <DynamicZone components={page.content} locale={locale} />
