@@ -26,12 +26,14 @@ interface SliderProps {
   slides: Slide[];
   autoplay?: boolean;
   autoplayInterval?: number;
+  variant?: 'header' | 'content';
 }
 
 const Slider: React.FC<SliderProps> = ({
   slides,
   autoplay = false,
   autoplayInterval = 5000,
+  variant = 'content',
 }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -60,12 +62,19 @@ const Slider: React.FC<SliderProps> = ({
 
   // Determine if we have a background (image or custom color in future)
   const hasBackground = !!slide.backgroundImage;
+  // For content variant: always use dark mode (white text). For header: only when has background
+  const useDarkMode = variant === 'content' || hasBackground;
+  // Show gradient background for content variant when no background image
+  const showGradient = variant === 'content' && !hasBackground;
+
+  // Rounded corners for content variant (standalone usage)
+  const roundedClass = variant === 'content' ? 'rounded-2xl' : '';
 
   return (
-    <div className="relative overflow-hidden">
+    <div className={`relative overflow-hidden ${roundedClass}`}>
       {/* Slide Content */}
       <div
-        className="relative h-96 md:h-[500px] overflow-hidden"
+        className={`relative h-96 md:h-[500px] overflow-hidden ${roundedClass} ${showGradient ? 'bg-gradient-to-br from-primary-600 to-primary-800' : ''}`}
         style={
           slide.backgroundImage
             ? {
@@ -92,12 +101,12 @@ const Slider: React.FC<SliderProps> = ({
               } h-full ${slide.imagePosition === 'left' ? 'lg:order-2' : 'lg:order-1'}`}>
                 <div>
                   <h2 className={`text-3xl md:text-4xl font-bold mb-4 leading-tight ${
-                    hasBackground ? 'text-white' : 'text-primary-600'
+                    useDarkMode ? 'text-white' : 'text-primary-600'
                   }`}>
                     {slide.title}
                   </h2>
                   <p className={`text-lg mb-6 leading-relaxed ${
-                    hasBackground ? 'text-primary-100' : 'text-gray-600'
+                    useDarkMode ? 'text-primary-100' : 'text-gray-600'
                   }`}>
                     {slide.description}
                   </p>
@@ -107,7 +116,7 @@ const Slider: React.FC<SliderProps> = ({
                       target={slide.link.external ? '_blank' : undefined}
                       rel={slide.link.external ? 'noopener noreferrer' : undefined}
                       className={`inline-flex items-center space-x-2 px-6 py-3 rounded-lg font-semibold transition-colors group ${
-                        hasBackground
+                        useDarkMode
                           ? 'bg-white text-primary-600 hover:bg-primary-50'
                           : 'bg-primary-600 text-white hover:bg-primary-700'
                       }`}
@@ -161,8 +170,8 @@ const Slider: React.FC<SliderProps> = ({
               onClick={() => goToSlide(index)}
               className={`w-3 h-3 rounded-full transition-all ${
                 index === currentSlide
-                  ? hasBackground ? 'bg-white w-8' : 'bg-primary-600 w-8'
-                  : hasBackground ? 'bg-white/50 hover:bg-white/75' : 'bg-primary-300 hover:bg-primary-400'
+                  ? useDarkMode ? 'bg-white w-8' : 'bg-primary-600 w-8'
+                  : useDarkMode ? 'bg-white/50 hover:bg-white/75' : 'bg-primary-300 hover:bg-primary-400'
               }`}
               aria-label={`Slide ${index + 1}`}
             />

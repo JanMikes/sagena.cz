@@ -35,9 +35,6 @@ const ServiceCards: React.FC<ServiceCardsProps> = ({
 
   const isCentered = textAlign === 'Center aligned';
   const textAlignClass = isCentered ? 'text-center' : '';
-  const iconContainerClass = isCentered
-    ? 'flex items-center justify-center w-14 h-14 mb-4 mx-auto'
-    : 'flex items-center justify-center w-14 h-14 mb-4';
 
   return (
     <div className={`grid grid-cols-1 ${gridCols[columns]} gap-6`}>
@@ -47,39 +44,43 @@ const ServiceCards: React.FC<ServiceCardsProps> = ({
 
         const cardContent = (
           <>
-            {card.icon && (
-              <div className={iconContainerClass}>
-                <Image
-                  src={card.icon}
-                  alt=""
-                  width={56}
-                  height={56}
-                  className="w-14 h-14 object-contain"
-                />
-              </div>
-            )}
-            <h3 className={`text-xl font-bold text-gray-900 mb-2 ${isCentered ? 'group-hover:text-primary-600 transition-colors' : ''}`}>
-              {card.title}
-            </h3>
+            {/* Icon + Title on same line */}
+            <div className={`flex items-center gap-3 mb-2 ${isCentered ? 'justify-center' : ''}`}>
+              {card.icon && (
+                <div className="flex-shrink-0 w-10 h-10">
+                  <Image
+                    src={card.icon}
+                    alt=""
+                    width={40}
+                    height={40}
+                    className="w-10 h-10 object-contain"
+                  />
+                </div>
+              )}
+              <h3 className={`text-lg font-semibold text-primary-700 ${isCentered ? 'group-hover:text-primary-600 transition-colors' : ''}`}>
+                {card.title}
+              </h3>
+            </div>
             {card.description && (
               <p className="text-gray-600 mb-4 leading-relaxed">
                 {card.description}
               </p>
             )}
-            {/* Show link button only when not in cardClickable mode */}
-            {card.link && !cardClickable && (
-              <Link
-                href={card.link.url}
-                className="inline-flex items-center space-x-2 text-primary-600 hover:text-primary-700 font-medium group"
-              >
-                <span>{card.link.text}</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </Link>
+            {/* Arrow always in bottom-right with absolute positioning */}
+            {card.link && (
+              <div className="absolute bottom-0 right-0">
+                <span className="inline-flex items-center gap-2 bg-primary-50 px-4 py-2 rounded-tl-lg rounded-br-xl">
+                  {card.link.text && (
+                    <span className="text-primary-600 font-medium text-sm">{card.link.text}</span>
+                  )}
+                  <ArrowRight className="w-4 h-4 text-primary-600 group-hover:translate-x-1 transition-transform" />
+                </span>
+              </div>
             )}
           </>
         );
 
-        const baseCardClass = `bg-white border border-gray-200 rounded-xl p-6 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 ${textAlignClass}`;
+        const baseCardClass = `relative flex flex-col bg-white rounded-xl p-6 shadow-[0_0_25px_rgba(204,229,243,0.8)] hover:shadow-[0_0_35px_rgba(153,203,231,0.9)] hover:-translate-y-1 transition-all duration-300 ${textAlignClass}`;
 
         if (shouldWrapInLink) {
           return (

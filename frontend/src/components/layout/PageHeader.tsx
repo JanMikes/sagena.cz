@@ -109,6 +109,7 @@ const PageHeader: React.FC<PageHeaderProps> = async ({ header, locale = 'cs' }) 
       columns: columnMap[columnsKey] || 3,
       textAlign: header.service_cards.text_align ?? undefined,
       cardClickable: header.service_cards.card_clickable ?? undefined,
+      showArrowBackground: false,
     };
   }
 
@@ -117,7 +118,7 @@ const PageHeader: React.FC<PageHeaderProps> = async ({ header, locale = 'cs' }) 
       {/* Slider - 100% width */}
       {sliderProps && (
         <div className="w-full">
-          <Slider {...sliderProps} />
+          <Slider {...sliderProps} variant="header" />
         </div>
       )}
 
