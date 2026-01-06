@@ -33,21 +33,20 @@ const LocationCard: React.FC<{ card: LocationCardData }> = ({ card }) => {
 
   return (
     <div
-      className="relative h-[500px]"
+      className="relative"
       style={{ perspective: '1000px' }}
     >
       <div
-        className={`relative w-full h-full transition-transform duration-700 ${
+        className={`relative w-full transition-transform duration-700 ${
           isFlipped ? '[transform:rotateY(180deg)]' : ''
         }`}
         style={{ transformStyle: 'preserve-3d' }}
       >
         {/* Front Side */}
         <div
-          className="absolute inset-0"
           style={{ backfaceVisibility: 'hidden' }}
         >
-          <div className="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col h-full">
+          <div className="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col">
             {/* Photo */}
             {card.photo && (
               <div className="relative h-48 w-full flex-shrink-0">
@@ -61,7 +60,7 @@ const LocationCard: React.FC<{ card: LocationCardData }> = ({ card }) => {
             )}
 
             {/* Content */}
-            <div className="p-6 flex-1 flex flex-col">
+            <div className="p-6 flex flex-col">
               {/* Title */}
               {card.title && (
                 <h3 className="text-xl font-bold text-gray-900 mb-3">
@@ -77,7 +76,7 @@ const LocationCard: React.FC<{ card: LocationCardData }> = ({ card }) => {
               )}
 
               {/* Contact Info */}
-              <div className="space-y-2 flex-1">
+              <div className="space-y-2">
                 {/* Address */}
                 {card.address && (
                   <div className="flex items-start space-x-3 text-gray-600">
@@ -113,25 +112,25 @@ const LocationCard: React.FC<{ card: LocationCardData }> = ({ card }) => {
               {hasOpeningHours && (
                 <button
                   onClick={() => setIsFlipped(true)}
-                  className="mt-4 flex items-center justify-center space-x-2 w-full py-2 text-primary-600 hover:text-primary-700 font-medium text-sm transition-colors border border-primary-200 rounded-lg hover:bg-primary-50"
+                  className="mt-2 flex items-center justify-center space-x-1.5 w-full py-1.5 text-primary-600 hover:text-primary-700 text-xs transition-colors border border-primary-200 rounded hover:bg-primary-50"
                 >
-                  <Clock className="w-4 h-4" />
+                  <Clock className="w-3.5 h-3.5" />
                   <span>Ordinační hodiny</span>
                 </button>
               )}
 
               {/* Buttons (full-width at bottom) */}
               {(card.link || card.mapLink) && (
-                <div className="mt-4 pt-4 border-t border-gray-100 space-y-3">
+                <div className="mt-3 pt-3 border-t border-gray-100 space-y-2">
                   {card.link && (
                     <Link
                       href={card.link.url}
                       target={card.link.external ? '_blank' : undefined}
                       rel={card.link.external ? 'noopener noreferrer' : undefined}
-                      className="flex items-center justify-center w-full px-4 py-3 bg-primary-600 text-white font-medium rounded-lg hover:bg-primary-700 transition-colors group"
+                      className="flex items-center justify-center w-full px-3 py-2 bg-primary-600 text-white text-sm rounded hover:bg-primary-700 transition-colors group"
                     >
                       <span>{card.link.text}</span>
-                      <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                      <ArrowRight className="w-3.5 h-3.5 ml-1.5 group-hover:translate-x-1 transition-transform" />
                     </Link>
                   )}
                   {card.mapLink && (
@@ -139,9 +138,9 @@ const LocationCard: React.FC<{ card: LocationCardData }> = ({ card }) => {
                       href={card.mapLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center justify-center w-full px-4 py-3 border border-primary-600 text-primary-600 font-medium rounded-lg hover:bg-primary-50 transition-colors group"
+                      className="flex items-center justify-center w-full px-3 py-2 border border-primary-600 text-primary-600 text-sm rounded hover:bg-primary-50 transition-colors group"
                     >
-                      <Map className="w-4 h-4 mr-2" />
+                      <Map className="w-3.5 h-3.5 mr-1.5" />
                       <span>Zobrazit na mapě</span>
                     </Link>
                   )}
@@ -153,7 +152,7 @@ const LocationCard: React.FC<{ card: LocationCardData }> = ({ card }) => {
 
         {/* Back Side - Opening Hours */}
         <div
-          className="absolute inset-0 [transform:rotateY(180deg)]"
+          className="absolute inset-0 top-0 left-0 w-full h-full [transform:rotateY(180deg)]"
           style={{ backfaceVisibility: 'hidden' }}
         >
           <div className="bg-primary-600 text-white rounded-xl p-6 h-full flex flex-col">
@@ -161,7 +160,7 @@ const LocationCard: React.FC<{ card: LocationCardData }> = ({ card }) => {
             {card.title && (
               <p className="text-primary-100 mb-4">{card.title}</p>
             )}
-            <div className="space-y-3 flex-1">
+            <div className="space-y-2 flex-1">
               {card.openingHours && Object.entries(
                 card.openingHours.reduce<Record<string, string[]>>((acc, hours) => {
                   if (!acc[hours.day]) {
@@ -171,7 +170,7 @@ const LocationCard: React.FC<{ card: LocationCardData }> = ({ card }) => {
                   return acc;
                 }, {})
               ).map(([day, times]) => (
-                <div key={day} className="flex justify-between">
+                <div key={day} className="flex justify-between text-sm">
                   <span className="font-medium">{day}</span>
                   <div className="text-right">
                     {times.map((time, index) => (
@@ -183,7 +182,7 @@ const LocationCard: React.FC<{ card: LocationCardData }> = ({ card }) => {
             </div>
             <button
               onClick={() => setIsFlipped(false)}
-              className="mt-4 w-full py-2 bg-white text-primary-600 rounded-lg font-medium hover:bg-primary-50 transition-colors"
+              className="mt-3 w-full py-1.5 bg-white text-primary-600 rounded text-xs hover:bg-primary-50 transition-colors"
             >
               Zpět
             </button>
