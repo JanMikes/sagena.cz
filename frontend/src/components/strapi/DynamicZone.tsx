@@ -943,16 +943,16 @@ async function renderComponent(
       }));
 
       // Determine "show all" link behavior:
-      // 1. If show_all_link has destination (page/url/file/anchor) -> use it
-      // 2. If show_all_link has text only (no destination) -> use text, link to /aktuality with tags
-      // 3. If show_all_link is missing -> auto-generate link to /aktuality with tags (always show)
+      // 1. If show_all_link is missing -> don't show button
+      // 2. If show_all_link has destination (page/url/file/anchor) -> use resolved link
+      // 3. If show_all_link exists but no destination -> use text (or default) + /aktuality link with tags
       let showAllLink = null;
       const tagsQuery = tagSlugs.length > 0 ? `?tags=${tagSlugs.join(',')}` : '';
       const defaultLinkText = locale === 'en' ? 'Show all' : 'Zobrazit vše';
 
       if (newsArticlesComponent.show_all_link) {
         if (hasLinkDestination(newsArticlesComponent.show_all_link)) {
-          // Case 1: Has destination - use existing behavior
+          // Case 2: Has destination - use resolved link
           const resolved = resolveTextLink(newsArticlesComponent.show_all_link, locale);
           if (!resolved.disabled) {
             showAllLink = {
@@ -961,20 +961,15 @@ async function renderComponent(
             };
           }
         } else {
-          // Case 2: Has text only - use text, link to /aktuality with tags
+          // Case 3: Exists but no destination - use text (or default) + /aktuality link with tags
           const linkText = newsArticlesComponent.show_all_link.text || defaultLinkText;
           showAllLink = {
             text: linkText,
             url: `/${locale}/aktuality/${tagsQuery}`,
           };
         }
-      } else {
-        // Case 3: No show_all_link - auto-generate (always show)
-        showAllLink = {
-          text: defaultLinkText,
-          url: `/${locale}/aktuality/${tagsQuery}`,
-        };
       }
+      // Case 1: No show_all_link - showAllLink stays null, button won't show
 
       return (
         <NewsArticles
