@@ -176,16 +176,7 @@ export default async function Page({ params }: PageProps) {
       {/* Set alternate URL for language switcher */}
       <SetAlternateLocaleUrl url={alternateLocaleUrl} />
 
-      {/* Header - dynamic from Strapi (only for pages with slider or service_cards) */}
-      {hasPageHeader && (
-        <>
-          {/* Visually hidden but accessible title for SEO */}
-          <h1 className="sr-only">{page.title}</h1>
-          <PageHeader header={page.header!} locale={locale} />
-        </>
-      )}
-
-      {/* Page Content Layout with gradient background */}
+      {/* Page Layout with gradient background starting from navbar */}
       <div
         style={{
           background: `
@@ -194,6 +185,14 @@ export default async function Page({ params }: PageProps) {
           `,
         }}
       >
+        {/* Header - dynamic from Strapi (only for pages with slider or service_cards) */}
+        {hasPageHeader && (
+          <>
+            {/* Visually hidden but accessible title for SEO */}
+            <h1 className="sr-only">{page.title}</h1>
+            <PageHeader header={page.header!} locale={locale} />
+          </>
+        )}
         {showSidebar ? (
           /* Two-column layout with sidebar - needs container around grid */
           <div className="container-custom pt-6 pb-12">

@@ -125,15 +125,11 @@ const PageHeader: React.FC<PageHeaderProps> = async ({ header, locale = 'cs' }) 
       {serviceCardsProps && (
         <div
           className={`
-            relative z-10
+            relative z-10 px-4 md:px-8 lg:px-16
             ${hasSlider ? '-mt-16 md:-mt-24' : ''}
           `}
         >
-          <div className="container-custom">
-            <div className="bg-white rounded-xl shadow-xl p-6 md:p-8">
-              <ServiceCards {...serviceCardsProps} />
-            </div>
-          </div>
+          <ServiceCards {...serviceCardsProps} />
         </div>
       )}
     </div>

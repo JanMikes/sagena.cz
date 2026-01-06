@@ -58,11 +58,14 @@ const Slider: React.FC<SliderProps> = ({
   const slide = slides[currentSlide];
   const showArrows = slides.length > 1;
 
+  // Determine if we have a background (image or custom color in future)
+  const hasBackground = !!slide.backgroundImage;
+
   return (
-    <div className="relative rounded-2xl overflow-hidden shadow-2xl">
+    <div className="relative overflow-hidden">
       {/* Slide Content */}
       <div
-        className="relative h-96 md:h-[500px] bg-gradient-to-br from-primary-600 to-primary-800 overflow-hidden"
+        className="relative h-96 md:h-[500px] overflow-hidden"
         style={
           slide.backgroundImage
             ? {
@@ -73,7 +76,7 @@ const Slider: React.FC<SliderProps> = ({
             : undefined
         }
       >
-        {/* Overlay */}
+        {/* Overlay for background images */}
         {slide.backgroundImage && (
           <div className="absolute inset-0 bg-gradient-to-r from-primary-900/90 to-primary-900/50" />
         )}
@@ -82,16 +85,20 @@ const Slider: React.FC<SliderProps> = ({
         <div className="relative h-full">
           <div className="container-custom px-16 md:px-20 lg:px-24 h-full">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 h-full">
-              <div className={`text-white flex flex-col ${
-                slide.textPosition === 'top' ? 'justify-start' :
-                slide.textPosition === 'bottom' ? 'justify-end' :
-                'justify-center'
-              } h-full py-8 ${slide.imagePosition === 'left' ? 'lg:order-2' : 'lg:order-1'}`}>
+              <div className={`flex flex-col ${
+                slide.textPosition === 'top' ? 'justify-start pt-8' :
+                slide.textPosition === 'bottom' ? 'justify-end pb-16' :
+                'justify-center -mt-12'
+              } h-full ${slide.imagePosition === 'left' ? 'lg:order-2' : 'lg:order-1'}`}>
                 <div>
-                  <h2 className="text-3xl md:text-4xl font-bold mb-4 leading-tight">
+                  <h2 className={`text-3xl md:text-4xl font-bold mb-4 leading-tight ${
+                    hasBackground ? 'text-white' : 'text-primary-600'
+                  }`}>
                     {slide.title}
                   </h2>
-                  <p className="text-lg text-primary-100 mb-6 leading-relaxed">
+                  <p className={`text-lg mb-6 leading-relaxed ${
+                    hasBackground ? 'text-primary-100' : 'text-gray-600'
+                  }`}>
                     {slide.description}
                   </p>
                   {slide.link && !slide.link.disabled && (
@@ -99,7 +106,11 @@ const Slider: React.FC<SliderProps> = ({
                       href={slide.link.url}
                       target={slide.link.external ? '_blank' : undefined}
                       rel={slide.link.external ? 'noopener noreferrer' : undefined}
-                      className="inline-flex items-center space-x-2 bg-white text-primary-600 px-6 py-3 rounded-lg font-semibold hover:bg-primary-50 transition-colors group"
+                      className={`inline-flex items-center space-x-2 px-6 py-3 rounded-lg font-semibold transition-colors group ${
+                        hasBackground
+                          ? 'bg-white text-primary-600 hover:bg-primary-50'
+                          : 'bg-primary-600 text-white hover:bg-primary-700'
+                      }`}
                     >
                       <span>{slide.link.text}</span>
                       <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -150,8 +161,8 @@ const Slider: React.FC<SliderProps> = ({
               onClick={() => goToSlide(index)}
               className={`w-3 h-3 rounded-full transition-all ${
                 index === currentSlide
-                  ? 'bg-white w-8'
-                  : 'bg-white/50 hover:bg-white/75'
+                  ? hasBackground ? 'bg-white w-8' : 'bg-primary-600 w-8'
+                  : hasBackground ? 'bg-white/50 hover:bg-white/75' : 'bg-primary-300 hover:bg-primary-400'
               }`}
               aria-label={`Slide ${index + 1}`}
             />
