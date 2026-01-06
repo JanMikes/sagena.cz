@@ -4,6 +4,7 @@ import { SetAlternateLocaleUrl } from '@/contexts/LocaleContext';
 import { getAlternateLocale, type Locale } from '@/i18n/config';
 import { fetchHomepage, fetchPageBySlug } from '@/lib/strapi';
 import DynamicZone from '@/components/strapi/DynamicZone';
+import PageHeader from '@/components/layout/PageHeader';
 
 interface HomePageProps {
   params: Promise<{
@@ -68,13 +69,27 @@ export default async function HomePage({ params }: HomePageProps) {
     );
   }
 
+  // Check if page has a special header
+  const hasPageHeader = page.header && (page.header.slider || page.header.service_cards);
+
   return (
-    <div className="min-h-screen">
+    <>
       {/* Set alternate URL for language switcher */}
       <SetAlternateLocaleUrl url={alternateLocaleUrl} />
 
+      {/* Header - dynamic from Strapi (only for pages with slider or service_cards) */}
+      {hasPageHeader && (
+        <>
+          {/* Visually hidden but accessible title for SEO */}
+          <h1 className="sr-only">{page.title}</h1>
+          <PageHeader header={page.header!} locale={locale} />
+        </>
+      )}
+
       {/* Render page content from Strapi */}
-      <DynamicZone components={page.content || []} locale={locale} />
-    </div>
+      <div className="pt-8 md:pt-12">
+        <DynamicZone components={page.content || []} locale={locale} />
+      </div>
+    </>
   );
 }
