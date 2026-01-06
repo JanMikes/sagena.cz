@@ -112,7 +112,7 @@ const LocationCard: React.FC<{ card: LocationCardData }> = ({ card }) => {
               {hasOpeningHours && (
                 <button
                   onClick={() => setIsFlipped(true)}
-                  className="mt-2 flex items-center justify-center space-x-1.5 w-full py-1.5 text-primary-600 hover:text-primary-700 text-xs transition-colors border border-primary-200 rounded hover:bg-primary-50"
+                  className="mt-4 flex items-center justify-center space-x-1.5 w-full py-1.5 text-primary-600 hover:text-primary-700 text-xs transition-colors border border-primary-200 rounded hover:bg-primary-50"
                 >
                   <Clock className="w-3.5 h-3.5" />
                   <span>Ordinační hodiny</span>
