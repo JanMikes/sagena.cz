@@ -181,7 +181,7 @@ export default async function Page({ params }: PageProps) {
         <>
           {/* Visually hidden but accessible title for SEO */}
           <h1 className="sr-only">{page.title}</h1>
-          <PageHeader header={page.header} locale={locale} />
+          <PageHeader header={page.header!} locale={locale} />
         </>
       )}
 
