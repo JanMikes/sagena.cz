@@ -1,0 +1,20 @@
+{
+  "collectionName": "components_components_page_headers",
+  "info": {
+    "displayName": "Page Header",
+    "icon": "layout",
+    "description": "Page header with optional slider and service cards"
+  },
+  "attributes": {
+    "slider": {
+      "type": "component",
+      "component": "components.slider",
+      "repeatable": false
+    },
+    "service_cards": {
+      "type": "component",
+      "component": "components.service-cards",
+      "repeatable": false
+    }
+  }
+}

@@ -42,6 +42,15 @@
         }
       }
     },
+    "header": {
+      "type": "component",
+      "component": "components.page-header",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
     "parent": {
       "type": "relation",
       "relation": "oneToOne",

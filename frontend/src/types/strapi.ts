@@ -365,6 +365,21 @@ export interface ComponentsSlider {
 }
 
 /**
+ * Components: Page Header
+ * Location: strapi/src/components/components/page-header.json
+ * Usage: Optional page header with slider and/or service cards
+ *
+ * Layout: Slider renders first (100% width), service-cards overlaps below
+ * with negative margin-top when both are present.
+ */
+export interface ComponentsPageHeader {
+  id: number;
+  __component?: 'components.page-header';
+  slider?: ComponentsSlider | null;
+  service_cards?: ComponentsServiceCards | null;
+}
+
+/**
  * Components: Gallery Slider
  * Location: strapi/src/components/components/gallery-slider.json
  * Usage: Photo gallery slider with horizontal scrolling navigation
@@ -1018,6 +1033,7 @@ export interface Page {
   title: string;
   slug: string;
   meta_description?: string | null;
+  header?: ComponentsPageHeader | null; // Optional page header with slider and/or service cards
   parent?: Page | null; // Parent page for hierarchy (returned directly)
   content: PageContentComponent[]; // Main content area (dynamic zone)
   sidebar?: PageSidebarComponent[]; // Optional sidebar area (dynamic zone)

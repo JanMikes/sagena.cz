@@ -22,28 +22,28 @@ const Alert: React.FC<AlertProps> = ({
 }) => {
   const variantConfig = {
     info: {
-      containerClass: 'bg-primary-50 border-primary-200',
+      containerClass: 'bg-primary-50 border-l-primary-600',
       iconClass: 'text-primary-600',
       titleClass: 'text-primary-900',
       textClass: 'text-primary-800',
       Icon: Info,
     },
     success: {
-      containerClass: 'bg-green-50 border-green-200',
+      containerClass: 'bg-green-50 border-l-green-600',
       iconClass: 'text-green-600',
       titleClass: 'text-green-900',
       textClass: 'text-green-800',
       Icon: CheckCircle,
     },
     warning: {
-      containerClass: 'bg-yellow-50 border-yellow-200',
+      containerClass: 'bg-yellow-50 border-l-yellow-600',
       iconClass: 'text-yellow-600',
       titleClass: 'text-yellow-900',
       textClass: 'text-yellow-800',
       Icon: AlertTriangle,
     },
     error: {
-      containerClass: 'bg-red-50 border-red-200',
+      containerClass: 'bg-red-50 border-l-red-600',
       iconClass: 'text-red-600',
       titleClass: 'text-red-900',
       textClass: 'text-red-800',
@@ -56,14 +56,14 @@ const Alert: React.FC<AlertProps> = ({
 
   return (
     <div
-      className={`border rounded-lg p-4 ${config.containerClass} ${className}`}
+      className={`border-l-4 rounded-r-lg p-4 ${config.containerClass} ${className}`}
       role="alert"
     >
-      <div className="flex">
+      <div className="flex items-start gap-4">
         <div className="flex-shrink-0">
-          <IconComponent className={`w-5 h-5 ${config.iconClass}`} />
+          <IconComponent className={`w-12 h-12 ${config.iconClass}`} />
         </div>
-        <div className="ml-3 flex-1">
+        <div className="flex-1 pt-1">
           <h3 className={`text-sm font-medium ${config.titleClass} mb-1`}>
             {title}
           </h3>

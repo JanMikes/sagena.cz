@@ -18,6 +18,7 @@ import * as Sentry from '@sentry/nextjs';
 import { fetchPageBySlug, hasSidebar, getPageHierarchy } from '@/lib/strapi';
 import DynamicZone from '@/components/strapi/DynamicZone';
 import SidePanel from '@/components/layout/SidePanel';
+import PageHeader from '@/components/layout/PageHeader';
 import Breadcrumb from '@/components/navigation/Breadcrumb';
 import { SetAlternateLocaleUrl } from '@/contexts/LocaleContext';
 import { isStaticCzechPage, getAlternateLocale, type Locale } from '@/i18n/config';
@@ -167,17 +168,22 @@ export default async function Page({ params }: PageProps) {
     };
   });
 
+  // Check if page has a special header (PageHeader handles its own H1)
+  const hasPageHeader = page.header && (page.header.slider || page.header.service_cards);
+
   return (
     <>
       {/* Set alternate URL for language switcher */}
       <SetAlternateLocaleUrl url={alternateLocaleUrl} />
 
-      {/* Header */}
-      <div className="bg-gradient-to-r from-primary-600 to-primary-700 text-white py-16">
-        <div className="container-custom">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">{page.title}</h1>
-        </div>
-      </div>
+      {/* Header - dynamic from Strapi (only for pages with slider or service_cards) */}
+      {hasPageHeader && (
+        <>
+          {/* Visually hidden but accessible title for SEO */}
+          <h1 className="sr-only">{page.title}</h1>
+          <PageHeader header={page.header} locale={locale} />
+        </>
+      )}
 
       {/* Page Content Layout with gradient background */}
       <div
@@ -190,12 +196,17 @@ export default async function Page({ params }: PageProps) {
       >
         {showSidebar ? (
           /* Two-column layout with sidebar - needs container around grid */
-          <div className="container-custom py-12">
+          <div className="container-custom pt-6 pb-12">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {/* Main Content */}
               <div className="lg:col-span-2 space-y-8">
                 {/* Breadcrumb Navigation */}
                 <Breadcrumb items={breadcrumbItems} />
+
+                {/* Page Title (when no PageHeader) */}
+                {!hasPageHeader && (
+                  <h1 className="text-4xl md:text-5xl font-bold text-primary-600">{page.title}</h1>
+                )}
 
                 <DynamicZone components={page.content} locale={locale} inContainer />
               </div>
@@ -210,10 +221,15 @@ export default async function Page({ params }: PageProps) {
           </div>
         ) : (
           /* Full-width layout - DynamicZone handles its own containers */
-          <div className="py-12">
-            {/* Breadcrumb needs its own container */}
+          <div className="pt-6 pb-12">
+            {/* Breadcrumb and Title need their own container */}
             <div className="container-custom mb-8">
               <Breadcrumb items={breadcrumbItems} />
+
+              {/* Page Title (when no PageHeader) */}
+              {!hasPageHeader && (
+                <h1 className="text-4xl md:text-5xl font-bold text-primary-600 mt-6">{page.title}</h1>
+              )}
             </div>
 
             <DynamicZone components={page.content} locale={locale} />

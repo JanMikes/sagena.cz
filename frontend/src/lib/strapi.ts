@@ -927,6 +927,47 @@ export async function fetchPageBySlug(
         },
       },
       populate: {
+        header: {
+          populate: {
+            slider: {
+              populate: {
+                slides: {
+                  populate: {
+                    link: {
+                      populate: ['page', 'file'],
+                    },
+                    image: true,
+                    background_image: true,
+                  },
+                },
+              },
+            },
+            service_cards: {
+              populate: {
+                cards: {
+                  populate: {
+                    icon: {
+                      fields: ['id'],
+                      populate: {
+                        icon: {
+                          fields: ['name'],
+                          populate: {
+                            image: {
+                              fields: ['url', 'alternativeText'],
+                            },
+                          },
+                        },
+                      },
+                    },
+                    link: {
+                      populate: ['page', 'file'],
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
         content: {
           on: {
             'components.heading': { populate: '*' },

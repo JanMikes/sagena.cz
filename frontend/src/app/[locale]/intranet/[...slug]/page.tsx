@@ -194,22 +194,18 @@ export default async function IntranetPage({ params }: PageProps) {
       {/* Intranet Navigation */}
       <IntranetNav userName={userName} locale={locale as Locale} navigation={navigation} />
 
-      {/* Header */}
-      <div className="bg-gradient-to-r from-primary-600 to-primary-700 text-white py-16">
-        <div className="container-custom">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">{page.title}</h1>
-        </div>
-      </div>
-
       {/* Page Content Layout */}
       {showSidebar ? (
         /* Two-column layout with sidebar - needs container around grid */
-        <div className="container-custom py-12">
+        <div className="container-custom pt-6 pb-12">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Main Content */}
             <div className="lg:col-span-2 space-y-8">
               {/* Breadcrumb Navigation */}
               <Breadcrumb items={breadcrumbItems} />
+
+              {/* Page Title */}
+              <h1 className="text-4xl md:text-5xl font-bold text-primary-600">{page.title}</h1>
 
               <DynamicZone components={page.content} locale={locale} inContainer />
             </div>
@@ -224,10 +220,13 @@ export default async function IntranetPage({ params }: PageProps) {
         </div>
       ) : (
         /* Full-width layout - DynamicZone handles its own containers */
-        <div className="py-12">
-          {/* Breadcrumb needs its own container */}
+        <div className="pt-6 pb-12">
+          {/* Breadcrumb and Title need their own container */}
           <div className="container-custom mb-8">
             <Breadcrumb items={breadcrumbItems} />
+
+            {/* Page Title */}
+            <h1 className="text-4xl md:text-5xl font-bold text-primary-600 mt-6">{page.title}</h1>
           </div>
 
           <DynamicZone components={page.content} locale={locale} />

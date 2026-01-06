@@ -243,6 +243,22 @@ export interface ComponentsNewsArticles extends Struct.ComponentSchema {
   };
 }
 
+export interface ComponentsPageHeader extends Struct.ComponentSchema {
+  collectionName: 'components_components_page_headers';
+  info: {
+    description: 'Page header with optional slider and service cards';
+    displayName: 'Page Header';
+    icon: 'layout';
+  };
+  attributes: {
+    service_cards: Schema.Attribute.Component<
+      'components.service-cards',
+      false
+    >;
+    slider: Schema.Attribute.Component<'components.slider', false>;
+  };
+}
+
 export interface ComponentsPartnerLogos extends Struct.ComponentSchema {
   collectionName: 'components_components_partner_logos';
   info: {
@@ -726,6 +742,7 @@ declare module '@strapi/strapi' {
       'components.location-cards': ComponentsLocationCards;
       'components.marketing-arguments': ComponentsMarketingArguments;
       'components.news-articles': ComponentsNewsArticles;
+      'components.page-header': ComponentsPageHeader;
       'components.partner-logos': ComponentsPartnerLogos;
       'components.photo-gallery': ComponentsPhotoGallery;
       'components.popup': ComponentsPopup;
