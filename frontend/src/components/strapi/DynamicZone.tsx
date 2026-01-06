@@ -1136,10 +1136,10 @@ async function renderComponent(
 /**
  * Components that should render full-width (no container wrapper)
  * These components handle their own width/layout
+ * Note: Slider is NOT full-width in DynamicZone - it uses container-custom.
+ * The only 100%-width slider is in PageHeader (header property).
  */
 const FULL_WIDTH_COMPONENTS = new Set([
-  'components.slider',
-  'components.section-divider',
   'components.popup',
 ]);
 
