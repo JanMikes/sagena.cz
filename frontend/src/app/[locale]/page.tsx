@@ -77,18 +77,28 @@ export default async function HomePage({ params }: HomePageProps) {
       {/* Set alternate URL for language switcher */}
       <SetAlternateLocaleUrl url={alternateLocaleUrl} />
 
-      {/* Header - dynamic from Strapi (only for pages with slider or service_cards) */}
-      {hasPageHeader && (
-        <>
-          {/* Visually hidden but accessible title for SEO */}
-          <h1 className="sr-only">{page.title}</h1>
-          <PageHeader header={page.header!} locale={locale} />
-        </>
-      )}
+      {/* Page Layout with gradient background starting from navbar */}
+      <div
+        style={{
+          background: `
+            linear-gradient(to bottom, transparent, #FFF 100vh),
+            linear-gradient(to right, #E7EFF7, #F8F2FD)
+          `,
+        }}
+      >
+        {/* Header - dynamic from Strapi (only for pages with slider or service_cards) */}
+        {hasPageHeader && (
+          <>
+            {/* Visually hidden but accessible title for SEO */}
+            <h1 className="sr-only">{page.title}</h1>
+            <PageHeader header={page.header!} locale={locale} />
+          </>
+        )}
 
-      {/* Render page content from Strapi */}
-      <div className="pt-8 md:pt-12">
-        <DynamicZone components={page.content || []} locale={locale} />
+        {/* Render page content from Strapi */}
+        <div className="pt-8 md:pt-12">
+          <DynamicZone components={page.content || []} locale={locale} />
+        </div>
       </div>
     </>
   );
