@@ -32,7 +32,7 @@ import ContactCards from '@/components/people/ContactCards';
 import DoctorProfile from '@/components/people/DoctorProfile';
 import NewsArticles from '@/components/content/NewsArticles';
 import LocationCards from '@/components/content/LocationCards';
-import { getStrapiMediaURL, getIconUrlById, fetchNewsArticles, fetchIntranetNewsArticles, resolveTextLink } from '@/lib/strapi';
+import { getStrapiMediaURL, getIconUrlById, fetchNewsArticles, fetchIntranetNewsArticles, resolveTextLink, hasLinkDestination } from '@/lib/strapi';
 import {
   PageContentComponent,
   PageSidebarComponent,
@@ -915,17 +915,16 @@ async function renderComponent(
       // Extract tag slugs for filtering (if any tags are selected)
       const tagSlugs = newsArticlesComponent.tags?.map((tag) => tag.slug) || [];
 
-      // Query limit+1 articles to detect if "show all" button should appear
+      // Fetch articles up to limit
       const limit = newsArticlesComponent.limit || 3;
       const fetchedArticles = await fetchNewsArticles(
         locale,
         tagSlugs.length > 0 ? tagSlugs : undefined,
-        limit + 1 // Fetch one extra to detect "show all" button
+        limit
       );
 
-      // Split articles: display `limit` articles, hide the last one if limit+1 were returned
+      // Display fetched articles
       const articlesToDisplay = fetchedArticles.slice(0, limit);
-      const showAllButtonVisible = fetchedArticles.length > limit;
 
       // Transform articles to component props
       const articles = articlesToDisplay.map((article) => ({
@@ -943,16 +942,38 @@ async function renderComponent(
         })),
       }));
 
-      // Resolve "show all" link if provided
+      // Determine "show all" link behavior:
+      // 1. If show_all_link has destination (page/url/file/anchor) -> use it
+      // 2. If show_all_link has text only (no destination) -> use text, link to /aktuality with tags
+      // 3. If show_all_link is missing -> auto-generate link to /aktuality with tags (always show)
       let showAllLink = null;
+      const tagsQuery = tagSlugs.length > 0 ? `?tags=${tagSlugs.join(',')}` : '';
+      const defaultLinkText = locale === 'en' ? 'Show all' : 'Zobrazit vše';
+
       if (newsArticlesComponent.show_all_link) {
-        const resolved = resolveTextLink(newsArticlesComponent.show_all_link, locale);
-        if (!resolved.disabled) {
+        if (hasLinkDestination(newsArticlesComponent.show_all_link)) {
+          // Case 1: Has destination - use existing behavior
+          const resolved = resolveTextLink(newsArticlesComponent.show_all_link, locale);
+          if (!resolved.disabled) {
+            showAllLink = {
+              text: newsArticlesComponent.show_all_link.text || defaultLinkText,
+              url: resolved.url,
+            };
+          }
+        } else {
+          // Case 2: Has text only - use text, link to /aktuality with tags
+          const linkText = newsArticlesComponent.show_all_link.text || defaultLinkText;
           showAllLink = {
-            text: newsArticlesComponent.show_all_link.text || '',
-            url: resolved.url,
+            text: linkText,
+            url: `/${locale}/aktuality/${tagsQuery}`,
           };
         }
+      } else {
+        // Case 3: No show_all_link - auto-generate (always show)
+        showAllLink = {
+          text: defaultLinkText,
+          url: `/${locale}/aktuality/${tagsQuery}`,
+        };
       }
 
       return (
@@ -960,7 +981,7 @@ async function renderComponent(
           key={`${__component}-${component.id || index}`}
           articles={articles}
           showAllLink={showAllLink}
-          showAllButtonVisible={showAllButtonVisible}
+          showAllButtonVisible={!!showAllLink}
           locale={locale}
         />
       );

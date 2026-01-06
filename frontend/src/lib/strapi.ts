@@ -719,6 +719,20 @@ export function resolveTextLink(link: ElementsTextLink, locale: string = 'cs'): 
   };
 }
 
+/**
+ * Check if an ElementsTextLink has a valid destination (page, url, file, or anchor)
+ * Used to determine if a link should auto-generate to /aktuality with tags
+ *
+ * @param link - The text link element from Strapi
+ * @returns true if link has page, url, file, or anchor set
+ */
+export function hasLinkDestination(
+  link: ElementsTextLink | null | undefined
+): boolean {
+  if (!link) return false;
+  return !!(link.page?.slug || link.url || link.file || link.anchor);
+}
+
 // ============================================================================
 // Navigation API
 // ============================================================================
@@ -1591,6 +1605,27 @@ export async function fetchAllNewsArticleSlugs(
     return response.data?.map((article) => article.slug) || [];
   } catch (error) {
     console.error('Error fetching news article slugs:', error);
+    return [];
+  }
+}
+
+/**
+ * Fetch all tags
+ * @param locale - Language code (default: 'cs')
+ */
+export async function fetchTags(locale: string = 'cs'): Promise<Tag[]> {
+  try {
+    const response = await fetchAPI<StrapiCollectionResponse<Tag>>('/tags', {
+      locale,
+      sort: ['name:asc'],
+      pagination: {
+        pageSize: 100,
+      },
+    });
+
+    return response.data || [];
+  } catch (error) {
+    console.error('Error fetching tags:', error);
     return [];
   }
 }

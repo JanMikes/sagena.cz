@@ -1,13 +1,17 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Metadata } from 'next';
-import { fetchNewsArticles, getStrapiMediaURL } from '@/lib/strapi';
+import { fetchNewsArticles, fetchTags, getStrapiMediaURL } from '@/lib/strapi';
 import NewsArticles from '@/components/content/NewsArticles';
+import TagFilter from '@/components/interactive/TagFilter';
 import { SetAlternateLocaleUrl } from '@/contexts/LocaleContext';
 import { getAlternateLocale, type Locale } from '@/i18n/config';
 
 interface NewsListingPageProps {
   params: Promise<{
     locale: string;
+  }>;
+  searchParams: Promise<{
+    tags?: string;
   }>;
 }
 
@@ -27,8 +31,6 @@ export async function generateMetadata({ params }: NewsListingPageProps): Promis
     en: 'All news and updates from our medical practice.',
   };
 
-  const alternateLocale = getAlternateLocale(locale as Locale);
-
   return {
     title: titles[locale as Locale] || titles.cs,
     description: descriptions[locale as Locale] || descriptions.cs,
@@ -44,13 +46,29 @@ export async function generateMetadata({ params }: NewsListingPageProps): Promis
 /**
  * News Listing Page
  * Displays all news articles from the news-articles collection
+ * Supports filtering by tags via URL query params
  */
-export default async function NewsListingPage({ params }: NewsListingPageProps) {
+export default async function NewsListingPage({ params, searchParams }: NewsListingPageProps) {
   const { locale } = await params;
+  const { tags: tagsParam } = await searchParams;
   const alternateLocale = getAlternateLocale(locale as Locale);
   const alternateLocaleUrl = `/${alternateLocale}/aktuality/`;
 
-  const articles = await fetchNewsArticles(locale, undefined, undefined, 'date:desc');
+  // Parse tags from URL query params
+  const selectedTagSlugs = tagsParam
+    ? tagsParam.split(',').map((t) => t.trim()).filter(Boolean)
+    : [];
+
+  // Fetch all tags and filtered articles in parallel
+  const [allTags, articles] = await Promise.all([
+    fetchTags(locale),
+    fetchNewsArticles(
+      locale,
+      selectedTagSlugs.length > 0 ? selectedTagSlugs : undefined,
+      undefined,
+      'date:desc'
+    ),
+  ]);
 
   // Transform articles to component props
   const articlesData = articles.map((article) => ({
@@ -85,6 +103,15 @@ export default async function NewsListingPage({ params }: NewsListingPageProps) 
           <h1 className="text-4xl font-bold text-gray-900 mb-4">{pageTitle}</h1>
           <p className="text-lg text-gray-600">{pageDescription}</p>
         </div>
+
+        {/* Tag filter - wrapped in Suspense for useSearchParams */}
+        <Suspense fallback={<div className="h-12 mb-8" />}>
+          <TagFilter
+            allTags={allTags}
+            selectedTagSlugs={selectedTagSlugs}
+            locale={locale}
+          />
+        </Suspense>
 
         {/* News articles grid */}
         <NewsArticles articles={articlesData} locale={locale} />
