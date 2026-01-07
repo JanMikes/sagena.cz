@@ -104,11 +104,11 @@ const Header: React.FC<HeaderProps> = ({
       {/* Row 2: Navigation, Search, Language Switcher - Always visible */}
       <nav className="container-custom">
         <div className="flex items-center justify-between h-16">
-          {/* Scaled logo - fades in when scrolled (Desktop) */}
+          {/* Scaled logo - appears when scrolled (Desktop) */}
           <Link
             href={`/${currentLocale}/`}
-            className={`hidden lg:flex items-center transition-opacity duration-200 ${
-              isScrolled ? 'opacity-100' : 'opacity-0 pointer-events-none'
+            className={`hidden lg:flex items-center transition-[opacity,visibility] duration-200 ${
+              isScrolled ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'
             }`}
           >
             <img
@@ -118,11 +118,11 @@ const Header: React.FC<HeaderProps> = ({
             />
           </Link>
 
-          {/* Scaled logo - fades in when scrolled (Mobile) */}
+          {/* Scaled logo - appears when scrolled (Mobile) */}
           <Link
             href={`/${currentLocale}/`}
-            className={`lg:hidden flex items-center transition-opacity duration-200 ${
-              isScrolled ? 'opacity-100' : 'opacity-0 pointer-events-none'
+            className={`lg:hidden flex items-center transition-[opacity,visibility] duration-200 ${
+              isScrolled ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'
             }`}
           >
             <img

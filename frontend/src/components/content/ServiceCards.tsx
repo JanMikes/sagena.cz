@@ -62,7 +62,7 @@ const ServiceCards: React.FC<ServiceCardsProps> = ({
               </h3>
             </div>
             {card.description && (
-              <p className={`text-gray-600 leading-relaxed text-sm ${card.link ? 'mb-6' : ''}`}>
+              <p className={`text-primary-400 leading-relaxed text-sm ${card.link ? 'mb-6' : ''}`}>
                 {card.description}
               </p>
             )}
