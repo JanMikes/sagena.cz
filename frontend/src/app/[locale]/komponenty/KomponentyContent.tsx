@@ -348,12 +348,26 @@ Centrum Zdraví Sagena poskytuje **komplexní zdravotní péči** již více ne�
       <SectionDivider />
 
       <Heading level={2}>Jak nás najít</Heading>
+      <Heading level={3}>Style 1 (výchozí)</Heading>
       <Directions
         instructions={[
           { icon: null, floor: '1. patro', text: 'Vstupte hlavním vchodem a pokračujte k recepci' },
           { icon: null, floor: '2. patro', text: 'Jděte po schodech nebo výtahem do 2. patra' },
           { icon: null, floor: '2. patro, č. 215', text: 'Najdete nás na konci chodby vpravo, dveře číslo 215' },
         ]}
+        description="Parkování je možné v podzemních garážích budovy. První hodina zdarma."
+      />
+
+      <Heading level={3}>Style 2 (gradient)</Heading>
+      <Directions
+        style="Style 2"
+        title="Jak se k nám dostanete"
+        instructions={[
+          { icon: null, floor: '1. patro', text: 'Vstupte hlavním vchodem a pokračujte k recepci' },
+          { icon: null, floor: '2. patro', text: 'Jděte po schodech nebo výtahem do 2. patra' },
+          { icon: null, floor: '2. patro, č. 215', text: 'Najdete nás na konci chodby vpravo, dveře číslo 215' },
+        ]}
+        description="Parkování je možné v podzemních garážích budovy. První hodina zdarma."
       />
 
       <SectionDivider />

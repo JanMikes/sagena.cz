@@ -774,6 +774,7 @@ export interface ApiIntranetPageIntranetPage
         'components.news-articles',
         'components.intranet-news-articles',
         'components.badges',
+        'components.image',
       ]
     > &
       Schema.Attribute.SetPluginOptions<{
