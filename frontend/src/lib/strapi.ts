@@ -1255,6 +1255,7 @@ export async function fetchPageBySlug(
                 },
               },
             },
+            'components.badges': { populate: '*' },
           },
         },
         sidebar: {
@@ -1262,6 +1263,7 @@ export async function fetchPageBySlug(
             'components.heading': { populate: '*' },
             'components.text': { populate: '*' },
             'components.alert': { populate: '*' },
+            'components.badges': { populate: '*' },
             'components.links-list': {
               populate: {
                 links: {
@@ -2080,6 +2082,7 @@ export async function fetchIntranetPageBySlug(
                 },
               },
             },
+            'components.badges': { populate: '*' },
           },
         },
         sidebar: {
@@ -2087,6 +2090,7 @@ export async function fetchIntranetPageBySlug(
             'components.heading': { populate: '*' },
             'components.text': { populate: '*' },
             'components.alert': { populate: '*' },
+            'components.badges': { populate: '*' },
             'components.links-list': {
               populate: {
                 links: {

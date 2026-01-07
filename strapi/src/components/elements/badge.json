@@ -1,0 +1,35 @@
+{
+  "collectionName": "components_elements_badges",
+  "info": {
+    "displayName": "Badge",
+    "icon": "hashtag"
+  },
+  "options": {},
+  "attributes": {
+    "label": {
+      "type": "string",
+      "required": true
+    },
+    "variant": {
+      "type": "enumeration",
+      "enum": [
+        "Primary",
+        "Secondary",
+        "Success",
+        "Info",
+        "Warning",
+        "Danger"
+      ],
+      "default": "Primary"
+    },
+    "size": {
+      "type": "enumeration",
+      "enum": [
+        "Small",
+        "Medium"
+      ],
+      "default": "Medium"
+    }
+  },
+  "config": {}
+}

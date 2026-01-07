@@ -32,6 +32,7 @@ import ContactCards from '@/components/people/ContactCards';
 import DoctorProfile from '@/components/people/DoctorProfile';
 import NewsArticles from '@/components/content/NewsArticles';
 import LocationCards from '@/components/content/LocationCards';
+import Badges from '@/components/content/Badges';
 import { getStrapiMediaURL, getIconUrlById, fetchNewsArticles, fetchIntranetNewsArticles, resolveTextLink, hasLinkDestination } from '@/lib/strapi';
 import {
   PageContentComponent,
@@ -64,6 +65,7 @@ import {
   ComponentsNewsArticles,
   ComponentsIntranetNewsArticles,
   ComponentsLocationCards,
+  ComponentsBadges,
   ElementsTextLink,
   StrapiMedia,
 } from '@/types/strapi';
@@ -1131,6 +1133,51 @@ async function renderComponent(
         <div className="container-custom">
           {content}
         </div>
+      );
+    }
+
+    case 'components.badges': {
+      const badgesComponent = component as ComponentsBadges;
+
+      // Map Strapi variant enum to UI Badge variant
+      const variantMap: Record<string, 'primary' | 'secondary' | 'success' | 'info' | 'warning' | 'danger'> = {
+        'Primary': 'primary',
+        'Secondary': 'secondary',
+        'Success': 'success',
+        'Info': 'info',
+        'Warning': 'warning',
+        'Danger': 'danger',
+      };
+
+      // Map Strapi size enum to UI Badge size
+      const sizeMap: Record<string, 'sm' | 'md'> = {
+        'Small': 'sm',
+        'Medium': 'md',
+      };
+
+      // Map Strapi alignment enum to component alignment
+      const alignmentMap: Record<string, 'left' | 'center' | 'right'> = {
+        'Left aligned': 'left',
+        'Center aligned': 'center',
+        'Right aligned': 'right',
+      };
+
+      const badges = (badgesComponent.badges ?? [])
+        .filter((badge) => badge.label)
+        .map((badge) => ({
+          label: badge.label!,
+          variant: variantMap[badge.variant || 'Primary'] || 'primary',
+          size: sizeMap[badge.size || 'Medium'] || 'md',
+        }));
+
+      const alignment = alignmentMap[badgesComponent.alignment || 'Left aligned'] || 'left';
+
+      return (
+        <Badges
+          key={`${__component}-${component.id || index}`}
+          badges={badges}
+          alignment={alignment}
+        />
       );
     }
 

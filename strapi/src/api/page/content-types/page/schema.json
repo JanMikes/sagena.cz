@@ -111,7 +111,8 @@
         "components.timeline",
         "components.service-cards",
         "components.slider",
-        "components.photo-gallery"
+        "components.photo-gallery",
+        "components.news-articles"
       ]
     }
   }

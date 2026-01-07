@@ -767,6 +767,8 @@ export interface ApiIntranetPageIntranetPage
         'components.section-divider',
         'components.service-cards',
         'components.timeline',
+        'components.slider',
+        'components.photo-gallery',
       ]
     > &
       Schema.Attribute.SetPluginOptions<{

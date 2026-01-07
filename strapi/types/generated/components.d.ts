@@ -27,6 +27,21 @@ export interface ComponentsAlert extends Struct.ComponentSchema {
   };
 }
 
+export interface ComponentsBadges extends Struct.ComponentSchema {
+  collectionName: 'components_components_badges';
+  info: {
+    displayName: 'Badges';
+    icon: 'apps';
+  };
+  attributes: {
+    alignment: Schema.Attribute.Enumeration<
+      ['Left aligned', 'Center aligned', 'Right aligned']
+    > &
+      Schema.Attribute.DefaultTo<'Left aligned'>;
+    badges: Schema.Attribute.Component<'elements.badge', true>;
+  };
+}
+
 export interface ComponentsButtonGroup extends Struct.ComponentSchema {
   collectionName: 'components_components_button_groups';
   info: {
@@ -417,6 +432,23 @@ export interface ComponentsVideo extends Struct.ComponentSchema {
   };
 }
 
+export interface ElementsBadge extends Struct.ComponentSchema {
+  collectionName: 'components_elements_badges';
+  info: {
+    displayName: 'Badge';
+    icon: 'hashtag';
+  };
+  attributes: {
+    label: Schema.Attribute.String & Schema.Attribute.Required;
+    size: Schema.Attribute.Enumeration<['Small', 'Medium']> &
+      Schema.Attribute.DefaultTo<'Medium'>;
+    variant: Schema.Attribute.Enumeration<
+      ['Primary', 'Secondary', 'Success', 'Info', 'Warning', 'Danger']
+    > &
+      Schema.Attribute.DefaultTo<'Primary'>;
+  };
+}
+
 export interface ElementsButton extends Struct.ComponentSchema {
   collectionName: 'components_elements_buttons';
   info: {
@@ -728,6 +760,7 @@ declare module '@strapi/strapi' {
     export interface ComponentSchemas {
       'components.accordion-sections': ComponentsAccordionSections;
       'components.alert': ComponentsAlert;
+      'components.badges': ComponentsBadges;
       'components.button-group': ComponentsButtonGroup;
       'components.contact-cards': ComponentsContactCards;
       'components.directions': ComponentsDirections;
@@ -752,6 +785,7 @@ declare module '@strapi/strapi' {
       'components.text': ComponentsText;
       'components.timeline': ComponentsTimeline;
       'components.video': ComponentsVideo;
+      'elements.badge': ElementsBadge;
       'elements.button': ElementsButton;
       'elements.contact-card': ElementsContactCard;
       'elements.direction-step': ElementsDirectionStep;

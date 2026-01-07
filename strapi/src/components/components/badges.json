@@ -1,0 +1,25 @@
+{
+  "collectionName": "components_components_badges",
+  "info": {
+    "displayName": "Badges",
+    "icon": "apps"
+  },
+  "options": {},
+  "attributes": {
+    "badges": {
+      "type": "component",
+      "component": "elements.badge",
+      "repeatable": true
+    },
+    "alignment": {
+      "type": "enumeration",
+      "default": "Left aligned",
+      "enum": [
+        "Left aligned",
+        "Center aligned",
+        "Right aligned"
+      ]
+    }
+  },
+  "config": {}
+}
