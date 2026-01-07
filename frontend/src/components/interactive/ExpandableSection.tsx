@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { ChevronDown, Download } from 'lucide-react';
+import { ChevronDown, Download, FileText } from 'lucide-react';
 import ContactCards from '@/components/people/ContactCards';
 import RichText from '@/components/typography/RichText';
 
@@ -53,6 +53,15 @@ const ExpandableSection: React.FC<ExpandableSectionProps> = ({
     return `${(sizeInKB / 1024).toFixed(1)} MB`;
   };
 
+  const getExtensionColor = (ext: string) => {
+    const lowerExt = ext.toLowerCase().replace('.', '');
+    if (lowerExt === 'pdf') return 'bg-red-100 text-red-700';
+    if (['doc', 'docx'].includes(lowerExt)) return 'bg-primary-100 text-primary-700';
+    if (['xls', 'xlsx'].includes(lowerExt)) return 'bg-green-100 text-green-700';
+    if (['jpg', 'jpeg', 'png', 'gif'].includes(lowerExt)) return 'bg-purple-100 text-purple-700';
+    return 'bg-gray-100 text-gray-700';
+  };
+
   return (
     <div className="border border-gray-200 rounded-xl overflow-hidden bg-white">
       <button
@@ -99,25 +108,33 @@ const ExpandableSection: React.FC<ExpandableSectionProps> = ({
               {files.length > 0 && (
                 <div className="space-y-2">
                   <h4 className="text-sm font-semibold text-gray-900">Přílohy</h4>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     {files.map((file, index) => (
                       <a
                         key={index}
                         href={file.url}
                         download
-                        className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors group"
+                        className="flex items-start space-x-4 p-4 bg-white border border-gray-200 rounded-lg hover:border-primary-300 hover:shadow-md transition-all duration-300 group"
                       >
-                        <div className="flex items-center gap-3 min-w-0">
-                          <Download className="w-4 h-4 text-gray-500 flex-shrink-0 group-hover:text-primary-600" />
-                          <div className="min-w-0">
-                            <p className="text-sm font-medium text-gray-900 truncate">
-                              {file.name}
-                            </p>
-                            <p className="text-xs text-gray-500">
-                              {file.ext.toUpperCase().replace('.', '')} • {formatFileSize(file.size)}
-                            </p>
+                        <div className="flex items-center justify-center w-12 h-12 bg-gray-100 rounded-lg flex-shrink-0 group-hover:bg-primary-100 transition-colors">
+                          <FileText className="w-6 h-6 text-gray-600 group-hover:text-primary-600 transition-colors" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h5 className="font-medium text-gray-900 truncate group-hover:text-primary-600 transition-colors">
+                            {file.name}
+                          </h5>
+                          <div className="flex items-center space-x-2 mt-2">
+                            <span
+                              className={`text-xs font-semibold px-2 py-1 rounded ${getExtensionColor(file.ext)}`}
+                            >
+                              {file.ext.toUpperCase().replace('.', '')}
+                            </span>
+                            <span className="text-xs text-gray-500">
+                              {formatFileSize(file.size)}
+                            </span>
                           </div>
                         </div>
+                        <Download className="w-5 h-5 text-gray-400 group-hover:text-primary-600 transition-colors flex-shrink-0" />
                       </a>
                     ))}
                   </div>
