@@ -38,32 +38,29 @@ const NewsArticle: React.FC<NewsArticleProps> = ({
 
   const excerpt = text ? (text.includes('<') ? getPlainTextExcerpt(text) : text) : null;
 
-  // Compact layout for sidebar - horizontal card with smaller image
+  // Compact layout for sidebar - vertical card matching standard layout style
   if (compact) {
     return (
-      <article className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow duration-300">
-        <Link href={readMoreUrl} className="flex">
-          {image && (
-            <div className="relative w-24 h-24 flex-shrink-0 bg-gray-200">
-              <Image
-                src={image}
-                alt={imageAlt || title}
-                fill
-                className="object-cover"
-                sizes="96px"
-              />
-            </div>
-          )}
-          <div className="flex-1 p-3 min-w-0">
-            <div className="flex items-center gap-1.5 text-xs text-gray-500 mb-1">
-              <Calendar className="w-3 h-3 flex-shrink-0" />
+      <article className="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-shadow duration-300">
+        {image && (
+          <Link href={readMoreUrl} className="block relative h-32 bg-gray-200 overflow-hidden">
+            <Image
+              src={image}
+              alt={imageAlt || title}
+              fill
+              className="object-cover hover:scale-105 transition-transform duration-500"
+              sizes="(max-width: 768px) 100vw, 300px"
+            />
+          </Link>
+        )}
+        <div className="p-4">
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center space-x-1.5 text-xs text-gray-500">
+              <Calendar className="w-3.5 h-3.5" />
               <time dateTime={date}>{new Date(date).toLocaleDateString('cs')}</time>
             </div>
-            <h3 className="text-sm font-semibold text-primary-600 leading-tight line-clamp-2 hover:text-primary-700 transition-colors">
-              {title}
-            </h3>
             {tags && tags.length > 0 && (
-              <div className="flex items-center gap-1 mt-1.5">
+              <div className="flex items-center gap-1.5">
                 {tags.slice(0, 1).map((tag) => (
                   <span
                     key={tag.slug}
@@ -74,12 +71,29 @@ const NewsArticle: React.FC<NewsArticleProps> = ({
                   </span>
                 ))}
                 {tags.length > 1 && (
-                  <span className="text-xs text-gray-400">+{tags.length - 1}</span>
+                  <span className="text-xs text-gray-500">+{tags.length - 1}</span>
                 )}
               </div>
             )}
           </div>
-        </Link>
+          <Link href={readMoreUrl}>
+            <h3 className="text-base font-bold text-primary-600 mb-2 leading-tight hover:text-primary-700 transition-colors line-clamp-2">
+              {title}
+            </h3>
+          </Link>
+          {excerpt && (
+            <p className="text-sm text-gray-600 mb-3 leading-relaxed line-clamp-2">
+              {excerpt}
+            </p>
+          )}
+          <Link
+            href={readMoreUrl}
+            className="inline-flex items-center space-x-1.5 text-sm text-primary-600 hover:text-primary-700 font-medium group"
+          >
+            <span>{readMoreText}</span>
+            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+          </Link>
+        </div>
       </article>
     );
   }

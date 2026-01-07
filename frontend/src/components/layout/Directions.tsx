@@ -44,8 +44,8 @@ const Directions: React.FC<DirectionsProps> = ({
     : 'text-xl font-bold text-white';
 
   const floorBadgeClasses = isStyle2
-    ? 'inline-block text-xs font-semibold text-primary-800 bg-white/90 px-2 py-1 rounded mb-2'
-    : 'inline-block text-xs font-semibold text-white bg-[#a0bfdf] px-2 py-1 rounded mb-2';
+    ? 'inline-block text-sm font-semibold text-primary-800 bg-white/90 px-2.5 py-1 rounded mb-2'
+    : 'inline-block text-sm font-semibold text-white bg-[#a0bfdf] px-2.5 py-1 rounded mb-2';
 
   const textClasses = isStyle2
     ? 'prose-invert [&_p]:text-white/90 [&_p]:mb-0 [&_a]:text-primary-200 [&_strong]:text-white'
@@ -53,7 +53,7 @@ const Directions: React.FC<DirectionsProps> = ({
 
   const descriptionClasses = isStyle2
     ? 'prose-invert [&_p]:text-white/80 [&_a]:text-primary-200 [&_strong]:text-white mt-6 pt-6 border-t border-white/20'
-    : '[&_p]:text-gray-600 [&_a]:text-primary-600 mt-6 border-t border-gray-200 bg-gradient-to-r from-[#d3e5f1] to-[#e0f0fa] -mx-6 px-6 py-6 rounded-b-xl';
+    : '[&_p]:text-gray-600 [&_a]:text-primary-600 mt-6 border-t border-gray-200 bg-gradient-to-br from-[#d8e8f3] via-[#e3f0f8] to-[#cde2ef] -mx-6 px-6 py-6 rounded-b-xl';
 
   return (
     <div className={containerClasses}>
@@ -79,7 +79,7 @@ const Directions: React.FC<DirectionsProps> = ({
                 </span>
               </div>
             )}
-            <div className="flex-1 pt-2">
+            <div className="flex-1">
               {instruction.floor && (
                 <span className={floorBadgeClasses}>
                   {instruction.floor}
