@@ -13,9 +13,10 @@ interface Photo {
 interface PhotoGalleryProps {
   photos: Photo[];
   columns?: 2 | 3 | 4;
+  compact?: boolean;
 }
 
-const PhotoGallery: React.FC<PhotoGalleryProps> = ({ photos, columns = 3 }) => {
+const PhotoGallery: React.FC<PhotoGalleryProps> = ({ photos, columns = 3, compact = false }) => {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -30,10 +31,15 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ photos, columns = 3 }) => {
     4: 'md:grid-cols-2 lg:grid-cols-4',
   };
 
+  // Compact mode: always 1 column with smaller gap (for sidebar)
+  const gridClass = compact
+    ? 'grid grid-cols-1 gap-2'
+    : `grid grid-cols-1 ${gridCols[columns]} gap-4`;
+
   return (
     <>
       {/* Gallery Grid */}
-      <div className={`grid grid-cols-1 ${gridCols[columns]} gap-4`}>
+      <div className={gridClass}>
         {photos.map((photo, index) => (
           <button
             key={index}

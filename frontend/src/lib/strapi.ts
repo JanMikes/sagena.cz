@@ -1402,6 +1402,30 @@ export async function fetchPageBySlug(
                 },
               },
             },
+            'components.slider': {
+              populate: {
+                slides: {
+                  populate: {
+                    link: {
+                      populate: ['page', 'file'],
+                    },
+                    image: true,
+                    background_image: true,
+                  },
+                },
+              },
+            },
+            'components.photo-gallery': {
+              populate: {
+                photos: {
+                  populate: {
+                    image: {
+                      fields: ['url', 'alternativeText', 'caption', 'width', 'height'],
+                    },
+                  },
+                },
+              },
+            },
           },
         },
         parent: true, // Shallow parent for basic info (hierarchy built via getPageHierarchy)
@@ -2174,6 +2198,30 @@ export async function fetchIntranetPageBySlug(
                           fields: ['url', 'alternativeText'],
                         },
                       },
+                    },
+                  },
+                },
+              },
+            },
+            'components.slider': {
+              populate: {
+                slides: {
+                  populate: {
+                    link: {
+                      populate: ['page', 'file'],
+                    },
+                    image: true,
+                    background_image: true,
+                  },
+                },
+              },
+            },
+            'components.photo-gallery': {
+              populate: {
+                photos: {
+                  populate: {
+                    image: {
+                      fields: ['url', 'alternativeText', 'caption', 'width', 'height'],
                     },
                   },
                 },

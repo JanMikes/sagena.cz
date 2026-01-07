@@ -1017,6 +1017,8 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
         'components.section-divider',
         'components.timeline',
         'components.service-cards',
+        'components.slider',
+        'components.photo-gallery',
       ]
     > &
       Schema.Attribute.SetPluginOptions<{

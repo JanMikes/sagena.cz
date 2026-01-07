@@ -109,7 +109,9 @@
         "components.documents",
         "components.section-divider",
         "components.timeline",
-        "components.service-cards"
+        "components.service-cards",
+        "components.slider",
+        "components.photo-gallery"
       ]
     }
   }

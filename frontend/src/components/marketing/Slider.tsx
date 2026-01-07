@@ -27,6 +27,7 @@ interface SliderProps {
   autoplay?: boolean;
   autoplayInterval?: number;
   variant?: 'header' | 'content';
+  compact?: boolean;
 }
 
 const Slider: React.FC<SliderProps> = ({
@@ -34,6 +35,7 @@ const Slider: React.FC<SliderProps> = ({
   autoplay = false,
   autoplayInterval = 5000,
   variant = 'content',
+  compact = false,
 }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -68,7 +70,101 @@ const Slider: React.FC<SliderProps> = ({
   const showGradient = variant === 'content' && !hasBackground;
 
   // Rounded corners for content variant (standalone usage)
-  const roundedClass = variant === 'content' ? 'rounded-2xl' : '';
+  const roundedClass = variant === 'content' || compact ? 'rounded-2xl' : '';
+
+  // Compact mode: vertical layout for sidebar
+  if (compact) {
+    return (
+      <div className="relative overflow-hidden rounded-xl">
+        {/* Slide Content - Vertical Layout */}
+        <div className="relative overflow-hidden rounded-xl">
+          {/* Image Section */}
+          {slide.image ? (
+            <div className="relative h-32 overflow-hidden">
+              <img
+                src={slide.image}
+                alt={slide.title}
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-primary-900/60 to-transparent" />
+            </div>
+          ) : slide.backgroundImage ? (
+            <div
+              className="relative h-32 overflow-hidden"
+              style={{
+                backgroundImage: `url(${slide.backgroundImage})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+              }}
+            >
+              <div className="absolute inset-0 bg-gradient-to-t from-primary-900/80 to-primary-900/40" />
+            </div>
+          ) : (
+            <div className="relative h-32 overflow-hidden bg-gradient-to-br from-primary-600 to-primary-800" />
+          )}
+
+          {/* Text Section */}
+          <div className="bg-gradient-to-br from-primary-600 to-primary-800 px-4 py-4">
+            <h3 className="text-lg font-bold text-white mb-2 leading-tight line-clamp-2">
+              {slide.title}
+            </h3>
+            <p className="text-sm text-primary-100 mb-3 leading-relaxed line-clamp-3">
+              {slide.description}
+            </p>
+            {slide.link && !slide.link.disabled && (
+              <Link
+                href={slide.link.url}
+                target={slide.link.external ? '_blank' : undefined}
+                rel={slide.link.external ? 'noopener noreferrer' : undefined}
+                className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-md text-sm font-medium bg-white text-primary-600 hover:bg-primary-50 transition-colors group"
+              >
+                <span>{slide.link.text}</span>
+                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+              </Link>
+            )}
+          </div>
+        </div>
+
+        {/* Navigation Arrows - Compact */}
+        {showArrows && (
+          <>
+            <button
+              onClick={prevSlide}
+              className="absolute left-1.5 top-16 -translate-y-1/2 bg-white/90 hover:bg-white text-gray-900 p-1.5 rounded-full shadow-md transition-all hover:scale-110 z-10"
+              aria-label="Předchozí slide"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+            <button
+              onClick={nextSlide}
+              className="absolute right-1.5 top-16 -translate-y-1/2 bg-white/90 hover:bg-white text-gray-900 p-1.5 rounded-full shadow-md transition-all hover:scale-110 z-10"
+              aria-label="Další slide"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </>
+        )}
+
+        {/* Dots - Compact */}
+        {slides.length > 1 && (
+          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex space-x-1.5">
+            {slides.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => goToSlide(index)}
+                className={`w-2 h-2 rounded-full transition-all ${
+                  index === currentSlide
+                    ? 'bg-white w-5'
+                    : 'bg-white/50 hover:bg-white/75'
+                }`}
+                aria-label={`Slide ${index + 1}`}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  }
 
   return (
     <div className={`relative overflow-hidden ${roundedClass}`}>

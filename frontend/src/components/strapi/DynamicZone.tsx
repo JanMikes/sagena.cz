@@ -622,6 +622,7 @@ async function renderComponent(
           slides={slides}
           autoplay={sliderComponent.autoplay ?? undefined}
           autoplayInterval={sliderComponent.autoplay_interval ?? undefined}
+          compact={compact}
         />
       );
     }
@@ -681,6 +682,7 @@ async function renderComponent(
           key={`${__component}-${component.id || index}`}
           photos={photos}
           columns={columns}
+          compact={compact}
         />
       );
     }
