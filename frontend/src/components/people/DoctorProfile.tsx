@@ -24,6 +24,7 @@ interface DoctorProfileProps {
   email?: string;
   openingHours?: OpeningHours[];
   holiday?: Holiday;
+  compact?: boolean;
 }
 
 const DoctorProfile: React.FC<DoctorProfileProps> = ({
@@ -36,6 +37,7 @@ const DoctorProfile: React.FC<DoctorProfileProps> = ({
   email,
   openingHours = [],
   holiday,
+  compact = false,
 }) => {
   const [isFlipped, setIsFlipped] = useState(false);
 
@@ -48,6 +50,124 @@ const DoctorProfile: React.FC<DoctorProfileProps> = ({
       .slice(0, 2);
   };
 
+  const groupedHours = openingHours.reduce<Record<string, string[]>>((acc, hours) => {
+    if (!acc[hours.day]) {
+      acc[hours.day] = [];
+    }
+    acc[hours.day].push(hours.time);
+    return acc;
+  }, {});
+
+  // Compact mode: simple card with expandable opening hours (no flip, auto height)
+  if (compact) {
+    return (
+      <div>
+        {ambulanceTitle && (
+          <h3 className="text-lg font-semibold text-gray-900 mb-3">
+            {ambulanceTitle}
+          </h3>
+        )}
+
+        <div
+          className={`bg-white border rounded-xl p-6 ${
+            holiday ? 'border-yellow-300 bg-yellow-50/30' : 'border-gray-200'
+          }`}
+        >
+          {holiday && (
+            <div className="flex items-center space-x-2 mb-3 text-yellow-700 bg-yellow-100 px-3 py-2 rounded-lg">
+              <Plane className="w-4 h-4" />
+              <span className="text-sm font-medium">
+                Dovolená {new Date(holiday.from).toLocaleDateString('cs')} -{' '}
+                {new Date(holiday.to).toLocaleDateString('cs')}
+              </span>
+            </div>
+          )}
+
+          <div className="flex flex-col items-center text-center">
+            {photo ? (
+              <img
+                src={photo}
+                alt={name}
+                className="w-20 h-20 rounded-full object-cover mb-3"
+              />
+            ) : (
+              <div className="w-20 h-20 rounded-full bg-primary-600 flex items-center justify-center text-white text-xl font-bold mb-3">
+                {getInitials(name)}
+              </div>
+            )}
+
+            <h4 className="text-lg font-bold text-gray-900 mb-1">{name}</h4>
+            <p className="text-primary-600 font-medium text-sm mb-2">{department}</p>
+
+            {positions.length > 0 && (
+              <div className="flex flex-wrap gap-1 justify-center mb-3">
+                {positions.map((position, index) => (
+                  <Badge key={index} variant="secondary" size="sm">
+                    {position}
+                  </Badge>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <div className="space-y-2">
+            {phone && (
+              <a
+                href={`tel:${phone}`}
+                className="flex items-center space-x-2 text-gray-600 hover:text-primary-600 transition-colors text-sm"
+              >
+                <Phone className="w-4 h-4 flex-shrink-0" />
+                <span>{phone}</span>
+              </a>
+            )}
+            {email && (
+              <a
+                href={`mailto:${email}`}
+                className="flex items-center space-x-2 text-gray-600 hover:text-primary-600 transition-colors text-sm"
+              >
+                <Mail className="w-4 h-4 flex-shrink-0" />
+                <span>{email}</span>
+              </a>
+            )}
+          </div>
+
+          {openingHours.length > 0 && (
+            <div className="mt-4 border-t pt-4">
+              <button
+                onClick={() => setIsFlipped(!isFlipped)}
+                className="flex items-center justify-between w-full text-primary-600 hover:text-primary-700 font-medium text-sm transition-colors"
+              >
+                <span className="flex items-center space-x-2">
+                  <Clock className="w-4 h-4" />
+                  <span>Ordinační hodiny</span>
+                </span>
+                <span className={`transition-transform ${isFlipped ? 'rotate-180' : ''}`}>
+                  ▼
+                </span>
+              </button>
+
+              {isFlipped && (
+                <div className="mt-3 space-y-2 text-sm">
+                  {Object.entries(groupedHours).map(([day, times]) => (
+                    <div key={day} className="flex justify-between text-gray-700">
+                      <span className="font-medium">{day}</span>
+                      <div className="text-right">
+                        {times.map((time, index) => (
+                          <div key={index}>{time}</div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  // Normal mode: flip card with fixed height for the animation
   return (
     <div>
       {ambulanceTitle && (
@@ -87,7 +207,6 @@ const DoctorProfile: React.FC<DoctorProfileProps> = ({
               )}
 
               <div className="flex flex-col items-center text-center">
-                {/* Photo or Initials */}
                 {photo ? (
                   <img
                     src={photo}
@@ -153,15 +272,7 @@ const DoctorProfile: React.FC<DoctorProfileProps> = ({
             <div className="bg-primary-600 text-white rounded-xl p-6 h-full flex flex-col">
               <h4 className="text-xl font-bold mb-4">Ordinační hodiny</h4>
               <div className="space-y-3 flex-1">
-                {Object.entries(
-                  openingHours.reduce<Record<string, string[]>>((acc, hours) => {
-                    if (!acc[hours.day]) {
-                      acc[hours.day] = [];
-                    }
-                    acc[hours.day].push(hours.time);
-                    return acc;
-                  }, {})
-                ).map(([day, times]) => (
+                {Object.entries(groupedHours).map(([day, times]) => (
                   <div key={day} className="flex justify-between">
                     <span className="font-medium">{day}</span>
                     <div className="text-right">

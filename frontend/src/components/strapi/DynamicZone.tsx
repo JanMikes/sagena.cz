@@ -856,6 +856,7 @@ async function renderComponent(
       }
 
       // Column mapping (same pattern as other grid components)
+      // In compact/sidebar mode, always use single column
       const columnMap: Record<string, 2 | 3 | 4> = {
         'Two columns': 2,
         'Three columns': 3,
@@ -870,8 +871,11 @@ async function renderComponent(
         4: 'md:grid-cols-2 lg:grid-cols-4',
       };
 
+      // In compact mode (sidebar), force single column
+      const gridClass = compact ? 'grid grid-cols-1 gap-4' : `grid grid-cols-1 ${gridCols[columns]} gap-6`;
+
       return (
-        <div key={`${__component}-${component.id || index}`} className={`grid grid-cols-1 ${gridCols[columns]} gap-6`}>
+        <div key={`${__component}-${component.id || index}`} className={gridClass}>
           {profiles.map((profile, profileIndex) => {
             const person = profile.person?.person;
 
@@ -905,6 +909,7 @@ async function renderComponent(
                 email={person?.email ?? undefined}
                 openingHours={openingHours}
                 holiday={holiday}
+                compact={compact}
               />
             );
           })}
