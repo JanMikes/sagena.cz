@@ -49,18 +49,20 @@ const Documents: React.FC<DocumentsProps> = ({ documents, columns = 3 }) => {
             <h4 className="font-medium text-gray-900 truncate group-hover:text-primary-600 transition-colors">
               {doc.name}
             </h4>
-            <div className="flex items-center space-x-2 mt-2">
-              <span
-                className={`text-xs font-semibold px-2 py-1 rounded ${getExtensionColor(
-                  doc.extension
-                )}`}
-              >
-                {doc.extension.toUpperCase()}
-              </span>
-              {doc.size && (
-                <span className="text-xs text-gray-500">{doc.size}</span>
-              )}
-            </div>
+            {(doc.file || doc.url) && (
+              <div className="flex items-center space-x-2 mt-2">
+                <span
+                  className={`text-xs font-semibold px-2 py-1 rounded ${getExtensionColor(
+                    doc.extension
+                  )}`}
+                >
+                  {doc.extension.toUpperCase()}
+                </span>
+                {doc.size && (
+                  <span className="text-xs text-gray-500">{doc.size}</span>
+                )}
+              </div>
+            )}
           </div>
           <Download className="w-5 h-5 text-gray-400 group-hover:text-primary-600 transition-colors flex-shrink-0" />
         </a>
