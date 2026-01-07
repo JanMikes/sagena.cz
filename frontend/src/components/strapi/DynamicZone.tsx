@@ -66,6 +66,7 @@ import {
   ComponentsIntranetNewsArticles,
   ComponentsLocationCards,
   ComponentsBadges,
+  ComponentsImage,
   ElementsTextLink,
   StrapiMedia,
 } from '@/types/strapi';
@@ -111,6 +112,29 @@ async function renderComponent(
         >
           {headingComponent.text || ''}
         </Heading>
+      );
+    }
+
+    case 'components.image': {
+      const imageComponent = component as ComponentsImage;
+
+      if (!imageComponent.image?.url) {
+        return null;
+      }
+
+      return (
+        <figure key={`${__component}-${component.id || index}`}>
+          <img
+            src={getStrapiMediaURL(imageComponent.image.url)}
+            alt={imageComponent.image.alternativeText || ''}
+            className="w-full h-auto rounded-lg"
+          />
+          {imageComponent.image.caption && (
+            <figcaption className="mt-2 text-sm text-gray-600 text-center">
+              {imageComponent.image.caption}
+            </figcaption>
+          )}
+        </figure>
       );
     }
 
@@ -753,6 +777,7 @@ async function renderComponent(
         <ExpandableSections
           key={`${__component}-${component.id || index}`}
           sections={sections}
+          locale={locale}
         />
       );
     }

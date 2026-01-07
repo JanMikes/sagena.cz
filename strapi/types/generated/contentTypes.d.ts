@@ -728,6 +728,7 @@ export interface ApiIntranetPageIntranetPage
         'components.location-cards',
         'components.popup',
         'components.badges',
+        'components.image',
       ]
     > &
       Schema.Attribute.Required &
@@ -984,6 +985,7 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
         'components.location-cards',
         'components.popup',
         'components.badges',
+        'components.image',
       ]
     > &
       Schema.Attribute.Required &
@@ -1028,6 +1030,7 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
         'components.photo-gallery',
         'components.news-articles',
         'components.badges',
+        'components.image',
       ]
     > &
       Schema.Attribute.SetPluginOptions<{

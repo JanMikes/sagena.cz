@@ -33,7 +33,17 @@ interface ExpandableSectionProps {
   contacts?: ContactCardData[];
   files?: FileAttachment[];
   defaultOpen?: boolean;
+  locale?: string;
 }
+
+const translations = {
+  cs: {
+    documentsToDownload: 'Dokumenty ke stažení',
+  },
+  en: {
+    documentsToDownload: 'Documents to download',
+  },
+} as const;
 
 const ExpandableSection: React.FC<ExpandableSectionProps> = ({
   title,
@@ -41,8 +51,10 @@ const ExpandableSection: React.FC<ExpandableSectionProps> = ({
   contacts = [],
   files = [],
   defaultOpen = false,
+  locale = 'cs',
 }) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
+  const t = translations[locale as keyof typeof translations] || translations.cs;
 
   const hasContent = description || contacts.length > 0 || files.length > 0;
 
@@ -107,7 +119,7 @@ const ExpandableSection: React.FC<ExpandableSectionProps> = ({
 
               {files.length > 0 && (
                 <div className="pt-6 space-y-2">
-                  <h4 className="text-sm font-semibold text-gray-900">Dokumenty ke stažení</h4>
+                  <h4 className="text-sm font-semibold text-gray-900">{t.documentsToDownload}</h4>
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     {files.map((file, index) => (
                       <a

@@ -157,6 +157,17 @@ export interface ComponentsHeading extends Struct.ComponentSchema {
   };
 }
 
+export interface ComponentsImage extends Struct.ComponentSchema {
+  collectionName: 'components_components_images';
+  info: {
+    displayName: 'Obr\u00E1zek';
+    icon: 'picture';
+  };
+  attributes: {
+    image: Schema.Attribute.Media<'images'>;
+  };
+}
+
 export interface ComponentsIntranetNewsArticles extends Struct.ComponentSchema {
   collectionName: 'components_components_intranet_news_articles';
   info: {
@@ -769,6 +780,7 @@ declare module '@strapi/strapi' {
       'components.full-width-cards': ComponentsFullWidthCards;
       'components.gallery-slider': ComponentsGallerySlider;
       'components.heading': ComponentsHeading;
+      'components.image': ComponentsImage;
       'components.intranet-news-articles': ComponentsIntranetNewsArticles;
       'components.job-posting': ComponentsJobPosting;
       'components.links-list': ComponentsLinksList;

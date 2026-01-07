@@ -27,9 +27,10 @@ interface ExpandableSectionData {
 
 interface ExpandableSectionsProps {
   sections: ExpandableSectionData[];
+  locale?: string;
 }
 
-const ExpandableSections: React.FC<ExpandableSectionsProps> = ({ sections }) => {
+const ExpandableSections: React.FC<ExpandableSectionsProps> = ({ sections, locale = 'cs' }) => {
   return (
     <div className="space-y-4">
       {sections.map((section, index) => (
@@ -40,6 +41,7 @@ const ExpandableSections: React.FC<ExpandableSectionsProps> = ({ sections }) => 
           contacts={section.contacts}
           files={section.files}
           defaultOpen={section.defaultOpen}
+          locale={locale}
         />
       ))}
     </div>

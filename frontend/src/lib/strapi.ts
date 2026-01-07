@@ -1256,6 +1256,13 @@ export async function fetchPageBySlug(
               },
             },
             'components.badges': { populate: '*' },
+            'components.image': {
+              populate: {
+                image: {
+                  fields: ['url', 'alternativeText', 'caption', 'width', 'height'],
+                },
+              },
+            },
           },
         },
         sidebar: {
@@ -1264,6 +1271,13 @@ export async function fetchPageBySlug(
             'components.text': { populate: '*' },
             'components.alert': { populate: '*' },
             'components.badges': { populate: '*' },
+            'components.image': {
+              populate: {
+                image: {
+                  fields: ['url', 'alternativeText', 'caption', 'width', 'height'],
+                },
+              },
+            },
             'components.links-list': {
               populate: {
                 links: {
@@ -2083,6 +2097,13 @@ export async function fetchIntranetPageBySlug(
               },
             },
             'components.badges': { populate: '*' },
+            'components.image': {
+              populate: {
+                image: {
+                  fields: ['url', 'alternativeText', 'caption', 'width', 'height'],
+                },
+              },
+            },
           },
         },
         sidebar: {
@@ -2091,6 +2112,13 @@ export async function fetchIntranetPageBySlug(
             'components.text': { populate: '*' },
             'components.alert': { populate: '*' },
             'components.badges': { populate: '*' },
+            'components.image': {
+              populate: {
+                image: {
+                  fields: ['url', 'alternativeText', 'caption', 'width', 'height'],
+                },
+              },
+            },
             'components.links-list': {
               populate: {
                 links: {

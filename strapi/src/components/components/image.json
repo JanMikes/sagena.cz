@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_components_images",
+  "info": {
+    "displayName": "Obrázek",
+    "icon": "picture"
+  },
+  "options": {},
+  "attributes": {
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    }
+  },
+  "config": {}
+}

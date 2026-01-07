@@ -88,7 +88,8 @@
         "components.accordion-sections",
         "components.location-cards",
         "components.popup",
-        "components.badges"
+        "components.badges",
+        "components.image"
       ],
       "required": true
     },
@@ -114,7 +115,8 @@
         "components.slider",
         "components.photo-gallery",
         "components.news-articles",
-        "components.badges"
+        "components.badges",
+        "components.image"
       ]
     }
   }
