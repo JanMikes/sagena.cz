@@ -44,8 +44,8 @@ const Directions: React.FC<DirectionsProps> = ({
     : 'text-xl font-bold text-white';
 
   const floorBadgeClasses = isStyle2
-    ? 'inline-block text-sm font-semibold text-primary-800 bg-white/90 px-2.5 py-1 rounded mb-2'
-    : 'inline-block text-sm font-semibold text-white bg-[#a0bfdf] px-2.5 py-1 rounded mb-2';
+    ? 'inline-block text-sm font-bold text-primary-800 bg-white/90 px-2.5 py-1 rounded mb-2'
+    : 'inline-block text-sm font-bold text-white bg-[#a0bfdf] px-2.5 py-1 rounded mb-2';
 
   const textClasses = isStyle2
     ? 'prose-invert [&_p]:text-white/90 [&_p]:mb-0 [&_a]:text-primary-200 [&_strong]:text-white'
