@@ -63,7 +63,7 @@ const DoctorProfile: React.FC<DoctorProfileProps> = ({
     return (
       <div>
         {ambulanceTitle && (
-          <h3 className="text-lg font-semibold text-gray-900 mb-3">
+          <h3 className="text-lg font-semibold text-primary-600 mb-3">
             {ambulanceTitle}
           </h3>
         )}
@@ -96,7 +96,7 @@ const DoctorProfile: React.FC<DoctorProfileProps> = ({
               </div>
             )}
 
-            <h4 className="text-lg font-bold text-gray-900 mb-1">{name}</h4>
+            <h4 className="text-lg font-bold text-primary-600 mb-1">{name}</h4>
             <p className="text-primary-600 font-medium text-sm mb-2">{department}</p>
 
             {positions.length > 0 && (
@@ -219,7 +219,7 @@ const DoctorProfile: React.FC<DoctorProfileProps> = ({
                   </div>
                 )}
 
-                <h4 className="text-xl font-bold text-gray-900 mb-1">{name}</h4>
+                <h4 className="text-xl font-bold text-primary-600 mb-1">{name}</h4>
                 <p className="text-primary-600 font-medium mb-3">{department}</p>
 
                 <div className="flex flex-wrap gap-2 justify-center mb-4">

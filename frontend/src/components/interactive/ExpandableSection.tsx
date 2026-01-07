@@ -81,7 +81,7 @@ const ExpandableSection: React.FC<ExpandableSectionProps> = ({
         className="w-full flex items-center justify-between p-6 text-left hover:bg-gray-50 transition-colors"
         aria-expanded={isOpen}
       >
-        <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
+        <h3 className="text-lg font-semibold text-primary-600">{title}</h3>
         {hasContent && (
           <div className="flex-shrink-0 ml-4">
             <ChevronDown
@@ -119,7 +119,7 @@ const ExpandableSection: React.FC<ExpandableSectionProps> = ({
 
               {files.length > 0 && (
                 <div className="pt-6 space-y-2">
-                  <h4 className="text-sm font-semibold text-gray-900">{t.documentsToDownload}</h4>
+                  <h4 className="text-sm font-semibold text-primary-600">{t.documentsToDownload}</h4>
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     {files.map((file, index) => (
                       <a
@@ -132,7 +132,7 @@ const ExpandableSection: React.FC<ExpandableSectionProps> = ({
                           <FileText className="w-6 h-6 text-gray-600 group-hover:text-primary-600 transition-colors" />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <h5 className="font-medium text-gray-900 truncate group-hover:text-primary-600 transition-colors">
+                          <h5 className="font-medium text-primary-600 truncate group-hover:text-primary-700 transition-colors">
                             {file.name}
                           </h5>
                           <div className="flex items-center space-x-2 mt-2">

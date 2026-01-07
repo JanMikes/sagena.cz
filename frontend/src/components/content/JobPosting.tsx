@@ -28,7 +28,7 @@ const JobPosting: React.FC<JobPostingProps> = ({
     <div className="bg-white border border-gray-200 rounded-xl p-6 hover:border-primary-300 hover:shadow-md transition-all duration-300">
       <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
         <div className="flex-1">
-          <h3 className="text-xl font-semibold text-gray-900 mb-2">{title}</h3>
+          <h3 className="text-xl font-semibold text-primary-600 mb-2">{title}</h3>
           <p className="text-gray-600 mb-4">{description}</p>
 
           <div className="flex flex-wrap gap-3 mb-4">

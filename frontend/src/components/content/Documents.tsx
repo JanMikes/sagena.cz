@@ -46,7 +46,7 @@ const Documents: React.FC<DocumentsProps> = ({ documents, columns = 3 }) => {
             <FileText className="w-6 h-6 text-gray-600 group-hover:text-primary-600 transition-colors" />
           </div>
           <div className="flex-1 min-w-0">
-            <h4 className="font-medium text-gray-900 truncate group-hover:text-primary-600 transition-colors">
+            <h4 className="font-medium text-primary-600 truncate group-hover:text-primary-700 transition-colors">
               {doc.name}
             </h4>
             {(doc.file || doc.url) && doc.extension && (

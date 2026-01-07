@@ -57,7 +57,7 @@ const ServiceCards: React.FC<ServiceCardsProps> = ({
                   />
                 </div>
               )}
-              <h3 className={`font-semibold text-primary-700 ${isCentered ? 'group-hover:text-primary-600 transition-colors' : ''}`}>
+              <h3 className={`font-semibold text-primary-600 ${isCentered ? 'group-hover:text-primary-700 transition-colors' : ''}`}>
                 {card.title}
               </h3>
             </div>

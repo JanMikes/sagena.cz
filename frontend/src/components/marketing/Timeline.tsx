@@ -56,7 +56,7 @@ const Timeline: React.FC<TimelineProps> = ({ items, compact = false }) => {
 
               {/* Content */}
               <div className={`flex-1 ${!isLast ? 'pb-8' : ''}`}>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">
+                <h3 className="text-xl font-bold text-primary-600 mb-2">
                   {item.title}
                 </h3>
                 <p className="text-gray-600 leading-relaxed">

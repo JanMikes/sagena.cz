@@ -1442,6 +1442,14 @@ export async function fetchPageBySlug(
                 },
               },
             },
+            'components.news-articles': {
+              populate: {
+                tags: true,
+                show_all_link: {
+                  populate: ['page', 'file'],
+                },
+              },
+            },
           },
         },
         parent: true, // Shallow parent for basic info (hierarchy built via getPageHierarchy)
@@ -2256,6 +2264,22 @@ export async function fetchIntranetPageBySlug(
                       fields: ['url', 'alternativeText', 'caption', 'width', 'height'],
                     },
                   },
+                },
+              },
+            },
+            'components.news-articles': {
+              populate: {
+                tags: true,
+                show_all_link: {
+                  populate: ['page', 'file'],
+                },
+              },
+            },
+            'components.intranet-news-articles': {
+              populate: {
+                tags: true,
+                show_all_link: {
+                  populate: ['page', 'file'],
                 },
               },
             },

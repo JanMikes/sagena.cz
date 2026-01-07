@@ -13,7 +13,7 @@ const Heading: React.FC<HeadingProps> = ({
   className = '',
   id,
 }) => {
-  const baseClasses = 'font-bold text-gray-900';
+  const baseClasses = 'font-bold text-primary-600';
 
   const levelClasses = {
     2: 'text-2xl md:text-3xl',

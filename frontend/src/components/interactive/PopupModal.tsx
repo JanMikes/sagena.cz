@@ -91,7 +91,7 @@ const PopupModal: React.FC<PopupModalProps> = ({
         {/* Header with title */}
         {title && (
           <div className="flex items-center justify-between p-6 border-b border-gray-200">
-            <h3 id="popup-title" className="text-2xl font-bold text-gray-900">
+            <h3 id="popup-title" className="text-2xl font-bold text-primary-600">
               {title}
             </h3>
             <button

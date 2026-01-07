@@ -59,7 +59,7 @@ const NewsArticle: React.FC<NewsArticleProps> = ({
               <Calendar className="w-3 h-3 flex-shrink-0" />
               <time dateTime={date}>{new Date(date).toLocaleDateString('cs')}</time>
             </div>
-            <h3 className="text-sm font-semibold text-gray-900 leading-tight line-clamp-2 hover:text-primary-600 transition-colors">
+            <h3 className="text-sm font-semibold text-primary-600 leading-tight line-clamp-2 hover:text-primary-700 transition-colors">
               {title}
             </h3>
             {tags && tags.length > 0 && (
@@ -122,7 +122,7 @@ const NewsArticle: React.FC<NewsArticleProps> = ({
           )}
         </div>
         <Link href={readMoreUrl}>
-          <h3 className="text-xl font-bold text-gray-900 mb-3 leading-tight hover:text-primary-600 transition-colors">
+          <h3 className="text-xl font-bold text-primary-600 mb-3 leading-tight hover:text-primary-700 transition-colors">
             {title}
           </h3>
         </Link>

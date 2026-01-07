@@ -61,7 +61,7 @@ const FullWidthCards: React.FC<FullWidthCardsProps> = ({ cards }) => {
               </div>
             )}
             <div className="flex-1">
-              <h3 className="text-lg font-semibold text-gray-900 group-hover:text-primary-600 transition-colors">
+              <h3 className="text-lg font-semibold text-primary-600 group-hover:text-primary-700 transition-colors">
                 {card.title}
               </h3>
               <p className="text-gray-600 text-sm mt-1">{card.description}</p>

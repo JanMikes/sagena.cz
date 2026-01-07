@@ -49,7 +49,7 @@ const MarketingArguments: React.FC<MarketingArgumentsProps> = ({
             </div>
 
             {/* Title */}
-            <h3 className="text-xl font-bold text-gray-900 mb-2">
+            <h3 className="text-xl font-bold text-primary-600 mb-2">
               {arg.title}
             </h3>
 

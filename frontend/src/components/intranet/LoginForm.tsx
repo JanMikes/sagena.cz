@@ -62,7 +62,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ locale }) => {
               <Lock className="w-8 h-8 text-white" />
             </div>
           </div>
-          <h2 className="text-3xl font-bold text-gray-900 mb-2">{t.title}</h2>
+          <h2 className="text-3xl font-bold text-primary-600 mb-2">{t.title}</h2>
           <p className="text-gray-600">{t.subtitle}</p>
         </div>
 

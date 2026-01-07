@@ -63,7 +63,7 @@ const LocationCard: React.FC<{ card: LocationCardData }> = ({ card }) => {
             <div className="p-6 flex flex-col">
               {/* Title */}
               {card.title && (
-                <h3 className="text-xl font-bold text-gray-900 mb-3">
+                <h3 className="text-xl font-bold text-primary-600 mb-3">
                   {card.title}
                 </h3>
               )}
