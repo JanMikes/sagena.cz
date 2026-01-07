@@ -99,7 +99,7 @@ const ExpandableSection: React.FC<ExpandableSectionProps> = ({
               {files.length > 0 && (
                 <div className="space-y-2">
                   <h4 className="text-sm font-semibold text-gray-900">Přílohy</h4>
-                  <div className="space-y-2">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
                     {files.map((file, index) => (
                       <a
                         key={index}
