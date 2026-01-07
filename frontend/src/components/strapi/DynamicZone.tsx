@@ -988,6 +988,7 @@ async function renderComponent(
           showAllLink={showAllLink}
           showAllButtonVisible={!!showAllLink}
           locale={locale}
+          compact={compact}
         />
       );
     }
@@ -1048,6 +1049,7 @@ async function renderComponent(
           showAllButtonVisible={showAllButtonVisible}
           locale={locale}
           basePath={`/${locale}/intranet/aktuality`}
+          compact={compact}
         />
       );
     }

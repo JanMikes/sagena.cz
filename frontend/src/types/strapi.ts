@@ -930,7 +930,7 @@ export type PageContentComponent = ComponentsHeading | ComponentsText | Componen
 /**
  * Page sidebar dynamic zone - all components that can appear in page sidebar
  */
-export type PageSidebarComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsLinksList | ComponentsServiceCards | ComponentsButtonGroup | ComponentsContactCards | ComponentsDoctorProfile | ComponentsDocuments | ComponentsSectionDivider | ComponentsTimeline | ComponentsSlider | ComponentsPhotoGallery | ComponentsBadges;
+export type PageSidebarComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsLinksList | ComponentsServiceCards | ComponentsButtonGroup | ComponentsContactCards | ComponentsDoctorProfile | ComponentsDocuments | ComponentsSectionDivider | ComponentsTimeline | ComponentsSlider | ComponentsPhotoGallery | ComponentsBadges | ComponentsNewsArticles;
 
 /**
  * Intranet page content dynamic zone - all components that can appear in intranet page content area
@@ -941,7 +941,7 @@ export type IntranetPageContentComponent = ComponentsHeading | ComponentsText | 
 /**
  * Intranet page sidebar dynamic zone - all components that can appear in intranet page sidebar
  */
-export type IntranetPageSidebarComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsLinksList | ComponentsButtonGroup | ComponentsContactCards | ComponentsDoctorProfile | ComponentsDocuments | ComponentsSectionDivider | ComponentsServiceCards | ComponentsTimeline | ComponentsSlider | ComponentsPhotoGallery | ComponentsBadges;
+export type IntranetPageSidebarComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsLinksList | ComponentsButtonGroup | ComponentsContactCards | ComponentsDoctorProfile | ComponentsDocuments | ComponentsSectionDivider | ComponentsServiceCards | ComponentsTimeline | ComponentsSlider | ComponentsPhotoGallery | ComponentsBadges | ComponentsNewsArticles | ComponentsIntranetNewsArticles;
 
 // ============================================================================
 // Content Types

@@ -16,6 +16,7 @@ interface NewsArticleProps {
   tags?: Array<{ name: string; slug: string }>; // Optional tags
   readMoreUrl: string;
   readMoreText?: string;
+  compact?: boolean; // Compact mode for sidebar (smaller, horizontal layout)
 }
 
 const NewsArticle: React.FC<NewsArticleProps> = ({
@@ -27,6 +28,7 @@ const NewsArticle: React.FC<NewsArticleProps> = ({
   tags,
   readMoreUrl,
   readMoreText = 'Číst více',
+  compact = false,
 }) => {
   // Strip HTML tags from rich text for excerpt if needed
   const getPlainTextExcerpt = (html: string): string => {
@@ -36,6 +38,53 @@ const NewsArticle: React.FC<NewsArticleProps> = ({
 
   const excerpt = text ? (text.includes('<') ? getPlainTextExcerpt(text) : text) : null;
 
+  // Compact layout for sidebar - horizontal card with smaller image
+  if (compact) {
+    return (
+      <article className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow duration-300">
+        <Link href={readMoreUrl} className="flex">
+          {image && (
+            <div className="relative w-24 h-24 flex-shrink-0 bg-gray-200">
+              <Image
+                src={image}
+                alt={imageAlt || title}
+                fill
+                className="object-cover"
+                sizes="96px"
+              />
+            </div>
+          )}
+          <div className="flex-1 p-3 min-w-0">
+            <div className="flex items-center gap-1.5 text-xs text-gray-500 mb-1">
+              <Calendar className="w-3 h-3 flex-shrink-0" />
+              <time dateTime={date}>{new Date(date).toLocaleDateString('cs')}</time>
+            </div>
+            <h3 className="text-sm font-semibold text-gray-900 leading-tight line-clamp-2 hover:text-primary-600 transition-colors">
+              {title}
+            </h3>
+            {tags && tags.length > 0 && (
+              <div className="flex items-center gap-1 mt-1.5">
+                {tags.slice(0, 1).map((tag) => (
+                  <span
+                    key={tag.slug}
+                    className="inline-flex items-center gap-0.5 px-1.5 py-0.5 text-xs font-medium text-primary-700 bg-primary-50 rounded-full"
+                  >
+                    <TagIcon className="w-2.5 h-2.5" />
+                    {tag.name}
+                  </span>
+                ))}
+                {tags.length > 1 && (
+                  <span className="text-xs text-gray-400">+{tags.length - 1}</span>
+                )}
+              </div>
+            )}
+          </div>
+        </Link>
+      </article>
+    );
+  }
+
+  // Standard layout
   return (
     <article className="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-shadow duration-300">
       {image && (

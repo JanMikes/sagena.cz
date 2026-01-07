@@ -727,6 +727,7 @@ export interface ApiIntranetPageIntranetPage
         'components.accordion-sections',
         'components.location-cards',
         'components.popup',
+        'components.badges',
       ]
     > &
       Schema.Attribute.Required &
@@ -769,6 +770,9 @@ export interface ApiIntranetPageIntranetPage
         'components.timeline',
         'components.slider',
         'components.photo-gallery',
+        'components.news-articles',
+        'components.intranet-news-articles',
+        'components.badges',
       ]
     > &
       Schema.Attribute.SetPluginOptions<{
@@ -979,6 +983,7 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
         'components.accordion-sections',
         'components.location-cards',
         'components.popup',
+        'components.badges',
       ]
     > &
       Schema.Attribute.Required &
@@ -1021,6 +1026,8 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
         'components.service-cards',
         'components.slider',
         'components.photo-gallery',
+        'components.news-articles',
+        'components.badges',
       ]
     > &
       Schema.Attribute.SetPluginOptions<{

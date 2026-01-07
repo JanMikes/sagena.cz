@@ -21,6 +21,7 @@ interface NewsArticlesProps {
   showAllButtonVisible?: boolean; // Whether to show the "show all" button
   locale?: string; // Current locale for URL generation
   basePath?: string; // Base path for article links (e.g., "/cs/intranet/aktuality" for intranet)
+  compact?: boolean; // Compact mode for sidebar (single column, smaller cards)
 }
 
 /**
@@ -37,6 +38,7 @@ const NewsArticles: React.FC<NewsArticlesProps> = ({
   showAllButtonVisible = false,
   locale = 'cs',
   basePath,
+  compact = false,
 }) => {
   if (!articles || articles.length === 0) {
     const emptyMessage = locale === 'en' ? 'No articles to display.' : 'Žádné články k zobrazení.';
@@ -50,9 +52,14 @@ const NewsArticles: React.FC<NewsArticlesProps> = ({
   // Use provided basePath or default to public aktuality route
   const articleBasePath = basePath || `/${locale}/aktuality`;
 
+  // Grid classes: single column for compact/sidebar, responsive grid otherwise
+  const gridClasses = compact
+    ? 'flex flex-col gap-4'
+    : 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6';
+
   return (
-    <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className={compact ? 'space-y-4' : 'space-y-6'}>
+      <div className={gridClasses}>
         {articles.map((article) => (
           <NewsArticle
             key={article.slug}
@@ -62,18 +69,22 @@ const NewsArticles: React.FC<NewsArticlesProps> = ({
             imageAlt={article.imageAlt}
             tags={article.tags}
             readMoreUrl={`${articleBasePath}/${article.slug}/`}
+            compact={compact}
           />
         ))}
       </div>
 
       {showAllButtonVisible && showAllLink && (
-        <div className="flex justify-center mt-8">
+        <div className={compact ? 'flex justify-center mt-4' : 'flex justify-center mt-8'}>
           <Link
             href={showAllLink.url}
-            className="inline-flex items-center gap-2 px-6 py-3 bg-primary-600 text-white font-medium rounded-lg hover:bg-primary-700 transition-colors shadow-md hover:shadow-lg"
+            className={compact
+              ? 'inline-flex items-center gap-2 px-4 py-2 bg-primary-600 text-white text-sm font-medium rounded-lg hover:bg-primary-700 transition-colors'
+              : 'inline-flex items-center gap-2 px-6 py-3 bg-primary-600 text-white font-medium rounded-lg hover:bg-primary-700 transition-colors shadow-md hover:shadow-lg'
+            }
           >
             <span>{showAllLink.text}</span>
-            <ArrowRight className="w-4 h-4" />
+            <ArrowRight className={compact ? 'w-3 h-3' : 'w-4 h-4'} />
           </Link>
         </div>
       )}
