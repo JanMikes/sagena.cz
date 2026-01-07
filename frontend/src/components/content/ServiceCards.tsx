@@ -57,24 +57,37 @@ const ServiceCards: React.FC<ServiceCardsProps> = ({
                   />
                 </div>
               )}
-              <h3 className={`text-lg font-semibold text-primary-700 ${isCentered ? 'group-hover:text-primary-600 transition-colors' : ''}`}>
+              <h3 className={`font-semibold text-primary-700 ${isCentered ? 'group-hover:text-primary-600 transition-colors' : ''}`}>
                 {card.title}
               </h3>
             </div>
             {card.description && (
-              <p className="text-gray-600 mb-4 leading-relaxed">
+              <p className={`text-gray-600 leading-relaxed text-sm ${card.link ? 'mb-6' : ''}`}>
                 {card.description}
               </p>
             )}
             {/* Arrow always in bottom-right with absolute positioning */}
             {card.link && (
               <div className="absolute bottom-0 right-0">
-                <span className="inline-flex items-center gap-2 bg-primary-50 px-4 py-2 rounded-tl-lg rounded-br-xl">
-                  {card.link.text && (
-                    <span className="text-primary-600 font-medium text-sm">{card.link.text}</span>
-                  )}
-                  <ArrowRight className="w-4 h-4 text-primary-600 group-hover:translate-x-1 transition-transform" />
-                </span>
+                {!cardClickable ? (
+                  <Link
+                    href={card.link.url}
+                    className="inline-flex items-center gap-2 px-5 py-3 rounded-tl-lg rounded-br-xl hover:brightness-95 transition-all group"
+                    style={{ backgroundColor: '#a0bfdf' }}
+                  >
+                    {card.link.text && (
+                      <span className="text-white font-medium text-sm">{card.link.text}</span>
+                    )}
+                    <ArrowRight className="w-4 h-4 text-white group-hover:translate-x-1 transition-transform" />
+                  </Link>
+                ) : (
+                  <span className="inline-flex items-center gap-2 px-5 py-3 rounded-tl-lg rounded-br-xl" style={{ backgroundColor: '#a0bfdf' }}>
+                    {card.link.text && (
+                      <span className="text-primary-700 font-medium text-sm">{card.link.text}</span>
+                    )}
+                    <ArrowRight className="w-4 h-4 text-primary-700 group-hover:translate-x-1 transition-transform" />
+                  </span>
+                )}
               </div>
             )}
           </>
