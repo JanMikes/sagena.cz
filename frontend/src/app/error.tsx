@@ -2,6 +2,7 @@
 
 import * as Sentry from "@sentry/nextjs";
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useEffect } from 'react';
 
 export default function Error({
@@ -11,6 +12,11 @@ export default function Error({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  const pathname = usePathname();
+  // Extract locale from pathname (e.g., /cs/... or /en/...)
+  const localeMatch = pathname.match(/^\/([a-z]{2})\//);
+  const locale = localeMatch ? localeMatch[1] : 'cs';
+
   useEffect(() => {
     Sentry.captureException(error);
   }, [error]);
@@ -33,7 +39,7 @@ export default function Error({
             Zkusit znovu
           </button>
           <Link
-            href="/"
+            href={`/${locale}/`}
             className="inline-block bg-gray-200 text-gray-900 px-6 py-3 rounded-lg hover:bg-gray-300 transition-colors"
           >
             Zpět na hlavní stránku

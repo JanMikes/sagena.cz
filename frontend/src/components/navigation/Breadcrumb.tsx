@@ -10,18 +10,20 @@ interface BreadcrumbItem {
 interface BreadcrumbProps {
   items: BreadcrumbItem[];
   showHome?: boolean;
+  locale?: string;
 }
 
 const Breadcrumb: React.FC<BreadcrumbProps> = ({
   items,
   showHome = true,
+  locale = 'cs',
 }) => {
   return (
     <nav aria-label="Breadcrumb" className="flex items-center space-x-2 text-sm">
       {showHome && (
         <>
           <Link
-            href="/"
+            href={`/${locale}/`}
             className="text-gray-600 hover:text-primary-600 transition-colors"
             aria-label="Domů"
           >

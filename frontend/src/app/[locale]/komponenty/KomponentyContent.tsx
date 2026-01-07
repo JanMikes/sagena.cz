@@ -46,7 +46,7 @@ export default function KomponentyPage() {
       />
 
       <div className="container-custom py-12 space-y-8">
-        <Breadcrumb items={[{ label: 'Komponenty', href: '/komponenty' }, { label: 'Aktuální stránka' }]} />
+        <Breadcrumb items={[{ label: 'Komponenty', href: '/cs/komponenty' }, { label: 'Aktuální stránka' }]} locale="cs" />
 
       <SectionDivider style="Gradient line" />
 

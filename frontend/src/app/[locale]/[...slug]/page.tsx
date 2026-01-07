@@ -193,7 +193,7 @@ export default async function Page({ params }: PageProps) {
           /* Two-column layout with sidebar - breadcrumb above, sidebar starts at H1 level */
           <div className="container-custom pt-6 pb-12">
             {/* Breadcrumb Navigation - full width above the grid */}
-            <Breadcrumb items={breadcrumbItems} />
+            <Breadcrumb items={breadcrumbItems} locale={locale} />
 
             {/* Grid starts at H1 level */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-6">
@@ -218,7 +218,7 @@ export default async function Page({ params }: PageProps) {
           <div className="pt-6 pb-12">
             {/* Breadcrumb and Title need their own container */}
             <div className="container-custom mb-8">
-              <Breadcrumb items={breadcrumbItems} />
+              <Breadcrumb items={breadcrumbItems} locale={locale} />
 
               {/* Page Title */}
               <h1 className="text-4xl md:text-5xl font-bold text-primary-600 mt-6">{page.title}</h1>

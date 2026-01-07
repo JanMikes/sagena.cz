@@ -202,7 +202,7 @@ export default async function IntranetPage({ params }: PageProps) {
             {/* Main Content */}
             <div className="lg:col-span-2 space-y-8">
               {/* Breadcrumb Navigation */}
-              <Breadcrumb items={breadcrumbItems} />
+              <Breadcrumb items={breadcrumbItems} locale={locale} />
 
               {/* Page Title */}
               <h1 className="text-4xl md:text-5xl font-bold text-primary-600">{page.title}</h1>
@@ -223,7 +223,7 @@ export default async function IntranetPage({ params }: PageProps) {
         <div className="pt-6 pb-12">
           {/* Breadcrumb and Title need their own container */}
           <div className="container-custom mb-8">
-            <Breadcrumb items={breadcrumbItems} />
+            <Breadcrumb items={breadcrumbItems} locale={locale} />
 
             {/* Page Title */}
             <h1 className="text-4xl md:text-5xl font-bold text-primary-600 mt-6">{page.title}</h1>

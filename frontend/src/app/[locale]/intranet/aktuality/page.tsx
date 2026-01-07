@@ -140,7 +140,7 @@ export default async function IntranetNewsListingPage({ params }: IntranetNewsLi
       <div className="container-custom py-12">
         {/* Breadcrumb Navigation */}
         <div className="mb-8">
-          <Breadcrumb items={breadcrumbItems} />
+          <Breadcrumb items={breadcrumbItems} locale={locale} />
         </div>
 
         {/* News articles grid */}

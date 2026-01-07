@@ -45,7 +45,7 @@ const ServiceCards: React.FC<ServiceCardsProps> = ({
         const cardContent = (
           <>
             {/* Icon + Title on same line */}
-            <div className={`flex items-center gap-3 mb-2 ${isCentered ? 'justify-center' : ''}`}>
+            <div className={`flex items-center gap-3 ${isCentered ? 'justify-center' : ''} ${!card.description && card.link ? 'mb-6' : 'mb-2'}`}>
               {card.icon && (
                 <div className="flex-shrink-0 w-10 h-10">
                   <Image
@@ -83,9 +83,9 @@ const ServiceCards: React.FC<ServiceCardsProps> = ({
                 ) : (
                   <span className="inline-flex items-center gap-2 px-5 py-3 rounded-tl-lg rounded-br-xl" style={{ backgroundColor: '#a0bfdf' }}>
                     {card.link.text && (
-                      <span className="text-primary-700 font-medium text-sm">{card.link.text}</span>
+                      <span className="text-white font-medium text-sm">{card.link.text}</span>
                     )}
-                    <ArrowRight className="w-4 h-4 text-primary-700 group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight className="w-4 h-4 text-white group-hover:translate-x-1 transition-transform" />
                   </span>
                 )}
               </div>
