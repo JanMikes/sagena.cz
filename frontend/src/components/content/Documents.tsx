@@ -49,7 +49,7 @@ const Documents: React.FC<DocumentsProps> = ({ documents, columns = 3 }) => {
             <h4 className="font-medium text-gray-900 truncate group-hover:text-primary-600 transition-colors">
               {doc.name}
             </h4>
-            {(doc.file || doc.url) && (
+            {(doc.file || doc.url) && doc.extension && (
               <div className="flex items-center space-x-2 mt-2">
                 <span
                   className={`text-xs font-semibold px-2 py-1 rounded ${getExtensionColor(
