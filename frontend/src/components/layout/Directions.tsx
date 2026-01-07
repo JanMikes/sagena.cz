@@ -37,7 +37,7 @@ const Directions: React.FC<DirectionsProps> = ({
 
   const numberContainerClasses = isStyle2
     ? 'flex items-center justify-center w-12 h-12 bg-white/20 backdrop-blur-sm rounded-lg flex-shrink-0'
-    : 'flex items-center justify-center w-12 h-12 bg-[#a0bfdf] rounded-lg flex-shrink-0';
+    : 'flex items-center justify-center w-12 h-12 bg-[#95b5d5] rounded-lg flex-shrink-0';
 
   const stepNumberClasses = isStyle2
     ? 'text-xl font-bold text-white'
@@ -45,11 +45,11 @@ const Directions: React.FC<DirectionsProps> = ({
 
   const floorBadgeClasses = isStyle2
     ? 'inline-block text-sm font-bold text-primary-800 bg-white/90 px-2.5 py-1 rounded mb-2'
-    : 'inline-block text-sm font-bold text-white bg-[#a0bfdf] px-2.5 py-1 rounded mb-2';
+    : 'inline-block text-sm font-bold text-white bg-[#7da5cc] px-2.5 py-1 rounded mb-2';
 
   const textClasses = isStyle2
     ? 'prose-invert [&_p]:text-white/90 [&_p]:mb-0 [&_a]:text-primary-200 [&_strong]:text-white'
-    : '[&_p]:text-gray-700 [&_p]:mb-0 [&_a]:text-primary-600';
+    : '[&_p]:text-gray-700 [&_p]:mb-0 [&_p]:italic [&_a]:text-primary-600';
 
   const descriptionClasses = isStyle2
     ? 'prose-invert [&_p]:text-white/80 [&_a]:text-primary-200 [&_strong]:text-white mt-6 pt-6 border-t border-white/20'
@@ -58,7 +58,7 @@ const Directions: React.FC<DirectionsProps> = ({
   return (
     <div className={containerClasses}>
       {title && <h3 className={titleClasses}>{title}</h3>}
-      <div className="space-y-4">
+      <div className="space-y-8">
         {instructions.map((instruction, index) => (
           <div key={index} className="flex items-start space-x-4">
             {/* Icon or Step Number */}
