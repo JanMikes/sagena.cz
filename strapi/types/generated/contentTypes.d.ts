@@ -1091,6 +1091,39 @@ export interface ApiPersonPerson extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiRegistrationRegistration
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'registrations';
+  info: {
+    displayName: 'Registrace';
+    pluralName: 'registrations';
+    singularName: 'registration';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    email: Schema.Attribute.Email & Schema.Attribute.Required;
+    fullName: Schema.Attribute.String & Schema.Attribute.Required;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::registration.registration'
+    > &
+      Schema.Attribute.Private;
+    message: Schema.Attribute.Text;
+    phone: Schema.Attribute.String & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
+    submittedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiSearchSearch extends Struct.SingleTypeSchema {
   collectionName: 'searches';
   info: {
@@ -1687,6 +1720,7 @@ declare module '@strapi/strapi' {
       'api::news-article.news-article': ApiNewsArticleNewsArticle;
       'api::page.page': ApiPagePage;
       'api::person.person': ApiPersonPerson;
+      'api::registration.registration': ApiRegistrationRegistration;
       'api::search.search': ApiSearchSearch;
       'api::tag.tag': ApiTagTag;
       'plugin::content-releases.release': PluginContentReleasesRelease;

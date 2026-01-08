@@ -17,9 +17,11 @@ interface IntranetNavProps {
 const translations = {
   cs: {
     logout: 'Odhlásit se',
+    registrations: 'Registrace',
   },
   en: {
     logout: 'Sign out',
+    registrations: 'Registrations',
   },
 } as const;
 
@@ -43,13 +45,24 @@ const IntranetNav: React.FC<IntranetNavProps> = ({
     return path.endsWith('/') ? path.slice(0, -1) : path;
   };
 
+  // Static navigation items (always visible)
+  const staticNavItems: NavigationItem[] = [
+    {
+      name: t.registrations,
+      href: `/${locale}/intranet/registrace/`,
+    },
+  ];
+
+  // Combine CMS navigation with static items
+  const allNavItems = [...navigation, ...staticNavItems];
+
   return (
     <div className="bg-primary-700 text-white shadow-lg">
       <div className="container-custom">
         <div className="flex items-center justify-between py-3 md:py-0 md:h-14">
           {/* Navigation Items */}
           <nav className="hidden md:flex items-center space-x-1 flex-1">
-            {navigation.map((item) => {
+            {allNavItems.map((item) => {
               const isActive = normalizePath(pathname) === normalizePath(item.href);
               return (
                 <Link
@@ -104,8 +117,8 @@ const IntranetNav: React.FC<IntranetNavProps> = ({
 
         {/* Mobile Navigation */}
         <nav className="md:hidden border-t border-primary-600">
-          <div className={`grid gap-1 ${navigation.length <= 4 ? `grid-cols-${navigation.length}` : 'grid-cols-4'}`}>
-            {navigation.map((item) => {
+          <div className={`grid gap-1 ${allNavItems.length <= 4 ? `grid-cols-${allNavItems.length}` : 'grid-cols-4'}`}>
+            {allNavItems.map((item) => {
               const isActive = normalizePath(pathname) === normalizePath(item.href);
               return (
                 <Link

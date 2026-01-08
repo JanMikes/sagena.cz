@@ -2536,6 +2536,38 @@ export async function fetchAllIntranetNewsArticleSlugs(
 }
 
 // ============================================================================
+// Registration API (Intranet only)
+// ============================================================================
+
+import { Registration } from '@/types/strapi';
+
+/**
+ * Fetch all patient registrations for intranet display
+ * @param sort - Sort order (default: 'submittedAt:desc')
+ * @param limit - Number of registrations to fetch (default: 100)
+ * @returns Array of Registration objects
+ */
+export async function fetchRegistrations(
+  sort: string = 'submittedAt:desc',
+  limit: number = 100
+): Promise<Registration[]> {
+  try {
+    const response = await fetchAPI<StrapiCollectionResponse<Registration>>(
+      '/registrations',
+      {
+        sort,
+        'pagination[pageSize]': limit.toString(),
+      }
+    );
+
+    return response.data || [];
+  } catch (error) {
+    console.error('Error fetching registrations:', error);
+    return [];
+  }
+}
+
+// ============================================================================
 // Client-Side Search API
 // ============================================================================
 

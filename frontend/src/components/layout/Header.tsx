@@ -10,6 +10,7 @@ import LocaleSwitcher from '@/components/layout/LocaleSwitcher';
 import { NavigationItem, Search, SearchableItem } from '@/types/strapi';
 import { type Locale } from '@/i18n/config';
 import { useLocaleContext } from '@/contexts/LocaleContext';
+import { useReservationModal } from '@/contexts/ReservationModalContext';
 
 interface HeaderProps {
   navigation?: NavigationItem[];
@@ -32,6 +33,7 @@ const Header: React.FC<HeaderProps> = ({
   const [searchModalOpen, setSearchModalOpen] = useState(false);
   const pathname = usePathname();
   const { alternateLocaleUrl } = useLocaleContext();
+  const { openModal: openReservationModal } = useReservationModal();
 
   // Global keyboard shortcut: Cmd/Ctrl + K to open search
   useEffect(() => {
@@ -110,7 +112,7 @@ const Header: React.FC<HeaderProps> = ({
               <Phone className="w-5 h-5" />
               <span className="font-medium">+420 553 030 800</span>
             </a>
-            <Button href="#" size="sm">
+            <Button onClick={openReservationModal} size="sm">
               Objednat se
             </Button>
           </div>
@@ -282,7 +284,7 @@ const Header: React.FC<HeaderProps> = ({
                 </div>
               </div>
               <div className="px-4 pt-2">
-                <Button href="#" className="w-full">
+                <Button onClick={() => { openReservationModal(); setMobileMenuOpen(false); }} className="w-full">
                   Objednat se
                 </Button>
               </div>

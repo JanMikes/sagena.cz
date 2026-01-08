@@ -1,0 +1,32 @@
+{
+  "kind": "collectionType",
+  "collectionName": "registrations",
+  "info": {
+    "singularName": "registration",
+    "pluralName": "registrations",
+    "displayName": "Registrace"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "fullName": {
+      "type": "string",
+      "required": true
+    },
+    "email": {
+      "type": "email",
+      "required": true
+    },
+    "phone": {
+      "type": "string",
+      "required": true
+    },
+    "message": {
+      "type": "text"
+    },
+    "submittedAt": {
+      "type": "datetime"
+    }
+  }
+}

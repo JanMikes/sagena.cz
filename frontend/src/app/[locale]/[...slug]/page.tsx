@@ -178,6 +178,7 @@ export default async function Page({ params }: PageProps) {
 
       {/* Page Layout with gradient background starting from navbar */}
       <div
+        className="pb-16"
         style={{
           background: `
             linear-gradient(to bottom, transparent, #FFF 100vh),

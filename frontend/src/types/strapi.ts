@@ -167,6 +167,27 @@ export interface IntranetNewsArticle {
 }
 
 // ============================================================================
+// Registration Content Type
+// ============================================================================
+
+/**
+ * Registration content type
+ * Location: strapi/src/api/registration/content-types/registration/schema.json
+ * Usage: Patient registration submissions from the public form
+ */
+export interface Registration {
+  id: number;
+  documentId?: string;
+  fullName: string;
+  email: string;
+  phone: string;
+  message?: string | null;
+  submittedAt?: string | null; // ISO datetime string
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+// ============================================================================
 // Strapi Components (standalone UI components in dynamic zones)
 // ============================================================================
 

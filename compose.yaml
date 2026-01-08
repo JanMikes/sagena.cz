@@ -1,5 +1,6 @@
 volumes:
     postgres-data:
+    mailpit-data:
 
 services:
     postgres:
@@ -57,6 +58,13 @@ services:
         environment:
             PUBLIC_UPLOADS_URL: http://localhost:8080
             STRAPI_WEBHOOK_SECRET: ${STRAPI_WEBHOOK_SECRET:-your-webhook-secret}
+            # Email configuration
+            SMTP_HOST: mailpit
+            SMTP_PORT: 1025
+            SMTP_USER: ""
+            SMTP_PASS: ""
+            EMAIL_FROM: noreply@sagena.cz
+            EMAIL_RECIPIENTS: ${EMAIL_RECIPIENTS:-registrace@sagena.cz}
         volumes:
             - ./frontend:/app
         command: sh -c "npm ci && npm run dev"
@@ -81,3 +89,16 @@ services:
             ADMINER_DEFAULT_SERVER: postgres
         depends_on:
             - postgres
+
+    mailpit:
+        image: axllent/mailpit
+        restart: unless-stopped
+        ports:
+            - "1025:1025"
+            - "8025:8025"
+        environment:
+            MP_SMTP_AUTH_ACCEPT_ANY: 1
+            MP_SMTP_AUTH_ALLOW_INSECURE: 1
+            MP_DATABASE: "/data/mailpit.db"
+        volumes:
+            - mailpit-data:/data

@@ -4,6 +4,8 @@ import Footer from '@/components/layout/Footer';
 import { fetchNavigation, fetchFooter, fetchSearch, fetchSearchableContent } from '@/lib/strapi';
 import { isValidLocale, getAlternateLocale, type Locale } from '@/i18n/config';
 import { LocaleProvider } from '@/contexts/LocaleContext';
+import { ReservationModalProvider } from '@/contexts/ReservationModalContext';
+import RegistrationModal from '@/components/forms/RegistrationModal';
 import type { NavigationItem, Footer as FooterType, Search, SearchableItem } from '@/types/strapi';
 
 // Force all pages under [locale] to be dynamically rendered (SSR)
@@ -53,16 +55,19 @@ export default async function LocaleLayout({
   const alternateLocale = getAlternateLocale(locale as Locale);
 
   return (
-    <LocaleProvider>
-      <Header
-        navigation={navbarItems}
-        currentLocale={locale as Locale}
-        alternateLocale={alternateLocale}
-        searchData={searchData}
-        searchableContent={searchableContent}
-      />
-      <main>{children}</main>
-      <Footer data={footer} locale={locale} footerNavigation={footerNavItems} />
-    </LocaleProvider>
+    <ReservationModalProvider>
+      <LocaleProvider>
+        <Header
+          navigation={navbarItems}
+          currentLocale={locale as Locale}
+          alternateLocale={alternateLocale}
+          searchData={searchData}
+          searchableContent={searchableContent}
+        />
+        <main>{children}</main>
+        <Footer data={footer} locale={locale} footerNavigation={footerNavItems} />
+        <RegistrationModal locale={locale as Locale} />
+      </LocaleProvider>
+    </ReservationModalProvider>
   );
 }
