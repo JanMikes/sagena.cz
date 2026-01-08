@@ -262,12 +262,14 @@ const Slider: React.FC<SliderProps> = ({
 
       {/* Dots */}
       {slides.length > 1 && (
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex space-x-2">
+        <div className={`absolute left-1/2 -translate-x-1/2 flex space-x-2 ${
+          variant === 'header' ? 'bottom-28 md:bottom-32' : 'bottom-6'
+        }`}>
           {slides.map((_, index) => (
             <button
               key={index}
               onClick={() => goToSlide(index)}
-              className={`w-3 h-3 rounded-full transition-all ${
+              className={`w-3 h-3 rounded-full transition-all border-2 border-white ${
                 index === currentSlide
                   ? useDarkMode ? 'bg-white w-8' : 'bg-primary-600 w-8'
                   : useDarkMode ? 'bg-white/50 hover:bg-white/75' : 'bg-primary-300 hover:bg-primary-400'

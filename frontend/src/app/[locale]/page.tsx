@@ -96,9 +96,7 @@ export default async function HomePage({ params }: HomePageProps) {
         )}
 
         {/* Render page content from Strapi */}
-        <div className="pt-8 md:pt-12">
-          <DynamicZone components={page.content || []} locale={locale} />
-        </div>
+        <DynamicZone components={page.content || []} locale={locale} />
       </div>
     </>
   );

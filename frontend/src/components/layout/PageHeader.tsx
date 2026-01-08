@@ -114,7 +114,7 @@ const PageHeader: React.FC<PageHeaderProps> = async ({ header, locale = 'cs' }) 
   }
 
   return (
-    <div className="relative">
+    <div className="relative mb-8 md:mb-12">
       {/* Slider - 100% width */}
       {sliderProps && (
         <div className="w-full">
