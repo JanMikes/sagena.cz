@@ -2,58 +2,59 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { Mail, Phone, Clock, FileText, Plane, ExternalLink, Download } from 'lucide-react';
+import RichText from '@/components/typography/RichText';
 
 interface Doctor {
-  name: string;
+  name?: string;
   function?: string;
   phone?: string;
   email?: string;
   photo?: string;
-  holiday?: { from: string; to: string };
+  holiday?: { from?: string; to?: string };
 }
 
 interface Nurse {
-  name: string;
-  holiday?: { from: string; to: string };
+  name?: string;
+  holiday?: { from?: string; to?: string };
 }
 
 interface Document {
-  name: string;
-  url: string;
+  name?: string;
+  url?: string;
   extension?: string;
 }
 
 interface OpeningHours {
-  day: string;
-  time: string;
+  day?: string;
+  time?: string;
 }
 
 interface AmbulanceCardProps {
-  name: string;
+  name?: string;
   phone?: string;
   email?: string;
-  doctors: Doctor[];
-  nurses: Nurse[];
-  nursesPhones: string[];
+  doctors?: Doctor[];
+  nurses?: Nurse[];
+  nursesPhones?: string[];
   nursesEmail?: string;
   description?: string;
-  documents: Document[];
+  documents?: Document[];
   button?: { text: string; url: string };
-  openingHours: OpeningHours[];
+  openingHours?: OpeningHours[];
 }
 
 const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
-  name,
+  name = '',
   phone,
   email,
-  doctors,
-  nurses,
-  nursesPhones,
+  doctors = [],
+  nurses = [],
+  nursesPhones = [],
   nursesEmail,
   description,
-  documents,
+  documents = [],
   button,
-  openingHours,
+  openingHours = [],
 }) => {
   const [isFlipped, setIsFlipped] = useState(false);
   const [cardHeight, setCardHeight] = useState<number | null>(null);
@@ -72,22 +73,26 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
     return () => window.removeEventListener('resize', updateHeight);
   }, [doctors, nurses, documents, openingHours, description, button]);
 
-  const getSurname = (fullName: string): string => {
+  const getSurname = (fullName?: string): string => {
+    if (!fullName) return '';
     const parts = fullName.trim().split(' ');
-    return parts[parts.length - 1];
+    return parts[parts.length - 1] || '';
   };
 
-  const getInitials = (fullName: string): string => {
-    return fullName
-      .split(' ')
-      .map((n) => n[0])
+  const getInitials = (fullName?: string): string => {
+    if (!fullName) return '?';
+    const parts = fullName.trim().split(' ').filter(Boolean);
+    if (parts.length === 0) return '?';
+    return parts
+      .map((n) => n[0] || '')
       .join('')
       .toUpperCase()
-      .slice(0, 2);
+      .slice(0, 2) || '?';
   };
 
   const getExtension = (doc: Document): string => {
     if (doc.extension) return doc.extension;
+    if (!doc.url) return 'file';
     // Try to extract from URL
     const match = doc.url.match(/\.([a-zA-Z0-9]+)(?:\?|$)/);
     return match ? match[1] : 'file';
@@ -103,24 +108,38 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
   };
 
   const groupedHours = openingHours.reduce<Record<string, string[]>>((acc, hours) => {
-    if (!acc[hours.day]) {
-      acc[hours.day] = [];
+    const day = hours?.day;
+    const time = hours?.time;
+    if (!day || !time) return acc;
+    if (!acc[day]) {
+      acc[day] = [];
     }
-    acc[hours.day].push(hours.time);
+    acc[day].push(time);
     return acc;
   }, {});
 
-  const isOnHoliday = (holiday?: { from: string; to: string }): boolean => {
-    if (!holiday) return false;
-    const today = new Date();
-    const from = new Date(holiday.from);
-    const to = new Date(holiday.to);
-    return today >= from && today <= to;
+  const isOnHoliday = (holiday?: { from?: string; to?: string }): boolean => {
+    if (!holiday || !holiday.from || !holiday.to) return false;
+    try {
+      const today = new Date();
+      const from = new Date(holiday.from);
+      const to = new Date(holiday.to);
+      if (isNaN(from.getTime()) || isNaN(to.getTime())) return false;
+      return today >= from && today <= to;
+    } catch {
+      return false;
+    }
   };
 
-  const formatDate = (dateStr: string): string => {
-    const date = new Date(dateStr);
-    return date.toLocaleDateString('cs-CZ', { day: 'numeric', month: 'numeric' });
+  const formatDate = (dateStr?: string): string => {
+    if (!dateStr) return '';
+    try {
+      const date = new Date(dateStr);
+      if (isNaN(date.getTime())) return dateStr;
+      return date.toLocaleDateString('cs-CZ', { day: 'numeric', month: 'numeric' });
+    } catch {
+      return dateStr;
+    }
   };
 
   return (
@@ -190,7 +209,7 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
                           {doctor.photo ? (
                             <img
                               src={doctor.photo}
-                              alt={doctor.name}
+                              alt={doctor.name || 'Doktor'}
                               className="w-10 h-10 rounded-full object-cover flex-shrink-0"
                             />
                           ) : (
@@ -201,7 +220,7 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
 
                           {/* Info */}
                           <div className="flex-1 min-w-0">
-                            <div className="font-semibold text-primary-600">{doctor.name}</div>
+                            <div className="font-semibold text-primary-600">{doctor.name || 'Neznámý'}</div>
                             {doctor.function && (
                               <span className="inline-block text-xs text-gray-600 bg-gray-100 px-2 py-0.5 rounded-full mt-1">
                                 {doctor.function}
@@ -287,16 +306,13 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
 
               {/* Description */}
               {description && (
-                <div
-                  className="text-sm text-gray-600 mb-4 prose prose-sm max-w-none"
-                  dangerouslySetInnerHTML={{ __html: description }}
-                />
+                <RichText content={description} size="sm" className="mb-4" />
               )}
 
               {/* Documents */}
-              {documents.length > 0 && (
+              {documents.filter(doc => doc.url).length > 0 && (
                 <div className="mb-4 space-y-2">
-                  {documents.map((doc, index) => {
+                  {documents.filter(doc => doc.url).map((doc, index) => {
                     const ext = getExtension(doc);
                     return (
                       <a
@@ -310,7 +326,7 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
                         </div>
                         <div className="flex-1 min-w-0">
                           <span className="text-sm font-medium text-primary-600 group-hover:text-primary-700 truncate block">
-                            {doc.name}
+                            {doc.name || 'Dokument'}
                           </span>
                           <span className={`inline-block text-xs font-semibold px-1.5 py-0.5 rounded mt-1 ${getExtensionColor(ext)}`}>
                             {ext.toUpperCase()}
