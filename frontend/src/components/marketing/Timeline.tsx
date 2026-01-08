@@ -15,18 +15,17 @@ interface TimelineProps {
 
 const Timeline: React.FC<TimelineProps> = ({ items, compact = false }) => {
   // Compact mode uses smaller sizes for sidebar display
-  const iconSize = compact ? 'w-12 h-12' : 'w-16 h-16';
-  const linePosition = compact ? 'left-6' : 'left-8';
-  const imageSize = compact ? 'w-5 h-5' : 'w-7 h-7';
-  const numberSize = compact ? 'text-xl' : 'text-2xl';
-  const gapSize = compact ? 'gap-4' : 'gap-6 md:gap-8';
+  const iconSize = compact ? 'w-10 h-10' : 'w-12 h-12';
+  const linePosition = compact ? 'left-5' : 'left-6';
+  const numberSize = compact ? 'text-lg' : 'text-xl';
+  const gapSize = compact ? 'gap-3' : 'gap-4 md:gap-5';
 
   return (
     <div className="relative">
-      {/* Timeline line */}
-      <div className={`absolute ${linePosition} top-0 bottom-0 w-0.5 bg-primary-200 hidden md:block`} />
+      {/* Timeline line - stops at center of last icon */}
+      <div className={`absolute ${linePosition} top-6 bottom-6 w-0.5 bg-primary-200 hidden md:block`} />
 
-      <div className="space-y-8">
+      <div className="space-y-4">
         {items.map((item, index) => {
           const isLast = index === items.length - 1;
 
@@ -39,14 +38,14 @@ const Timeline: React.FC<TimelineProps> = ({ items, compact = false }) => {
                     <Image
                       src={item.icon}
                       alt=""
-                      width={compact ? 48 : 64}
-                      height={compact ? 48 : 64}
+                      width={compact ? 40 : 48}
+                      height={compact ? 40 : 48}
                       className={`${iconSize} object-contain`}
                     />
                   </div>
                 )}
                 {item.number && !item.icon && (
-                  <div className={`flex items-center justify-center ${iconSize} bg-primary-600 rounded-full z-10 relative border-4 border-white shadow-md`}>
+                  <div className={`flex items-center justify-center ${iconSize} bg-primary-200 rounded-full z-10 relative border-2 border-white shadow-md`}>
                     <span className={`${numberSize} font-bold text-white`}>
                       {item.number}
                     </span>
@@ -55,11 +54,11 @@ const Timeline: React.FC<TimelineProps> = ({ items, compact = false }) => {
               </div>
 
               {/* Content */}
-              <div className={`flex-1 ${!isLast ? 'pb-8' : ''}`}>
-                <h3 className="text-xl font-bold text-primary-600 mb-2">
+              <div className={`flex-1 pt-3 ${!isLast ? 'pb-4' : ''}`}>
+                <h3 className="text-base font-bold text-primary-600 mb-1">
                   {item.title}
                 </h3>
-                <p className="text-gray-600 leading-relaxed">
+                <p className="text-sm text-gray-600 leading-relaxed">
                   {item.description}
                 </p>
               </div>
