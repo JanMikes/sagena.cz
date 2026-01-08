@@ -43,7 +43,7 @@ const NewsArticle: React.FC<NewsArticleProps> = ({
     return (
       <article className="relative bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-shadow duration-300">
         {image && (
-          <Link href={readMoreUrl} className="block relative aspect-square bg-gray-200 overflow-hidden">
+          <Link href={readMoreUrl} className="block relative aspect-video bg-gray-200 overflow-hidden">
             <Image
               src={image}
               alt={imageAlt || title}
@@ -105,7 +105,7 @@ const NewsArticle: React.FC<NewsArticleProps> = ({
   return (
     <article className="relative bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-shadow duration-300">
       {image && (
-        <Link href={readMoreUrl} className="block relative aspect-square bg-gray-200 overflow-hidden">
+        <Link href={readMoreUrl} className="block relative aspect-video bg-gray-200 overflow-hidden">
           <Image
             src={image}
             alt={imageAlt || title}
