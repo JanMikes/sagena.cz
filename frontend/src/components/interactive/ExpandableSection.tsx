@@ -78,12 +78,17 @@ const ExpandableSection: React.FC<ExpandableSectionProps> = ({
     <div className="border border-gray-200 rounded-xl overflow-hidden bg-white">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center justify-between p-6 text-left hover:bg-gray-50 transition-colors"
+        className="group relative w-full flex items-center justify-between p-6 text-left"
         aria-expanded={isOpen}
       >
-        <h3 className="text-lg font-semibold text-primary-600">{title}</h3>
+        <div
+          className={`absolute inset-0 bg-gradient-to-r from-gray-100 to-gray-50 transition-opacity duration-300 ${
+            isOpen ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
+          }`}
+        />
+        <h3 className="relative text-lg font-semibold text-primary-600">{title}</h3>
         {hasContent && (
-          <div className="flex-shrink-0 ml-4">
+          <div className="relative flex-shrink-0 ml-4">
             <ChevronDown
               className={`w-5 h-5 text-gray-600 transition-transform duration-300 ${
                 isOpen ? 'rotate-180' : ''
@@ -100,7 +105,7 @@ const ExpandableSection: React.FC<ExpandableSectionProps> = ({
           }`}
         >
           <div className="overflow-hidden">
-            <div className="px-6 pb-6 space-y-6 border-t border-gray-100">
+            <div className="pl-10 pr-6 pb-6 space-y-6 border-t border-gray-100">
               {description && (
                 <div className="pt-6">
                   <RichText

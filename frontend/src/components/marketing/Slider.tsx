@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
+import '@/styles/slider-animations.css';
 
 /**
  * Slide item from Strapi (for CMS-driven pages)
@@ -77,20 +78,20 @@ const Slider: React.FC<SliderProps> = ({
     return (
       <div className="relative overflow-hidden rounded-xl">
         {/* Slide Content - Vertical Layout */}
-        <div className="relative overflow-hidden rounded-xl">
+        <div className="relative overflow-hidden rounded-xl" key={currentSlide}>
           {/* Image Section */}
           {slide.image ? (
             <div className="relative h-32 overflow-hidden">
               <img
                 src={slide.image}
                 alt={slide.title}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover animate-fade-slide-up-small"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-primary-900/60 to-transparent" />
             </div>
           ) : slide.backgroundImage ? (
             <div
-              className="relative h-32 overflow-hidden"
+              className="relative h-32 overflow-hidden animate-fade-slide-up-small"
               style={{
                 backgroundImage: `url(${slide.backgroundImage})`,
                 backgroundSize: 'cover',
@@ -105,10 +106,10 @@ const Slider: React.FC<SliderProps> = ({
 
           {/* Text Section */}
           <div className="bg-gradient-to-br from-primary-600 to-primary-800 px-4 py-4">
-            <h3 className="text-lg font-bold text-white mb-2 leading-tight line-clamp-2">
+            <h3 className="text-lg font-bold text-white mb-2 leading-tight line-clamp-2 animate-fade-slide-up">
               {slide.title}
             </h3>
-            <p className="text-sm text-primary-100 mb-3 leading-relaxed line-clamp-3">
+            <p className="text-sm text-primary-100 mb-3 leading-relaxed line-clamp-3 animate-fade-slide-up-delay-1">
               {slide.description}
             </p>
             {slide.link && !slide.link.disabled && (
@@ -116,7 +117,7 @@ const Slider: React.FC<SliderProps> = ({
                 href={slide.link.url}
                 target={slide.link.external ? '_blank' : undefined}
                 rel={slide.link.external ? 'noopener noreferrer' : undefined}
-                className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-md text-sm font-medium bg-white text-primary-600 hover:bg-primary-50 transition-colors group"
+                className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-md text-sm font-medium bg-white text-primary-600 hover:bg-primary-50 transition-colors group animate-fade-slide-up-delay-2"
               >
                 <span>{slide.link.text}</span>
                 <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
@@ -188,7 +189,7 @@ const Slider: React.FC<SliderProps> = ({
 
         {/* Content */}
         <div className="relative h-full">
-          <div className="container-custom px-16 md:px-20 lg:px-24 h-full">
+          <div className="container-custom px-16 md:px-20 lg:px-24 h-full" key={currentSlide}>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 h-full">
               <div className={`flex flex-col ${
                 slide.textPosition === 'top' ? 'justify-start pt-8' :
@@ -196,12 +197,12 @@ const Slider: React.FC<SliderProps> = ({
                 'justify-center -mt-12'
               } h-full ${slide.imagePosition === 'left' ? 'lg:order-2' : 'lg:order-1'}`}>
                 <div>
-                  <h2 className={`text-3xl md:text-4xl font-bold mb-4 leading-tight ${
+                  <h2 className={`text-3xl md:text-4xl font-bold mb-4 leading-tight animate-fade-slide-up ${
                     useDarkMode ? 'text-white' : 'text-primary-600'
                   }`}>
                     {slide.title}
                   </h2>
-                  <p className={`text-lg mb-6 leading-relaxed ${
+                  <p className={`text-lg mb-6 leading-relaxed animate-fade-slide-up-delay-1 ${
                     useDarkMode ? 'text-primary-100' : 'text-gray-600'
                   }`}>
                     {slide.description}
@@ -211,7 +212,7 @@ const Slider: React.FC<SliderProps> = ({
                       href={slide.link.url}
                       target={slide.link.external ? '_blank' : undefined}
                       rel={slide.link.external ? 'noopener noreferrer' : undefined}
-                      className={`inline-flex items-center space-x-2 px-6 py-3 rounded-lg font-semibold transition-colors group ${
+                      className={`inline-flex items-center space-x-2 px-6 py-3 rounded-lg font-semibold transition-colors group animate-fade-slide-up-delay-2 ${
                         useDarkMode
                           ? 'bg-white text-primary-600 hover:bg-primary-50'
                           : 'bg-primary-600 text-white hover:bg-primary-700'
@@ -228,7 +229,9 @@ const Slider: React.FC<SliderProps> = ({
                   <img
                     src={slide.image}
                     alt={slide.title}
-                    className="w-full h-auto object-contain drop-shadow-2xl"
+                    className={`w-full h-auto object-contain drop-shadow-2xl ${
+                      slide.imagePosition === 'left' ? 'animate-fade-slide-right' : 'animate-fade-slide-left'
+                    }`}
                   />
                 </div>
               )}

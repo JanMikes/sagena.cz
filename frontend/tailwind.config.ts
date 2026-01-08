@@ -58,6 +58,32 @@ const config: Config = {
         'soft': '0 2px 15px -3px rgba(0, 0, 0, 0.07), 0 10px 20px -2px rgba(0, 0, 0, 0.04)',
         'soft-lg': '0 10px 40px -10px rgba(0, 0, 0, 0.1)',
       },
+      keyframes: {
+        fadeSlideUp: {
+          '0%': { opacity: '0', transform: 'translateY(35px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        fadeSlideUpSmall: {
+          '0%': { opacity: '0', transform: 'translateY(25px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        fadeSlideLeft: {
+          '0%': { opacity: '0', transform: 'translateX(40px)' },
+          '100%': { opacity: '1', transform: 'translateX(0)' },
+        },
+        fadeSlideRight: {
+          '0%': { opacity: '0', transform: 'translateX(-40px)' },
+          '100%': { opacity: '1', transform: 'translateX(0)' },
+        },
+      },
+      animation: {
+        'fade-slide-up': 'fadeSlideUp 600ms ease-out both',
+        'fade-slide-up-delay-1': 'fadeSlideUp 600ms ease-out 100ms both',
+        'fade-slide-up-delay-2': 'fadeSlideUp 600ms ease-out 200ms both',
+        'fade-slide-up-small': 'fadeSlideUpSmall 500ms ease-out both',
+        'fade-slide-left': 'fadeSlideLeft 700ms ease-out 150ms both',
+        'fade-slide-right': 'fadeSlideRight 700ms ease-out 150ms both',
+      },
     },
   },
   plugins: [],

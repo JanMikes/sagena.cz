@@ -49,7 +49,7 @@ const Directions: React.FC<DirectionsProps> = ({
 
   const textClasses = isStyle2
     ? 'prose-invert [&_p]:text-white/90 [&_p]:mb-0 [&_a]:text-primary-200 [&_strong]:text-white'
-    : '[&_p]:text-gray-700 [&_p]:mb-0 [&_p]:italic [&_a]:text-primary-600';
+    : '[&_p]:text-gray-700 [&_p]:mb-0 [&_a]:text-primary-600';
 
   const descriptionClasses = isStyle2
     ? 'prose-invert [&_p]:text-white/80 [&_a]:text-primary-200 [&_strong]:text-white mt-6 pt-6 border-t border-white/20'
