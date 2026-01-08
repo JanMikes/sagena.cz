@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_components_ambulances",
+  "info": {
+    "displayName": "Ambulance",
+    "icon": "hospital"
+  },
+  "options": {},
+  "attributes": {
+    "items": {
+      "type": "component",
+      "component": "elements.ambulance-item",
+      "repeatable": true
+    }
+  },
+  "config": {}
+}

@@ -1265,29 +1265,46 @@ export async function fetchPageBySlug(
                 },
               },
             },
-            'components.doctor-profile': {
+            'components.ambulances': {
               populate: {
-                profiles: {
+                items: {
                   populate: {
-                    person: {
+                    ambulance: {
                       populate: {
-                        person: {
+                        doctors: {
                           populate: {
                             photo: {
                               fields: ['url', 'alternativeText', 'width', 'height'],
                             },
+                            holiday: {
+                              populate: '*',
+                            },
                           },
+                        },
+                        nurses: {
+                          populate: {
+                            holiday: {
+                              populate: '*',
+                            },
+                          },
+                        },
+                        opening_hours: {
+                          populate: '*',
+                        },
+                        nurses_phones: {
+                          populate: '*',
                         },
                       },
                     },
-                    openingHours: {
-                      populate: '*',
+                    documents: {
+                      populate: {
+                        file: {
+                          fields: ['url', 'name', 'ext'],
+                        },
+                      },
                     },
-                    holiday: {
-                      populate: '*',
-                    },
-                    positions: {
-                      populate: '*',
+                    button: {
+                      populate: ['page', 'file'],
                     },
                   },
                 },
@@ -1424,40 +1441,57 @@ export async function fetchPageBySlug(
                 },
               },
             },
-            'components.doctor-profile': {
-              populate: {
-                profiles: {
-                  populate: {
-                    person: {
-                      populate: {
-                        person: {
-                          populate: {
-                            photo: {
-                              fields: ['url', 'alternativeText', 'width', 'height'],
-                            },
-                          },
-                        },
-                      },
-                    },
-                    openingHours: {
-                      populate: '*',
-                    },
-                    holiday: {
-                      populate: '*',
-                    },
-                    positions: {
-                      populate: '*',
-                    },
-                  },
-                },
-              },
-            },
             'components.documents': {
               populate: {
                 documents: {
                   populate: {
                     file: {
                       fields: ['url', 'name', 'ext', 'size'],
+                    },
+                  },
+                },
+              },
+            },
+            'components.ambulances': {
+              populate: {
+                items: {
+                  populate: {
+                    ambulance: {
+                      populate: {
+                        doctors: {
+                          populate: {
+                            photo: {
+                              fields: ['url', 'alternativeText', 'width', 'height'],
+                            },
+                            holiday: {
+                              populate: '*',
+                            },
+                          },
+                        },
+                        nurses: {
+                          populate: {
+                            holiday: {
+                              populate: '*',
+                            },
+                          },
+                        },
+                        opening_hours: {
+                          populate: '*',
+                        },
+                        nurses_phones: {
+                          populate: '*',
+                        },
+                      },
+                    },
+                    documents: {
+                      populate: {
+                        file: {
+                          fields: ['url', 'name', 'ext'],
+                        },
+                      },
+                    },
+                    button: {
+                      populate: ['page', 'file'],
                     },
                   },
                 },
@@ -2113,34 +2147,6 @@ export async function fetchIntranetPageBySlug(
                 },
               },
             },
-            'components.doctor-profile': {
-              populate: {
-                profiles: {
-                  populate: {
-                    person: {
-                      populate: {
-                        person: {
-                          populate: {
-                            photo: {
-                              fields: ['url', 'alternativeText', 'width', 'height'],
-                            },
-                          },
-                        },
-                      },
-                    },
-                    openingHours: {
-                      populate: '*',
-                    },
-                    holiday: {
-                      populate: '*',
-                    },
-                    positions: {
-                      populate: '*',
-                    },
-                  },
-                },
-              },
-            },
             'components.news-articles': {
               populate: {
                 tags: true,
@@ -2154,6 +2160,51 @@ export async function fetchIntranetPageBySlug(
                 tags: true,
                 show_all_link: {
                   populate: ['page', 'file'],
+                },
+              },
+            },
+            'components.ambulances': {
+              populate: {
+                items: {
+                  populate: {
+                    ambulance: {
+                      populate: {
+                        doctors: {
+                          populate: {
+                            photo: {
+                              fields: ['url', 'alternativeText', 'width', 'height'],
+                            },
+                            holiday: {
+                              populate: '*',
+                            },
+                          },
+                        },
+                        nurses: {
+                          populate: {
+                            holiday: {
+                              populate: '*',
+                            },
+                          },
+                        },
+                        opening_hours: {
+                          populate: '*',
+                        },
+                        nurses_phones: {
+                          populate: '*',
+                        },
+                      },
+                    },
+                    documents: {
+                      populate: {
+                        file: {
+                          fields: ['url', 'name', 'ext'],
+                        },
+                      },
+                    },
+                    button: {
+                      populate: ['page', 'file'],
+                    },
+                  },
                 },
               },
             },
@@ -2232,40 +2283,57 @@ export async function fetchIntranetPageBySlug(
                 },
               },
             },
-            'components.doctor-profile': {
-              populate: {
-                profiles: {
-                  populate: {
-                    person: {
-                      populate: {
-                        person: {
-                          populate: {
-                            photo: {
-                              fields: ['url', 'alternativeText', 'width', 'height'],
-                            },
-                          },
-                        },
-                      },
-                    },
-                    openingHours: {
-                      populate: '*',
-                    },
-                    holiday: {
-                      populate: '*',
-                    },
-                    positions: {
-                      populate: '*',
-                    },
-                  },
-                },
-              },
-            },
             'components.documents': {
               populate: {
                 documents: {
                   populate: {
                     file: {
                       fields: ['url', 'name', 'ext', 'size'],
+                    },
+                  },
+                },
+              },
+            },
+            'components.ambulances': {
+              populate: {
+                items: {
+                  populate: {
+                    ambulance: {
+                      populate: {
+                        doctors: {
+                          populate: {
+                            photo: {
+                              fields: ['url', 'alternativeText', 'width', 'height'],
+                            },
+                            holiday: {
+                              populate: '*',
+                            },
+                          },
+                        },
+                        nurses: {
+                          populate: {
+                            holiday: {
+                              populate: '*',
+                            },
+                          },
+                        },
+                        opening_hours: {
+                          populate: '*',
+                        },
+                        nurses_phones: {
+                          populate: '*',
+                        },
+                      },
+                    },
+                    documents: {
+                      populate: {
+                        file: {
+                          fields: ['url', 'name', 'ext'],
+                        },
+                      },
+                    },
+                    button: {
+                      populate: ['page', 'file'],
                     },
                   },
                 },

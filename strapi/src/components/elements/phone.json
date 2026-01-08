@@ -1,0 +1,14 @@
+{
+  "collectionName": "components_elements_phones",
+  "info": {
+    "displayName": "Telefon",
+    "icon": "phone"
+  },
+  "options": {},
+  "attributes": {
+    "phone": {
+      "type": "string"
+    }
+  },
+  "config": {}
+}

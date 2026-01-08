@@ -500,16 +500,30 @@ export interface ComponentsContactCards {
   cards?: ElementsContactCard[] | null;  // Array of contact card items
 }
 
+
 /**
- * Components: Doctor Profile
- * Location: strapi/src/components/components/doctor-profile.json
- * Usage: Doctor profile card with flip animation, person info, opening hours, and holiday notice
+ * Elements: Ambulance Item
+ * Location: strapi/src/components/elements/ambulance-item.json
+ * Usage: Individual ambulance item referencing an Ambulance collection with optional overrides
  */
-export interface ComponentsDoctorProfile {
+export interface ElementsAmbulanceItem {
   id: number;
-  __component: 'components.doctor-profile';
-  profiles?: ElementsDoctorProfile[] | null;  // Multiple doctor profiles
-  columns?: 'Two columns' | 'Three columns' | 'Four columns' | null;  // Grid layout
+  __component?: 'elements.ambulance-item';
+  ambulance?: Ambulance | null;  // oneToOne relation to Ambulance collection
+  description?: string | null;  // Rich text override (use ambulance description if not set)
+  documents?: ElementsDocumentItem[] | null;  // Repeatable document items
+  button?: ElementsTextLink | null;  // Optional CTA button
+}
+
+/**
+ * Components: Ambulances
+ * Location: strapi/src/components/components/ambulances.json
+ * Usage: Grid of ambulance cards with flip animation for opening hours
+ */
+export interface ComponentsAmbulances {
+  id: number;
+  __component: 'components.ambulances';
+  items?: ElementsAmbulanceItem[] | null;  // Multiple ambulance items
 }
 
 /**
@@ -923,34 +937,6 @@ export interface ElementsContactCard {
   funkce?: string | null;  // Optional role/function
 }
 
-/**
- * Elements: Position
- * Location: strapi/src/components/elements/position.json
- * Usage: Single position/title item for doctor profiles
- */
-export interface ElementsPosition {
-  id: number;
-  __component?: 'elements.position';
-  title?: string | null;
-}
-
-/**
- * Elements: Doctor Profile
- * Location: strapi/src/components/elements/doctor-profile.json
- * Usage: Complete doctor profile with person info, department, positions, contact details, and hours
- *
- * IMPORTANT: Strapi returns relations directly (no .data wrapper)
- */
-export interface ElementsDoctorProfile {
-  id: number;
-  __component?: 'elements.doctor-profile';
-  person?: ElementsPerson | null;  // Person reference
-  ambulanceTitle?: string | null;  // Optional ambulance title
-  department?: string | null;  // Department name
-  positions?: ElementsPosition[] | null;  // Optional array of position components
-  openingHours?: ElementsOpeningHours[] | null;  // Optional array of opening hours
-  holiday?: ElementsHoliday | null;  // Optional holiday period
-}
 
 // ============================================================================
 // Dynamic Zone Union Types
@@ -959,23 +945,23 @@ export interface ElementsDoctorProfile {
 /**
  * Page content dynamic zone - all components that can appear in page content area
  */
-export type PageContentComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsPopup | ComponentsLinksList | ComponentsVideo | ComponentsServiceCards | ComponentsFullWidthCards | ComponentsDocuments | ComponentsJobPosting | ComponentsPartnerLogos | ComponentsMarketingArguments | ComponentsTimeline | ComponentsSectionDivider | ComponentsSlider | ComponentsGallerySlider | ComponentsPhotoGallery | ComponentsDirections | ComponentsAccordionSections | ComponentsButtonGroup | ComponentsContactCards | ComponentsDoctorProfile | ComponentsNewsArticles | ComponentsLocationCards | ComponentsBadges | ComponentsImage;
+export type PageContentComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsPopup | ComponentsLinksList | ComponentsVideo | ComponentsServiceCards | ComponentsFullWidthCards | ComponentsDocuments | ComponentsJobPosting | ComponentsPartnerLogos | ComponentsMarketingArguments | ComponentsTimeline | ComponentsSectionDivider | ComponentsSlider | ComponentsGallerySlider | ComponentsPhotoGallery | ComponentsDirections | ComponentsAccordionSections | ComponentsButtonGroup | ComponentsContactCards | ComponentsNewsArticles | ComponentsLocationCards | ComponentsBadges | ComponentsImage | ComponentsAmbulances;
 
 /**
  * Page sidebar dynamic zone - all components that can appear in page sidebar
  */
-export type PageSidebarComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsLinksList | ComponentsServiceCards | ComponentsButtonGroup | ComponentsContactCards | ComponentsDoctorProfile | ComponentsDocuments | ComponentsSectionDivider | ComponentsTimeline | ComponentsSlider | ComponentsPhotoGallery | ComponentsBadges | ComponentsNewsArticles | ComponentsImage;
+export type PageSidebarComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsLinksList | ComponentsServiceCards | ComponentsButtonGroup | ComponentsContactCards | ComponentsDocuments | ComponentsSectionDivider | ComponentsTimeline | ComponentsSlider | ComponentsPhotoGallery | ComponentsBadges | ComponentsNewsArticles | ComponentsImage;
 
 /**
  * Intranet page content dynamic zone - all components that can appear in intranet page content area
  * Same as PageContentComponent but includes ComponentsIntranetNewsArticles
  */
-export type IntranetPageContentComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsPopup | ComponentsLinksList | ComponentsVideo | ComponentsServiceCards | ComponentsFullWidthCards | ComponentsDocuments | ComponentsJobPosting | ComponentsPartnerLogos | ComponentsMarketingArguments | ComponentsTimeline | ComponentsSectionDivider | ComponentsSlider | ComponentsGallerySlider | ComponentsPhotoGallery | ComponentsDirections | ComponentsAccordionSections | ComponentsButtonGroup | ComponentsContactCards | ComponentsDoctorProfile | ComponentsNewsArticles | ComponentsIntranetNewsArticles | ComponentsLocationCards | ComponentsBadges | ComponentsImage;
+export type IntranetPageContentComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsPopup | ComponentsLinksList | ComponentsVideo | ComponentsServiceCards | ComponentsFullWidthCards | ComponentsDocuments | ComponentsJobPosting | ComponentsPartnerLogos | ComponentsMarketingArguments | ComponentsTimeline | ComponentsSectionDivider | ComponentsSlider | ComponentsGallerySlider | ComponentsPhotoGallery | ComponentsDirections | ComponentsAccordionSections | ComponentsButtonGroup | ComponentsContactCards | ComponentsNewsArticles | ComponentsIntranetNewsArticles | ComponentsLocationCards | ComponentsBadges | ComponentsImage;
 
 /**
  * Intranet page sidebar dynamic zone - all components that can appear in intranet page sidebar
  */
-export type IntranetPageSidebarComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsLinksList | ComponentsButtonGroup | ComponentsContactCards | ComponentsDoctorProfile | ComponentsDocuments | ComponentsSectionDivider | ComponentsServiceCards | ComponentsTimeline | ComponentsSlider | ComponentsPhotoGallery | ComponentsBadges | ComponentsNewsArticles | ComponentsIntranetNewsArticles | ComponentsImage;
+export type IntranetPageSidebarComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsLinksList | ComponentsButtonGroup | ComponentsContactCards | ComponentsDocuments | ComponentsSectionDivider | ComponentsServiceCards | ComponentsTimeline | ComponentsSlider | ComponentsPhotoGallery | ComponentsBadges | ComponentsNewsArticles | ComponentsIntranetNewsArticles | ComponentsImage;
 
 // ============================================================================
 // Content Types
@@ -1080,6 +1066,73 @@ export interface Person {
   createdAt?: string;
   updatedAt?: string;
   publishedAt?: string;
+}
+
+/**
+ * Doctor
+ * Location: strapi/src/api/doctor/content-types/doctor/schema.json
+ * Usage: Doctor information for ambulances
+ */
+export interface Doctor {
+  id: number;
+  documentId?: string;
+  name: string;  // Required full name
+  email?: string | null;
+  phone?: string | null;
+  photo?: PersonPhoto | null;
+  gender?: 'man' | 'woman' | null;
+  function?: string | null;  // Position, role, or specialization
+  holiday?: ElementsHoliday | null;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+/**
+ * Nurse
+ * Location: strapi/src/api/nurse/content-types/nurse/schema.json
+ * Usage: Nurse information for ambulances
+ */
+export interface Nurse {
+  id: number;
+  documentId?: string;
+  name: string;  // Required full name
+  photo?: PersonPhoto | null;
+  gender?: 'man' | 'woman' | null;
+  holiday?: ElementsHoliday | null;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+/**
+ * Elements: Phone
+ * Location: strapi/src/components/elements/phone.json
+ * Usage: Single phone number for repeatable phone lists
+ */
+export interface ElementsPhone {
+  id: number;
+  __component?: 'elements.phone';
+  phone?: string | null;
+}
+
+/**
+ * Ambulance
+ * Location: strapi/src/api/ambulance/content-types/ambulance/schema.json
+ * Usage: Ambulance/clinic information with doctors, nurses, and opening hours
+ */
+export interface Ambulance {
+  id: number;
+  documentId?: string;
+  name: string;  // Required ambulance name
+  phone?: string | null;
+  email?: string | null;
+  doctors?: Doctor[] | null;  // oneToMany relation
+  nurses?: Nurse[] | null;  // oneToMany relation
+  opening_hours?: ElementsOpeningHours[] | null;
+  description?: string | null;  // Rich text
+  nurses_email?: string | null;
+  nurses_phones?: ElementsPhone[] | null;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 /**

@@ -1,0 +1,51 @@
+{
+  "kind": "collectionType",
+  "collectionName": "ambulances",
+  "info": {
+    "singularName": "ambulance",
+    "pluralName": "ambulances",
+    "displayName": "Ambulance"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "phone": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email"
+    },
+    "doctors": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::doctor.doctor"
+    },
+    "nurses": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::nurse.nurse"
+    },
+    "opening_hours": {
+      "type": "component",
+      "component": "elements.opening-hours",
+      "repeatable": true
+    },
+    "description": {
+      "type": "richtext"
+    },
+    "nurses_email": {
+      "type": "email"
+    },
+    "nurses_phones": {
+      "type": "component",
+      "component": "elements.phone",
+      "repeatable": true
+    }
+  }
+}

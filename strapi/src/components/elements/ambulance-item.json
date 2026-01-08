@@ -1,0 +1,29 @@
+{
+  "collectionName": "components_elements_ambulance_items",
+  "info": {
+    "displayName": "Položka ambulance",
+    "icon": "hospital"
+  },
+  "options": {},
+  "attributes": {
+    "ambulance": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::ambulance.ambulance"
+    },
+    "description": {
+      "type": "richtext"
+    },
+    "documents": {
+      "type": "component",
+      "component": "elements.document-item",
+      "repeatable": true
+    },
+    "button": {
+      "type": "component",
+      "component": "elements.text-link",
+      "repeatable": false
+    }
+  },
+  "config": {}
+}

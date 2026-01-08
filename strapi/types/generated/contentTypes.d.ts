@@ -430,6 +430,76 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiAmbulanceAmbulance extends Struct.CollectionTypeSchema {
+  collectionName: 'ambulances';
+  info: {
+    displayName: 'Ambulance';
+    pluralName: 'ambulances';
+    singularName: 'ambulance';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.RichText;
+    doctors: Schema.Attribute.Relation<'oneToMany', 'api::doctor.doctor'>;
+    email: Schema.Attribute.Email;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::ambulance.ambulance'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    nurses: Schema.Attribute.Relation<'oneToMany', 'api::nurse.nurse'>;
+    nurses_email: Schema.Attribute.Email;
+    nurses_phones: Schema.Attribute.Component<'elements.phone', true>;
+    opening_hours: Schema.Attribute.Component<'elements.opening-hours', true>;
+    phone: Schema.Attribute.String;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiDoctorDoctor extends Struct.CollectionTypeSchema {
+  collectionName: 'doctors';
+  info: {
+    displayName: 'Dokto\u0159i';
+    pluralName: 'doctors';
+    singularName: 'doctor';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    email: Schema.Attribute.Email;
+    function: Schema.Attribute.String;
+    gender: Schema.Attribute.Enumeration<['man', 'woman']>;
+    holiday: Schema.Attribute.Component<'elements.holiday', false>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::doctor.doctor'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    phone: Schema.Attribute.String;
+    photo: Schema.Attribute.Media<'images'>;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiFooterFooter extends Struct.SingleTypeSchema {
   collectionName: 'footers';
   info: {
@@ -719,7 +789,7 @@ export interface ApiIntranetPageIntranetPage
         'components.gallery-slider',
         'components.full-width-cards',
         'components.documents',
-        'components.doctor-profile',
+        'components.ambulances',
         'components.directions',
         'components.contact-cards',
         'components.button-group',
@@ -943,6 +1013,34 @@ export interface ApiNewsArticleNewsArticle extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiNurseNurse extends Struct.CollectionTypeSchema {
+  collectionName: 'nurses';
+  info: {
+    displayName: 'Sestry';
+    pluralName: 'nurses';
+    singularName: 'nurse';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    gender: Schema.Attribute.Enumeration<['man', 'woman']>;
+    holiday: Schema.Attribute.Component<'elements.holiday', false>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::nurse.nurse'> &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    photo: Schema.Attribute.Media<'images'>;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiPagePage extends Struct.CollectionTypeSchema {
   collectionName: 'pages';
   info: {
@@ -980,7 +1078,7 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
         'components.directions',
         'components.button-group',
         'components.contact-cards',
-        'components.doctor-profile',
+        'components.ambulances',
         'components.news-articles',
         'components.accordion-sections',
         'components.location-cards',
@@ -1022,7 +1120,6 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
         'components.links-list',
         'components.button-group',
         'components.contact-cards',
-        'components.doctor-profile',
         'components.documents',
         'components.section-divider',
         'components.timeline',
@@ -1710,6 +1807,8 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
+      'api::ambulance.ambulance': ApiAmbulanceAmbulance;
+      'api::doctor.doctor': ApiDoctorDoctor;
       'api::footer.footer': ApiFooterFooter;
       'api::homepage.homepage': ApiHomepageHomepage;
       'api::icon.icon': ApiIconIcon;
@@ -1718,6 +1817,7 @@ declare module '@strapi/strapi' {
       'api::intranet-page.intranet-page': ApiIntranetPageIntranetPage;
       'api::navigation.navigation': ApiNavigationNavigation;
       'api::news-article.news-article': ApiNewsArticleNewsArticle;
+      'api::nurse.nurse': ApiNurseNurse;
       'api::page.page': ApiPagePage;
       'api::person.person': ApiPersonPerson;
       'api::registration.registration': ApiRegistrationRegistration;

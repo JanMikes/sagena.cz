@@ -29,7 +29,7 @@ import Directions from '@/components/layout/Directions';
 import ExpandableSections from '@/components/interactive/ExpandableSections';
 import ButtonGroup from '@/components/layout/ButtonGroup';
 import ContactCards from '@/components/people/ContactCards';
-import DoctorProfile from '@/components/people/DoctorProfile';
+import AmbulanceCard from '@/components/ambulance/AmbulanceCard';
 import NewsArticles from '@/components/content/NewsArticles';
 import LocationCards from '@/components/content/LocationCards';
 import Badges from '@/components/content/Badges';
@@ -61,7 +61,7 @@ import {
   ElementsExpandableSection,
   ComponentsButtonGroup,
   ComponentsContactCards,
-  ComponentsDoctorProfile,
+  ComponentsAmbulances,
   ComponentsNewsArticles,
   ComponentsIntranetNewsArticles,
   ComponentsLocationCards,
@@ -888,70 +888,92 @@ async function renderComponent(
       );
     }
 
-    case 'components.doctor-profile': {
-      const doctorProfileComponent = component as ComponentsDoctorProfile;
-      const profiles = doctorProfileComponent.profiles;
+    case 'components.ambulances': {
+      const ambulancesComponent = component as ComponentsAmbulances;
+      const items = ambulancesComponent.items;
 
-      // Handle missing profiles data
-      if (!profiles || profiles.length === 0) {
+      // Handle missing items data
+      if (!items || items.length === 0) {
         return null;
       }
 
-      // Column mapping (same pattern as other grid components)
-      // In compact/sidebar mode, always use single column
-      const columnMap: Record<string, 2 | 3 | 4> = {
-        'Two columns': 2,
-        'Three columns': 3,
-        'Four columns': 4,
-      };
-      const columnsKey = doctorProfileComponent.columns ?? 'Three columns';
-      const columns = columnMap[columnsKey] || 3;
-
-      const gridCols = {
-        2: 'md:grid-cols-2',
-        3: 'md:grid-cols-2 lg:grid-cols-3',
-        4: 'md:grid-cols-2 lg:grid-cols-4',
-      };
-
-      // In compact mode (sidebar), force single column
-      const gridClass = compact ? 'grid grid-cols-1 gap-4' : `grid grid-cols-1 ${gridCols[columns]} gap-6`;
+      // Fixed 3-column grid on desktop (not configurable per plan)
+      const gridClass = compact
+        ? 'grid grid-cols-1 gap-4'
+        : 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6';
 
       return (
         <div key={`${__component}-${component.id || index}`} className={gridClass}>
-          {profiles.map((profile, profileIndex) => {
-            const person = profile.person?.person;
+          {items.map((item, itemIndex) => {
+            const ambulance = item.ambulance;
 
-            // Extract photo URL from person if available
-            // Strapi v5 returns media directly when populated with specific fields
-            const photoUrl = person?.photo?.url
-              ? getStrapiMediaURL(person.photo.url)
-              : undefined;
+            if (!ambulance) return null;
+
+            // Transform doctors data
+            const doctors = (ambulance.doctors ?? []).map((doctor) => ({
+              name: doctor.name,
+              function: doctor.function ?? undefined,
+              phone: doctor.phone ?? undefined,
+              email: doctor.email ?? undefined,
+              photo: doctor.photo?.url ? getStrapiMediaURL(doctor.photo.url) : undefined,
+              holiday: doctor.holiday
+                ? { from: doctor.holiday.from || '', to: doctor.holiday.to || '' }
+                : undefined,
+            }));
+
+            // Transform nurses data
+            const nurses = (ambulance.nurses ?? []).map((nurse) => ({
+              name: nurse.name,
+              holiday: nurse.holiday
+                ? { from: nurse.holiday.from || '', to: nurse.holiday.to || '' }
+                : undefined,
+            }));
+
+            // Extract nurses phones
+            const nursesPhones = (ambulance.nurses_phones ?? [])
+              .map((p) => p.phone)
+              .filter((p): p is string => !!p);
 
             // Transform opening hours
-            const openingHours = profile.openingHours?.map((hours) => ({
-              day: hours?.day || '',
-              time: hours?.time || '',
-            })) || [];
+            const openingHours = (ambulance.opening_hours ?? []).map((hours) => ({
+              day: hours.day || '',
+              time: hours.time || '',
+            }));
 
-            // Transform holiday
-            const holiday = profile.holiday ? {
-              from: profile.holiday.from || '',
-              to: profile.holiday.to || '',
-            } : undefined;
+            // Transform documents
+            const documents = (item.documents ?? [])
+              .filter((doc) => doc.file?.url)
+              .map((doc) => ({
+                name: doc.name || doc.file?.name || 'Document',
+                url: getStrapiMediaURL(doc.file!.url),
+              }));
+
+            // Resolve button link
+            let button: { text: string; url: string } | undefined;
+            if (item.button && item.button.text) {
+              const resolved = resolveTextLink(item.button, locale);
+              if (!resolved.disabled && resolved.url) {
+                button = { text: item.button.text, url: resolved.url };
+              }
+            }
+
+            // Use component description if set, otherwise fall back to ambulance description
+            const description = item.description || ambulance.description || undefined;
 
             return (
-              <DoctorProfile
-                key={profile.id || profileIndex}
-                ambulanceTitle={profile.ambulanceTitle || undefined}
-                photo={photoUrl}
-                name={person?.name || ''}
-                department={profile.department || ''}
-                positions={profile.positions?.map(p => p?.title || '') || []}
-                phone={person?.phone ?? undefined}
-                email={person?.email ?? undefined}
+              <AmbulanceCard
+                key={item.id || itemIndex}
+                name={ambulance.name}
+                phone={ambulance.phone ?? undefined}
+                email={ambulance.email ?? undefined}
+                doctors={doctors}
+                nurses={nurses}
+                nursesPhones={nursesPhones}
+                nursesEmail={ambulance.nurses_email ?? undefined}
+                description={description}
+                documents={documents}
+                button={button}
                 openingHours={openingHours}
-                holiday={holiday}
-                compact={compact}
               />
             );
           })}

@@ -25,7 +25,6 @@ import LinksList from '@/components/navigation/LinksList';
 import Breadcrumb from '@/components/navigation/Breadcrumb';
 import Heading from '@/components/typography/Heading';
 import RichText from '@/components/typography/RichText';
-import DoctorProfile from '@/components/people/DoctorProfile';
 import ContactCard from '@/components/people/ContactCard';
 import Directions from '@/components/layout/Directions';
 import SectionDivider from '@/components/layout/SectionDivider';
@@ -257,49 +256,6 @@ Centrum Zdraví Sagena poskytuje **komplexní zdravotní péči** již více ne�
 - Zkušený tým lékařů
 - Široká nabídka služeb`}
       />
-
-      <SectionDivider />
-
-      <Heading level={2}>Karty lékařů (grid 3 sloupce)</Heading>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <DoctorProfile
-          name="MUDr. Jan Novák"
-          department="Kardiologie"
-          positions={['Kardiolog', 'Interní lékařství']}
-          phone="+420 553 030 810"
-          email="novak@sagena.cz"
-          openingHours={[
-            { day: 'Pondělí', time: '8:00 - 16:00' },
-            { day: 'Středa', time: '8:00 - 16:00' },
-            { day: 'Pátek', time: '8:00 - 14:00' },
-          ]}
-        />
-        <DoctorProfile
-          ambulanceTitle="Neurologie"
-          name="MUDr. Marie Dvořáková"
-          department="Neurologie"
-          positions={['Neurolog']}
-          phone="+420 553 030 820"
-          email="dvorakova@sagena.cz"
-          holiday={{ from: '2025-02-01', to: '2025-02-14' }}
-          openingHours={[
-            { day: 'Úterý', time: '9:00 - 17:00' },
-            { day: 'Čtvrtek', time: '9:00 - 17:00' },
-          ]}
-        />
-        <DoctorProfile
-          ambulanceTitle="Ortopedie"
-          name="MUDr. Petr Svoboda"
-          department="Ortopedie"
-          positions={['Ortoped', 'Chirurg']}
-          phone="+420 553 030 830"
-          email="svoboda@sagena.cz"
-          openingHours={[
-            { day: 'Pondělí', time: '7:00 - 15:00' },
-            { day: 'Středa', time: '7:00 - 15:00' },
-          ]}
-        />
-      </div>
 
       <SectionDivider />
 

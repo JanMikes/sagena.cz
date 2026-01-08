@@ -27,6 +27,17 @@ export interface ComponentsAlert extends Struct.ComponentSchema {
   };
 }
 
+export interface ComponentsAmbulances extends Struct.ComponentSchema {
+  collectionName: 'components_components_ambulances';
+  info: {
+    displayName: 'Ambulance';
+    icon: 'hospital';
+  };
+  attributes: {
+    items: Schema.Attribute.Component<'elements.ambulance-item', true>;
+  };
+}
+
 export interface ComponentsBadges extends Struct.ComponentSchema {
   collectionName: 'components_components_badges';
   info: {
@@ -84,21 +95,6 @@ export interface ComponentsDirections extends Struct.ComponentSchema {
     style: Schema.Attribute.Enumeration<['Style 1', 'Style 2']> &
       Schema.Attribute.DefaultTo<'Style 1'>;
     title: Schema.Attribute.String;
-  };
-}
-
-export interface ComponentsDoctorProfile extends Struct.ComponentSchema {
-  collectionName: 'components_components_doctor_profiles';
-  info: {
-    displayName: 'Dokto\u0159i, ambulance';
-    icon: 'user';
-  };
-  attributes: {
-    columns: Schema.Attribute.Enumeration<
-      ['Two columns', 'Three columns', 'Four columns']
-    > &
-      Schema.Attribute.DefaultTo<'Three columns'>;
-    profiles: Schema.Attribute.Component<'elements.doctor-profile', true>;
   };
 }
 
@@ -443,6 +439,23 @@ export interface ComponentsVideo extends Struct.ComponentSchema {
   };
 }
 
+export interface ElementsAmbulanceItem extends Struct.ComponentSchema {
+  collectionName: 'components_elements_ambulance_items';
+  info: {
+    displayName: 'Polo\u017Eka ambulance';
+    icon: 'hospital';
+  };
+  attributes: {
+    ambulance: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::ambulance.ambulance'
+    >;
+    button: Schema.Attribute.Component<'elements.text-link', false>;
+    description: Schema.Attribute.RichText;
+    documents: Schema.Attribute.Component<'elements.document-item', true>;
+  };
+}
+
 export interface ElementsBadge extends Struct.ComponentSchema {
   collectionName: 'components_elements_badges';
   info: {
@@ -499,22 +512,6 @@ export interface ElementsDirectionStep extends Struct.ComponentSchema {
     floor: Schema.Attribute.String;
     icon: Schema.Attribute.Relation<'oneToOne', 'api::icon.icon'>;
     text: Schema.Attribute.RichText;
-  };
-}
-
-export interface ElementsDoctorProfile extends Struct.ComponentSchema {
-  collectionName: 'components_elements_doctor_profiles';
-  info: {
-    displayName: 'Profil doktora, ambulance';
-    icon: 'user';
-  };
-  attributes: {
-    ambulanceTitle: Schema.Attribute.String;
-    department: Schema.Attribute.String;
-    holiday: Schema.Attribute.Component<'elements.holiday', false>;
-    openingHours: Schema.Attribute.Component<'elements.opening-hours', true>;
-    person: Schema.Attribute.Component<'elements.person', false>;
-    positions: Schema.Attribute.Component<'elements.position', true>;
   };
 }
 
@@ -684,6 +681,17 @@ export interface ElementsPerson extends Struct.ComponentSchema {
   };
 }
 
+export interface ElementsPhone extends Struct.ComponentSchema {
+  collectionName: 'components_elements_phones';
+  info: {
+    displayName: 'Telefon';
+    icon: 'phone';
+  };
+  attributes: {
+    phone: Schema.Attribute.String;
+  };
+}
+
 export interface ElementsPhoto extends Struct.ComponentSchema {
   collectionName: 'components_elements_photos';
   info: {
@@ -776,11 +784,11 @@ declare module '@strapi/strapi' {
     export interface ComponentSchemas {
       'components.accordion-sections': ComponentsAccordionSections;
       'components.alert': ComponentsAlert;
+      'components.ambulances': ComponentsAmbulances;
       'components.badges': ComponentsBadges;
       'components.button-group': ComponentsButtonGroup;
       'components.contact-cards': ComponentsContactCards;
       'components.directions': ComponentsDirections;
-      'components.doctor-profile': ComponentsDoctorProfile;
       'components.documents': ComponentsDocuments;
       'components.full-width-cards': ComponentsFullWidthCards;
       'components.gallery-slider': ComponentsGallerySlider;
@@ -802,11 +810,11 @@ declare module '@strapi/strapi' {
       'components.text': ComponentsText;
       'components.timeline': ComponentsTimeline;
       'components.video': ComponentsVideo;
+      'elements.ambulance-item': ElementsAmbulanceItem;
       'elements.badge': ElementsBadge;
       'elements.button': ElementsButton;
       'elements.contact-card': ElementsContactCard;
       'elements.direction-step': ElementsDirectionStep;
-      'elements.doctor-profile': ElementsDoctorProfile;
       'elements.document-item': ElementsDocumentItem;
       'elements.expandable-section': ElementsExpandableSection;
       'elements.full-width-card': ElementsFullWidthCard;
@@ -819,6 +827,7 @@ declare module '@strapi/strapi' {
       'elements.opening-hours': ElementsOpeningHours;
       'elements.partner-logo': ElementsPartnerLogo;
       'elements.person': ElementsPerson;
+      'elements.phone': ElementsPhone;
       'elements.photo': ElementsPhoto;
       'elements.position': ElementsPosition;
       'elements.service-card': ElementsServiceCard;

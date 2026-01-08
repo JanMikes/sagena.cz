@@ -1,0 +1,38 @@
+{
+  "kind": "collectionType",
+  "collectionName": "nurses",
+  "info": {
+    "singularName": "nurse",
+    "pluralName": "nurses",
+    "displayName": "Sestry"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "photo": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "gender": {
+      "type": "enumeration",
+      "enum": [
+        "man",
+        "woman"
+      ]
+    },
+    "holiday": {
+      "type": "component",
+      "component": "elements.holiday",
+      "repeatable": false
+    }
+  }
+}
