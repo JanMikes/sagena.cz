@@ -1296,6 +1296,20 @@ export async function fetchPageBySlug(
                         },
                       },
                     },
+                    doctors: {
+                      populate: {
+                        doctor: {
+                          populate: {
+                            photo: {
+                              fields: ['url', 'alternativeText', 'width', 'height'],
+                            },
+                            holiday: {
+                              populate: '*',
+                            },
+                          },
+                        },
+                      },
+                    },
                     documents: {
                       populate: {
                         file: {
@@ -1480,6 +1494,20 @@ export async function fetchPageBySlug(
                         },
                         nurses_phones: {
                           populate: '*',
+                        },
+                      },
+                    },
+                    doctors: {
+                      populate: {
+                        doctor: {
+                          populate: {
+                            photo: {
+                              fields: ['url', 'alternativeText', 'width', 'height'],
+                            },
+                            holiday: {
+                              populate: '*',
+                            },
+                          },
                         },
                       },
                     },
@@ -2194,6 +2222,20 @@ export async function fetchIntranetPageBySlug(
                         },
                       },
                     },
+                    doctors: {
+                      populate: {
+                        doctor: {
+                          populate: {
+                            photo: {
+                              fields: ['url', 'alternativeText', 'width', 'height'],
+                            },
+                            holiday: {
+                              populate: '*',
+                            },
+                          },
+                        },
+                      },
+                    },
                     documents: {
                       populate: {
                         file: {
@@ -2322,6 +2364,20 @@ export async function fetchIntranetPageBySlug(
                         },
                         nurses_phones: {
                           populate: '*',
+                        },
+                      },
+                    },
+                    doctors: {
+                      populate: {
+                        doctor: {
+                          populate: {
+                            photo: {
+                              fields: ['url', 'alternativeText', 'width', 'height'],
+                            },
+                            holiday: {
+                              populate: '*',
+                            },
+                          },
                         },
                       },
                     },

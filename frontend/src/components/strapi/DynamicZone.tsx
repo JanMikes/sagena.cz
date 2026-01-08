@@ -909,17 +909,32 @@ async function renderComponent(
 
             if (!ambulance) return null;
 
-            // Transform doctors data
-            const doctors = (ambulance.doctors ?? []).map((doctor) => ({
-              name: doctor.name,
-              function: doctor.function ?? undefined,
-              phone: doctor.phone ?? undefined,
-              email: doctor.email ?? undefined,
-              photo: doctor.photo?.url ? getStrapiMediaURL(doctor.photo.url) : undefined,
-              holiday: doctor.holiday
-                ? { from: doctor.holiday.from || '', to: doctor.holiday.to || '' }
-                : undefined,
-            }));
+            // Transform doctors data - use item-level doctors with overrides if available
+            const itemDoctors = item.doctors && item.doctors.length > 0 ? item.doctors : null;
+            const doctors = itemDoctors
+              ? itemDoctors.map((docWrapper) => ({
+                  name: docWrapper.doctor?.name || '',
+                  // Use function_override if set, otherwise fall back to doctor's function
+                  function: docWrapper.function_override || docWrapper.doctor?.function || undefined,
+                  phone: docWrapper.doctor?.phone ?? undefined,
+                  email: docWrapper.doctor?.email ?? undefined,
+                  photo: docWrapper.doctor?.photo?.url
+                    ? getStrapiMediaURL(docWrapper.doctor.photo.url)
+                    : undefined,
+                  holiday: docWrapper.doctor?.holiday
+                    ? { from: docWrapper.doctor.holiday.from || '', to: docWrapper.doctor.holiday.to || '' }
+                    : undefined,
+                }))
+              : (ambulance.doctors ?? []).map((doctor) => ({
+                  name: doctor.name,
+                  function: doctor.function ?? undefined,
+                  phone: doctor.phone ?? undefined,
+                  email: doctor.email ?? undefined,
+                  photo: doctor.photo?.url ? getStrapiMediaURL(doctor.photo.url) : undefined,
+                  holiday: doctor.holiday
+                    ? { from: doctor.holiday.from || '', to: doctor.holiday.to || '' }
+                    : undefined,
+                }));
 
             // Transform nurses data
             const nurses = (ambulance.nurses ?? []).map((nurse) => ({
