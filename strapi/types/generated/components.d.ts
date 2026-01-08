@@ -439,6 +439,18 @@ export interface ComponentsVideo extends Struct.ComponentSchema {
   };
 }
 
+export interface ElementsAmbulanceDoctor extends Struct.ComponentSchema {
+  collectionName: 'components_elements_ambulance_doctors';
+  info: {
+    displayName: 'Doktor ambulance';
+    icon: 'user';
+  };
+  attributes: {
+    doctor: Schema.Attribute.Relation<'oneToOne', 'api::doctor.doctor'>;
+    function_override: Schema.Attribute.String;
+  };
+}
+
 export interface ElementsAmbulanceItem extends Struct.ComponentSchema {
   collectionName: 'components_elements_ambulance_items';
   info: {
@@ -452,6 +464,7 @@ export interface ElementsAmbulanceItem extends Struct.ComponentSchema {
     >;
     button: Schema.Attribute.Component<'elements.text-link', false>;
     description: Schema.Attribute.RichText;
+    doctors: Schema.Attribute.Component<'elements.ambulance-doctor', true>;
     documents: Schema.Attribute.Component<'elements.document-item', true>;
   };
 }
@@ -810,6 +823,7 @@ declare module '@strapi/strapi' {
       'components.text': ComponentsText;
       'components.timeline': ComponentsTimeline;
       'components.video': ComponentsVideo;
+      'elements.ambulance-doctor': ElementsAmbulanceDoctor;
       'elements.ambulance-item': ElementsAmbulanceItem;
       'elements.badge': ElementsBadge;
       'elements.button': ElementsButton;
