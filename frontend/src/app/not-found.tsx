@@ -9,6 +9,7 @@ export default function NotFound() {
         navigation={[]}
         currentLocale="cs"
         alternateLocale="en"
+        searchData={null}
       />
       <div className="min-h-[60vh] flex items-center justify-center">
         <div className="text-center">

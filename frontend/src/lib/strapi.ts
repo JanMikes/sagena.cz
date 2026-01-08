@@ -24,6 +24,7 @@ import {
   Tag,
   Footer,
   Homepage,
+  Search,
 } from '@/types/strapi';
 
 // ============================================================================
@@ -212,6 +213,9 @@ const footerCache: Map<string, CacheEntry<Footer>> = new Map();
 // Homepage cache - keyed by locale
 const homepageCache: Map<string, CacheEntry<Homepage>> = new Map();
 
+// Search cache - keyed by locale
+const searchCache: Map<string, CacheEntry<Search>> = new Map();
+
 function isCacheValid<T>(entry: CacheEntry<T> | undefined): entry is CacheEntry<T> {
   if (!entry) return false;
   return Date.now() - entry.timestamp < HIERARCHY_CACHE_TTL_MS;
@@ -286,6 +290,14 @@ export function invalidateCache(model: string, slug?: string, locale?: string) {
       }
       break;
 
+    case 'search':
+      if (locale) {
+        searchCache.delete(locale);
+      } else {
+        searchCache.clear();
+      }
+      break;
+
     default:
       // Unknown model - clear all caches to be safe
       console.log(`[Cache] Unknown model "${model}" - clearing all caches`);
@@ -297,6 +309,7 @@ export function invalidateCache(model: string, slug?: string, locale?: string) {
       intranetPageHierarchyCache.clear();
       footerCache.clear();
       homepageCache.clear();
+      searchCache.clear();
       iconsCache = null;
   }
 }
@@ -314,6 +327,7 @@ export function clearAllCaches() {
   intranetPageHierarchyCache.clear();
   footerCache.clear();
   homepageCache.clear();
+  searchCache.clear();
   iconsCache = null;
 }
 
@@ -347,6 +361,7 @@ export function getCacheStatus() {
       intranetPageHierarchy: getCacheInfo(intranetPageHierarchyCache),
       footer: getCacheInfo(footerCache),
       homepage: getCacheInfo(homepageCache),
+      search: getCacheInfo(searchCache),
       icons: { hasData: iconsCache !== null },
     },
   };
@@ -891,6 +906,45 @@ export async function fetchHomepage(locale: string = 'cs'): Promise<Homepage | n
     return homepage || null;
   } catch (error) {
     console.error(`Failed to fetch homepage for locale ${locale}:`, error);
+    return null;
+  }
+}
+
+/**
+ * Fetch search configuration (single type with quick links)
+ * @param locale - Locale for i18n (default: 'cs')
+ */
+export async function fetchSearch(locale: string = 'cs'): Promise<Search | null> {
+  // Check cache first
+  const cached = searchCache.get(locale);
+  if (isCacheValid(cached)) {
+    return cached.data;
+  }
+
+  try {
+    // Fetch search with nested population for quick links
+    const response = await fetchAPI<StrapiResponse<Search>>('/search', {
+      locale,
+      populate: {
+        quick_links: {
+          populate: {
+            page: true,
+            file: true,
+          },
+        },
+      },
+    });
+
+    const search = response.data;
+
+    if (search) {
+      // Cache the result
+      searchCache.set(locale, { data: search, timestamp: Date.now() });
+    }
+
+    return search || null;
+  } catch (error) {
+    console.error(`Failed to fetch search for locale ${locale}:`, error);
     return null;
   }
 }

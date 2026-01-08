@@ -1014,6 +1014,20 @@ export interface Homepage {
 }
 
 /**
+ * Search (single type)
+ * Location: strapi/src/api/search/content-types/search/schema.json
+ * Usage: Search modal quick links configuration
+ */
+export interface Search {
+  id?: number;
+  documentId?: string;
+  quick_links?: ElementsTextLink[];
+  locale?: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+/**
  * Person photo type when populated with specific fields
  * Strapi v5 returns media directly without .attributes wrapper when using populate with fields
  */

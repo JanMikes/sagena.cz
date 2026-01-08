@@ -3,11 +3,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X, Phone, Search, Home } from 'lucide-react';
+import { Menu, X, Phone, Search as SearchIcon, Home } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import Modal from '@/components/interactive/Modal';
 import LocaleSwitcher from '@/components/layout/LocaleSwitcher';
-import { NavigationItem } from '@/types/strapi';
+import { NavigationItem, Search } from '@/types/strapi';
+import { resolveTextLink } from '@/lib/strapi';
 import { type Locale } from '@/i18n/config';
 import { useLocaleContext } from '@/contexts/LocaleContext';
 
@@ -15,12 +16,14 @@ interface HeaderProps {
   navigation?: NavigationItem[];
   currentLocale?: Locale;
   alternateLocale?: Locale;
+  searchData?: Search | null;
 }
 
 const Header: React.FC<HeaderProps> = ({
   navigation = [],
   currentLocale = 'cs',
   alternateLocale = 'en',
+  searchData,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -174,7 +177,7 @@ const Header: React.FC<HeaderProps> = ({
               className="p-2 text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
               aria-label="Vyhledávání"
             >
-              <Search className="w-5 h-5" />
+              <SearchIcon className="w-5 h-5" />
             </button>
             <LocaleSwitcher
               currentLocale={currentLocale}
@@ -242,7 +245,7 @@ const Header: React.FC<HeaderProps> = ({
                 className="flex items-center space-x-2 px-4 py-3 text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors text-left"
                 aria-label="Vyhledávání"
               >
-                <Search className="w-5 h-5" />
+                <SearchIcon className="w-5 h-5" />
                 <span className="font-medium">Vyhledávání</span>
               </button>
               {/* Mobile Language Switcher */}
@@ -286,7 +289,7 @@ const Header: React.FC<HeaderProps> = ({
         <div className="py-4">
           {/* Large Search Input */}
           <div className="relative mb-8">
-            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-6 h-6 text-gray-400" />
+            <SearchIcon className="absolute left-4 top-1/2 transform -translate-y-1/2 w-6 h-6 text-gray-400" />
             <input
               type="text"
               value={searchQuery}
@@ -297,59 +300,41 @@ const Header: React.FC<HeaderProps> = ({
             />
           </div>
 
-          {/* Common Searches */}
-          <div className="mb-6">
-            <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">
-              Nejčastější vyhledávání
-            </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <button className="text-left px-4 py-3 bg-gray-50 hover:bg-primary-50 hover:text-primary-700 rounded-lg transition-colors group">
-                <span className="font-medium">Kardiologie</span>
-              </button>
-              <button className="text-left px-4 py-3 bg-gray-50 hover:bg-primary-50 hover:text-primary-700 rounded-lg transition-colors group">
-                <span className="font-medium">Neurologie</span>
-              </button>
-              <button className="text-left px-4 py-3 bg-gray-50 hover:bg-primary-50 hover:text-primary-700 rounded-lg transition-colors group">
-                <span className="font-medium">Ortopedická ordinace</span>
-              </button>
-              <button className="text-left px-4 py-3 bg-gray-50 hover:bg-primary-50 hover:text-primary-700 rounded-lg transition-colors group">
-                <span className="font-medium">MRI vyšetření</span>
-              </button>
-              <button className="text-left px-4 py-3 bg-gray-50 hover:bg-primary-50 hover:text-primary-700 rounded-lg transition-colors group">
-                <span className="font-medium">Rehabilitace</span>
-              </button>
-              <button className="text-left px-4 py-3 bg-gray-50 hover:bg-primary-50 hover:text-primary-700 rounded-lg transition-colors group">
-                <span className="font-medium">Lékárna</span>
-              </button>
-            </div>
-          </div>
-
           {/* Quick Links */}
-          <div>
-            <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">
-              Rychlé odkazy
-            </h3>
-            <div className="space-y-2">
-              <Link
-                href="#"
-                className="block px-4 py-2 text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
-              >
-                Ordinační hodiny
-              </Link>
-              <Link
-                href="#"
-                className="block px-4 py-2 text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
-              >
-                Objednání pacienta
-              </Link>
-              <Link
-                href="#"
-                className="block px-4 py-2 text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
-              >
-                Kontakty
-              </Link>
+          {searchData?.quick_links && searchData.quick_links.length > 0 && (
+            <div>
+              <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">
+                Rychlé odkazy
+              </h3>
+              <div className="space-y-2">
+                {searchData.quick_links.map((link, index) => {
+                  const resolved = resolveTextLink(link, currentLocale);
+                  if (resolved.disabled) return null;
+                  return resolved.external ? (
+                    <a
+                      key={link.id || index}
+                      href={resolved.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block px-4 py-2 text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
+                      onClick={() => setSearchModalOpen(false)}
+                    >
+                      {link.text}
+                    </a>
+                  ) : (
+                    <Link
+                      key={link.id || index}
+                      href={resolved.url}
+                      className="block px-4 py-2 text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
+                      onClick={() => setSearchModalOpen(false)}
+                    >
+                      {link.text}
+                    </Link>
+                  );
+                })}
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </Modal>
     </>
