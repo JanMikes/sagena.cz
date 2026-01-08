@@ -111,7 +111,7 @@ const ExpandableSection: React.FC<ExpandableSectionProps> = ({
                   <RichText
                     content={description}
                     size="sm"
-                    className="[&_p]:text-gray-700 [&_a]:text-primary-600 [&_a]:hover:text-primary-700"
+                    className="[&_p]:text-gray-700 [&_a]:text-primary-600 [&_a]:hover:text-primary-700 [&_ul]:list-none [&_li]:relative [&_li]:pl-5 [&_li:before]:content-['+'] [&_li:before]:absolute [&_li:before]:left-0 [&_li:before]:text-primary-400 [&_li:before]:font-semibold"
                   />
                 </div>
               )}
