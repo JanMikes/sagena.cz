@@ -4,13 +4,14 @@ import { marked } from 'marked';
 interface RichTextProps {
   content: string;
   className?: string;
-  size?: 'sm' | 'base' | 'lg';
+  size?: 'xs' | 'sm' | 'base' | 'lg';
 }
 
 const RichText: React.FC<RichTextProps> = ({ content, className = '', size = 'lg' }) => {
   const html = marked.parse(content, { async: false }) as string;
 
   const sizeClass = {
+    xs: 'prose-sm text-xs',
     sm: 'prose-sm',
     base: 'prose-base',
     lg: 'prose-lg',

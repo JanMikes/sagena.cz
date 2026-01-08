@@ -93,7 +93,7 @@ const ServiceCards: React.FC<ServiceCardsProps> = ({
           </>
         );
 
-        const baseCardClass = `relative flex flex-col bg-white rounded-xl p-6 shadow-[0_0_25px_rgba(204,229,243,0.8)] hover:shadow-[0_0_35px_rgba(153,203,231,0.9)] hover:-translate-y-1 transition-all duration-300 ${textAlignClass}`;
+        const baseCardClass = `relative flex flex-col bg-white rounded-xl p-6 shadow-[0_0_25px_rgba(204,229,243,0.8)] hover:shadow-[0_0_35px_rgba(153,203,231,0.9)] hover:-translate-y-1 transition-[box-shadow,transform] duration-300 ${textAlignClass}`;
 
         if (shouldWrapInLink) {
           return (
