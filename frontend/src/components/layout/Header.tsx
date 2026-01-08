@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X, Phone, Search } from 'lucide-react';
+import { Menu, X, Phone, Search, Home } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import Modal from '@/components/interactive/Modal';
 import LocaleSwitcher from '@/components/layout/LocaleSwitcher';
@@ -66,12 +66,12 @@ const Header: React.FC<HeaderProps> = ({
       <div ref={sentinelRef} aria-hidden="true" className="h-0 w-0 overflow-hidden" />
       <header
         className={`sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] ${
-          isScrolled ? '-translate-y-[60px]' : 'translate-y-0'
+          isScrolled ? 'lg:-translate-y-[60px]' : 'translate-y-0'
         }`}
       >
-      {/* Row 1: Logo, Phone, CTA - Slides up on scroll via transform */}
+      {/* Row 1: Logo, Phone, CTA - Slides up on scroll via transform (Desktop only) */}
       <div
-        className={`h-[60px] border-b border-gray-100 transition-[opacity,visibility] duration-200 ${
+        className={`hidden lg:block h-[60px] border-b border-gray-100 transition-[opacity,visibility] duration-200 ${
           isScrolled ? 'opacity-0 invisible' : 'opacity-100 visible'
         }`}
       >
@@ -118,22 +118,37 @@ const Header: React.FC<HeaderProps> = ({
             />
           </Link>
 
-          {/* Scaled logo - appears when scrolled (Mobile) */}
-          <Link
-            href={`/${currentLocale}/`}
-            className={`lg:hidden flex items-center transition-[opacity,visibility] duration-200 ${
-              isScrolled ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'
-            }`}
-          >
-            <img
-              src="/logo-color.svg"
-              alt="Sagena"
-              className="h-8 w-auto"
-            />
-          </Link>
+          {/* Mobile: Logo + Phone (always visible) */}
+          <div className="lg:hidden flex items-center space-x-3">
+            <Link href={`/${currentLocale}/`} className="flex items-center">
+              <img
+                src="/logo-color.svg"
+                alt="Sagena"
+                className="h-8 w-auto"
+              />
+            </Link>
+            <a
+              href="tel:+420553030800"
+              className="flex items-center space-x-1.5 text-gray-700 hover:text-primary-600 transition-colors"
+            >
+              <Phone className="w-4 h-4" />
+              <span className="text-sm font-medium">553 030 800</span>
+            </a>
+          </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-1 flex-1 justify-center">
+          <div className="hidden lg:flex items-center space-x-1 flex-1 justify-end">
+            <Link
+              href={`/${currentLocale}/`}
+              className={`p-2 rounded-lg transition-colors duration-200 ${
+                normalizePath(pathname) === `/${currentLocale}` || normalizePath(pathname) === `/${currentLocale}/`
+                  ? 'text-primary-600 bg-primary-50'
+                  : 'text-gray-700 hover:text-primary-600 hover:bg-primary-50'
+              }`}
+              aria-label={currentLocale === 'cs' ? 'Domů' : 'Home'}
+            >
+              <Home className="w-5 h-5" />
+            </Link>
             {navigation.map((item) => {
               const isActive = normalizePath(pathname) === normalizePath(item.href);
               return (
@@ -190,6 +205,18 @@ const Header: React.FC<HeaderProps> = ({
         >
           <div className="overflow-hidden">
             <div className="flex flex-col space-y-2 py-4 border-t border-gray-200">
+              <Link
+                href={`/${currentLocale}/`}
+                className={`flex items-center space-x-2 px-4 py-3 text-base font-medium rounded-lg transition-colors ${
+                  normalizePath(pathname) === `/${currentLocale}` || normalizePath(pathname) === `/${currentLocale}/`
+                    ? 'text-primary-600 bg-primary-50'
+                    : 'text-gray-700 hover:text-primary-600 hover:bg-primary-50'
+                }`}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <Home className="w-5 h-5" />
+                <span>{currentLocale === 'cs' ? 'Domů' : 'Home'}</span>
+              </Link>
               {navigation.map((item) => {
                 const isActive = normalizePath(pathname) === normalizePath(item.href);
                 return (
@@ -238,13 +265,6 @@ const Header: React.FC<HeaderProps> = ({
                   </a>
                 </div>
               </div>
-              <a
-                href="tel:+420553030800"
-                className="flex items-center space-x-2 px-4 py-3 text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
-              >
-                <Phone className="w-5 h-5" />
-                <span className="font-medium">+420 553 030 800</span>
-              </a>
               <div className="px-4 pt-2">
                 <Button href="#" className="w-full">
                   Objednat se
