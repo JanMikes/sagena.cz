@@ -194,17 +194,17 @@ const Slider: React.FC<SliderProps> = ({
               <div className={`flex flex-col ${
                 slide.textPosition === 'top' ? 'justify-start pt-8' :
                 slide.textPosition === 'bottom' ? 'justify-end pb-16' :
-                'justify-center -mt-12'
+                variant === 'header' ? 'justify-center -mt-12' : 'justify-center'
               } h-full ${slide.imagePosition === 'left' ? 'lg:order-2' : 'lg:order-1'}`}>
                 <div>
-                  <h2 className={`text-3xl md:text-4xl font-bold mb-4 leading-tight animate-fade-slide-up ${
-                    useDarkMode ? 'text-white' : 'text-primary-600'
-                  }`}>
+                  <h2 className={`font-bold mb-4 leading-tight animate-fade-slide-up ${
+                    variant === 'header' ? 'text-3xl md:text-4xl' : 'text-2xl md:text-3xl'
+                  } ${useDarkMode ? 'text-white' : 'text-primary-600'}`}>
                     {slide.title}
                   </h2>
-                  <p className={`text-lg mb-6 leading-relaxed animate-fade-slide-up-delay-1 ${
-                    useDarkMode ? 'text-primary-100' : 'text-gray-600'
-                  }`}>
+                  <p className={`mb-6 leading-relaxed animate-fade-slide-up-delay-1 ${
+                    variant === 'header' ? 'text-lg' : 'text-base'
+                  } ${useDarkMode ? 'text-primary-100' : 'text-gray-600'}`}>
                     {slide.description}
                   </p>
                   {slide.link && !slide.link.disabled && (
