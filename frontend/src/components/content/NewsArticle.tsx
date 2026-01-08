@@ -54,7 +54,7 @@ const NewsArticle: React.FC<NewsArticleProps> = ({
           </Link>
         )}
         <div className="p-5 pb-14">
-          <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center justify-between mb-4">
             <div className="flex items-center space-x-1.5 text-xs text-gray-500">
               <Calendar className="w-3.5 h-3.5" />
               <time dateTime={date}>{new Date(date).toLocaleDateString('cs')}</time>
@@ -77,7 +77,7 @@ const NewsArticle: React.FC<NewsArticleProps> = ({
             )}
           </div>
           <Link href={readMoreUrl}>
-            <h3 className="text-base font-bold text-primary-600 mb-3 leading-tight hover:text-primary-700 transition-colors line-clamp-2">
+            <h3 className="text-base font-bold text-primary-600 leading-tight hover:text-primary-700 transition-colors line-clamp-2">
               {title}
             </h3>
           </Link>

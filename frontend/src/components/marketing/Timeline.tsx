@@ -22,15 +22,23 @@ const Timeline: React.FC<TimelineProps> = ({ items, compact = false }) => {
 
   return (
     <div className="relative">
-      {/* Timeline line - stops at center of last icon */}
-      <div className={`absolute ${linePosition} top-6 bottom-6 w-0.5 bg-primary-200 hidden md:block`} />
-
       <div className="space-y-4">
         {items.map((item, index) => {
           const isLast = index === items.length - 1;
 
           return (
             <div key={index} className={`relative flex ${gapSize}`}>
+              {/* Vertical connecting line to next item */}
+              {!isLast && (
+                <div
+                  className={`absolute ${linePosition} w-0.5 bg-primary-200 hidden md:block`}
+                  style={{
+                    top: compact ? '20px' : '24px',
+                    bottom: compact ? '-36px' : '-40px'
+                  }}
+                />
+              )}
+
               {/* Icon or Number */}
               <div className="relative flex-shrink-0">
                 {item.icon && (
@@ -45,7 +53,7 @@ const Timeline: React.FC<TimelineProps> = ({ items, compact = false }) => {
                   </div>
                 )}
                 {item.number && !item.icon && (
-                  <div className={`flex items-center justify-center ${iconSize} bg-primary-200 rounded-full z-10 relative border-2 border-white shadow-md`}>
+                  <div className={`flex items-center justify-center ${iconSize} bg-[#a0bfdf] rounded-full z-10 relative border-2 border-white shadow-md`}>
                     <span className={`${numberSize} font-bold text-white`}>
                       {item.number}
                     </span>
