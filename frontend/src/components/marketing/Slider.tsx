@@ -190,9 +190,9 @@ const Slider: React.FC<SliderProps> = ({
         )}
 
         {/* Content */}
-        <div className="relative h-full">
-          <div className="container-custom px-16 md:px-20 lg:px-24 h-full" key={currentSlide}>
-            <div className={`gap-8 h-full ${slide.image ? 'grid grid-cols-1 lg:grid-cols-2' : 'flex'}`}>
+        <div className="absolute inset-0 flex flex-col">
+          <div className="container-custom px-16 md:px-20 lg:px-24 flex-1 flex flex-col" key={currentSlide}>
+            <div className={`gap-8 flex-1 ${slide.image ? 'grid grid-cols-1 lg:grid-cols-2' : 'flex'}`}>
               <div className={`flex flex-col ${
                 slide.textPosition === 'top' ? 'justify-start pt-8' :
                 slide.textPosition === 'bottom' ? 'justify-end pb-16' :
