@@ -107,7 +107,8 @@
         "components.news-articles",
         "components.intranet-news-articles",
         "components.badges",
-        "components.image"
+        "components.image",
+        "components.ambulances"
       ]
     }
   }

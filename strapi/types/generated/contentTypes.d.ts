@@ -834,7 +834,6 @@ export interface ApiIntranetPageIntranetPage
         'components.links-list',
         'components.button-group',
         'components.contact-cards',
-        'components.doctor-profile',
         'components.documents',
         'components.section-divider',
         'components.service-cards',
@@ -845,6 +844,7 @@ export interface ApiIntranetPageIntranetPage
         'components.intranet-news-articles',
         'components.badges',
         'components.image',
+        'components.ambulances',
       ]
     > &
       Schema.Attribute.SetPluginOptions<{
@@ -1129,6 +1129,7 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
         'components.news-articles',
         'components.badges',
         'components.image',
+        'components.ambulances',
       ]
     > &
       Schema.Attribute.SetPluginOptions<{

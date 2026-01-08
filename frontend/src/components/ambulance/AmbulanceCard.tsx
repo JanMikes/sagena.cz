@@ -167,11 +167,10 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
         >
           {/* Front Side */}
           <div
-            ref={frontRef}
             className="absolute inset-0 w-full"
             style={{ backfaceVisibility: 'hidden' }}
           >
-            <div className="bg-white border border-gray-200 rounded-xl p-5 h-full flex flex-col">
+            <div ref={frontRef} className="bg-white border border-gray-200 rounded-xl p-5 pb-6 flex flex-col">
               {/* Doctors Section */}
               {doctors.length > 0 && (
                 <div className="mb-4">
@@ -342,22 +341,23 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
               {openingHours.length > 0 && (
                 <button
                   onClick={() => setIsFlipped(true)}
-                  className="flex items-center justify-center gap-2 w-full py-2 text-primary-600 hover:text-primary-700 font-medium text-sm transition-colors border border-primary-600 rounded-lg hover:bg-primary-50 mb-2"
+                  className="flex items-center justify-center gap-2 w-full py-2 text-primary-600 hover:text-primary-700 font-medium text-sm transition-colors border border-primary-600 rounded-lg hover:bg-primary-50"
                 >
                   <Clock className="w-4 h-4" />
                   <span>Ordinační hodiny</span>
                 </button>
               )}
+              {/* Bottom spacer for proper spacing */}
+              <div className="h-2" />
             </div>
           </div>
 
           {/* Back Side - Opening Hours */}
           <div
-            ref={backRef}
             className="absolute inset-0 w-full [transform:rotateY(180deg)]"
             style={{ backfaceVisibility: 'hidden' }}
           >
-            <div className="bg-primary-600 text-white rounded-xl p-5 h-full flex flex-col">
+            <div ref={backRef} className="bg-primary-600 text-white rounded-xl p-5 pb-6 flex flex-col">
               <h4 className="text-lg font-bold mb-4">Ordinační hodiny</h4>
               <div className="space-y-3 flex-1">
                 {Object.entries(groupedHours).map(([day, times]) => (

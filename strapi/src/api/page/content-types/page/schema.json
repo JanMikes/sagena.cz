@@ -115,7 +115,8 @@
         "components.photo-gallery",
         "components.news-articles",
         "components.badges",
-        "components.image"
+        "components.image",
+        "components.ambulances"
       ]
     }
   }
