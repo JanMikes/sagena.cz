@@ -171,7 +171,9 @@ const Slider: React.FC<SliderProps> = ({
     <div className={`relative overflow-hidden ${roundedClass}`}>
       {/* Slide Content */}
       <div
-        className={`relative h-96 md:h-[500px] overflow-hidden ${roundedClass} ${showGradient ? 'bg-gradient-to-br from-primary-600 to-primary-800' : ''}`}
+        className={`relative overflow-hidden ${roundedClass} ${showGradient ? 'bg-gradient-to-br from-primary-600 to-primary-800' : ''} ${
+          variant === 'header' ? 'h-96 md:h-[500px]' : 'min-h-[280px] md:min-h-[320px]'
+        }`}
         style={
           slide.backgroundImage
             ? {
@@ -190,20 +192,20 @@ const Slider: React.FC<SliderProps> = ({
         {/* Content */}
         <div className="relative h-full">
           <div className="container-custom px-16 md:px-20 lg:px-24 h-full" key={currentSlide}>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 h-full">
+            <div className={`gap-8 h-full ${slide.image ? 'grid grid-cols-1 lg:grid-cols-2' : 'flex'}`}>
               <div className={`flex flex-col ${
                 slide.textPosition === 'top' ? 'justify-start pt-8' :
                 slide.textPosition === 'bottom' ? 'justify-end pb-16' :
-                variant === 'header' ? 'justify-center -mt-12' : 'justify-center'
-              } h-full ${slide.imagePosition === 'left' ? 'lg:order-2' : 'lg:order-1'}`}>
-                <div>
-                  <h2 className={`font-bold mb-4 leading-tight animate-fade-slide-up ${
-                    variant === 'header' ? 'text-3xl md:text-4xl' : 'text-2xl md:text-3xl'
+                variant === 'header' ? 'justify-center -mt-12' : 'justify-center py-8'
+              } h-full ${slide.image ? (slide.imagePosition === 'left' ? 'lg:order-2' : 'lg:order-1') : 'w-full'}`}>
+                <div className={slide.image ? '' : 'max-w-3xl'}>
+                  <h2 className={`font-bold mb-3 leading-tight animate-fade-slide-up ${
+                    variant === 'header' ? 'text-3xl md:text-4xl' : 'text-xl md:text-2xl'
                   } ${useDarkMode ? 'text-white' : 'text-primary-600'}`}>
                     {slide.title}
                   </h2>
-                  <p className={`mb-6 leading-relaxed animate-fade-slide-up-delay-1 ${
-                    variant === 'header' ? 'text-lg' : 'text-base'
+                  <p className={`mb-5 leading-relaxed animate-fade-slide-up-delay-1 ${
+                    variant === 'header' ? 'text-lg' : 'text-sm md:text-base'
                   } ${useDarkMode ? 'text-primary-100' : 'text-gray-600'}`}>
                     {slide.description}
                   </p>
@@ -212,14 +214,16 @@ const Slider: React.FC<SliderProps> = ({
                       href={slide.link.url}
                       target={slide.link.external ? '_blank' : undefined}
                       rel={slide.link.external ? 'noopener noreferrer' : undefined}
-                      className={`inline-flex items-center space-x-2 px-6 py-3 rounded-lg font-semibold transition-colors group animate-fade-slide-up-delay-2 ${
+                      className={`inline-flex items-center space-x-2 rounded-lg font-semibold transition-colors group animate-fade-slide-up-delay-2 ${
+                        variant === 'header' ? 'px-6 py-3' : 'px-5 py-2.5 text-sm'
+                      } ${
                         useDarkMode
                           ? 'bg-white text-primary-600 hover:bg-primary-50'
                           : 'bg-primary-600 text-white hover:bg-primary-700'
                       }`}
                     >
                       <span>{slide.link.text}</span>
-                      <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                      <ArrowRight className={`group-hover:translate-x-1 transition-transform ${variant === 'header' ? 'w-5 h-5' : 'w-4 h-4'}`} />
                     </Link>
                   )}
                 </div>

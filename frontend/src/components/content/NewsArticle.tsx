@@ -43,7 +43,7 @@ const NewsArticle: React.FC<NewsArticleProps> = ({
     return (
       <article className="relative bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-shadow duration-300">
         {image && (
-          <Link href={readMoreUrl} className="block relative h-32 bg-gray-200 overflow-hidden">
+          <Link href={readMoreUrl} className="block relative h-40 bg-gray-200 overflow-hidden">
             <Image
               src={image}
               alt={imageAlt || title}
@@ -53,8 +53,8 @@ const NewsArticle: React.FC<NewsArticleProps> = ({
             />
           </Link>
         )}
-        <div className="p-4 pb-12">
-          <div className="flex items-center justify-between mb-2">
+        <div className="p-5 pb-14">
+          <div className="flex items-center justify-between mb-3">
             <div className="flex items-center space-x-1.5 text-xs text-gray-500">
               <Calendar className="w-3.5 h-3.5" />
               <time dateTime={date}>{new Date(date).toLocaleDateString('cs')}</time>
@@ -77,12 +77,12 @@ const NewsArticle: React.FC<NewsArticleProps> = ({
             )}
           </div>
           <Link href={readMoreUrl}>
-            <h3 className="text-base font-bold text-primary-600 mb-2 leading-tight hover:text-primary-700 transition-colors line-clamp-2">
+            <h3 className="text-base font-bold text-primary-600 mb-3 leading-tight hover:text-primary-700 transition-colors line-clamp-2">
               {title}
             </h3>
           </Link>
           {excerpt && (
-            <p className="text-sm text-gray-600 leading-relaxed line-clamp-2">
+            <p className="text-sm text-gray-600 leading-relaxed line-clamp-2 mb-2">
               {excerpt}
             </p>
           )}

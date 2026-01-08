@@ -774,7 +774,7 @@ async function renderComponent(
           }));
 
         // Map column enum to number
-        const galleryColumns = section.gallery_columns === 'Two columns' ? 2 :
+        const galleryColumns: 2 | 3 | 4 = section.gallery_columns === 'Two columns' ? 2 :
                                section.gallery_columns === 'Four columns' ? 4 : 3;
 
         return {
