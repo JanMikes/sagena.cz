@@ -100,7 +100,7 @@ const NewsArticle: React.FC<NewsArticleProps> = ({
 
   // Standard layout
   return (
-    <article className="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-shadow duration-300">
+    <article className="relative bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-shadow duration-300">
       {image && (
         <Link href={readMoreUrl} className="block relative h-48 bg-gray-200 overflow-hidden">
           <Image
@@ -112,8 +112,8 @@ const NewsArticle: React.FC<NewsArticleProps> = ({
           />
         </Link>
       )}
-      <div className="p-6">
-        <div className="flex items-center justify-between mb-3">
+      <div className="p-6 pb-16">
+        <div className="flex items-center justify-between mb-4">
           <div className="flex items-center space-x-2 text-sm text-gray-500">
             <Calendar className="w-4 h-4" />
             <time dateTime={date}>{new Date(date).toLocaleDateString('cs')}</time>
@@ -136,22 +136,25 @@ const NewsArticle: React.FC<NewsArticleProps> = ({
           )}
         </div>
         <Link href={readMoreUrl}>
-          <h3 className="text-xl font-bold text-primary-600 mb-3 leading-tight hover:text-primary-700 transition-colors">
+          <h3 className="text-lg font-bold text-primary-600 mb-4 leading-tight hover:text-primary-700 transition-colors">
             {title}
           </h3>
         </Link>
         {excerpt && (
-          <p className="text-gray-600 mb-4 leading-relaxed line-clamp-3">
+          <p className="text-gray-600 leading-relaxed line-clamp-3">
             {excerpt}
           </p>
         )}
-        <Link
-          href={readMoreUrl}
-          className="inline-flex items-center space-x-2 text-primary-600 hover:text-primary-700 font-medium group"
-        >
-          <span>{readMoreText}</span>
-          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-        </Link>
+        <div className="absolute bottom-0 right-0">
+          <Link
+            href={readMoreUrl}
+            className="inline-flex items-center gap-2 px-5 py-3 rounded-tl-lg rounded-br-xl hover:brightness-95 transition-all group"
+            style={{ backgroundColor: '#a0bfdf' }}
+          >
+            <span className="text-white font-medium text-sm">{readMoreText}</span>
+            <ArrowRight className="w-4 h-4 text-white group-hover:translate-x-1 transition-transform" />
+          </Link>
+        </div>
       </div>
     </article>
   );
