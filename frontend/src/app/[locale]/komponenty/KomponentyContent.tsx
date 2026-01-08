@@ -26,6 +26,7 @@ import Breadcrumb from '@/components/navigation/Breadcrumb';
 import Heading from '@/components/typography/Heading';
 import RichText from '@/components/typography/RichText';
 import ContactCard from '@/components/people/ContactCard';
+import AmbulanceCard from '@/components/ambulance/AmbulanceCard';
 import Directions from '@/components/layout/Directions';
 import SectionDivider from '@/components/layout/SectionDivider';
 import ButtonGroup from '@/components/layout/ButtonGroup';
@@ -262,6 +263,99 @@ Centrum Zdraví Sagena poskytuje **komplexní zdravotní péči** již více ne�
       <Heading level={2}>Kontaktní karty</Heading>
       <ContactCard name="Jan Novák" email="novak@sagena.cz" phone="+420 553 030 800" />
       <ContactCard name="Marie Svobodová" email="svobodova@sagena.cz" phone="+420 553 030 801" />
+
+      <SectionDivider />
+
+      <Heading level={2}>Karty ambulancí (flip card)</Heading>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <AmbulanceCard
+          name="Kardiologie"
+          phone="+420 553 030 810"
+          email="kardio@sagena.cz"
+          doctors={[
+            {
+              name: 'MUDr. Jan Novák',
+              function: 'Primář oddělení',
+              phone: '+420 553 030 811',
+              email: 'novak@sagena.cz',
+            },
+            {
+              name: 'MUDr. Eva Procházková',
+              function: 'Kardiolog',
+              email: 'prochazkova@sagena.cz',
+              holiday: { from: '2026-01-05', to: '2026-01-15' },
+            },
+          ]}
+          nurses={[
+            { name: 'Jana Nováková' },
+            { name: 'Marie Svobodová', holiday: { from: '2026-01-06', to: '2026-01-12' } },
+            { name: 'Petra Králová' },
+          ]}
+          nursesPhones={['+420 553 030 812', '+420 553 030 813']}
+          nursesEmail="sestry.kardio@sagena.cz"
+          description="<p>Specializujeme se na komplexní péči o kardiovaskulární systém.</p>"
+          documents={[
+            { name: 'Registrační formulář', url: '#' },
+            { name: 'Informovaný souhlas', url: '#' },
+          ]}
+          button={{ text: 'Objednat se online', url: '#' }}
+          openingHours={[
+            { day: 'Pondělí', time: '8:00 - 16:00' },
+            { day: 'Úterý', time: '8:00 - 14:00' },
+            { day: 'Středa', time: '8:00 - 16:00' },
+            { day: 'Čtvrtek', time: '8:00 - 14:00' },
+            { day: 'Pátek', time: '8:00 - 12:00' },
+          ]}
+        />
+        <AmbulanceCard
+          name="Neurologie"
+          phone="+420 553 030 820"
+          email="neuro@sagena.cz"
+          doctors={[
+            {
+              name: 'MUDr. Marie Dvořáková',
+              function: 'Neurolog',
+              phone: '+420 553 030 821',
+            },
+          ]}
+          nurses={[
+            { name: 'Alena Horáková' },
+            { name: 'Lucie Marková' },
+          ]}
+          nursesPhones={['+420 553 030 822']}
+          documents={[]}
+          openingHours={[
+            { day: 'Úterý', time: '9:00 - 17:00' },
+            { day: 'Čtvrtek', time: '9:00 - 17:00' },
+          ]}
+        />
+        <AmbulanceCard
+          name="Ortopedie"
+          phone="+420 553 030 830"
+          doctors={[
+            {
+              name: 'MUDr. Petr Svoboda',
+              function: 'Ortoped',
+            },
+            {
+              name: 'MUDr. Tomáš Krejčí',
+              function: 'Chirurg',
+            },
+          ]}
+          nurses={[
+            { name: 'Věra Pospíšilová' },
+          ]}
+          nursesPhones={['+420 553 030 831']}
+          documents={[
+            { name: 'Předoperační vyšetření', url: '#' },
+          ]}
+          openingHours={[
+            { day: 'Pondělí', time: '7:00 - 15:00' },
+            { day: 'Středa', time: '7:00 - 15:00' },
+            { day: 'Pátek', time: '7:00 - 12:00' },
+          ]}
+        />
+      </div>
 
       <SectionDivider />
 
