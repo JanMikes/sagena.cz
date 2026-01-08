@@ -41,7 +41,7 @@ const NewsArticle: React.FC<NewsArticleProps> = ({
   // Compact layout for sidebar - vertical card matching standard layout style
   if (compact) {
     return (
-      <article className="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-shadow duration-300">
+      <article className="relative bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-shadow duration-300">
         {image && (
           <Link href={readMoreUrl} className="block relative h-32 bg-gray-200 overflow-hidden">
             <Image
@@ -53,7 +53,7 @@ const NewsArticle: React.FC<NewsArticleProps> = ({
             />
           </Link>
         )}
-        <div className="p-4">
+        <div className="p-4 pb-12">
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center space-x-1.5 text-xs text-gray-500">
               <Calendar className="w-3.5 h-3.5" />
@@ -82,17 +82,20 @@ const NewsArticle: React.FC<NewsArticleProps> = ({
             </h3>
           </Link>
           {excerpt && (
-            <p className="text-sm text-gray-600 mb-3 leading-relaxed line-clamp-2">
+            <p className="text-sm text-gray-600 leading-relaxed line-clamp-2">
               {excerpt}
             </p>
           )}
-          <Link
-            href={readMoreUrl}
-            className="inline-flex items-center space-x-1.5 text-sm text-primary-600 hover:text-primary-700 font-medium group"
-          >
-            <span>{readMoreText}</span>
-            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-          </Link>
+          <div className="absolute bottom-0 right-0">
+            <Link
+              href={readMoreUrl}
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-tl-lg rounded-br-xl hover:brightness-95 transition-all group"
+              style={{ backgroundColor: '#a0bfdf' }}
+            >
+              <span className="text-white font-medium text-sm">{readMoreText}</span>
+              <ArrowRight className="w-3.5 h-3.5 text-white group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </div>
         </div>
       </article>
     );

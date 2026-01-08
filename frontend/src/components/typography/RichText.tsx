@@ -12,7 +12,7 @@ const RichText: React.FC<RichTextProps> = ({ content, className = '', size = 'lg
 
   const sizeClass = {
     xs: 'prose-sm text-xs',
-    sm: 'prose-sm',
+    sm: 'prose-sm txt-sm',
     base: 'prose-base',
     lg: 'prose-lg',
   }[size];
