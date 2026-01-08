@@ -26,6 +26,18 @@
       "type": "component",
       "component": "components.contact-cards",
       "repeatable": false
+    },
+    "photos": {
+      "type": "component",
+      "component": "elements.photo",
+      "repeatable": true,
+      "required": false
+    },
+    "gallery_columns": {
+      "type": "enumeration",
+      "enum": ["Two columns", "Three columns", "Four columns"],
+      "default": "Three columns",
+      "required": false
     }
   }
 }

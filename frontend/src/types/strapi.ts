@@ -451,6 +451,8 @@ export interface ElementsExpandableSection {
   default_open?: boolean | null;  // Default: false (Initially collapsed)
   files?: ElementsDocumentItem[] | null;  // Optional array of file attachments
   contacts?: ComponentsContactCards | null;  // Optional contact cards component
+  photos?: ElementsPhoto[] | null;  // Optional array of photos for gallery
+  gallery_columns?: 'Two columns' | 'Three columns' | 'Four columns' | null;  // Gallery column configuration
 }
 
 /**

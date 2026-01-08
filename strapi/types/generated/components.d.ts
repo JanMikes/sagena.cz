@@ -541,6 +541,11 @@ export interface ElementsExpandableSection extends Struct.ComponentSchema {
     default_open: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     description: Schema.Attribute.RichText;
     files: Schema.Attribute.Component<'elements.document-item', true>;
+    gallery_columns: Schema.Attribute.Enumeration<
+      ['Two columns', 'Three columns', 'Four columns']
+    > &
+      Schema.Attribute.DefaultTo<'Three columns'>;
+    photos: Schema.Attribute.Component<'elements.photo', true>;
     title: Schema.Attribute.String;
   };
 }

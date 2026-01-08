@@ -1170,6 +1170,13 @@ export async function fetchPageBySlug(
                         },
                       },
                     },
+                    photos: {
+                      populate: {
+                        image: {
+                          fields: ['url', 'alternativeText', 'caption', 'width', 'height'],
+                        },
+                      },
+                    },
                   },
                 },
               },
@@ -2008,6 +2015,13 @@ export async function fetchIntranetPageBySlug(
                               },
                             },
                           },
+                        },
+                      },
+                    },
+                    photos: {
+                      populate: {
+                        image: {
+                          fields: ['url', 'alternativeText', 'caption', 'width', 'height'],
                         },
                       },
                     },

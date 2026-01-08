@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { ChevronDown, Download, FileText } from 'lucide-react';
 import ContactCards from '@/components/people/ContactCards';
 import RichText from '@/components/typography/RichText';
+import PhotoGallery from '@/components/media/PhotoGallery';
 
 /**
  * File attachment from Strapi
@@ -27,6 +28,15 @@ interface ContactCardData {
   funkce?: string | null;
 }
 
+/**
+ * Photo data for PhotoGallery component
+ */
+interface Photo {
+  url: string;
+  alt?: string;
+  caption?: string;
+}
+
 interface ExpandableSectionProps {
   title: string;
   description?: string | null;
@@ -34,6 +44,8 @@ interface ExpandableSectionProps {
   files?: FileAttachment[];
   defaultOpen?: boolean;
   locale?: string;
+  photos?: Photo[];
+  galleryColumns?: 2 | 3 | 4;
 }
 
 const translations = {
@@ -52,11 +64,13 @@ const ExpandableSection: React.FC<ExpandableSectionProps> = ({
   files = [],
   defaultOpen = false,
   locale = 'cs',
+  photos = [],
+  galleryColumns = 3,
 }) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
   const t = translations[locale as keyof typeof translations] || translations.cs;
 
-  const hasContent = description || contacts.length > 0 || files.length > 0;
+  const hasContent = description || contacts.length > 0 || files.length > 0 || photos.length > 0;
 
   const formatFileSize = (sizeInKB: number): string => {
     if (sizeInKB < 1024) {
@@ -119,6 +133,15 @@ const ExpandableSection: React.FC<ExpandableSectionProps> = ({
               {contacts.length > 0 && (
                 <div className="pt-4">
                   <ContactCards cards={contacts} />
+                </div>
+              )}
+
+              {photos.length > 0 && (
+                <div className="pt-4">
+                  <PhotoGallery
+                    photos={photos}
+                    columns={galleryColumns}
+                  />
                 </div>
               )}
 

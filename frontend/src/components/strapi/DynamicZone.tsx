@@ -764,12 +764,27 @@ async function renderComponent(
           funkce: card.funkce ?? undefined,
         })) || [];
 
+        // Transform photos from Strapi structure
+        const photos = (section.photos ?? [])
+          .filter((photo) => photo?.image?.url)
+          .map((photo) => ({
+            url: getStrapiMediaURL(photo.image!.url),
+            alt: photo.image?.alternativeText || undefined,
+            caption: photo.image?.caption || undefined,
+          }));
+
+        // Map column enum to number
+        const galleryColumns = section.gallery_columns === 'Two columns' ? 2 :
+                               section.gallery_columns === 'Four columns' ? 4 : 3;
+
         return {
           title: section.title || '',
           description: section.description ?? undefined,
           contacts,
           files,
           defaultOpen: section.default_open || false,
+          photos,
+          galleryColumns,
         };
       });
 

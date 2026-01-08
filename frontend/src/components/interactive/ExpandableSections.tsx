@@ -17,12 +17,20 @@ interface ContactCardData {
   funkce?: string | null;
 }
 
+interface Photo {
+  url: string;
+  alt?: string;
+  caption?: string;
+}
+
 interface ExpandableSectionData {
   title: string;
   description?: string | null;
   contacts?: ContactCardData[];
   files?: FileAttachment[];
   defaultOpen?: boolean;
+  photos?: Photo[];
+  galleryColumns?: 2 | 3 | 4;
 }
 
 interface ExpandableSectionsProps {
@@ -42,6 +50,8 @@ const ExpandableSections: React.FC<ExpandableSectionsProps> = ({ sections, local
           files={section.files}
           defaultOpen={section.defaultOpen}
           locale={locale}
+          photos={section.photos}
+          galleryColumns={section.galleryColumns}
         />
       ))}
     </div>
