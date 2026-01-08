@@ -1152,3 +1152,31 @@ export interface NavigationItem {
   href: string;
   target?: '_blank' | '_self';
 }
+
+// ============================================================================
+// Search Types
+// ============================================================================
+
+/**
+ * Searchable item for client-side search
+ * Pre-normalized text allows fast filtering without repeated normalization
+ */
+export interface SearchableItem {
+  id: number;
+  type: 'page' | 'news' | 'navigation';
+  title: string;
+  slug: string;
+  url: string;
+  description?: string;
+  tags?: string[];
+  normalizedText: string; // Pre-normalized searchable text
+}
+
+/**
+ * Grouped search results by content type
+ */
+export interface SearchResultGroup {
+  type: 'page' | 'news' | 'navigation';
+  label: string;
+  results: SearchableItem[];
+}

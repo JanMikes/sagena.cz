@@ -5,10 +5,9 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, X, Phone, Search as SearchIcon, Home } from 'lucide-react';
 import Button from '@/components/ui/Button';
-import Modal from '@/components/interactive/Modal';
+import SearchModal from '@/components/search/SearchModal';
 import LocaleSwitcher from '@/components/layout/LocaleSwitcher';
-import { NavigationItem, Search } from '@/types/strapi';
-import { resolveTextLink } from '@/lib/strapi';
+import { NavigationItem, Search, SearchableItem } from '@/types/strapi';
 import { type Locale } from '@/i18n/config';
 import { useLocaleContext } from '@/contexts/LocaleContext';
 
@@ -17,6 +16,7 @@ interface HeaderProps {
   currentLocale?: Locale;
   alternateLocale?: Locale;
   searchData?: Search | null;
+  searchableContent?: SearchableItem[];
 }
 
 const Header: React.FC<HeaderProps> = ({
@@ -24,14 +24,27 @@ const Header: React.FC<HeaderProps> = ({
   currentLocale = 'cs',
   alternateLocale = 'en',
   searchData,
+  searchableContent = [],
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const sentinelRef = useRef<HTMLDivElement>(null);
   const [searchModalOpen, setSearchModalOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
   const pathname = usePathname();
   const { alternateLocaleUrl } = useLocaleContext();
+
+  // Global keyboard shortcut: Cmd/Ctrl + K to open search
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        setSearchModalOpen(true);
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   // Compute alternate URL: use context URL or swap locale in current path
   const computedAlternateUrl = alternateLocaleUrl || pathname.replace(`/${currentLocale}`, `/${alternateLocale}`);
@@ -281,62 +294,13 @@ const Header: React.FC<HeaderProps> = ({
       </header>
 
       {/* Search Modal - Must be outside header to avoid transform issues */}
-      <Modal
+      <SearchModal
         isOpen={searchModalOpen}
         onClose={() => setSearchModalOpen(false)}
-        size="lg"
-      >
-        <div className="py-4">
-          {/* Large Search Input */}
-          <div className="relative mb-8">
-            <SearchIcon className="absolute left-4 top-1/2 transform -translate-y-1/2 w-6 h-6 text-gray-400" />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Co hledáte?"
-              className="w-full pl-14 pr-4 py-4 text-lg border-2 border-gray-300 rounded-xl focus:border-primary-500 focus:ring-4 focus:ring-primary-100 outline-none transition-all"
-              autoFocus
-            />
-          </div>
-
-          {/* Quick Links */}
-          {searchData?.quick_links && searchData.quick_links.length > 0 && (
-            <div>
-              <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">
-                Rychlé odkazy
-              </h3>
-              <div className="space-y-2">
-                {searchData.quick_links.map((link, index) => {
-                  const resolved = resolveTextLink(link, currentLocale);
-                  if (resolved.disabled) return null;
-                  return resolved.external ? (
-                    <a
-                      key={link.id || index}
-                      href={resolved.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="block px-4 py-2 text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
-                      onClick={() => setSearchModalOpen(false)}
-                    >
-                      {link.text}
-                    </a>
-                  ) : (
-                    <Link
-                      key={link.id || index}
-                      href={resolved.url}
-                      className="block px-4 py-2 text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
-                      onClick={() => setSearchModalOpen(false)}
-                    >
-                      {link.text}
-                    </Link>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-        </div>
-      </Modal>
+        locale={currentLocale}
+        searchData={searchData}
+        searchableContent={searchableContent}
+      />
     </>
   );
 };

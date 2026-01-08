@@ -2534,3 +2534,169 @@ export async function fetchAllIntranetNewsArticleSlugs(
     return [];
   }
 }
+
+// ============================================================================
+// Client-Side Search API
+// ============================================================================
+
+import { SearchableItem } from '@/types/strapi';
+import { buildSearchableText } from '@/lib/search';
+
+/**
+ * Fetch all searchable content for client-side search
+ *
+ * This function is designed to be called from client components.
+ * It fetches pages, news articles, and navigation items with only the
+ * fields needed for search, then pre-normalizes text for fast filtering.
+ *
+ * @param locale - Current locale (default: 'cs')
+ * @returns Array of SearchableItem with pre-normalized text
+ */
+export async function fetchSearchableContent(
+  locale: string = 'cs'
+): Promise<SearchableItem[]> {
+  // Use server-side URL and token (NOT exposed to browser)
+  const baseUrl = process.env.STRAPI_URL || 'http://localhost:1337';
+  const token = process.env.STRAPI_API_TOKEN || '';
+
+  const headers: HeadersInit = {
+    'Content-Type': 'application/json',
+    ...(token && { Authorization: `Bearer ${token}` }),
+  };
+
+  // Fetch pages, news, and navigation in parallel
+  const [pages, news, navigation] = await Promise.all([
+    fetchPagesForSearch(baseUrl, locale, headers),
+    fetchNewsForSearch(baseUrl, locale, headers),
+    fetchNavigationForSearch(baseUrl, locale, headers),
+  ]);
+
+  return [...pages, ...news, ...navigation];
+}
+
+/**
+ * Fetch pages with only fields needed for search
+ */
+async function fetchPagesForSearch(
+  baseUrl: string,
+  locale: string,
+  headers: HeadersInit
+): Promise<SearchableItem[]> {
+  try {
+    const params = new URLSearchParams({
+      locale,
+      'fields[0]': 'title',
+      'fields[1]': 'slug',
+      'fields[2]': 'meta_description',
+      'pagination[pageSize]': '100',
+    });
+
+    const response = await fetch(`${baseUrl}/api/pages?${params}`, { headers });
+
+    if (!response.ok) {
+      console.error('Error fetching pages for search:', response.status);
+      return [];
+    }
+
+    const data = await response.json();
+
+    return (data.data || []).map((page: any) => ({
+      id: page.id,
+      type: 'page' as const,
+      title: page.title,
+      slug: page.slug,
+      url: `/${locale}/${page.slug}/`,
+      description: page.meta_description || undefined,
+      normalizedText: buildSearchableText(page.title, page.meta_description),
+    }));
+  } catch (error) {
+    console.error('Error fetching pages for search:', error);
+    return [];
+  }
+}
+
+/**
+ * Fetch news articles with only fields needed for search
+ */
+async function fetchNewsForSearch(
+  baseUrl: string,
+  locale: string,
+  headers: HeadersInit
+): Promise<SearchableItem[]> {
+  try {
+    const params = new URLSearchParams({
+      locale,
+      'fields[0]': 'title',
+      'fields[1]': 'slug',
+      'populate[tags][fields][0]': 'name',
+      'pagination[pageSize]': '100',
+    });
+
+    const response = await fetch(`${baseUrl}/api/news-articles?${params}`, { headers });
+
+    if (!response.ok) {
+      console.error('Error fetching news for search:', response.status);
+      return [];
+    }
+
+    const data = await response.json();
+
+    return (data.data || []).map((article: any) => {
+      const tagNames = (article.tags || []).map((t: any) => t.name);
+      return {
+        id: article.id,
+        type: 'news' as const,
+        title: article.title,
+        slug: article.slug,
+        url: `/${locale}/aktuality/${article.slug}/`,
+        tags: tagNames.length > 0 ? tagNames : undefined,
+        normalizedText: buildSearchableText(article.title, ...tagNames),
+      };
+    });
+  } catch (error) {
+    console.error('Error fetching news for search:', error);
+    return [];
+  }
+}
+
+/**
+ * Fetch navigation items with only fields needed for search
+ */
+async function fetchNavigationForSearch(
+  baseUrl: string,
+  locale: string,
+  headers: HeadersInit
+): Promise<SearchableItem[]> {
+  try {
+    const params = new URLSearchParams({
+      locale,
+      'fields[0]': 'title',
+      'filters[navbar]': 'true',
+      'populate[link][populate][0]': 'page',
+    });
+
+    const response = await fetch(`${baseUrl}/api/navigations?${params}`, { headers });
+
+    if (!response.ok) {
+      console.error('Error fetching navigation for search:', response.status);
+      return [];
+    }
+
+    const data = await response.json();
+
+    return (data.data || []).map((nav: any) => {
+      const pageSlug = nav.link?.page?.slug || '';
+      return {
+        id: nav.id,
+        type: 'navigation' as const,
+        title: nav.title,
+        slug: pageSlug,
+        url: pageSlug ? `/${locale}/${pageSlug}/` : '#',
+        normalizedText: buildSearchableText(nav.title),
+      };
+    });
+  } catch (error) {
+    console.error('Error fetching navigation for search:', error);
+    return [];
+  }
+}

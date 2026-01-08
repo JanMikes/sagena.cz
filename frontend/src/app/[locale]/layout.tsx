@@ -1,10 +1,10 @@
 import { notFound } from 'next/navigation';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
-import { fetchNavigation, fetchFooter, fetchSearch } from '@/lib/strapi';
+import { fetchNavigation, fetchFooter, fetchSearch, fetchSearchableContent } from '@/lib/strapi';
 import { isValidLocale, getAlternateLocale, type Locale } from '@/i18n/config';
 import { LocaleProvider } from '@/contexts/LocaleContext';
-import type { NavigationItem, Footer as FooterType, Search } from '@/types/strapi';
+import type { NavigationItem, Footer as FooterType, Search, SearchableItem } from '@/types/strapi';
 
 // Force all pages under [locale] to be dynamically rendered (SSR)
 // This prevents static generation at build time, allowing build to succeed without Strapi
@@ -32,17 +32,19 @@ export default async function LocaleLayout({
     notFound();
   }
 
-  // Fetch navigation, footer and search for current locale
+  // Fetch navigation, footer, search data and searchable content for current locale
   let navbarItems: NavigationItem[] = [];
   let footerNavItems: NavigationItem[] = [];
   let footer: FooterType | null = null;
   let searchData: Search | null = null;
+  let searchableContent: SearchableItem[] = [];
   try {
-    [navbarItems, footer, footerNavItems, searchData] = await Promise.all([
+    [navbarItems, footer, footerNavItems, searchData, searchableContent] = await Promise.all([
       fetchNavigation(true, undefined, locale),
       fetchFooter(locale),
       fetchNavigation(undefined, true, locale),
       fetchSearch(locale),
+      fetchSearchableContent(locale),
     ]);
   } catch (error) {
     console.error('Failed to fetch layout data from Strapi:', error);
@@ -57,6 +59,7 @@ export default async function LocaleLayout({
         currentLocale={locale as Locale}
         alternateLocale={alternateLocale}
         searchData={searchData}
+        searchableContent={searchableContent}
       />
       <main>{children}</main>
       <Footer data={footer} locale={locale} footerNavigation={footerNavItems} />
