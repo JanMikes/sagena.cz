@@ -749,7 +749,7 @@ export interface ElementsSlide extends Struct.ComponentSchema {
   };
   attributes: {
     background_image: Schema.Attribute.Media<'images'>;
-    description: Schema.Attribute.Text;
+    description: Schema.Attribute.RichText;
     image: Schema.Attribute.Media<'images'>;
     image_position: Schema.Attribute.Enumeration<['left', 'right']> &
       Schema.Attribute.DefaultTo<'right'>;

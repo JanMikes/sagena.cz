@@ -90,13 +90,13 @@ const PopupModal: React.FC<PopupModalProps> = ({
       >
         {/* Header with title */}
         {title && (
-          <div className="flex items-center justify-between p-6 border-b border-gray-200">
-            <h3 id="popup-title" className="text-2xl font-bold text-primary-600">
+          <div className="flex items-center justify-between p-6 bg-gradient-to-br from-primary-600 to-primary-800 rounded-t-2xl">
+            <h3 id="popup-title" className="text-2xl font-bold text-white">
               {title}
             </h3>
             <button
               onClick={handleClose}
-              className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+              className="p-2 text-white/80 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
               aria-label="Zavřít"
             >
               <X className="w-5 h-5" />

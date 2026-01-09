@@ -1,8 +1,13 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
-import { Mail, Phone, Clock, FileText, Plane, ExternalLink, Download } from 'lucide-react';
+import { Mail, Phone, Clock, FileText, Plane, ExternalLink, Download, Info } from 'lucide-react';
 import RichText from '@/components/typography/RichText';
+
+interface Holiday {
+  from?: string;
+  to?: string;
+}
 
 interface Doctor {
   name?: string;
@@ -10,12 +15,12 @@ interface Doctor {
   phone?: string;
   email?: string;
   photo?: string;
-  holiday?: { from?: string; to?: string };
+  holidays?: Holiday[];
 }
 
 interface Nurse {
   name?: string;
-  holiday?: { from?: string; to?: string };
+  holidays?: Holiday[];
 }
 
 interface Document {
@@ -118,7 +123,7 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
     return acc;
   }, {});
 
-  const isOnHoliday = (holiday?: { from?: string; to?: string }): boolean => {
+  const isHolidayActive = (holiday?: Holiday): boolean => {
     if (!holiday || !holiday.from || !holiday.to) return false;
     try {
       const today = new Date();
@@ -129,6 +134,15 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
     } catch {
       return false;
     }
+  };
+
+  const getActiveHolidays = (holidays?: Holiday[]): Holiday[] => {
+    if (!holidays || holidays.length === 0) return [];
+    return holidays.filter(isHolidayActive);
+  };
+
+  const isOnHoliday = (holidays?: Holiday[]): boolean => {
+    return getActiveHolidays(holidays).length > 0;
   };
 
   const formatDate = (dateStr?: string): string => {
@@ -197,14 +211,14 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
                   <div>
                     {doctors.map((doctor, index) => (
                       <div key={index} className="py-3 border-b border-gray-100">
-                        {/* Holiday Banner */}
-                        {isOnHoliday(doctor.holiday) && doctor.holiday && (
-                          <div className="flex items-center gap-2 text-sm text-yellow-800 bg-yellow-100 px-3 py-2 rounded-lg mb-3">
+                        {/* Holiday Banners */}
+                        {getActiveHolidays(doctor.holidays).map((holiday, holidayIndex) => (
+                          <div key={holidayIndex} className="flex items-center gap-2 text-sm text-yellow-800 bg-yellow-100 px-3 py-2 rounded-lg mb-3">
                             <Plane className="w-4 h-4 flex-shrink-0" />
-                            <span>Dovolená: {formatDate(doctor.holiday.from)} - {formatDate(doctor.holiday.to)}</span>
+                            <span>Dovolená: {formatDate(holiday.from)} - {formatDate(holiday.to)}</span>
                           </div>
-                        )}
-                        <div className="flex items-start gap-3">
+                        ))}
+                        <div className={`flex gap-3 ${!doctor.function && !doctor.phone && !doctor.email ? 'items-center' : 'items-start'}`}>
                           {/* Avatar with initials */}
                           {doctor.photo ? (
                             <img
@@ -213,7 +227,7 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
                               className="w-10 h-10 rounded-full object-cover flex-shrink-0"
                             />
                           ) : (
-                            <div className="w-10 h-10 rounded-full bg-primary-600 flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
+                            <div className="w-10 h-10 rounded-full bg-gray-400 flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
                               {getInitials(doctor.name)}
                             </div>
                           )}
@@ -265,14 +279,14 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
                       <span
                         key={index}
                         className={`inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full ${
-                          isOnHoliday(nurse.holiday)
+                          isOnHoliday(nurse.holidays)
                             ? 'bg-yellow-100 text-yellow-700'
                             : 'bg-primary-100 text-primary-600'
                         }`}
-                        title={isOnHoliday(nurse.holiday) && nurse.holiday ? `Dovolená: ${formatDate(nurse.holiday.from)} - ${formatDate(nurse.holiday.to)}` : undefined}
+                        title={isOnHoliday(nurse.holidays) ? getActiveHolidays(nurse.holidays).map(h => `Dovolená: ${formatDate(h.from)} - ${formatDate(h.to)}`).join(', ') : undefined}
                       >
                         {getSurname(nurse.name)}
-                        {isOnHoliday(nurse.holiday) && (
+                        {isOnHoliday(nurse.holidays) && (
                           <Plane className="w-3 h-3" />
                         )}
                       </span>
@@ -306,7 +320,10 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
 
               {/* Description */}
               {description && (
-                <RichText content={description} size="sm" className="mb-4" />
+                <div className="flex gap-2 mb-4">
+                  <Info className="w-4 h-4 text-primary-600 flex-shrink-0 mt-0.5" />
+                  <RichText content={description} size="sm" />
+                </div>
               )}
 
               {/* Documents */}
@@ -346,7 +363,7 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
               {button && (
                 <a
                   href={button.url}
-                  className="inline-flex items-center justify-center gap-2 w-full py-2 px-4 bg-primary-600 text-white rounded-lg font-medium text-sm hover:bg-primary-700 transition-colors mb-3"
+                  className="inline-flex items-center justify-center gap-2 w-full py-2 px-4 bg-primary-600 text-white rounded-lg font-medium text-sm hover:bg-primary-700 transition-colors mb-3 border border-primary-600 hover:border-primary-700"
                 >
                   <span>{button.text}</span>
                   <ExternalLink className="w-4 h-4" />

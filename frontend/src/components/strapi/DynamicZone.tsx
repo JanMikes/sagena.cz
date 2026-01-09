@@ -921,9 +921,10 @@ async function renderComponent(
                   photo: docWrapper.doctor?.photo?.url
                     ? getStrapiMediaURL(docWrapper.doctor.photo.url)
                     : undefined,
-                  holiday: docWrapper.doctor?.holiday
-                    ? { from: docWrapper.doctor.holiday.from || '', to: docWrapper.doctor.holiday.to || '' }
-                    : undefined,
+                  holidays: (docWrapper.doctor?.holidays ?? []).map((h) => ({
+                    from: h.from || '',
+                    to: h.to || '',
+                  })),
                 }))
               : (ambulance.doctors ?? []).map((doctor) => ({
                   name: doctor.name,
@@ -931,17 +932,19 @@ async function renderComponent(
                   phone: doctor.phone ?? undefined,
                   email: doctor.email ?? undefined,
                   photo: doctor.photo?.url ? getStrapiMediaURL(doctor.photo.url) : undefined,
-                  holiday: doctor.holiday
-                    ? { from: doctor.holiday.from || '', to: doctor.holiday.to || '' }
-                    : undefined,
+                  holidays: (doctor.holidays ?? []).map((h) => ({
+                    from: h.from || '',
+                    to: h.to || '',
+                  })),
                 }));
 
             // Transform nurses data
             const nurses = (ambulance.nurses ?? []).map((nurse) => ({
               name: nurse.name,
-              holiday: nurse.holiday
-                ? { from: nurse.holiday.from || '', to: nurse.holiday.to || '' }
-                : undefined,
+              holidays: (nurse.holidays ?? []).map((h) => ({
+                from: h.from || '',
+                to: h.to || '',
+              })),
             }));
 
             // Extract nurses phones

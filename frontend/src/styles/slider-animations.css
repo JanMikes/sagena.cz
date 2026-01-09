@@ -60,7 +60,15 @@
 }
 
 .animate-fade-slide-left {
-  animation: fadeSlideLeft 700ms ease-out 150ms both;
+  animation: fadeSlideLeft 600ms ease-out both;
+}
+
+.animate-fade-slide-left-delay-1 {
+  animation: fadeSlideLeft 600ms ease-out 100ms both;
+}
+
+.animate-fade-slide-left-delay-2 {
+  animation: fadeSlideLeft 600ms ease-out 200ms both;
 }
 
 .animate-fade-slide-right {

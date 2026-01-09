@@ -38,10 +38,10 @@
     "function": {
       "type": "string"
     },
-    "holiday": {
+    "holidays": {
       "type": "component",
       "component": "elements.holiday",
-      "repeatable": false
+      "repeatable": true
     }
   }
 }

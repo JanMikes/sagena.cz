@@ -483,7 +483,7 @@ export interface ApiDoctorDoctor extends Struct.CollectionTypeSchema {
     email: Schema.Attribute.Email;
     function: Schema.Attribute.String;
     gender: Schema.Attribute.Enumeration<['man', 'woman']>;
-    holiday: Schema.Attribute.Component<'elements.holiday', false>;
+    holidays: Schema.Attribute.Component<'elements.holiday', true>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -1028,7 +1028,7 @@ export interface ApiNurseNurse extends Struct.CollectionTypeSchema {
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     gender: Schema.Attribute.Enumeration<['man', 'woman']>;
-    holiday: Schema.Attribute.Component<'elements.holiday', false>;
+    holidays: Schema.Attribute.Component<'elements.holiday', true>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::nurse.nurse'> &
       Schema.Attribute.Private;

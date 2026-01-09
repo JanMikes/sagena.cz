@@ -1095,7 +1095,7 @@ export interface Doctor {
   photo?: PersonPhoto | null;
   gender?: 'man' | 'woman' | null;
   function?: string | null;  // Position, role, or specialization
-  holiday?: ElementsHoliday | null;
+  holidays?: ElementsHoliday[] | null;  // Multiple holiday periods
   createdAt?: string;
   updatedAt?: string;
 }
@@ -1111,7 +1111,7 @@ export interface Nurse {
   name: string;  // Required full name
   photo?: PersonPhoto | null;
   gender?: 'man' | 'woman' | null;
-  holiday?: ElementsHoliday | null;
+  holidays?: ElementsHoliday[] | null;  // Multiple holiday periods
   createdAt?: string;
   updatedAt?: string;
 }

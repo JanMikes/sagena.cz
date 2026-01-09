@@ -14,7 +14,7 @@ const RegistrationModal: React.FC<RegistrationModalProps> = ({ locale }) => {
   const { isOpen, closeModal } = useReservationModal();
 
   return (
-    <Modal isOpen={isOpen} onClose={closeModal} size="md">
+    <Modal isOpen={isOpen} onClose={closeModal} size="md" title="Objednat se">
       <RegistrationForm locale={locale} />
     </Modal>
   );

@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import '@/styles/slider-animations.css';
+import RichText from '@/components/typography/RichText';
 
 /**
  * Slide item from Strapi (for CMS-driven pages)
@@ -29,6 +30,12 @@ interface SliderProps {
   autoplayInterval?: number;
   variant?: 'header' | 'content';
   compact?: boolean;
+  /** Controlled mode: current slide index */
+  currentSlide?: number;
+  /** Controlled mode: callback when slide changes */
+  onSlideChange?: (index: number) => void;
+  /** When true, hides the navigation dots (for external rendering) */
+  hideNavigation?: boolean;
 }
 
 const Slider: React.FC<SliderProps> = ({
@@ -37,15 +44,31 @@ const Slider: React.FC<SliderProps> = ({
   autoplayInterval = 5000,
   variant = 'content',
   compact = false,
+  currentSlide: controlledCurrentSlide,
+  onSlideChange,
+  hideNavigation = false,
 }) => {
-  const [currentSlide, setCurrentSlide] = useState(0);
+  const [internalCurrentSlide, setInternalCurrentSlide] = useState(0);
+
+  // Support both controlled and uncontrolled modes
+  const isControlled = controlledCurrentSlide !== undefined;
+  const currentSlide = isControlled ? controlledCurrentSlide : internalCurrentSlide;
+
+  const setCurrentSlide = (index: number) => {
+    if (onSlideChange) {
+      onSlideChange(index);
+    }
+    if (!isControlled) {
+      setInternalCurrentSlide(index);
+    }
+  };
 
   const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % slides.length);
+    setCurrentSlide((currentSlide + 1) % slides.length);
   };
 
   const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+    setCurrentSlide((currentSlide - 1 + slides.length) % slides.length);
   };
 
   const goToSlide = (index: number) => {
@@ -106,18 +129,22 @@ const Slider: React.FC<SliderProps> = ({
 
           {/* Text Section */}
           <div className="bg-gradient-to-br from-primary-600 to-primary-800 px-4 py-4">
-            <h3 className="text-lg font-bold text-white mb-2 leading-tight line-clamp-2 animate-fade-slide-up">
+            <h3 className="text-lg font-bold text-white mb-2 leading-tight line-clamp-2 animate-fade-slide-left">
               {slide.title}
             </h3>
-            <p className="text-sm text-primary-100 mb-3 leading-relaxed line-clamp-3 animate-fade-slide-up-delay-1">
-              {slide.description}
-            </p>
+            {slide.description && (
+              <RichText
+                content={slide.description}
+                size="sm"
+                className="text-primary-100 mb-3 leading-relaxed line-clamp-3 animate-fade-slide-left-delay-1 !text-primary-100 [&_p]:!text-primary-100 [&_a]:!text-white [&_a]:underline"
+              />
+            )}
             {slide.link && !slide.link.disabled && (
               <Link
                 href={slide.link.url}
                 target={slide.link.external ? '_blank' : undefined}
                 rel={slide.link.external ? 'noopener noreferrer' : undefined}
-                className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-md text-sm font-medium bg-white text-primary-600 hover:bg-primary-50 transition-colors group animate-fade-slide-up-delay-2"
+                className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-md text-sm font-medium bg-white text-primary-600 hover:bg-primary-50 transition-colors group animate-fade-slide-left-delay-2"
               >
                 <span>{slide.link.text}</span>
                 <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
@@ -199,22 +226,28 @@ const Slider: React.FC<SliderProps> = ({
                 variant === 'header' ? 'justify-center -mt-12' : 'justify-center py-8'
               } h-full ${slide.image ? (slide.imagePosition === 'left' ? 'lg:order-2' : 'lg:order-1') : 'w-full'}`}>
                 <div className={slide.image ? '' : 'max-w-3xl'}>
-                  <h2 className={`font-bold mb-3 leading-tight animate-fade-slide-up ${
+                  <h2 className={`font-bold mb-3 leading-tight animate-fade-slide-left ${
                     variant === 'header' ? 'text-3xl md:text-4xl' : 'text-xl md:text-2xl'
                   } ${useDarkMode ? 'text-white' : 'text-primary-600'}`}>
                     {slide.title}
                   </h2>
-                  <p className={`mb-5 leading-relaxed animate-fade-slide-up-delay-1 ${
-                    variant === 'header' ? 'text-lg' : 'text-sm md:text-base'
-                  } ${useDarkMode ? 'text-primary-100' : 'text-gray-600'}`}>
-                    {slide.description}
-                  </p>
+                  {slide.description && (
+                    <RichText
+                      content={slide.description}
+                      size={variant === 'header' ? 'lg' : 'sm'}
+                      className={`mb-5 leading-relaxed animate-fade-slide-left-delay-1 ${
+                        useDarkMode
+                          ? '!text-primary-100 [&_p]:!text-primary-100 [&_a]:!text-white [&_a]:underline'
+                          : '!text-gray-600'
+                      }`}
+                    />
+                  )}
                   {slide.link && !slide.link.disabled && (
                     <Link
                       href={slide.link.url}
                       target={slide.link.external ? '_blank' : undefined}
                       rel={slide.link.external ? 'noopener noreferrer' : undefined}
-                      className={`inline-flex items-center space-x-2 rounded-lg font-semibold transition-colors group animate-fade-slide-up-delay-2 ${
+                      className={`inline-flex items-center space-x-2 rounded-lg font-semibold transition-colors group animate-fade-slide-left-delay-2 ${
                         variant === 'header' ? 'px-6 py-3' : 'px-5 py-2.5 text-sm'
                       } ${
                         useDarkMode
@@ -264,8 +297,8 @@ const Slider: React.FC<SliderProps> = ({
         </>
       )}
 
-      {/* Dots */}
-      {slides.length > 1 && (
+      {/* Dots - hide when hideNavigation is true */}
+      {slides.length > 1 && !hideNavigation && (
         <div className={`absolute left-1/2 -translate-x-1/2 flex space-x-2 ${
           variant === 'header' ? 'bottom-28 md:bottom-32' : 'bottom-6'
         }`}>

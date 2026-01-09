@@ -283,12 +283,12 @@ Centrum Zdraví Sagena poskytuje **komplexní zdravotní péči** již více ne�
               name: 'MUDr. Eva Procházková',
               function: 'Kardiolog',
               email: 'prochazkova@sagena.cz',
-              holiday: { from: '2026-01-05', to: '2026-01-15' },
+              holidays: [{ from: '2026-01-05', to: '2026-01-15' }],
             },
           ]}
           nurses={[
             { name: 'Jana Nováková' },
-            { name: 'Marie Svobodová', holiday: { from: '2026-01-06', to: '2026-01-12' } },
+            { name: 'Marie Svobodová', holidays: [{ from: '2026-01-06', to: '2026-01-12' }] },
             { name: 'Petra Králová' },
           ]}
           nursesPhones={['+420 553 030 812', '+420 553 030 813']}

@@ -6,8 +6,7 @@
  */
 
 import React from 'react';
-import Slider from '@/components/marketing/Slider';
-import ServiceCards from '@/components/content/ServiceCards';
+import PageHeaderClient from './PageHeaderClient';
 import { getStrapiMediaURL, getIconUrlById, resolveTextLink } from '@/lib/strapi';
 import { ComponentsPageHeader } from '@/types/strapi';
 
@@ -115,24 +114,12 @@ const PageHeader: React.FC<PageHeaderProps> = async ({ header, locale = 'cs' }) 
 
   return (
     <div className="relative mb-8 md:mb-12">
-      {/* Slider - 100% width */}
-      {sliderProps && (
-        <div className="w-full">
-          <Slider {...sliderProps} variant="header" />
-        </div>
-      )}
-
-      {/* Service Cards - overlaps with negative margin when slider present */}
-      {serviceCardsProps && (
-        <div
-          className={`
-            relative z-10 px-4 md:px-8 lg:px-16
-            ${hasSlider ? '-mt-16 md:-mt-24' : ''}
-          `}
-        >
-          <ServiceCards {...serviceCardsProps} />
-        </div>
-      )}
+      <PageHeaderClient
+        sliderProps={sliderProps}
+        serviceCardsProps={serviceCardsProps}
+        hasSlider={hasSlider}
+        hasServiceCards={hasServiceCards}
+      />
     </div>
   );
 };
