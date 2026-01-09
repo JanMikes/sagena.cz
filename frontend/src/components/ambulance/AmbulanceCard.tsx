@@ -401,8 +401,7 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
                         <div key={entryIndex} className="flex justify-between text-sm gap-2">
                           <span className="font-medium flex-shrink-0">{entry.day}</span>
                           <div className="text-right flex-1">
-                            {entry.time && <div>{entry.time}</div>}
-                            {entry.time_afternoon && <div>{entry.time_afternoon}</div>}
+                            {entry.time}{entry.time && entry.time_afternoon && ', '}{entry.time_afternoon}
                           </div>
                         </div>
                       ))}
