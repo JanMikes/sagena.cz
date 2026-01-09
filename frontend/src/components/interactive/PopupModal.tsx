@@ -86,11 +86,11 @@ const PopupModal: React.FC<PopupModalProps> = ({
         role="dialog"
         aria-modal="true"
         aria-labelledby={title ? 'popup-title' : undefined}
-        className="relative bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-auto animate-in zoom-in-95 duration-300"
+        className="relative rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-hidden animate-in zoom-in-95 duration-300"
       >
         {/* Header with title */}
         {title && (
-          <div className="flex items-center justify-between p-6 bg-gradient-to-br from-primary-600 to-primary-800 rounded-t-2xl">
+          <div className="flex items-center justify-between p-6 bg-gradient-to-br from-primary-600 to-primary-800">
             <h3 id="popup-title" className="text-2xl font-bold text-white">
               {title}
             </h3>
@@ -116,7 +116,7 @@ const PopupModal: React.FC<PopupModalProps> = ({
         )}
 
         {/* Content */}
-        <div className={title ? 'p-6' : 'p-8 pt-12'}>
+        <div className={`bg-white overflow-auto ${title ? 'p-6 rounded-b-2xl' : 'p-8 pt-12 rounded-2xl'}`}>
           {description && (
             <RichText content={description} size="base" />
           )}
