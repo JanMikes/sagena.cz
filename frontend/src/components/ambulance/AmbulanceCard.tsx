@@ -232,14 +232,7 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
                   <div>
                     {doctors.map((doctor, index) => (
                       <div key={index} className="py-3 border-b border-gray-100">
-                        {/* Holiday Banners */}
-                        {getRelevantHolidays(doctor.holidays).map((holiday, holidayIndex) => (
-                          <div key={holidayIndex} className="flex items-center gap-2 text-sm text-yellow-800 bg-yellow-100 px-3 py-2 rounded-lg mb-3">
-                            <Plane className="w-4 h-4 flex-shrink-0 text-yellow-600" />
-                            <span>Dovolená: {formatDate(holiday.from)} - {formatDate(holiday.to)}</span>
-                          </div>
-                        ))}
-                        <div className={`flex gap-3 ${!doctor.function && !doctor.phone && !doctor.email ? 'items-center' : 'items-start'}`}>
+                        <div className={`flex gap-3 ${!doctor.function && !doctor.phone && !doctor.email && getRelevantHolidays(doctor.holidays).length === 0 ? 'items-center' : 'items-start'}`}>
                           {/* Avatar with initials */}
                           {doctor.photo ? (
                             <img
@@ -256,6 +249,13 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
                           {/* Info */}
                           <div className="flex-1 min-w-0">
                             <div className="font-semibold text-primary-600">{doctor.name || 'Neznámý'}</div>
+                            {/* Holiday Banners - under doctor name */}
+                            {getRelevantHolidays(doctor.holidays).map((holiday, holidayIndex) => (
+                              <div key={holidayIndex} className="flex items-center gap-2 text-sm text-yellow-800 bg-yellow-100 px-3 py-2 rounded-lg mt-2">
+                                <Plane className="w-4 h-4 flex-shrink-0 text-yellow-600" />
+                                <span>Dovolená: {formatDate(holiday.from)} - {formatDate(holiday.to)}</span>
+                              </div>
+                            ))}
                             {doctor.function && (
                               <span className="inline-block text-xs text-gray-600 bg-gray-100 px-2 py-0.5 rounded-full mt-1">
                                 {doctor.function}
