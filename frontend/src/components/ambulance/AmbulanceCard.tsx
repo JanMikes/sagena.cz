@@ -390,11 +390,11 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
           >
             <div ref={backRef} className="bg-primary-600 text-white rounded-xl p-5 pb-6 flex flex-col">
               <h4 className="text-lg font-bold mb-4">Ordinační hodiny</h4>
-              <div className="space-y-4 flex-1 overflow-y-auto">
+              <div className="space-y-4 flex-1 overflow-y-auto divide-y divide-white/50">
                 {openingHours.map((group, groupIndex) => (
-                  <div key={groupIndex}>
+                  <div key={groupIndex} className={groupIndex > 0 ? 'pt-4' : ''}>
                     {group.title && (
-                      <h5 className="text-sm font-semibold text-white/80 mb-2">{group.title}</h5>
+                      <h5 className="text-base font-semibold text-white/80 mb-2">{group.title}</h5>
                     )}
                     <div className="space-y-2">
                       {(group.hours || []).map((entry, entryIndex) => (
