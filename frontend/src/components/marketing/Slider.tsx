@@ -136,7 +136,7 @@ const Slider: React.FC<SliderProps> = ({
               <RichText
                 content={slide.description}
                 size="sm"
-                className="text-primary-100 mb-3 leading-relaxed line-clamp-3 animate-fade-slide-left-delay-1 !text-primary-100 [&_p]:!text-primary-100 [&_a]:!text-white [&_a]:underline"
+                className="text-primary-100 mb-3 leading-relaxed line-clamp-3 animate-fade-slide-left-delay-1 !text-primary-100 [&_p]:!text-primary-100 [&_strong]:!text-white [&_a]:!text-white [&_a]:underline"
               />
             )}
             {slide.link && !slide.link.disabled && (
@@ -237,7 +237,7 @@ const Slider: React.FC<SliderProps> = ({
                       size={variant === 'header' ? 'lg' : 'sm'}
                       className={`mb-5 leading-relaxed animate-fade-slide-left-delay-1 ${
                         useDarkMode
-                          ? '!text-primary-100 [&_p]:!text-primary-100 [&_a]:!text-white [&_a]:underline'
+                          ? '!text-primary-100 [&_p]:!text-primary-100 [&_strong]:!text-white [&_a]:!text-white [&_a]:underline'
                           : '!text-gray-600'
                       }`}
                     />

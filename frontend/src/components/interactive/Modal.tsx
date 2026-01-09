@@ -49,11 +49,11 @@ const Modal: React.FC<ModalProps> = ({
 
       {/* Modal */}
       <div
-        className={`relative bg-white rounded-2xl shadow-2xl w-full ${sizeClasses[size]} max-h-[90vh] overflow-auto animate-in zoom-in-95 duration-300`}
+        className={`relative bg-white rounded-2xl shadow-2xl w-full ${sizeClasses[size]} max-h-[90vh] overflow-hidden animate-in zoom-in-95 duration-300`}
       >
         {/* Header */}
         {title && (
-          <div className="flex items-center justify-between p-6 bg-gradient-to-br from-primary-600 to-primary-800 rounded-t-2xl">
+          <div className="flex items-center justify-between p-6 bg-gradient-to-br from-primary-600 to-primary-800">
             <h3 className="text-2xl font-bold text-white">{title}</h3>
             <button
               onClick={onClose}
@@ -77,7 +77,7 @@ const Modal: React.FC<ModalProps> = ({
         )}
 
         {/* Content */}
-        <div className={title ? 'p-6' : 'p-8'}>{children}</div>
+        <div className={`${title ? 'p-6' : 'p-8'} overflow-auto max-h-[calc(90vh-88px)]`}>{children}</div>
       </div>
     </div>
   );
