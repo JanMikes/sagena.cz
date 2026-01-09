@@ -16,8 +16,8 @@ interface PageHeaderProps {
 }
 
 const PageHeader: React.FC<PageHeaderProps> = async ({ header, locale = 'cs' }) => {
-  const hasSlider = header.slider && (header.slider.slides?.length ?? 0) > 0;
-  const hasServiceCards = header.service_cards && (header.service_cards.cards?.length ?? 0) > 0;
+  const hasSlider = !!(header.slider && (header.slider.slides?.length ?? 0) > 0);
+  const hasServiceCards = !!(header.service_cards && (header.service_cards.cards?.length ?? 0) > 0);
 
   // If neither component has content, don't render
   if (!hasSlider && !hasServiceCards) {
