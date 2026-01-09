@@ -10,11 +10,17 @@ interface RegistrationModalProps {
   locale: Locale;
 }
 
+const translations = {
+  cs: { title: 'Registrace k Praktickému lékaři' },
+  en: { title: 'Registration for General Practitioner' },
+} as const;
+
 const RegistrationModal: React.FC<RegistrationModalProps> = ({ locale }) => {
   const { isOpen, closeModal } = useReservationModal();
+  const t = translations[locale];
 
   return (
-    <Modal isOpen={isOpen} onClose={closeModal} size="md" title="Objednat se">
+    <Modal isOpen={isOpen} onClose={closeModal} size="md" title={t.title}>
       <RegistrationForm locale={locale} />
     </Modal>
   );

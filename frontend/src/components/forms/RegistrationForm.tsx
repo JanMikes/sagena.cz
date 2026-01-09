@@ -13,7 +13,6 @@ interface RegistrationFormProps {
 
 const translations = {
   cs: {
-    title: 'Registrace k Praktickému lékaři',
     subtitle: 'Vyplňte formulář a my vás budeme kontaktovat',
     fullNameLabel: 'Jméno a příjmení',
     fullNamePlaceholder: 'Jan Novák',
@@ -31,7 +30,6 @@ const translations = {
     successMessage: 'Vaše registrace byla úspěšně odeslána. Budeme vás kontaktovat.',
   },
   en: {
-    title: 'Registration for General Practitioner',
     subtitle: 'Fill out the form and we will contact you',
     fullNameLabel: 'Full name',
     fullNamePlaceholder: 'John Doe',
@@ -71,10 +69,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ locale }) => {
 
   return (
     <div>
-      <div className="mb-6">
-        <h2 className="text-2xl font-bold text-primary-600 mb-2">{t.title}</h2>
-        <p className="text-gray-600">{t.subtitle}</p>
-      </div>
+      <p className="text-gray-600 mb-6">{t.subtitle}</p>
 
       {/* General error */}
       {state.error && (

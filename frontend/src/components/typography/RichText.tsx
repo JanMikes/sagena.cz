@@ -1,5 +1,6 @@
 import React from 'react';
 import { marked } from 'marked';
+import { preventOrphans } from '@/lib/typography';
 
 interface RichTextProps {
   content: string;
@@ -8,7 +9,8 @@ interface RichTextProps {
 }
 
 const RichText: React.FC<RichTextProps> = ({ content, className = '', size = 'lg' }) => {
-  const html = marked.parse(content, { async: false }) as string;
+  const processedContent = preventOrphans(content);
+  const html = marked.parse(processedContent, { async: false }) as string;
 
   const sizeClass = {
     xs: 'prose-sm text-xs',
