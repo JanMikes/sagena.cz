@@ -2,7 +2,7 @@
   "collectionName": "components_components_ambulances",
   "info": {
     "displayName": "Ambulance",
-    "icon": "hospital"
+    "icon": "stethoscope"
   },
   "options": {},
   "attributes": {

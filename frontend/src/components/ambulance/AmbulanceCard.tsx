@@ -121,10 +121,27 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
   // Check if any opening hours groups have hours
   const hasOpeningHours = openingHours.some(group => group.hours && group.hours.length > 0);
 
+  // Check if holiday has not ended yet (to date + 1 day >= today)
+  const isHolidayNotEnded = (holiday?: Holiday): boolean => {
+    if (!holiday || !holiday.to) return false;
+    try {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const to = new Date(holiday.to);
+      to.setDate(to.getDate() + 1); // Add 1 day buffer
+      if (isNaN(to.getTime())) return false;
+      return today <= to;
+    } catch {
+      return false;
+    }
+  };
+
+  // Check if holiday is currently active (today is within the range)
   const isHolidayActive = (holiday?: Holiday): boolean => {
     if (!holiday || !holiday.from || !holiday.to) return false;
     try {
       const today = new Date();
+      today.setHours(0, 0, 0, 0);
       const from = new Date(holiday.from);
       const to = new Date(holiday.to);
       if (isNaN(from.getTime()) || isNaN(to.getTime())) return false;
@@ -134,13 +151,14 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
     }
   };
 
-  const getActiveHolidays = (holidays?: Holiday[]): Holiday[] => {
+  const getRelevantHolidays = (holidays?: Holiday[]): Holiday[] => {
     if (!holidays || holidays.length === 0) return [];
-    return holidays.filter(isHolidayActive);
+    return holidays.filter(isHolidayNotEnded);
   };
 
   const isOnHoliday = (holidays?: Holiday[]): boolean => {
-    return getActiveHolidays(holidays).length > 0;
+    if (!holidays || holidays.length === 0) return false;
+    return holidays.some(isHolidayActive);
   };
 
   const formatDate = (dateStr?: string): string => {
@@ -148,7 +166,7 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
     try {
       const date = new Date(dateStr);
       if (isNaN(date.getTime())) return dateStr;
-      return date.toLocaleDateString('cs-CZ', { day: 'numeric', month: 'numeric' });
+      return `${date.getDate()}.${date.getMonth() + 1}.`;
     } catch {
       return dateStr;
     }
@@ -166,7 +184,7 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
               href={`tel:${phone}`}
               className="flex items-center gap-1.5 text-gray-600 hover:text-primary-600 transition-colors"
             >
-              <Phone className="w-4 h-4" />
+              <Phone className="w-4 h-4 text-primary-600" />
               <span>{phone}</span>
             </a>
           )}
@@ -175,7 +193,7 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
               href={`mailto:${email}`}
               className="flex items-center gap-1.5 text-gray-600 hover:text-primary-600 transition-colors"
             >
-              <Mail className="w-4 h-4" />
+              <Mail className="w-4 h-4 text-primary-600" />
               <span>{email}</span>
             </a>
           )}
@@ -210,9 +228,9 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
                     {doctors.map((doctor, index) => (
                       <div key={index} className="py-3 border-b border-gray-100">
                         {/* Holiday Banners */}
-                        {getActiveHolidays(doctor.holidays).map((holiday, holidayIndex) => (
+                        {getRelevantHolidays(doctor.holidays).map((holiday, holidayIndex) => (
                           <div key={holidayIndex} className="flex items-center gap-2 text-sm text-yellow-800 bg-yellow-100 px-3 py-2 rounded-lg mb-3">
-                            <Plane className="w-4 h-4 flex-shrink-0" />
+                            <Plane className="w-4 h-4 flex-shrink-0 text-primary-600" />
                             <span>Dovolená: {formatDate(holiday.from)} - {formatDate(holiday.to)}</span>
                           </div>
                         ))}
@@ -245,7 +263,7 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
                                     href={`tel:${doctor.phone}`}
                                     className="flex items-center gap-1.5 text-sm text-gray-600 hover:text-primary-600 transition-colors"
                                   >
-                                    <Phone className="w-4 h-4" />
+                                    <Phone className="w-4 h-4 text-primary-600" />
                                     <span>{doctor.phone}</span>
                                   </a>
                                 )}
@@ -254,7 +272,7 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
                                     href={`mailto:${doctor.email}`}
                                     className="flex items-center gap-1.5 text-sm text-gray-600 hover:text-primary-600 transition-colors"
                                   >
-                                    <Mail className="w-4 h-4" />
+                                    <Mail className="w-4 h-4 text-primary-600" />
                                     <span className="truncate">{doctor.email}</span>
                                   </a>
                                 )}
@@ -285,7 +303,7 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
                       >
                         {getSurname(nurse.name)}
                         {isOnHoliday(nurse.holidays) && (
-                          <Plane className="w-3 h-3" />
+                          <Plane className="w-3 h-3 text-primary-600" />
                         )}
                       </span>
                     ))}
@@ -298,7 +316,7 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
                           href={`tel:${phoneNum}`}
                           className="flex items-center gap-1.5 hover:text-primary-600 transition-colors"
                         >
-                          <Phone className="w-4 h-4" />
+                          <Phone className="w-4 h-4 text-primary-600" />
                           {phoneNum}
                         </a>
                       ))}
@@ -307,7 +325,7 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
                           href={`mailto:${nursesEmail}`}
                           className="flex items-center gap-1.5 hover:text-primary-600 transition-colors"
                         >
-                          <Mail className="w-4 h-4" />
+                          <Mail className="w-4 h-4 text-primary-600" />
                           {nursesEmail}
                         </a>
                       )}
@@ -337,7 +355,7 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
                         className="flex items-center gap-3 p-3 bg-gray-50 border border-gray-200 rounded-lg hover:border-primary-300 hover:shadow-sm transition-all group"
                       >
                         <div className="flex items-center justify-center w-9 h-9 bg-gray-100 rounded-lg flex-shrink-0 group-hover:bg-primary-100 transition-colors">
-                          <FileText className="w-5 h-5 text-gray-600 group-hover:text-primary-600 transition-colors" />
+                          <FileText className="w-5 h-5 text-primary-600" />
                         </div>
                         <div className="flex-1 min-w-0">
                           <span className="text-sm font-medium text-primary-600 group-hover:text-primary-700 truncate block">
@@ -347,7 +365,7 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
                             {ext.toUpperCase()}
                           </span>
                         </div>
-                        <Download className="w-4 h-4 text-gray-400 group-hover:text-primary-600 transition-colors flex-shrink-0" />
+                        <Download className="w-4 h-4 text-primary-600 flex-shrink-0" />
                       </a>
                     );
                   })}
@@ -374,7 +392,7 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
                   onClick={() => setIsFlipped(true)}
                   className="flex items-center justify-center gap-2 w-full py-2 text-primary-600 hover:text-primary-700 font-medium text-sm transition-colors border border-primary-600 rounded-lg hover:bg-primary-50"
                 >
-                  <Clock className="w-4 h-4" />
+                  <Clock className="w-4 h-4 text-primary-600" />
                   <span>Ordinační hodiny</span>
                 </button>
               )}

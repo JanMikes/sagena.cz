@@ -502,18 +502,6 @@ export interface ComponentsContactCards {
 
 
 /**
- * Elements: Ambulance Doctor
- * Location: strapi/src/components/elements/ambulance-doctor.json
- * Usage: Doctor wrapper with optional function override for ambulance-item
- */
-export interface ElementsAmbulanceDoctor {
-  id: number;
-  __component?: 'elements.ambulance-doctor';
-  doctor?: Doctor | null;  // oneToOne relation to Doctor
-  function_override?: string | null;  // Optional override for doctor's function
-}
-
-/**
  * Elements: Ambulance Item
  * Location: strapi/src/components/elements/ambulance-item.json
  * Usage: Individual ambulance item referencing an Ambulance collection with optional overrides
@@ -523,7 +511,6 @@ export interface ElementsAmbulanceItem {
   __component?: 'elements.ambulance-item';
   ambulance?: Ambulance | null;  // oneToOne relation to Ambulance collection
   description?: string | null;  // Rich text override (use ambulance description if not set)
-  doctors?: ElementsAmbulanceDoctor[] | null;  // Optional doctors with function overrides
   documents?: ElementsDocumentItem[] | null;  // Repeatable document items
   button?: ElementsTextLink | null;  // Optional CTA button
 }

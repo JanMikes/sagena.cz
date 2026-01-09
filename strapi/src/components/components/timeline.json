@@ -2,7 +2,7 @@
   "collectionName": "components_components_timelines",
   "info": {
     "displayName": "Časová osa",
-    "icon": "bulletList"
+    "icon": "clock"
   },
   "options": {},
   "attributes": {

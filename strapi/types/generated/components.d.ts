@@ -31,7 +31,7 @@ export interface ComponentsAmbulances extends Struct.ComponentSchema {
   collectionName: 'components_components_ambulances';
   info: {
     displayName: 'Ambulance';
-    icon: 'hospital';
+    icon: 'stethoscope';
   };
   attributes: {
     items: Schema.Attribute.Component<'elements.ambulance-item', true>;
@@ -42,7 +42,7 @@ export interface ComponentsBadges extends Struct.ComponentSchema {
   collectionName: 'components_components_badges';
   info: {
     displayName: 'Badges';
-    icon: 'apps';
+    icon: 'star';
   };
   attributes: {
     alignment: Schema.Attribute.Enumeration<
@@ -57,7 +57,7 @@ export interface ComponentsButtonGroup extends Struct.ComponentSchema {
   collectionName: 'components_components_button_groups';
   info: {
     displayName: 'Tla\u010D\u00EDtka';
-    icon: 'apps';
+    icon: 'cursor';
   };
   attributes: {
     alignment: Schema.Attribute.Enumeration<
@@ -87,7 +87,7 @@ export interface ComponentsDirections extends Struct.ComponentSchema {
   collectionName: 'components_components_directions';
   info: {
     displayName: 'Instrukce';
-    icon: 'compass';
+    icon: 'numberList';
   };
   attributes: {
     description: Schema.Attribute.RichText;
@@ -117,7 +117,7 @@ export interface ComponentsFullWidthCards extends Struct.ComponentSchema {
   collectionName: 'components_components_full_width_cards';
   info: {
     displayName: 'Dla\u017Edice \u0161\u00ED\u0159ka';
-    icon: 'apps';
+    icon: 'layout';
   };
   attributes: {
     background: Schema.Attribute.Enumeration<
@@ -168,7 +168,7 @@ export interface ComponentsIntranetNewsArticles extends Struct.ComponentSchema {
   collectionName: 'components_components_intranet_news_articles';
   info: {
     displayName: 'intranet-news-articles';
-    icon: 'briefcase';
+    icon: 'feather';
   };
   attributes: {
     limit: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<3>;
@@ -197,7 +197,7 @@ export interface ComponentsLinksList extends Struct.ComponentSchema {
   collectionName: 'components_components_links_lists';
   info: {
     displayName: 'Seznam odkaz\u016F';
-    icon: 'apps';
+    icon: 'link';
   };
   attributes: {
     layout: Schema.Attribute.Enumeration<['Grid', 'Rows']> &
@@ -210,7 +210,7 @@ export interface ComponentsLocationCards extends Struct.ComponentSchema {
   collectionName: 'components_components_location_cards';
   info: {
     displayName: 'Karty pobo\u010Dek';
-    icon: 'apps';
+    icon: 'pinMap';
   };
   attributes: {
     background: Schema.Attribute.Enumeration<
@@ -229,7 +229,7 @@ export interface ComponentsMarketingArguments extends Struct.ComponentSchema {
   collectionName: 'components_components_marketing_arguments';
   info: {
     displayName: 'Mark. argumenty';
-    icon: 'apps';
+    icon: 'lightbulb';
   };
   attributes: {
     arguments: Schema.Attribute.Component<'elements.marketing-argument', true>;
@@ -285,7 +285,7 @@ export interface ComponentsPartnerLogos extends Struct.ComponentSchema {
   collectionName: 'components_components_partner_logos';
   info: {
     displayName: 'Loga partner\u016F';
-    icon: 'briefcase';
+    icon: 'handHeart';
   };
   attributes: {
     columns: Schema.Attribute.Enumeration<
@@ -417,7 +417,7 @@ export interface ComponentsTimeline extends Struct.ComponentSchema {
   collectionName: 'components_components_timelines';
   info: {
     displayName: '\u010Casov\u00E1 osa';
-    icon: 'bulletList';
+    icon: 'clock';
   };
   attributes: {
     items: Schema.Attribute.Component<'elements.timeline-item', true>;
@@ -439,18 +439,6 @@ export interface ComponentsVideo extends Struct.ComponentSchema {
   };
 }
 
-export interface ElementsAmbulanceDoctor extends Struct.ComponentSchema {
-  collectionName: 'components_elements_ambulance_doctors';
-  info: {
-    displayName: 'Doktor ambulance';
-    icon: 'user';
-  };
-  attributes: {
-    doctor: Schema.Attribute.Relation<'oneToOne', 'api::doctor.doctor'>;
-    function_override: Schema.Attribute.String;
-  };
-}
-
 export interface ElementsAmbulanceItem extends Struct.ComponentSchema {
   collectionName: 'components_elements_ambulance_items';
   info: {
@@ -464,7 +452,6 @@ export interface ElementsAmbulanceItem extends Struct.ComponentSchema {
     >;
     button: Schema.Attribute.Component<'elements.text-link', false>;
     description: Schema.Attribute.RichText;
-    doctors: Schema.Attribute.Component<'elements.ambulance-doctor', true>;
     documents: Schema.Attribute.Component<'elements.document-item', true>;
   };
 }
@@ -852,7 +839,6 @@ declare module '@strapi/strapi' {
       'components.text': ComponentsText;
       'components.timeline': ComponentsTimeline;
       'components.video': ComponentsVideo;
-      'elements.ambulance-doctor': ElementsAmbulanceDoctor;
       'elements.ambulance-item': ElementsAmbulanceItem;
       'elements.ambulance-opening-hours': ElementsAmbulanceOpeningHours;
       'elements.ambulance-opening-hours-entry': ElementsAmbulanceOpeningHoursEntry;
