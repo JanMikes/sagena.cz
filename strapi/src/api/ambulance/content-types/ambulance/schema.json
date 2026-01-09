@@ -33,7 +33,7 @@
     },
     "opening_hours": {
       "type": "component",
-      "component": "elements.opening-hours",
+      "component": "elements.ambulance-opening-hours",
       "repeatable": true
     },
     "description": {

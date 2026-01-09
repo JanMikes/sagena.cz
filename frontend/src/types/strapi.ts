@@ -925,6 +925,31 @@ export interface ElementsOpeningHours {
 }
 
 /**
+ * Elements: Ambulance Opening Hours Entry
+ * Location: strapi/src/components/elements/ambulance-opening-hours-entry.json
+ * Usage: Single day entry with morning and afternoon times for ambulance
+ */
+export interface ElementsAmbulanceOpeningHoursEntry {
+  id: number;
+  __component?: 'elements.ambulance-opening-hours-entry';
+  day?: string | null;  // Day name (e.g., "Pondělí")
+  time?: string | null;  // Morning time (e.g., "8:00 - 12:00")
+  time_afternoon?: string | null;  // Afternoon time (e.g., "13:00 - 16:00")
+}
+
+/**
+ * Elements: Ambulance Opening Hours
+ * Location: strapi/src/components/elements/ambulance-opening-hours.json
+ * Usage: Titled group of opening hours for ambulance
+ */
+export interface ElementsAmbulanceOpeningHours {
+  id: number;
+  __component?: 'elements.ambulance-opening-hours';
+  title?: string | null;  // Group title (e.g., "Vyšetření", "Konzultace")
+  hours?: ElementsAmbulanceOpeningHoursEntry[] | null;  // Day entries
+}
+
+/**
  * Elements: Holiday
  * Location: strapi/src/components/elements/holiday.json
  * Usage: Holiday/vacation period with start and end dates
@@ -1140,7 +1165,7 @@ export interface Ambulance {
   email?: string | null;
   doctors?: Doctor[] | null;  // oneToMany relation
   nurses?: Nurse[] | null;  // oneToMany relation
-  opening_hours?: ElementsOpeningHours[] | null;
+  opening_hours?: ElementsAmbulanceOpeningHours[] | null;  // Grouped opening hours with title
   description?: string | null;  // Rich text
   nurses_email?: string | null;
   nurses_phones?: ElementsPhone[] | null;

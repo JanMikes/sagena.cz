@@ -469,6 +469,35 @@ export interface ElementsAmbulanceItem extends Struct.ComponentSchema {
   };
 }
 
+export interface ElementsAmbulanceOpeningHours extends Struct.ComponentSchema {
+  collectionName: 'components_elements_ambulance_opening_hours';
+  info: {
+    displayName: 'Ambulance - ordinacni hodiny';
+    icon: 'clock';
+  };
+  attributes: {
+    hours: Schema.Attribute.Component<
+      'elements.ambulance-opening-hours-entry',
+      true
+    >;
+    title: Schema.Attribute.String;
+  };
+}
+
+export interface ElementsAmbulanceOpeningHoursEntry
+  extends Struct.ComponentSchema {
+  collectionName: 'components_elements_ambulance_opening_hours_entries';
+  info: {
+    displayName: 'Ambulance - casova polozka';
+    icon: 'clock';
+  };
+  attributes: {
+    day: Schema.Attribute.String;
+    time: Schema.Attribute.String;
+    time_afternoon: Schema.Attribute.String;
+  };
+}
+
 export interface ElementsBadge extends Struct.ComponentSchema {
   collectionName: 'components_elements_badges';
   info: {
@@ -825,6 +854,8 @@ declare module '@strapi/strapi' {
       'components.video': ComponentsVideo;
       'elements.ambulance-doctor': ElementsAmbulanceDoctor;
       'elements.ambulance-item': ElementsAmbulanceItem;
+      'elements.ambulance-opening-hours': ElementsAmbulanceOpeningHours;
+      'elements.ambulance-opening-hours-entry': ElementsAmbulanceOpeningHoursEntry;
       'elements.badge': ElementsBadge;
       'elements.button': ElementsButton;
       'elements.contact-card': ElementsContactCard;

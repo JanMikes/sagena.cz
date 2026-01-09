@@ -300,11 +300,23 @@ Centrum Zdraví Sagena poskytuje **komplexní zdravotní péči** již více ne�
           ]}
           button={{ text: 'Objednat se online', url: '#' }}
           openingHours={[
-            { day: 'Pondělí', time: '8:00 - 16:00' },
-            { day: 'Úterý', time: '8:00 - 14:00' },
-            { day: 'Středa', time: '8:00 - 16:00' },
-            { day: 'Čtvrtek', time: '8:00 - 14:00' },
-            { day: 'Pátek', time: '8:00 - 12:00' },
+            {
+              title: 'Vyšetření',
+              hours: [
+                { day: 'Pondělí', time: '8:00 - 12:00', time_afternoon: '13:00 - 16:00' },
+                { day: 'Úterý', time: '8:00 - 12:00', time_afternoon: '13:00 - 14:00' },
+                { day: 'Středa', time: '8:00 - 12:00', time_afternoon: '13:00 - 16:00' },
+                { day: 'Čtvrtek', time: '8:00 - 12:00', time_afternoon: '13:00 - 14:00' },
+                { day: 'Pátek', time: '8:00 - 12:00' },
+              ],
+            },
+            {
+              title: 'Konzultace',
+              hours: [
+                { day: 'Pondělí', time_afternoon: '14:00 - 15:00' },
+                { day: 'Středa', time_afternoon: '14:00 - 15:00' },
+              ],
+            },
           ]}
         />
         <AmbulanceCard
@@ -325,8 +337,12 @@ Centrum Zdraví Sagena poskytuje **komplexní zdravotní péči** již více ne�
           nursesPhones={['+420 553 030 822']}
           documents={[]}
           openingHours={[
-            { day: 'Úterý', time: '9:00 - 17:00' },
-            { day: 'Čtvrtek', time: '9:00 - 17:00' },
+            {
+              hours: [
+                { day: 'Úterý', time: '9:00 - 12:00', time_afternoon: '13:00 - 17:00' },
+                { day: 'Čtvrtek', time: '9:00 - 12:00', time_afternoon: '13:00 - 17:00' },
+              ],
+            },
           ]}
         />
         <AmbulanceCard
@@ -350,9 +366,14 @@ Centrum Zdraví Sagena poskytuje **komplexní zdravotní péči** již více ne�
             { name: 'Předoperační vyšetření', url: '#' },
           ]}
           openingHours={[
-            { day: 'Pondělí', time: '7:00 - 15:00' },
-            { day: 'Středa', time: '7:00 - 15:00' },
-            { day: 'Pátek', time: '7:00 - 12:00' },
+            {
+              title: 'Ambulance',
+              hours: [
+                { day: 'Pondělí', time: '7:00 - 12:00', time_afternoon: '12:30 - 15:00' },
+                { day: 'Středa', time: '7:00 - 12:00', time_afternoon: '12:30 - 15:00' },
+                { day: 'Pátek', time: '7:00 - 12:00' },
+              ],
+            },
           ]}
         />
       </div>

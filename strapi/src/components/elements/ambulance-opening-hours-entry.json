@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_elements_ambulance_opening_hours_entries",
+  "info": {
+    "displayName": "Ambulance - casova polozka",
+    "icon": "clock"
+  },
+  "options": {},
+  "attributes": {
+    "day": {
+      "type": "string"
+    },
+    "time": {
+      "type": "string"
+    },
+    "time_afternoon": {
+      "type": "string"
+    }
+  }
+}

@@ -457,7 +457,10 @@ export interface ApiAmbulanceAmbulance extends Struct.CollectionTypeSchema {
     nurses: Schema.Attribute.Relation<'oneToMany', 'api::nurse.nurse'>;
     nurses_email: Schema.Attribute.Email;
     nurses_phones: Schema.Attribute.Component<'elements.phone', true>;
-    opening_hours: Schema.Attribute.Component<'elements.opening-hours', true>;
+    opening_hours: Schema.Attribute.Component<
+      'elements.ambulance-opening-hours',
+      true
+    >;
     phone: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;

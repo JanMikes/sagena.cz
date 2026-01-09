@@ -952,10 +952,14 @@ async function renderComponent(
               .map((p) => p.phone)
               .filter((p): p is string => !!p);
 
-            // Transform opening hours
-            const openingHours = (ambulance.opening_hours ?? []).map((hours) => ({
-              day: hours.day || '',
-              time: hours.time || '',
+            // Transform opening hours (grouped structure with title)
+            const openingHours = (ambulance.opening_hours ?? []).map((group) => ({
+              title: group.title || undefined,
+              hours: (group.hours ?? []).map((entry) => ({
+                day: entry.day || '',
+                time: entry.time || '',
+                time_afternoon: entry.time_afternoon || '',
+              })),
             }));
 
             // Transform documents

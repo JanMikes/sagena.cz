@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_elements_ambulance_opening_hours",
+  "info": {
+    "displayName": "Ambulance - ordinacni hodiny",
+    "icon": "clock"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "hours": {
+      "type": "component",
+      "component": "elements.ambulance-opening-hours-entry",
+      "repeatable": true
+    }
+  }
+}

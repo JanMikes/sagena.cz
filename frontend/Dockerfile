@@ -15,4 +15,7 @@ RUN npm run build
 # Set production env for runtime
 ENV NODE_ENV=production
 
+ARG APP_VERSION
+ENV SENTRY_RELEASE="${APP_VERSION}"
+
 CMD ["npm", "run", "start"]

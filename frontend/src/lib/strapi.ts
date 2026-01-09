@@ -1276,20 +1276,24 @@ export async function fetchPageBySlug(
                             photo: {
                               fields: ['url', 'alternativeText', 'width', 'height'],
                             },
-                            holiday: {
+                            holidays: {
                               populate: '*',
                             },
                           },
                         },
                         nurses: {
                           populate: {
-                            holiday: {
+                            holidays: {
                               populate: '*',
                             },
                           },
                         },
                         opening_hours: {
-                          populate: '*',
+                          populate: {
+                            hours: {
+                              populate: '*',
+                            },
+                          },
                         },
                         nurses_phones: {
                           populate: '*',
@@ -1303,7 +1307,7 @@ export async function fetchPageBySlug(
                             photo: {
                               fields: ['url', 'alternativeText', 'width', 'height'],
                             },
-                            holiday: {
+                            holidays: {
                               populate: '*',
                             },
                           },
@@ -1477,20 +1481,24 @@ export async function fetchPageBySlug(
                             photo: {
                               fields: ['url', 'alternativeText', 'width', 'height'],
                             },
-                            holiday: {
+                            holidays: {
                               populate: '*',
                             },
                           },
                         },
                         nurses: {
                           populate: {
-                            holiday: {
+                            holidays: {
                               populate: '*',
                             },
                           },
                         },
                         opening_hours: {
-                          populate: '*',
+                          populate: {
+                            hours: {
+                              populate: '*',
+                            },
+                          },
                         },
                         nurses_phones: {
                           populate: '*',
@@ -1504,7 +1512,7 @@ export async function fetchPageBySlug(
                             photo: {
                               fields: ['url', 'alternativeText', 'width', 'height'],
                             },
-                            holiday: {
+                            holidays: {
                               populate: '*',
                             },
                           },
@@ -2202,20 +2210,24 @@ export async function fetchIntranetPageBySlug(
                             photo: {
                               fields: ['url', 'alternativeText', 'width', 'height'],
                             },
-                            holiday: {
+                            holidays: {
                               populate: '*',
                             },
                           },
                         },
                         nurses: {
                           populate: {
-                            holiday: {
+                            holidays: {
                               populate: '*',
                             },
                           },
                         },
                         opening_hours: {
-                          populate: '*',
+                          populate: {
+                            hours: {
+                              populate: '*',
+                            },
+                          },
                         },
                         nurses_phones: {
                           populate: '*',
@@ -2229,7 +2241,7 @@ export async function fetchIntranetPageBySlug(
                             photo: {
                               fields: ['url', 'alternativeText', 'width', 'height'],
                             },
-                            holiday: {
+                            holidays: {
                               populate: '*',
                             },
                           },
@@ -2347,20 +2359,24 @@ export async function fetchIntranetPageBySlug(
                             photo: {
                               fields: ['url', 'alternativeText', 'width', 'height'],
                             },
-                            holiday: {
+                            holidays: {
                               populate: '*',
                             },
                           },
                         },
                         nurses: {
                           populate: {
-                            holiday: {
+                            holidays: {
                               populate: '*',
                             },
                           },
                         },
                         opening_hours: {
-                          populate: '*',
+                          populate: {
+                            hours: {
+                              populate: '*',
+                            },
+                          },
                         },
                         nurses_phones: {
                           populate: '*',
@@ -2374,7 +2390,7 @@ export async function fetchIntranetPageBySlug(
                             photo: {
                               fields: ['url', 'alternativeText', 'width', 'height'],
                             },
-                            holiday: {
+                            holidays: {
                               populate: '*',
                             },
                           },

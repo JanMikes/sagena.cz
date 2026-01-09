@@ -56,6 +56,8 @@ jobs:
                         type=gha,scope=${{ github.workflow }}
                         type=registry,ref=ghcr.io/janmikes/sagena.cz:main
                     cache-to: type=gha,scope=${{ github.workflow }},mode=max
+                    build-args: |
+                        APP_VERSION=${{ github.sha }}
 
     deploy:
         runs-on: ubuntu-latest

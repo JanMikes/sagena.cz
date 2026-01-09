@@ -29,9 +29,15 @@ interface Document {
   extension?: string;
 }
 
-interface OpeningHours {
+interface OpeningHoursEntry {
   day?: string;
   time?: string;
+  time_afternoon?: string;
+}
+
+interface OpeningHoursGroup {
+  title?: string;
+  hours?: OpeningHoursEntry[];
 }
 
 interface AmbulanceCardProps {
@@ -45,7 +51,7 @@ interface AmbulanceCardProps {
   description?: string;
   documents?: Document[];
   button?: { text: string; url: string };
-  openingHours?: OpeningHours[];
+  openingHours?: OpeningHoursGroup[];
 }
 
 const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
@@ -112,16 +118,8 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
     return 'bg-gray-100 text-gray-700';
   };
 
-  const groupedHours = openingHours.reduce<Record<string, string[]>>((acc, hours) => {
-    const day = hours?.day;
-    const time = hours?.time;
-    if (!day || !time) return acc;
-    if (!acc[day]) {
-      acc[day] = [];
-    }
-    acc[day].push(time);
-    return acc;
-  }, {});
+  // Check if any opening hours groups have hours
+  const hasOpeningHours = openingHours.some(group => group.hours && group.hours.length > 0);
 
   const isHolidayActive = (holiday?: Holiday): boolean => {
     if (!holiday || !holiday.from || !holiday.to) return false;
@@ -371,7 +369,7 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
               )}
 
               {/* Opening Hours Button */}
-              {openingHours.length > 0 && (
+              {hasOpeningHours && (
                 <button
                   onClick={() => setIsFlipped(true)}
                   className="flex items-center justify-center gap-2 w-full py-2 text-primary-600 hover:text-primary-700 font-medium text-sm transition-colors border border-primary-600 rounded-lg hover:bg-primary-50"
@@ -392,13 +390,21 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
           >
             <div ref={backRef} className="bg-primary-600 text-white rounded-xl p-5 pb-6 flex flex-col">
               <h4 className="text-lg font-bold mb-4">Ordinační hodiny</h4>
-              <div className="space-y-3 flex-1">
-                {Object.entries(groupedHours).map(([day, times]) => (
-                  <div key={day} className="flex justify-between text-sm">
-                    <span className="font-medium">{day}</span>
-                    <div className="text-right">
-                      {times.map((time, index) => (
-                        <div key={index}>{time}</div>
+              <div className="space-y-4 flex-1 overflow-y-auto">
+                {openingHours.map((group, groupIndex) => (
+                  <div key={groupIndex}>
+                    {group.title && (
+                      <h5 className="text-sm font-semibold text-white/80 mb-2">{group.title}</h5>
+                    )}
+                    <div className="space-y-2">
+                      {(group.hours || []).map((entry, entryIndex) => (
+                        <div key={entryIndex} className="flex justify-between text-sm gap-2">
+                          <span className="font-medium flex-shrink-0">{entry.day}</span>
+                          <div className="text-right flex-1">
+                            {entry.time && <div>{entry.time}</div>}
+                            {entry.time_afternoon && <div>{entry.time_afternoon}</div>}
+                          </div>
+                        </div>
                       ))}
                     </div>
                   </div>
