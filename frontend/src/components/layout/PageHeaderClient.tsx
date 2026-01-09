@@ -35,7 +35,7 @@ interface ServiceCardData {
 interface ServiceCardsPropsData {
   cards: ServiceCardData[];
   columns: 2 | 3 | 4 | 5;
-  textAlign?: string;
+  textAlign?: 'Left aligned' | 'Center aligned';
   cardClickable?: boolean;
   showArrowBackground: boolean;
 }
