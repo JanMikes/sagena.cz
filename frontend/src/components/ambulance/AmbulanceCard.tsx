@@ -230,7 +230,7 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
                         {/* Holiday Banners */}
                         {getRelevantHolidays(doctor.holidays).map((holiday, holidayIndex) => (
                           <div key={holidayIndex} className="flex items-center gap-2 text-sm text-yellow-800 bg-yellow-100 px-3 py-2 rounded-lg mb-3">
-                            <Plane className="w-4 h-4 flex-shrink-0 text-primary-600" />
+                            <Plane className="w-4 h-4 flex-shrink-0 text-yellow-600" />
                             <span>Dovolená: {formatDate(holiday.from)} - {formatDate(holiday.to)}</span>
                           </div>
                         ))}
@@ -303,7 +303,7 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
                       >
                         {getSurname(nurse.name)}
                         {isOnHoliday(nurse.holidays) && (
-                          <Plane className="w-3 h-3 text-primary-600" />
+                          <Plane className="w-3 h-3 text-yellow-600" />
                         )}
                       </span>
                     ))}
