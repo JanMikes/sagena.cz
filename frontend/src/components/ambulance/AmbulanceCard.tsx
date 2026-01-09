@@ -161,6 +161,11 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
     return holidays.some(isHolidayActive);
   };
 
+  const getActiveHolidays = (holidays?: Holiday[]): Holiday[] => {
+    if (!holidays || holidays.length === 0) return [];
+    return holidays.filter(isHolidayActive);
+  };
+
   const formatDate = (dateStr?: string): string => {
     if (!dateStr) return '';
     try {
