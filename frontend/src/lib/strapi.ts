@@ -28,10 +28,15 @@ import {
 } from '@/types/strapi';
 
 // ============================================================================
-// In-Memory Icon Cache (per-request for SSG)
+// In-Memory Icon Cache with TTL
 // ============================================================================
 
-let iconsCache: Map<number, Icon> | null = null;
+interface IconsCacheEntry {
+  data: Map<number, Icon>;
+  timestamp: number;
+}
+
+let iconsCache: IconsCacheEntry | null = null;
 
 // ============================================================================
 // Configuration
@@ -187,8 +192,8 @@ interface PageHierarchyEntry {
 
 type PageHierarchyMap = Map<string, PageHierarchyEntry>;
 
-// Cache configuration
-const HIERARCHY_CACHE_TTL_MS = 60 * 1000; // 60 seconds TTL
+// Cache configuration - 24 hour TTL with instant webhook-based invalidation
+const HIERARCHY_CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours TTL
 
 interface CacheEntry<T> {
   data: T;
@@ -298,6 +303,26 @@ export function invalidateCache(model: string, slug?: string, locale?: string) {
       }
       break;
 
+    // Content types embedded in pages - clear page caches when they change
+    case 'doctor':
+    case 'ambulance':
+    case 'person':
+    case 'nurse':
+      console.log(`[Cache] ${model} changed - clearing page content caches`);
+      pageContentCache.clear();
+      pageHierarchyCache.clear();
+      break;
+
+    case 'news-article':
+      console.log(`[Cache] News article changed - clearing page content caches`);
+      pageContentCache.clear();
+      break;
+
+    case 'intranet-news-article':
+      console.log(`[Cache] Intranet news changed - clearing intranet caches`);
+      intranetPageContentCache.clear();
+      break;
+
     default:
       // Unknown model - clear all caches to be safe
       console.log(`[Cache] Unknown model "${model}" - clearing all caches`);
@@ -362,7 +387,14 @@ export function getCacheStatus() {
       footer: getCacheInfo(footerCache),
       homepage: getCacheInfo(homepageCache),
       search: getCacheInfo(searchCache),
-      icons: { hasData: iconsCache !== null },
+      icons: iconsCache
+        ? {
+            hasData: true,
+            size: iconsCache.data.size,
+            age: Math.round((now - iconsCache.timestamp) / 1000),
+            valid: now - iconsCache.timestamp < ttl,
+          }
+        : { hasData: false },
     },
   };
 }
@@ -553,12 +585,13 @@ export async function getFullIntranetPageHierarchy(locale: string): Promise<Page
 // ============================================================================
 
 /**
- * Fetch all icons from Strapi and cache them in memory
+ * Fetch all icons from Strapi and cache them in memory with TTL
  * This is called once per request to avoid multiple API calls
  */
 async function fetchAndCacheIcons(): Promise<Map<number, Icon>> {
-  if (iconsCache) {
-    return iconsCache;
+  // Check if cache exists and is still valid
+  if (iconsCache && (Date.now() - iconsCache.timestamp < HIERARCHY_CACHE_TTL_MS)) {
+    return iconsCache.data;
   }
 
   try {
@@ -573,12 +606,17 @@ async function fetchAndCacheIcons(): Promise<Map<number, Icon>> {
       },
     });
 
-    iconsCache = new Map();
+    const iconMap = new Map<number, Icon>();
     for (const icon of response.data) {
-      iconsCache.set(icon.id, icon);
+      iconMap.set(icon.id, icon);
     }
 
-    return iconsCache;
+    iconsCache = {
+      data: iconMap,
+      timestamp: Date.now(),
+    };
+
+    return iconsCache.data;
   } catch (error) {
     console.error('Failed to fetch icons:', error);
     return new Map();
