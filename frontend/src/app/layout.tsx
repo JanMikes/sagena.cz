@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import Script from "next/script";
 import NextTopLoader from 'nextjs-toploader';
 import "./globals.css";
 
@@ -59,6 +60,22 @@ export default async function RootLayout({
           shadow="0 0 10px rgba(0, 80, 134, 0.2), 0 0 5px rgba(0, 80, 134, 0.1)"
         />
         {children}
+        {process.env.NODE_ENV === 'production' && (
+          <>
+            <Script
+              src="https://www.googletagmanager.com/gtag/js?id=G-T35VZXSZG6"
+              strategy="afterInteractive"
+            />
+            <Script id="google-analytics" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', 'G-T35VZXSZG6');
+              `}
+            </Script>
+          </>
+        )}
       </body>
     </html>
   );
