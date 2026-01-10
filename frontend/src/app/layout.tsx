@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import NextTopLoader from 'nextjs-toploader';
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -51,6 +52,12 @@ export default async function RootLayout({
   return (
     <html lang={htmlLang}>
       <body className={`${inter.className} antialiased`}>
+        <NextTopLoader
+          color="#005086"
+          height={3}
+          showSpinner={false}
+          shadow="0 0 10px rgba(0, 80, 134, 0.2), 0 0 5px rgba(0, 80, 134, 0.1)"
+        />
         {children}
       </body>
     </html>

@@ -1,8 +1,21 @@
 volumes:
     postgres-data:
     mailpit-data:
+    redis-data:
 
 services:
+    redis:
+        image: redis:7-alpine
+        restart: unless-stopped
+        volumes:
+            - redis-data:/data
+        command: redis-server --appendonly yes
+        healthcheck:
+            test: ["CMD", "redis-cli", "ping"]
+            interval: 10s
+            timeout: 5s
+            retries: 5
+
     postgres:
         image: postgres:17.0
         restart: unless-stopped
@@ -58,6 +71,7 @@ services:
         environment:
             PUBLIC_UPLOADS_URL: http://localhost:8080
             STRAPI_WEBHOOK_SECRET: ${STRAPI_WEBHOOK_SECRET:-your-webhook-secret}
+            REDIS_URL: redis://redis:6379
             # Email configuration
             SMTP_HOST: mailpit
             SMTP_PORT: 1025
@@ -68,6 +82,9 @@ services:
         volumes:
             - ./frontend:/app
         command: sh -c "npm ci && npm run dev"
+        depends_on:
+            redis:
+                condition: service_healthy
 
     nginx:
         image: nginx:alpine

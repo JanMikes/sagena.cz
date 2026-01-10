@@ -25,18 +25,15 @@ import {
   Footer,
   Homepage,
   Search,
+  SearchableItem,
 } from '@/types/strapi';
-
-// ============================================================================
-// In-Memory Icon Cache with TTL
-// ============================================================================
-
-interface IconsCacheEntry {
-  data: Map<number, Icon>;
-  timestamp: number;
-}
-
-let iconsCache: IconsCacheEntry | null = null;
+import {
+  cacheGet,
+  cacheSet,
+  cacheDeletePattern,
+  cacheClearAll,
+  cacheStats,
+} from '@/lib/redis';
 
 // ============================================================================
 // Configuration
@@ -193,113 +190,100 @@ interface PageHierarchyEntry {
 type PageHierarchyMap = Map<string, PageHierarchyEntry>;
 
 // Cache configuration - 24 hour TTL with instant webhook-based invalidation
-const HIERARCHY_CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours TTL
+const CACHE_TTL_SECONDS = 24 * 60 * 60; // 24 hours TTL
 
-interface CacheEntry<T> {
-  data: T;
-  timestamp: number;
-}
-
-// In-memory cache for page hierarchy - keyed by locale, with TTL
-const pageHierarchyCache: Map<string, CacheEntry<PageHierarchyMap>> = new Map();
-const intranetPageHierarchyCache: Map<string, CacheEntry<PageHierarchyMap>> = new Map();
-
-// Page content cache - keyed by "locale:slug"
-const pageContentCache: Map<string, CacheEntry<Page>> = new Map();
-const intranetPageContentCache: Map<string, CacheEntry<IntranetPage>> = new Map();
-
-// Navigation cache - keyed by locale
-const navigationCache: Map<string, CacheEntry<Navigation>> = new Map();
-const intranetMenuCache: Map<string, CacheEntry<Navigation>> = new Map();
-
-// Footer cache - keyed by locale
-const footerCache: Map<string, CacheEntry<Footer>> = new Map();
-
-// Homepage cache - keyed by locale
-const homepageCache: Map<string, CacheEntry<Homepage>> = new Map();
-
-// Search cache - keyed by locale
-const searchCache: Map<string, CacheEntry<Search>> = new Map();
-
-function isCacheValid<T>(entry: CacheEntry<T> | undefined): entry is CacheEntry<T> {
-  if (!entry) return false;
-  return Date.now() - entry.timestamp < HIERARCHY_CACHE_TTL_MS;
-}
+// Redis cache key prefixes for different data types
+const CACHE_KEYS = {
+  pageHierarchy: 'hierarchy:page:',
+  intranetPageHierarchy: 'hierarchy:intranet:',
+  pageContent: 'page:',
+  intranetPageContent: 'intranet-page:',
+  navigation: 'navigation:',
+  intranetMenu: 'intranet-menu:',
+  footer: 'footer:',
+  homepage: 'homepage:',
+  search: 'search:',
+  searchableContent: 'searchable:',
+  newsArticles: 'news:',
+  tags: 'tags:',
+  icons: 'icons',
+} as const;
 
 /**
  * Invalidate caches based on Strapi webhook payload
  * Called when content changes in Strapi
  */
-export function invalidateCache(model: string, slug?: string, locale?: string) {
+export async function invalidateCache(model: string, slug?: string, locale?: string) {
   console.log(`[Cache] Invalidating: model=${model}, slug=${slug || 'all'}, locale=${locale || 'all'}`);
 
   switch (model) {
     case 'page':
       if (slug && locale) {
-        pageContentCache.delete(`${locale}:${slug}`);
+        await cacheDeletePattern(`${CACHE_KEYS.pageContent}${locale}:${slug}`);
       } else {
-        pageContentCache.clear();
+        await cacheDeletePattern(`${CACHE_KEYS.pageContent}*`);
       }
       // Page changes affect hierarchy (breadcrumbs, URLs)
       if (locale) {
-        pageHierarchyCache.delete(locale);
+        await cacheDeletePattern(`${CACHE_KEYS.pageHierarchy}${locale}`);
+        await cacheDeletePattern(`${CACHE_KEYS.searchableContent}${locale}`);
       } else {
-        pageHierarchyCache.clear();
+        await cacheDeletePattern(`${CACHE_KEYS.pageHierarchy}*`);
+        await cacheDeletePattern(`${CACHE_KEYS.searchableContent}*`);
       }
       break;
 
     case 'intranet-page':
       if (slug && locale) {
-        intranetPageContentCache.delete(`${locale}:${slug}`);
+        await cacheDeletePattern(`${CACHE_KEYS.intranetPageContent}${locale}:${slug}`);
       } else {
-        intranetPageContentCache.clear();
+        await cacheDeletePattern(`${CACHE_KEYS.intranetPageContent}*`);
       }
       if (locale) {
-        intranetPageHierarchyCache.delete(locale);
+        await cacheDeletePattern(`${CACHE_KEYS.intranetPageHierarchy}${locale}`);
       } else {
-        intranetPageHierarchyCache.clear();
+        await cacheDeletePattern(`${CACHE_KEYS.intranetPageHierarchy}*`);
       }
       break;
 
     case 'navigation':
-      // Always clear all navigation cache entries since they use complex keys
-      // like "${locale}:navbar=${navbar}:footer=${footer}"
-      navigationCache.clear();
+      await cacheDeletePattern(`${CACHE_KEYS.navigation}*`);
+      await cacheDeletePattern(`${CACHE_KEYS.searchableContent}*`);
       break;
 
     case 'intranet-menu':
       if (locale) {
-        intranetMenuCache.delete(locale);
+        await cacheDeletePattern(`${CACHE_KEYS.intranetMenu}${locale}`);
       } else {
-        intranetMenuCache.clear();
+        await cacheDeletePattern(`${CACHE_KEYS.intranetMenu}*`);
       }
       break;
 
     case 'icon':
-      iconsCache = null;
+      await cacheDeletePattern(CACHE_KEYS.icons);
       break;
 
     case 'footer':
       if (locale) {
-        footerCache.delete(locale);
+        await cacheDeletePattern(`${CACHE_KEYS.footer}${locale}`);
       } else {
-        footerCache.clear();
+        await cacheDeletePattern(`${CACHE_KEYS.footer}*`);
       }
       break;
 
     case 'homepage':
       if (locale) {
-        homepageCache.delete(locale);
+        await cacheDeletePattern(`${CACHE_KEYS.homepage}${locale}`);
       } else {
-        homepageCache.clear();
+        await cacheDeletePattern(`${CACHE_KEYS.homepage}*`);
       }
       break;
 
     case 'search':
       if (locale) {
-        searchCache.delete(locale);
+        await cacheDeletePattern(`${CACHE_KEYS.search}${locale}`);
       } else {
-        searchCache.clear();
+        await cacheDeletePattern(`${CACHE_KEYS.search}*`);
       }
       break;
 
@@ -309,93 +293,52 @@ export function invalidateCache(model: string, slug?: string, locale?: string) {
     case 'person':
     case 'nurse':
       console.log(`[Cache] ${model} changed - clearing page content caches`);
-      pageContentCache.clear();
-      pageHierarchyCache.clear();
+      await cacheDeletePattern(`${CACHE_KEYS.pageContent}*`);
+      await cacheDeletePattern(`${CACHE_KEYS.pageHierarchy}*`);
       break;
 
     case 'news-article':
-      console.log(`[Cache] News article changed - clearing page content caches`);
-      pageContentCache.clear();
+      console.log(`[Cache] News article changed - clearing news and search caches`);
+      await cacheDeletePattern(`${CACHE_KEYS.newsArticles}*`);
+      await cacheDeletePattern(`${CACHE_KEYS.searchableContent}*`);
+      await cacheDeletePattern(`${CACHE_KEYS.pageContent}*`);
       break;
 
     case 'intranet-news-article':
       console.log(`[Cache] Intranet news changed - clearing intranet caches`);
-      intranetPageContentCache.clear();
+      await cacheDeletePattern(`${CACHE_KEYS.intranetPageContent}*`);
+      break;
+
+    case 'tag':
+      console.log(`[Cache] Tag changed - clearing tags and news caches`);
+      await cacheDeletePattern(`${CACHE_KEYS.tags}*`);
+      await cacheDeletePattern(`${CACHE_KEYS.newsArticles}*`);
+      await cacheDeletePattern(`${CACHE_KEYS.searchableContent}*`);
       break;
 
     default:
       // Unknown model - clear all caches to be safe
       console.log(`[Cache] Unknown model "${model}" - clearing all caches`);
-      pageContentCache.clear();
-      intranetPageContentCache.clear();
-      navigationCache.clear();
-      intranetMenuCache.clear();
-      pageHierarchyCache.clear();
-      intranetPageHierarchyCache.clear();
-      footerCache.clear();
-      homepageCache.clear();
-      searchCache.clear();
-      iconsCache = null;
+      await cacheClearAll();
   }
 }
 
 /**
  * Clear all caches - useful for manual invalidation or debugging
  */
-export function clearAllCaches() {
+export async function clearAllCaches() {
   console.log('[Cache] Clearing ALL caches');
-  pageContentCache.clear();
-  intranetPageContentCache.clear();
-  navigationCache.clear();
-  intranetMenuCache.clear();
-  pageHierarchyCache.clear();
-  intranetPageHierarchyCache.clear();
-  footerCache.clear();
-  homepageCache.clear();
-  searchCache.clear();
-  iconsCache = null;
+  await cacheClearAll();
 }
 
 /**
  * Get cache status for debugging
  */
-export function getCacheStatus() {
-  const now = Date.now();
-  const ttl = HIERARCHY_CACHE_TTL_MS;
-
-  const getCacheInfo = <T>(cache: Map<string, CacheEntry<T>>) => {
-    const entries: Record<string, { age: number; valid: boolean }> = {};
-    cache.forEach((entry, key) => {
-      const age = now - entry.timestamp;
-      entries[key] = {
-        age: Math.round(age / 1000),
-        valid: age < ttl,
-      };
-    });
-    return { size: cache.size, entries };
-  };
-
+export async function getCacheStatus() {
+  const stats = await cacheStats();
   return {
-    ttlSeconds: ttl / 1000,
-    caches: {
-      pageContent: getCacheInfo(pageContentCache),
-      intranetPageContent: getCacheInfo(intranetPageContentCache),
-      navigation: getCacheInfo(navigationCache),
-      intranetMenu: getCacheInfo(intranetMenuCache),
-      pageHierarchy: getCacheInfo(pageHierarchyCache),
-      intranetPageHierarchy: getCacheInfo(intranetPageHierarchyCache),
-      footer: getCacheInfo(footerCache),
-      homepage: getCacheInfo(homepageCache),
-      search: getCacheInfo(searchCache),
-      icons: iconsCache
-        ? {
-            hasData: true,
-            size: iconsCache.data.size,
-            age: Math.round((now - iconsCache.timestamp) / 1000),
-            valid: now - iconsCache.timestamp < ttl,
-          }
-        : { hasData: false },
-    },
+    ttlSeconds: CACHE_TTL_SECONDS,
+    redis: stats,
   };
 }
 
@@ -526,16 +469,37 @@ async function fetchIntranetPageHierarchy(locale: string): Promise<PageHierarchy
 }
 
 /**
+ * Helper: Convert Map to object for Redis storage
+ */
+function mapToObject<T>(map: Map<string, T>): Record<string, T> {
+  const obj: Record<string, T> = {};
+  map.forEach((value, key) => {
+    obj[key] = value;
+  });
+  return obj;
+}
+
+/**
+ * Helper: Convert object back to Map from Redis storage
+ */
+function objectToMap<T>(obj: Record<string, T>): Map<string, T> {
+  return new Map(Object.entries(obj));
+}
+
+/**
  * Get page hierarchy entry by slug (with caching)
  */
 export async function getPageHierarchy(slug: string, locale: string): Promise<PageHierarchyEntry | null> {
-  const cached = pageHierarchyCache.get(locale);
-  if (!isCacheValid(cached)) {
-    const data = await fetchPageHierarchy(locale);
-    pageHierarchyCache.set(locale, { data, timestamp: Date.now() });
-    return data.get(slug) || null;
+  const cacheKey = `${CACHE_KEYS.pageHierarchy}${locale}`;
+  const cached = await cacheGet<Record<string, PageHierarchyEntry>>(cacheKey);
+
+  if (cached) {
+    return cached[slug] || null;
   }
-  return cached.data.get(slug) || null;
+
+  const data = await fetchPageHierarchy(locale);
+  await cacheSet(cacheKey, mapToObject(data), CACHE_TTL_SECONDS);
+  return data.get(slug) || null;
 }
 
 /**
@@ -544,40 +508,48 @@ export async function getPageHierarchy(slug: string, locale: string): Promise<Pa
  * Cache invalidates after 60 seconds
  */
 export async function getFullPageHierarchy(locale: string): Promise<PageHierarchyMap> {
-  const cached = pageHierarchyCache.get(locale);
-  if (!isCacheValid(cached)) {
-    const data = await fetchPageHierarchy(locale);
-    pageHierarchyCache.set(locale, { data, timestamp: Date.now() });
-    return data;
+  const cacheKey = `${CACHE_KEYS.pageHierarchy}${locale}`;
+  const cached = await cacheGet<Record<string, PageHierarchyEntry>>(cacheKey);
+
+  if (cached) {
+    return objectToMap(cached);
   }
-  return cached.data;
+
+  const data = await fetchPageHierarchy(locale);
+  await cacheSet(cacheKey, mapToObject(data), CACHE_TTL_SECONDS);
+  return data;
 }
 
 /**
  * Get intranet page hierarchy entry by slug (with TTL caching)
  */
 export async function getIntranetPageHierarchy(slug: string, locale: string): Promise<PageHierarchyEntry | null> {
-  const cached = intranetPageHierarchyCache.get(locale);
-  if (!isCacheValid(cached)) {
-    const data = await fetchIntranetPageHierarchy(locale);
-    intranetPageHierarchyCache.set(locale, { data, timestamp: Date.now() });
-    return data.get(slug) || null;
+  const cacheKey = `${CACHE_KEYS.intranetPageHierarchy}${locale}`;
+  const cached = await cacheGet<Record<string, PageHierarchyEntry>>(cacheKey);
+
+  if (cached) {
+    return cached[slug] || null;
   }
-  return cached.data.get(slug) || null;
+
+  const data = await fetchIntranetPageHierarchy(locale);
+  await cacheSet(cacheKey, mapToObject(data), CACHE_TTL_SECONDS);
+  return data.get(slug) || null;
 }
 
 /**
  * Get full intranet page hierarchy map for a locale (with TTL caching)
- * Cache invalidates after 60 seconds
  */
 export async function getFullIntranetPageHierarchy(locale: string): Promise<PageHierarchyMap> {
-  const cached = intranetPageHierarchyCache.get(locale);
-  if (!isCacheValid(cached)) {
-    const data = await fetchIntranetPageHierarchy(locale);
-    intranetPageHierarchyCache.set(locale, { data, timestamp: Date.now() });
-    return data;
+  const cacheKey = `${CACHE_KEYS.intranetPageHierarchy}${locale}`;
+  const cached = await cacheGet<Record<string, PageHierarchyEntry>>(cacheKey);
+
+  if (cached) {
+    return objectToMap(cached);
   }
-  return cached.data;
+
+  const data = await fetchIntranetPageHierarchy(locale);
+  await cacheSet(cacheKey, mapToObject(data), CACHE_TTL_SECONDS);
+  return data;
 }
 
 // ============================================================================
@@ -585,13 +557,19 @@ export async function getFullIntranetPageHierarchy(locale: string): Promise<Page
 // ============================================================================
 
 /**
- * Fetch all icons from Strapi and cache them in memory with TTL
+ * Fetch all icons from Strapi and cache them in Redis
  * This is called once per request to avoid multiple API calls
  */
 async function fetchAndCacheIcons(): Promise<Map<number, Icon>> {
-  // Check if cache exists and is still valid
-  if (iconsCache && (Date.now() - iconsCache.timestamp < HIERARCHY_CACHE_TTL_MS)) {
-    return iconsCache.data;
+  // Check Redis cache first
+  const cached = await cacheGet<Record<string, Icon>>(CACHE_KEYS.icons);
+  if (cached) {
+    // Convert back to Map<number, Icon>
+    const iconMap = new Map<number, Icon>();
+    for (const [key, value] of Object.entries(cached)) {
+      iconMap.set(Number(key), value);
+    }
+    return iconMap;
   }
 
   try {
@@ -607,16 +585,16 @@ async function fetchAndCacheIcons(): Promise<Map<number, Icon>> {
     });
 
     const iconMap = new Map<number, Icon>();
+    const iconRecord: Record<string, Icon> = {};
     for (const icon of response.data) {
       iconMap.set(icon.id, icon);
+      iconRecord[String(icon.id)] = icon;
     }
 
-    iconsCache = {
-      data: iconMap,
-      timestamp: Date.now(),
-    };
+    // Store in Redis
+    await cacheSet(CACHE_KEYS.icons, iconRecord, CACHE_TTL_SECONDS);
 
-    return iconsCache.data;
+    return iconMap;
   } catch (error) {
     console.error('Failed to fetch icons:', error);
     return new Map();
@@ -801,11 +779,11 @@ export async function fetchNavigation(
   footer?: boolean,
   locale: string = 'cs'
 ): Promise<NavigationItem[]> {
-  // Check cache first
-  const cacheKey = `${locale}:navbar=${navbar}:footer=${footer}`;
-  const cached = navigationCache.get(cacheKey);
-  if (isCacheValid(cached)) {
-    return cached.data as unknown as NavigationItem[];
+  // Check Redis cache first
+  const cacheKey = `${CACHE_KEYS.navigation}${locale}:navbar=${navbar}:footer=${footer}`;
+  const cached = await cacheGet<NavigationItem[]>(cacheKey);
+  if (cached) {
+    return cached;
   }
 
   // Build query params
@@ -858,8 +836,8 @@ export async function fetchNavigation(
     }
   }
 
-  // Cache the result
-  navigationCache.set(cacheKey, { data: items as unknown as Navigation, timestamp: Date.now() });
+  // Cache the result in Redis
+  await cacheSet(cacheKey, items, CACHE_TTL_SECONDS);
 
   return items;
 }
@@ -869,10 +847,11 @@ export async function fetchNavigation(
  * @param locale - Locale for i18n (default: 'cs')
  */
 export async function fetchFooter(locale: string = 'cs'): Promise<Footer | null> {
-  // Check cache first
-  const cached = footerCache.get(locale);
-  if (isCacheValid(cached)) {
-    return cached.data;
+  // Check Redis cache first
+  const cacheKey = `${CACHE_KEYS.footer}${locale}`;
+  const cached = await cacheGet<Footer>(cacheKey);
+  if (cached) {
+    return cached;
   }
 
   try {
@@ -900,8 +879,8 @@ export async function fetchFooter(locale: string = 'cs'): Promise<Footer | null>
     const footer = response.data;
 
     if (footer) {
-      // Cache the result
-      footerCache.set(locale, { data: footer, timestamp: Date.now() });
+      // Cache the result in Redis
+      await cacheSet(cacheKey, footer, CACHE_TTL_SECONDS);
     }
 
     return footer || null;
@@ -917,10 +896,11 @@ export async function fetchFooter(locale: string = 'cs'): Promise<Footer | null>
  * @param locale - Locale for i18n (default: 'cs')
  */
 export async function fetchHomepage(locale: string = 'cs'): Promise<Homepage | null> {
-  // Check cache first
-  const cached = homepageCache.get(locale);
-  if (isCacheValid(cached)) {
-    return cached.data;
+  // Check Redis cache first
+  const cacheKey = `${CACHE_KEYS.homepage}${locale}`;
+  const cached = await cacheGet<Homepage>(cacheKey);
+  if (cached) {
+    return cached;
   }
 
   try {
@@ -937,8 +917,8 @@ export async function fetchHomepage(locale: string = 'cs'): Promise<Homepage | n
     const homepage = response.data;
 
     if (homepage) {
-      // Cache the result
-      homepageCache.set(locale, { data: homepage, timestamp: Date.now() });
+      // Cache the result in Redis
+      await cacheSet(cacheKey, homepage, CACHE_TTL_SECONDS);
     }
 
     return homepage || null;
@@ -953,10 +933,11 @@ export async function fetchHomepage(locale: string = 'cs'): Promise<Homepage | n
  * @param locale - Locale for i18n (default: 'cs')
  */
 export async function fetchSearch(locale: string = 'cs'): Promise<Search | null> {
-  // Check cache first
-  const cached = searchCache.get(locale);
-  if (isCacheValid(cached)) {
-    return cached.data;
+  // Check Redis cache first
+  const cacheKey = `${CACHE_KEYS.search}${locale}`;
+  const cached = await cacheGet<Search>(cacheKey);
+  if (cached) {
+    return cached;
   }
 
   try {
@@ -976,8 +957,8 @@ export async function fetchSearch(locale: string = 'cs'): Promise<Search | null>
     const search = response.data;
 
     if (search) {
-      // Cache the result
-      searchCache.set(locale, { data: search, timestamp: Date.now() });
+      // Cache the result in Redis
+      await cacheSet(cacheKey, search, CACHE_TTL_SECONDS);
     }
 
     return search || null;
@@ -1000,11 +981,11 @@ export async function fetchPageBySlug(
   slug: string,
   locale: string = 'cs'
 ): Promise<Page | null> {
-  // Check cache first
-  const cacheKey = `${locale}:${slug}`;
-  const cached = pageContentCache.get(cacheKey);
-  if (isCacheValid(cached)) {
-    return cached.data;
+  // Check Redis cache first
+  const cacheKey = `${CACHE_KEYS.pageContent}${locale}:${slug}`;
+  const cached = await cacheGet<Page>(cacheKey);
+  if (cached) {
+    return cached;
   }
 
   try {
@@ -1607,8 +1588,8 @@ export async function fetchPageBySlug(
 
     const page = response.data[0];
 
-    // Cache the result
-    pageContentCache.set(cacheKey, { data: page, timestamp: Date.now() });
+    // Cache the result in Redis
+    await cacheSet(cacheKey, page, CACHE_TTL_SECONDS);
 
     return page;
   } catch (error) {
@@ -1721,6 +1702,16 @@ export async function fetchNewsArticles(
   limit?: number,
   sort: string = 'date:desc'
 ): Promise<NewsArticle[]> {
+  // Build cache key from all parameters
+  const tagKey = tags?.slice().sort().join(',') || '';
+  const cacheKey = `${CACHE_KEYS.newsArticles}${locale}:${tagKey}:${limit || 'all'}:${sort}`;
+
+  // Check Redis cache first
+  const cached = await cacheGet<NewsArticle[]>(cacheKey);
+  if (cached) {
+    return cached;
+  }
+
   try {
     const filters: Record<string, any> = {};
 
@@ -1757,7 +1748,12 @@ export async function fetchNewsArticles(
       params
     );
 
-    return response.data || [];
+    const articles = response.data || [];
+
+    // Cache the result in Redis
+    await cacheSet(cacheKey, articles, CACHE_TTL_SECONDS);
+
+    return articles;
   } catch (error) {
     console.error('Error fetching news articles:', error);
     return [];
@@ -1844,6 +1840,13 @@ export async function fetchAllNewsArticleSlugs(
  * @param locale - Language code (default: 'cs')
  */
 export async function fetchTags(locale: string = 'cs'): Promise<Tag[]> {
+  // Check Redis cache first
+  const cacheKey = `${CACHE_KEYS.tags}${locale}`;
+  const cached = await cacheGet<Tag[]>(cacheKey);
+  if (cached) {
+    return cached;
+  }
+
   try {
     const response = await fetchAPI<StrapiCollectionResponse<Tag>>('/tags', {
       locale,
@@ -1853,7 +1856,12 @@ export async function fetchTags(locale: string = 'cs'): Promise<Tag[]> {
       },
     });
 
-    return response.data || [];
+    const tags = response.data || [];
+
+    // Cache the result in Redis
+    await cacheSet(cacheKey, tags, CACHE_TTL_SECONDS);
+
+    return tags;
   } catch (error) {
     console.error('Error fetching tags:', error);
     return [];
@@ -1871,10 +1879,11 @@ export async function fetchTags(locale: string = 'cs'): Promise<Tag[]> {
 export async function fetchIntranetMenu(
   locale: string = 'cs'
 ): Promise<NavigationItem[]> {
-  // Check cache first
-  const cached = intranetMenuCache.get(locale);
-  if (isCacheValid(cached)) {
-    return cached.data as unknown as NavigationItem[];
+  // Check Redis cache first
+  const cacheKey = `${CACHE_KEYS.intranetMenu}${locale}`;
+  const cached = await cacheGet<NavigationItem[]>(cacheKey);
+  if (cached) {
+    return cached;
   }
 
   try {
@@ -1914,8 +1923,8 @@ export async function fetchIntranetMenu(
       }
     }
 
-    // Cache the result
-    intranetMenuCache.set(locale, { data: items as unknown as Navigation, timestamp: Date.now() });
+    // Cache the result in Redis
+    await cacheSet(cacheKey, items, CACHE_TTL_SECONDS);
 
     return items;
   } catch (error) {
@@ -1937,11 +1946,11 @@ export async function fetchIntranetPageBySlug(
   slug: string,
   locale: string = 'cs'
 ): Promise<IntranetPage | null> {
-  // Check cache first
-  const cacheKey = `${locale}:${slug}`;
-  const cached = intranetPageContentCache.get(cacheKey);
-  if (isCacheValid(cached)) {
-    return cached.data;
+  // Check Redis cache first
+  const cacheKey = `${CACHE_KEYS.intranetPageContent}${locale}:${slug}`;
+  const cached = await cacheGet<IntranetPage>(cacheKey);
+  if (cached) {
+    return cached;
   }
 
   try {
@@ -2489,8 +2498,8 @@ export async function fetchIntranetPageBySlug(
     const page = response.data.find(p => p.slug === slug);
 
     if (page) {
-      // Cache the result
-      intranetPageContentCache.set(cacheKey, { data: page, timestamp: Date.now() });
+      // Cache the result in Redis
+      await cacheSet(cacheKey, page, CACHE_TTL_SECONDS);
     }
 
     return page || null;
@@ -2693,7 +2702,6 @@ export async function fetchRegistrations(
 // Client-Side Search API
 // ============================================================================
 
-import { SearchableItem } from '@/types/strapi';
 import { buildSearchableText } from '@/lib/search';
 
 /**
@@ -2709,6 +2717,13 @@ import { buildSearchableText } from '@/lib/search';
 export async function fetchSearchableContent(
   locale: string = 'cs'
 ): Promise<SearchableItem[]> {
+  // Check Redis cache first
+  const cacheKey = `${CACHE_KEYS.searchableContent}${locale}`;
+  const cached = await cacheGet<SearchableItem[]>(cacheKey);
+  if (cached) {
+    return cached;
+  }
+
   // Use server-side URL and token (NOT exposed to browser)
   const baseUrl = process.env.STRAPI_URL || 'http://localhost:1337';
   const token = process.env.STRAPI_API_TOKEN || '';
@@ -2725,7 +2740,12 @@ export async function fetchSearchableContent(
     fetchNavigationForSearch(baseUrl, locale, headers),
   ]);
 
-  return [...pages, ...news, ...navigation];
+  const result = [...pages, ...news, ...navigation];
+
+  // Cache the result in Redis
+  await cacheSet(cacheKey, result, CACHE_TTL_SECONDS);
+
+  return result;
 }
 
 /**

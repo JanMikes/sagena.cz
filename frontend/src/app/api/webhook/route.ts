@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
     console.log(`[Webhook] Processing: ${event} on ${rawModel} (normalized: ${model})${entry?.slug ? ` slug:${entry.slug}` : ''}${entry?.locale ? ` locale:${entry.locale}` : ''}`);
 
     // Invalidate cache based on model/slug/locale
-    invalidateCache(model, entry?.slug, entry?.locale);
+    await invalidateCache(model, entry?.slug, entry?.locale);
 
     return NextResponse.json({
       received: true,

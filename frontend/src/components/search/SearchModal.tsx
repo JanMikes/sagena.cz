@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'nextjs-toploader/app';
 import { Search as SearchIcon, Loader2 } from 'lucide-react';
 import Modal from '@/components/interactive/Modal';
 import SearchResults, { getTotalResultCount, getResultAtIndex } from './SearchResults';
@@ -10,7 +10,7 @@ import SearchEmptyState from './SearchEmptyState';
 import { useDebounce } from '@/hooks/useDebounce';
 import { useSearch } from '@/hooks/useSearch';
 import { Search, SearchableItem } from '@/types/strapi';
-import { resolveTextLink } from '@/lib/strapi';
+import { resolveTextLink } from '@/lib/strapi-client';
 
 interface SearchModalProps {
   isOpen: boolean;

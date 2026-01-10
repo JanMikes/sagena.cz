@@ -8,6 +8,8 @@ const nextConfig = {
     unoptimized: true,
   },
   trailingSlash: true,
+  // Server-only packages should not be bundled for client
+  serverExternalPackages: ['ioredis'],
 }
 
 module.exports = withSentryConfig(nextConfig, {
