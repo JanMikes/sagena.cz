@@ -2,11 +2,13 @@ import React from 'react';
 import { marked, Renderer } from 'marked';
 import { preventOrphans } from '@/lib/typography';
 
-// Custom renderer to avoid <p> inside <li>
+// Custom renderer to avoid <p> inside <li> and properly parse inline markdown
 const renderer = new Renderer();
 renderer.listitem = ({ text }) => {
+  // In marked v17+, text is raw markdown - parse inline elements (bold, italic, links, etc.)
+  const parsed = marked.parseInline(text, { async: false }) as string;
   // Remove wrapping <p> tags from list item content
-  const unwrapped = text.replace(/^<p>(.*)<\/p>\n?$/s, '$1');
+  const unwrapped = parsed.replace(/^<p>(.*)<\/p>\n?$/s, '$1');
   return `<li>${unwrapped}</li>\n`;
 };
 

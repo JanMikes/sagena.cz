@@ -52,7 +52,7 @@ export function resolveTextLink(link: ElementsTextLink, locale: string = 'cs'): 
   // Strapi v5 returns file relation directly (no .data or .attributes wrapper)
   if (link.file) {
     return {
-      url: link.file.url,
+      url: getStrapiMediaURL(link.file.url),
       external: false,
       disabled: false,
     };

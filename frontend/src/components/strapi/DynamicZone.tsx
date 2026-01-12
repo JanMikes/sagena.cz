@@ -386,8 +386,8 @@ async function renderComponent(
       // Transform Strapi data to Documents component props
       const documents = (documentsComponent.documents ?? []).map((doc) => {
         // Extract file data from Strapi media (Strapi v5 - no attributes wrapper)
-        // URL is used directly thanks to Docker volume (same as images)
-        const fileUrl = doc.file?.url || '#';
+        // Use getStrapiMediaURL to serve via CDN/nginx instead of Next.js
+        const fileUrl = doc.file?.url ? getStrapiMediaURL(doc.file.url) : '#';
 
         // Extract extension from file.ext (e.g., ".pdf" -> "pdf")
         const extension = doc.file?.ext

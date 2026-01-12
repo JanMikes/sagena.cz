@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { MapPin, Phone, Mail, ArrowRight, Map, Clock } from 'lucide-react';
+import RichText from '@/components/typography/RichText';
 
 interface LocationCardData {
   title?: string;
@@ -70,9 +71,11 @@ const LocationCard: React.FC<{ card: LocationCardData }> = ({ card }) => {
 
               {/* Description */}
               {card.description && (
-                <p className="text-gray-600 mb-4 leading-relaxed">
-                  {card.description}
-                </p>
+                <RichText
+                  content={card.description}
+                  size="sm"
+                  className="text-gray-600 mb-4 leading-relaxed [&_p]:text-gray-600"
+                />
               )}
 
               {/* Contact Info */}

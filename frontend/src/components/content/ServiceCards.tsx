@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight } from 'lucide-react';
+import RichText from '@/components/typography/RichText';
 
 interface CardItem {
   icon?: string | null;  // Icon image URL from Strapi
@@ -62,9 +63,11 @@ const ServiceCards: React.FC<ServiceCardsProps> = ({
               </h3>
             </div>
             {card.description && (
-              <p className={`text-primary-400 leading-relaxed text-sm ${card.link ? 'mb-6' : ''}`}>
-                {card.description}
-              </p>
+              <RichText
+                content={card.description}
+                size="sm"
+                className={`text-primary-400 leading-relaxed [&_p]:text-primary-400 ${card.link ? 'mb-6' : ''}`}
+              />
             )}
             {/* Arrow always in bottom-right with absolute positioning */}
             {card.link && (

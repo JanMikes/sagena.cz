@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import RichText from '@/components/typography/RichText';
 
 /**
  * Job posting item from Strapi (for CMS-driven pages)
