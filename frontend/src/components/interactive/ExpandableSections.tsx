@@ -30,7 +30,6 @@ interface ExpandableSectionData {
   files?: FileAttachment[];
   defaultOpen?: boolean;
   photos?: Photo[];
-  galleryColumns?: 2 | 3 | 4;
 }
 
 interface ExpandableSectionsProps {
@@ -51,7 +50,6 @@ const ExpandableSections: React.FC<ExpandableSectionsProps> = ({ sections, local
           defaultOpen={section.defaultOpen}
           locale={locale}
           photos={section.photos}
-          galleryColumns={section.galleryColumns}
         />
       ))}
     </div>

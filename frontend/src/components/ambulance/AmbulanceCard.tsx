@@ -121,14 +121,13 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
   // Check if any opening hours groups have hours
   const hasOpeningHours = openingHours.some(group => group.hours && group.hours.length > 0);
 
-  // Check if holiday has not ended yet (to date + 1 day >= today)
+  // Check if holiday has not ended yet (to date >= today)
   const isHolidayNotEnded = (holiday?: Holiday): boolean => {
     if (!holiday || !holiday.to) return false;
     try {
       const today = new Date();
       today.setHours(0, 0, 0, 0);
       const to = new Date(holiday.to);
-      to.setDate(to.getDate() + 1); // Add 1 day buffer
       if (isNaN(to.getTime())) return false;
       return today <= to;
     } catch {

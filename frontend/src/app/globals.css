@@ -131,7 +131,7 @@
   }
 
   .prose-sm ul {
-    @apply list-disc pl-5 mb-3 space-y-1;
+    @apply list-disc pl-5 md:pl-0 mb-3 space-y-1;
   }
 
   .prose-sm ol {

@@ -1,6 +1,14 @@
 import React from 'react';
-import { marked } from 'marked';
+import { marked, Renderer } from 'marked';
 import { preventOrphans } from '@/lib/typography';
+
+// Custom renderer to avoid <p> inside <li>
+const renderer = new Renderer();
+renderer.listitem = ({ text }) => {
+  // Remove wrapping <p> tags from list item content
+  const unwrapped = text.replace(/^<p>(.*)<\/p>\n?$/s, '$1');
+  return `<li>${unwrapped}</li>\n`;
+};
 
 interface RichTextProps {
   content: string;
@@ -10,7 +18,7 @@ interface RichTextProps {
 
 const RichText: React.FC<RichTextProps> = ({ content, className = '', size = 'lg' }) => {
   const processedContent = preventOrphans(content);
-  const html = marked.parse(processedContent, { async: false }) as string;
+  const html = marked.parse(processedContent, { async: false, renderer }) as string;
 
   const sizeClass = {
     xs: 'prose-sm text-xs',

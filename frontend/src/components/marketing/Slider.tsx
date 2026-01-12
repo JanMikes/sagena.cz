@@ -219,15 +219,15 @@ const Slider: React.FC<SliderProps> = ({
         {/* Content */}
         <div className="absolute inset-0 flex flex-col">
           <div className="container-custom px-16 md:px-20 lg:px-24 flex-1 flex flex-col" key={currentSlide}>
-            <div className={`gap-8 flex-1 ${slide.image ? 'grid grid-cols-1 lg:grid-cols-2' : 'flex'}`}>
+            <div className={`gap-4 lg:gap-8 flex-1 ${slide.image ? 'flex flex-col lg:grid lg:grid-cols-2' : 'flex'}`}>
               <div className={`flex flex-col ${
                 slide.textPosition === 'top' ? 'justify-start pt-8' :
                 slide.textPosition === 'bottom' ? 'justify-end pb-16' :
-                variant === 'header' ? 'justify-center -mt-12' : 'justify-center py-8'
-              } h-full ${slide.image ? (slide.imagePosition === 'left' ? 'lg:order-2' : 'lg:order-1') : 'w-full'}`}>
+                variant === 'header' ? 'justify-center lg:-mt-12' : 'justify-center py-8'
+              } ${slide.image ? 'flex-shrink-0 lg:h-full order-1 ' + (slide.imagePosition === 'left' ? 'lg:order-2' : 'lg:order-1') : 'h-full w-full'}`}>
                 <div className={slide.image ? '' : 'max-w-3xl'}>
                   <h2 className={`font-bold mb-3 leading-tight animate-fade-slide-left ${
-                    variant === 'header' ? 'text-3xl md:text-4xl' : 'text-xl md:text-2xl'
+                    variant === 'header' ? 'text-2xl md:text-3xl lg:text-4xl' : 'text-xl md:text-2xl'
                   } ${useDarkMode ? 'text-white' : 'text-primary-600'}`}>
                     {slide.title}
                   </h2>
@@ -262,11 +262,11 @@ const Slider: React.FC<SliderProps> = ({
                 </div>
               </div>
               {slide.image && (
-                <div className={`hidden lg:flex lg:items-center ${slide.imagePosition === 'left' ? 'lg:order-1' : 'lg:order-2'}`}>
+                <div className={`flex items-center justify-center order-2 flex-1 min-h-0 pb-4 lg:pb-0 ${slide.imagePosition === 'left' ? 'lg:order-1' : 'lg:order-2'}`}>
                   <img
                     src={slide.image}
                     alt={slide.title}
-                    className={`w-full h-auto object-contain drop-shadow-2xl ${
+                    className={`max-w-[200px] lg:max-w-full w-full h-auto max-h-full object-contain drop-shadow-2xl ${
                       slide.imagePosition === 'left' ? 'animate-fade-slide-right' : 'animate-fade-slide-left'
                     }`}
                   />

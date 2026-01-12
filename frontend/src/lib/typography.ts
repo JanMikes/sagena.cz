@@ -21,7 +21,8 @@
 export function preventOrphans(text: string): string {
   if (!text) return '';
 
-  // Match single letters (a, i, k, o, s, u, v, z) followed by whitespace
+  // Match single letters (a, i, k, o, s, u, v, z) followed by a space (not newlines)
   // Case-insensitive, word boundary aware
-  return text.replace(/\b([aAiIkKoOsSuUvVzZ])\s+/g, '$1\u00A0');
+  // Using [ ] instead of \s to preserve newlines (important for markdown parsing)
+  return text.replace(/\b([aAiIkKoOsSuUvVzZ]) +/g, '$1\u00A0');
 }

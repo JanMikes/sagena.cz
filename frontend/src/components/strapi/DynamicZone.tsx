@@ -773,10 +773,6 @@ async function renderComponent(
             caption: photo.image?.caption || undefined,
           }));
 
-        // Map column enum to number
-        const galleryColumns: 2 | 3 | 4 = section.gallery_columns === 'Two columns' ? 2 :
-                               section.gallery_columns === 'Four columns' ? 4 : 3;
-
         return {
           title: section.title || '',
           description: section.description ?? undefined,
@@ -784,7 +780,6 @@ async function renderComponent(
           files,
           defaultOpen: section.default_open || false,
           photos,
-          galleryColumns,
         };
       });
 

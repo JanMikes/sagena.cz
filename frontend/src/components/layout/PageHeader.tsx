@@ -113,7 +113,7 @@ const PageHeader: React.FC<PageHeaderProps> = async ({ header, locale = 'cs' }) 
   }
 
   return (
-    <div className="relative mb-8 md:mb-12">
+    <div className="relative pt-4 md:pt-0 mb-8 md:mb-12">
       <PageHeaderClient
         sliderProps={sliderProps}
         serviceCardsProps={serviceCardsProps}

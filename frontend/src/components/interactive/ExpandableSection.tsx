@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { ChevronDown, Download, FileText } from 'lucide-react';
 import ContactCards from '@/components/people/ContactCards';
 import RichText from '@/components/typography/RichText';
-import PhotoGallery from '@/components/media/PhotoGallery';
+import GallerySlider from '@/components/media/GallerySlider';
 
 /**
  * File attachment from Strapi
@@ -45,7 +45,6 @@ interface ExpandableSectionProps {
   defaultOpen?: boolean;
   locale?: string;
   photos?: Photo[];
-  galleryColumns?: 2 | 3 | 4;
 }
 
 const translations = {
@@ -65,7 +64,6 @@ const ExpandableSection: React.FC<ExpandableSectionProps> = ({
   defaultOpen = false,
   locale = 'cs',
   photos = [],
-  galleryColumns = 3,
 }) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
   const t = translations[locale as keyof typeof translations] || translations.cs;
@@ -138,10 +136,7 @@ const ExpandableSection: React.FC<ExpandableSectionProps> = ({
 
               {photos.length > 0 && (
                 <div className="pt-4">
-                  <PhotoGallery
-                    photos={photos}
-                    columns={galleryColumns}
-                  />
+                  <GallerySlider photos={photos} />
                 </div>
               )}
 
