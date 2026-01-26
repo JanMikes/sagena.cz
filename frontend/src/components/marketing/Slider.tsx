@@ -77,11 +77,12 @@ const Slider: React.FC<SliderProps> = ({
 
   useEffect(() => {
     if (autoplay && slides.length > 1) {
-      const interval = setInterval(nextSlide, autoplayInterval);
+      const interval = setInterval(() => {
+        setCurrentSlide((currentSlide + 1) % slides.length);
+      }, autoplayInterval);
       return () => clearInterval(interval);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [autoplay, autoplayInterval, slides.length]);
+  }, [autoplay, autoplayInterval, slides.length, currentSlide]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const slide = slides[currentSlide];
   const showArrows = slides.length > 1;
