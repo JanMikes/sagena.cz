@@ -291,29 +291,31 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
               )}
 
               {/* Nurses Section */}
-              {nurses.length > 0 && (
+              {(nurses.length > 0 || nursesPhones.length > 0 || nursesEmail) && (
                 <div className="mb-4">
                   <h4 className="text-sm font-semibold text-gray-900 mb-2">Sestry</h4>
-                  <div className="flex flex-wrap gap-1.5">
-                    {nurses.map((nurse, index) => (
-                      <span
-                        key={index}
-                        className={`inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full ${
-                          isOnHoliday(nurse.holidays)
-                            ? 'bg-yellow-100 text-yellow-700'
-                            : 'bg-primary-100 text-primary-600'
-                        }`}
-                        title={isOnHoliday(nurse.holidays) ? getActiveHolidays(nurse.holidays).map(h => `Dovolená: ${formatDate(h.from)} – ${formatDate(h.to)}`).join(', ') : undefined}
-                      >
-                        {getSurname(nurse.name)}
-                        {isOnHoliday(nurse.holidays) && (
-                          <Plane className="w-3 h-3 text-yellow-600" />
-                        )}
-                      </span>
-                    ))}
-                  </div>
+                  {nurses.length > 0 && (
+                    <div className="flex flex-wrap gap-1.5">
+                      {nurses.map((nurse, index) => (
+                        <span
+                          key={index}
+                          className={`inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full ${
+                            isOnHoliday(nurse.holidays)
+                              ? 'bg-yellow-100 text-yellow-700'
+                              : 'bg-primary-100 text-primary-600'
+                          }`}
+                          title={isOnHoliday(nurse.holidays) ? getActiveHolidays(nurse.holidays).map(h => `Dovolená: ${formatDate(h.from)} – ${formatDate(h.to)}`).join(', ') : undefined}
+                        >
+                          {getSurname(nurse.name)}
+                          {isOnHoliday(nurse.holidays) && (
+                            <Plane className="w-3 h-3 text-yellow-600" />
+                          )}
+                        </span>
+                      ))}
+                    </div>
+                  )}
                   {(nursesPhones.length > 0 || nursesEmail) && (
-                    <div className="mt-3 space-y-1.5 text-sm text-gray-600">
+                    <div className={`${nurses.length > 0 ? 'mt-3' : ''} space-y-1.5 text-sm text-gray-600`}>
                       {nursesPhones.map((phoneNum, index) => (
                         <a
                           key={index}
