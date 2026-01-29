@@ -223,13 +223,15 @@ export async function invalidateCache(model: string, slug?: string, locale?: str
       } else {
         await cacheDeletePattern(`${CACHE_KEYS.pageContent}*`);
       }
-      // Page changes affect hierarchy (breadcrumbs, URLs)
+      // Page changes affect hierarchy (breadcrumbs, URLs) and navigation (page anchors in menu links)
       if (locale) {
         await cacheDeletePattern(`${CACHE_KEYS.pageHierarchy}${locale}`);
         await cacheDeletePattern(`${CACHE_KEYS.searchableContent}${locale}`);
+        await cacheDeletePattern(`${CACHE_KEYS.navigation}${locale}:*`);
       } else {
         await cacheDeletePattern(`${CACHE_KEYS.pageHierarchy}*`);
         await cacheDeletePattern(`${CACHE_KEYS.searchableContent}*`);
+        await cacheDeletePattern(`${CACHE_KEYS.navigation}*`);
       }
       break;
 
