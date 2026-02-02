@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation';
+import { headers } from 'next/headers';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { fetchNavigation, fetchFooter, fetchSearch, fetchSearchableContent } from '@/lib/strapi';
@@ -34,25 +35,43 @@ export default async function LocaleLayout({
     notFound();
   }
 
+  // Detect if we're on an intranet page to hide main navigation
+  const headersList = await headers();
+  const pathname = headersList.get('x-pathname') || headersList.get('x-invoke-path') || '';
+  const isIntranet = pathname.includes('/intranet');
+
   // Fetch navigation, footer, search data and searchable content for current locale
+  // Skip fetching for intranet pages since we don't show the main navigation
   let navbarItems: NavigationItem[] = [];
   let footerNavItems: NavigationItem[] = [];
   let footer: FooterType | null = null;
   let searchData: Search | null = null;
   let searchableContent: SearchableItem[] = [];
-  try {
-    [navbarItems, footer, footerNavItems, searchData, searchableContent] = await Promise.all([
-      fetchNavigation(true, undefined, locale),
-      fetchFooter(locale),
-      fetchNavigation(undefined, true, locale),
-      fetchSearch(locale),
-      fetchSearchableContent(locale),
-    ]);
-  } catch (error) {
-    console.error('Failed to fetch layout data from Strapi:', error);
+
+  if (!isIntranet) {
+    try {
+      [navbarItems, footer, footerNavItems, searchData, searchableContent] = await Promise.all([
+        fetchNavigation(true, undefined, locale),
+        fetchFooter(locale),
+        fetchNavigation(undefined, true, locale),
+        fetchSearch(locale),
+        fetchSearchableContent(locale),
+      ]);
+    } catch (error) {
+      console.error('Failed to fetch layout data from Strapi:', error);
+    }
   }
 
   const alternateLocale = getAlternateLocale(locale as Locale);
+
+  // Intranet pages have their own navigation - don't show main Header/Footer
+  if (isIntranet) {
+    return (
+      <LocaleProvider>
+        {children}
+      </LocaleProvider>
+    );
+  }
 
   return (
     <ReservationModalProvider>

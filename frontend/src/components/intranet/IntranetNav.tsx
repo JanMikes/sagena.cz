@@ -46,15 +46,17 @@ const IntranetNav: React.FC<IntranetNavProps> = ({
   };
 
   // Static navigation items (always visible)
-  const staticNavItems: NavigationItem[] = [
-    {
-      name: t.registrations,
-      href: `/${locale}/intranet/registrace/`,
-    },
-  ];
+  // NOTE: Registrace temporarily hidden - uncomment to restore
+  // const staticNavItems: NavigationItem[] = [
+  //   {
+  //     name: t.registrations,
+  //     href: `/${locale}/intranet/registrace/`,
+  //   },
+  // ];
 
   // Combine CMS navigation with static items
-  const allNavItems = [...navigation, ...staticNavItems];
+  // const allNavItems = [...navigation, ...staticNavItems];
+  const allNavItems = navigation;
 
   return (
     <div className="bg-primary-700 text-white shadow-lg">

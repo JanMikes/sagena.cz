@@ -196,14 +196,15 @@ export default async function IntranetPage({ params }: PageProps) {
 
       {/* Page Content Layout */}
       {showSidebar ? (
-        /* Two-column layout with sidebar - needs container around grid */
+        /* Two-column layout with sidebar - breadcrumb above, sidebar starts at H1 level */
         <div className="container-custom pt-6 pb-12">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Breadcrumb Navigation - full width above the grid */}
+          <Breadcrumb items={breadcrumbItems} locale={locale} />
+
+          {/* Grid starts at H1 level */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-6">
             {/* Main Content */}
             <div className="lg:col-span-2 space-y-8">
-              {/* Breadcrumb Navigation */}
-              <Breadcrumb items={breadcrumbItems} locale={locale} />
-
               {/* Page Title */}
               <h1 className="text-4xl md:text-5xl font-bold text-primary-600">{page.title}</h1>
 
