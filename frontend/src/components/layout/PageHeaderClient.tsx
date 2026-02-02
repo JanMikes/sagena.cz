@@ -79,7 +79,7 @@ const PageHeaderClient: React.FC<PageHeaderClientProps> = ({
         <div
           className={`
             relative z-10 px-4 md:px-8 lg:px-16
-            ${hasSlider ? '-mt-16 md:-mt-24' : ''}
+            ${hasSlider ? '-mt-8 md:-mt-12' : ''}
           `}
         >
           <ServiceCards {...serviceCardsProps} />
