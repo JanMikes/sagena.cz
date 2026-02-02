@@ -293,7 +293,9 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
               {/* Nurses Section */}
               {(nurses.length > 0 || nursesPhones.length > 0 || nursesEmail) && (
                 <div className="mb-4">
-                  <h4 className="text-sm font-semibold text-gray-900 mb-2">Sestry</h4>
+                  {nurses.length > 0 && (
+                    <h4 className="text-sm font-semibold text-gray-900 mb-2">Sestry</h4>
+                  )}
                   {nurses.length > 0 && (
                     <div className="flex flex-wrap gap-1.5">
                       {nurses.map((nurse, index) => (
