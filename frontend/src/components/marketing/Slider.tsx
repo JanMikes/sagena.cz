@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
 import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import '@/styles/slider-animations.css';
@@ -49,6 +49,8 @@ const Slider: React.FC<SliderProps> = ({
   hideNavigation = false,
 }) => {
   const [internalCurrentSlide, setInternalCurrentSlide] = useState(0);
+  const [maxHeight, setMaxHeight] = useState<number | null>(null);
+  const slidesContainerRef = useRef<HTMLDivElement>(null);
 
   // Support both controlled and uncontrolled modes
   const isControlled = controlledCurrentSlide !== undefined;
@@ -62,6 +64,37 @@ const Slider: React.FC<SliderProps> = ({
       setInternalCurrentSlide(index);
     }
   };
+
+  // Measure all slides and find the tallest one
+  useLayoutEffect(() => {
+    if (!slidesContainerRef.current || compact) return;
+
+    const measureSlides = () => {
+      const container = slidesContainerRef.current;
+      if (!container) return;
+
+      const slideElements = container.querySelectorAll('[data-slide-content]');
+      let tallest = 0;
+
+      slideElements.forEach((el) => {
+        const height = (el as HTMLElement).offsetHeight;
+        if (height > tallest) {
+          tallest = height;
+        }
+      });
+
+      // Add minimum heights based on variant
+      const minHeight = variant === 'header' ? 384 : 280; // 384px = h-96, 280px for content
+      setMaxHeight(Math.max(tallest, minHeight));
+    };
+
+    // Measure after render
+    measureSlides();
+
+    // Re-measure on window resize
+    window.addEventListener('resize', measureSlides);
+    return () => window.removeEventListener('resize', measureSlides);
+  }, [slides, variant, compact]);
 
   const nextSlide = () => {
     setCurrentSlide((currentSlide + 1) % slides.length);
@@ -195,88 +228,101 @@ const Slider: React.FC<SliderProps> = ({
     );
   }
 
-  return (
-    <div className={`relative overflow-hidden ${roundedClass}`}>
-      {/* Slide Content */}
-      <div
-        className={`relative overflow-hidden ${roundedClass} ${showGradient ? 'bg-gradient-to-br from-primary-600 to-primary-800' : ''} ${
-          variant === 'header' ? 'h-96 md:h-[500px]' : 'min-h-[280px] md:min-h-[320px]'
-        }`}
-        style={
-          slide.backgroundImage
-            ? {
-                backgroundImage: `url(${slide.backgroundImage})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-              }
-            : undefined
-        }
-      >
-        {/* Overlay for background images */}
-        {slide.backgroundImage && (
-          <div className="absolute inset-0 bg-gradient-to-r from-primary-900/90 to-primary-900/50" />
-        )}
+  // Dynamic height style based on measured content
+  const containerStyle = maxHeight ? { minHeight: `${maxHeight}px` } : undefined;
 
-        {/* Content */}
-        <div className="absolute inset-0 flex flex-col">
-          <div className="container-custom px-16 md:px-20 lg:px-24 flex-1 flex flex-col" key={currentSlide}>
-            <div className={`gap-4 lg:gap-8 flex-1 ${slide.image ? 'flex flex-col lg:grid lg:grid-cols-2' : 'flex'}`}>
-              <div className={`flex flex-col ${
-                slide.textPosition === 'top' ? 'justify-start pt-8' :
-                slide.textPosition === 'bottom' ? 'justify-end pb-16' :
-                variant === 'header' ? 'justify-center lg:-mt-12' : 'justify-center py-8'
-              } ${slide.image ? 'flex-shrink-0 lg:h-full order-1 ' + (slide.imagePosition === 'left' ? 'lg:order-2' : 'lg:order-1') : 'h-full w-full'}`}>
-                <div className={slide.image ? '' : 'max-w-3xl'}>
-                  <h2 className={`font-bold mb-3 leading-tight animate-fade-slide-left ${
-                    variant === 'header' ? 'text-2xl md:text-3xl lg:text-4xl' : 'text-xl md:text-2xl'
-                  } ${useDarkMode ? 'text-white' : 'text-primary-600'}`}>
-                    {slide.title}
-                  </h2>
-                  {slide.description && (
-                    <RichText
-                      content={slide.description}
-                      size={variant === 'header' ? 'lg' : 'sm'}
-                      className={`mb-5 leading-relaxed animate-fade-slide-left-delay-1 ${
-                        useDarkMode
-                          ? '!text-primary-100 [&_p]:!text-primary-100 [&_strong]:!text-white [&_a]:!text-white [&_a]:underline'
-                          : '!text-gray-600'
-                      }`}
-                    />
-                  )}
-                  {slide.link && !slide.link.disabled && (
-                    <Link
-                      href={slide.link.url}
-                      target={slide.link.external ? '_blank' : undefined}
-                      rel={slide.link.external ? 'noopener noreferrer' : undefined}
-                      className={`inline-flex items-center space-x-2 rounded-lg font-semibold transition-colors group animate-fade-slide-left-delay-2 ${
-                        variant === 'header' ? 'px-6 py-3' : 'px-5 py-2.5 text-sm'
-                      } ${
-                        useDarkMode
-                          ? 'bg-white text-primary-600 hover:bg-primary-50'
-                          : 'bg-primary-600 text-white hover:bg-primary-700'
-                      }`}
-                    >
-                      <span>{slide.link.text}</span>
-                      <ArrowRight className={`group-hover:translate-x-1 transition-transform ${variant === 'header' ? 'w-5 h-5' : 'w-4 h-4'}`} />
-                    </Link>
+  return (
+    <div className={`relative overflow-hidden ${roundedClass}`} ref={slidesContainerRef}>
+      {/* All Slides - rendered for measurement, only current one visible */}
+      {slides.map((slideItem, index) => {
+        const isActive = index === currentSlide;
+        const slideHasBackground = !!slideItem.backgroundImage;
+        const slideUseDarkMode = variant === 'content' || slideHasBackground;
+        const slideShowGradient = variant === 'content' && !slideHasBackground;
+
+        return (
+          <div
+            key={index}
+            data-slide-content
+            className={`${isActive ? 'relative' : 'absolute top-0 left-0 right-0 invisible pointer-events-none'} overflow-hidden ${roundedClass} ${slideShowGradient ? 'bg-gradient-to-br from-primary-600 to-primary-800' : ''}`}
+            style={{
+              ...(slideItem.backgroundImage
+                ? {
+                    backgroundImage: `url(${slideItem.backgroundImage})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                  }
+                : {}),
+              ...(isActive ? containerStyle : {}),
+            }}
+          >
+            {/* Overlay for background images */}
+            {slideItem.backgroundImage && (
+              <div className="absolute inset-0 bg-gradient-to-r from-primary-900/90 to-primary-900/50" />
+            )}
+
+            {/* Content */}
+            <div className="relative flex flex-col" style={containerStyle}>
+              <div className={`container-custom px-16 md:px-20 lg:px-24 flex-1 flex flex-col py-8 ${variant === 'header' ? 'md:py-12' : ''}`}>
+                <div className={`gap-4 lg:gap-8 flex-1 ${slideItem.image ? 'flex flex-col lg:grid lg:grid-cols-2' : 'flex'}`}>
+                  <div className={`flex flex-col ${
+                    slideItem.textPosition === 'top' ? 'justify-start' :
+                    slideItem.textPosition === 'bottom' ? 'justify-end' :
+                    'justify-center'
+                  } ${slideItem.image ? 'flex-shrink-0 lg:h-full order-1 ' + (slideItem.imagePosition === 'left' ? 'lg:order-2' : 'lg:order-1') : 'h-full w-full'}`}>
+                    <div className={slideItem.image ? '' : 'max-w-3xl'}>
+                      <h2 className={`font-bold mb-3 leading-tight ${isActive ? 'animate-fade-slide-left' : ''} ${
+                        variant === 'header' ? 'text-2xl md:text-3xl lg:text-4xl' : 'text-xl md:text-2xl'
+                      } ${slideUseDarkMode ? 'text-white' : 'text-primary-600'}`}>
+                        {slideItem.title}
+                      </h2>
+                      {slideItem.description && (
+                        <RichText
+                          content={slideItem.description}
+                          size={variant === 'header' ? 'lg' : 'sm'}
+                          className={`mb-5 leading-relaxed ${isActive ? 'animate-fade-slide-left-delay-1' : ''} ${
+                            slideUseDarkMode
+                              ? '!text-primary-100 [&_p]:!text-primary-100 [&_strong]:!text-white [&_a]:!text-white [&_a]:underline'
+                              : '!text-gray-600'
+                          }`}
+                        />
+                      )}
+                      {slideItem.link && !slideItem.link.disabled && (
+                        <Link
+                          href={slideItem.link.url}
+                          target={slideItem.link.external ? '_blank' : undefined}
+                          rel={slideItem.link.external ? 'noopener noreferrer' : undefined}
+                          className={`inline-flex items-center space-x-2 rounded-lg font-semibold transition-colors group ${isActive ? 'animate-fade-slide-left-delay-2' : ''} ${
+                            variant === 'header' ? 'px-6 py-3' : 'px-5 py-2.5 text-sm'
+                          } ${
+                            slideUseDarkMode
+                              ? 'bg-white text-primary-600 hover:bg-primary-50'
+                              : 'bg-primary-600 text-white hover:bg-primary-700'
+                          }`}
+                        >
+                          <span>{slideItem.link.text}</span>
+                          <ArrowRight className={`group-hover:translate-x-1 transition-transform ${variant === 'header' ? 'w-5 h-5' : 'w-4 h-4'}`} />
+                        </Link>
+                      )}
+                    </div>
+                  </div>
+                  {slideItem.image && (
+                    <div className={`flex items-center justify-center order-2 flex-1 min-h-0 ${slideItem.imagePosition === 'left' ? 'lg:order-1' : 'lg:order-2'}`}>
+                      <img
+                        src={slideItem.image}
+                        alt={slideItem.title}
+                        className={`max-w-[200px] lg:max-w-full w-full h-auto max-h-[200px] lg:max-h-[300px] object-contain drop-shadow-2xl ${
+                          isActive ? (slideItem.imagePosition === 'left' ? 'animate-fade-slide-right' : 'animate-fade-slide-left') : ''
+                        }`}
+                      />
+                    </div>
                   )}
                 </div>
               </div>
-              {slide.image && (
-                <div className={`flex items-center justify-center order-2 flex-1 min-h-0 pb-4 lg:pb-0 ${slide.imagePosition === 'left' ? 'lg:order-1' : 'lg:order-2'}`}>
-                  <img
-                    src={slide.image}
-                    alt={slide.title}
-                    className={`max-w-[200px] lg:max-w-full w-full h-auto max-h-full object-contain drop-shadow-2xl ${
-                      slide.imagePosition === 'left' ? 'animate-fade-slide-right' : 'animate-fade-slide-left'
-                    }`}
-                  />
-                </div>
-              )}
             </div>
           </div>
-        </div>
-      </div>
+        );
+      })}
 
       {/* Navigation Arrows */}
       {showArrows && (
