@@ -12,9 +12,10 @@ interface Photo {
 
 interface GallerySliderProps {
   photos: Photo[];
+  compact?: boolean;
 }
 
-const GallerySlider: React.FC<GallerySliderProps> = ({ photos }) => {
+const GallerySlider: React.FC<GallerySliderProps> = ({ photos, compact = false }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
@@ -42,6 +43,49 @@ const GallerySlider: React.FC<GallerySliderProps> = ({ photos }) => {
 
   const showPrevButton = currentIndex > 0;
   const showNextButton = currentIndex < photos.length - 1;
+
+  // Compact mode: vertical stack for sidebar, regular mode: horizontal slider
+  if (compact) {
+    return (
+      <div className="space-y-2">
+        {photos.slice(0, 4).map((photo, index) => (
+          <button
+            key={index}
+            onClick={() => openLightbox(index)}
+            className="w-full cursor-pointer"
+          >
+            <div className="aspect-[16/9] rounded-lg overflow-hidden shadow-md">
+              <img
+                src={photo.url}
+                alt={photo.alt || `Photo ${index + 1}`}
+                className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+              />
+            </div>
+          </button>
+        ))}
+        {photos.length > 4 && (
+          <button
+            onClick={() => openLightbox(4)}
+            className="w-full text-sm text-primary-600 hover:text-primary-700 font-medium py-2"
+          >
+            + {photos.length - 4} dalších fotek
+          </button>
+        )}
+
+        {/* Lightbox */}
+        <Lightbox
+          open={lightboxOpen}
+          close={() => setLightboxOpen(false)}
+          index={lightboxIndex}
+          slides={photos.map((photo) => ({
+            src: photo.url,
+            alt: photo.alt,
+          }))}
+          controller={{ closeOnBackdropClick: true }}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="relative group">

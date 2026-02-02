@@ -103,6 +103,7 @@
         "components.service-cards",
         "components.timeline",
         "components.slider",
+        "components.gallery-slider",
         "components.photo-gallery",
         "components.news-articles",
         "components.intranet-news-articles",

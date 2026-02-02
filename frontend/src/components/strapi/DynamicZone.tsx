@@ -673,6 +673,7 @@ async function renderComponent(
         <GallerySlider
           key={`${__component}-${component.id || index}`}
           photos={photos}
+          compact={compact}
         />
       );
     }

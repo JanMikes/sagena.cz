@@ -112,6 +112,7 @@
         "components.timeline",
         "components.service-cards",
         "components.slider",
+        "components.gallery-slider",
         "components.photo-gallery",
         "components.news-articles",
         "components.badges",

@@ -31,9 +31,9 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ photos, columns = 3, compac
     4: 'md:grid-cols-2 lg:grid-cols-4',
   };
 
-  // Compact mode: always 1 column with smaller gap (for sidebar)
+  // Compact mode: 2-column grid with smaller gap (for sidebar)
   const gridClass = compact
-    ? 'grid grid-cols-1 gap-2'
+    ? 'grid grid-cols-2 gap-2'
     : `grid grid-cols-1 ${gridCols[columns]} gap-4`;
 
   return (
