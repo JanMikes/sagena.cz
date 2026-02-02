@@ -1,0 +1,32 @@
+{
+  "collectionName": "components_elements_intranet_links",
+  "info": {
+    "displayName": "Odkaz na intranet stránku",
+    "icon": "link"
+  },
+  "options": {},
+  "attributes": {
+    "intranetPage": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::intranet-page.intranet-page"
+    },
+    "anchor": {
+      "type": "string"
+    },
+    "url": {
+      "type": "string"
+    },
+    "file": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    }
+  },
+  "config": {}
+}

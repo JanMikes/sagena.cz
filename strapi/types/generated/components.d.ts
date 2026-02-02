@@ -613,6 +613,23 @@ export interface ElementsIcon extends Struct.ComponentSchema {
   };
 }
 
+export interface ElementsIntranetLink extends Struct.ComponentSchema {
+  collectionName: 'components_elements_intranet_links';
+  info: {
+    displayName: 'Odkaz na intranet str\u00E1nku';
+    icon: 'link';
+  };
+  attributes: {
+    anchor: Schema.Attribute.String;
+    file: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    intranetPage: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::intranet-page.intranet-page'
+    >;
+    url: Schema.Attribute.String;
+  };
+}
+
 export interface ElementsLink extends Struct.ComponentSchema {
   collectionName: 'components_elements_links';
   info: {
@@ -851,6 +868,7 @@ declare module '@strapi/strapi' {
       'elements.full-width-card': ElementsFullWidthCard;
       'elements.holiday': ElementsHoliday;
       'elements.icon': ElementsIcon;
+      'elements.intranet-link': ElementsIntranetLink;
       'elements.link': ElementsLink;
       'elements.links-section': ElementsLinksSection;
       'elements.location-card': ElementsLocationCard;

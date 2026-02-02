@@ -648,7 +648,7 @@ export interface ApiIntranetMenuIntranetMenu
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    link: Schema.Attribute.Component<'elements.link', false> &
+    link: Schema.Attribute.Component<'elements.intranet-link', false> &
       Schema.Attribute.SetPluginOptions<{
         i18n: {
           localized: true;

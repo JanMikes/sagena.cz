@@ -15,6 +15,7 @@ import {
   Page,
   NavigationItem,
   ElementsLink,
+  ElementsIntranetLink,
   ElementsTextLink,
   ResolvedLink,
   Icon,
@@ -667,6 +668,61 @@ export function resolveLink(
 
   // File download
   // Strapi v5 returns file relation directly (no .data or .attributes wrapper)
+  if (link.file) {
+    return {
+      href: getStrapiMediaURL(link.file.url),
+      target: '_blank',
+      download: true,
+    };
+  }
+
+  // Anchor only
+  if (link.anchor) {
+    return { href: `#${link.anchor}`, target: '_self' };
+  }
+
+  return null;
+}
+
+/**
+ * Resolve ElementsIntranetLink to href and target
+ * Priority: intranetPage > url > file > anchor
+ *
+ * @param link - The intranet link element from Strapi
+ * @param locale - Current locale for prefixing internal page links (default: 'cs')
+ * @param hierarchy - Optional intranet page hierarchy map for canonical path resolution
+ *
+ * IMPORTANT: This is similar to resolveLink but uses intranetPage instead of page,
+ * and automatically adds the /intranet/ prefix for intranet pages.
+ */
+export function resolveIntranetLink(
+  link: ElementsIntranetLink,
+  locale: string = 'cs',
+  hierarchy?: PageHierarchyMap
+): ResolvedLink | null {
+  if (!link) return null;
+
+  // Internal intranet page
+  if (link.intranetPage) {
+    const pageSlug = link.intranetPage.slug;
+    // Use canonical path from hierarchy if available, otherwise fall back to slug
+    const canonicalPath = hierarchy?.get(pageSlug)?.canonicalPath || pageSlug;
+    // Add locale prefix and /intranet/ for intranet pages
+    const href = `/${locale}/intranet/${canonicalPath}/${link.anchor ? `#${link.anchor}` : ''}`;
+    return { href, target: '_self' };
+  }
+
+  // External URL
+  if (link.url) {
+    const href = link.anchor ? `${link.url}#${link.anchor}` : link.url;
+    const isExternal = link.url.startsWith('http');
+    return {
+      href,
+      target: isExternal ? '_blank' : '_self',
+    };
+  }
+
+  // File download
   if (link.file) {
     return {
       href: getStrapiMediaURL(link.file.url),
@@ -1895,7 +1951,7 @@ export async function fetchIntranetMenu(
         locale,
         populate: {
           link: {
-            populate: ['page', 'file'],
+            populate: ['intranetPage', 'file'],
           },
         },
       }),
@@ -1906,20 +1962,13 @@ export async function fetchIntranetMenu(
 
     for (const item of response.data || []) {
       const link = item.link;
-      // Pass hierarchy for canonical path resolution
-      const resolvedLink = resolveLink(link, locale, hierarchy);
+      // Use resolveIntranetLink which handles intranet page references directly
+      const resolvedLink = resolveIntranetLink(link, locale, hierarchy);
 
       if (resolvedLink) {
-        // For intranet pages, we need to prefix with /intranet/
-        let href = resolvedLink.href;
-        if (link.page && !href.includes('/intranet/')) {
-          // Transform /{locale}/{path}/ to /{locale}/intranet/{path}/
-          href = href.replace(`/${locale}/`, `/${locale}/intranet/`);
-        }
-
         items.push({
           name: item.title,
-          href,
+          href: resolvedLink.href,
           target: resolvedLink.target,
         });
       }

@@ -31,7 +31,7 @@
           "localized": true
         }
       },
-      "component": "elements.link",
+      "component": "elements.intranet-link",
       "repeatable": false
     }
   }

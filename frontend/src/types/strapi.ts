@@ -608,6 +608,22 @@ export interface ElementsLink {
 }
 
 /**
+ * Elements: Intranet Link
+ * Location: strapi/src/components/elements/intranet-link.json
+ * Usage: Link component for intranet menu, supporting intranet page references
+ *
+ * IMPORTANT: Strapi returns relations directly (no .data wrapper)
+ */
+export interface ElementsIntranetLink {
+  id: number;
+  __component?: 'elements.intranet-link';
+  intranetPage?: IntranetPage;  // Intranet page reference (returned directly, not wrapped)
+  anchor?: string | null;       // Anchor/hash for URL (#section)
+  url?: string | null;          // External URL
+  file?: StrapiMedia;           // File download (returned directly, not wrapped)
+}
+
+/**
  * Elements: Text Link
  * Location: strapi/src/components/elements/text-link.json
  * Usage: Link with display text, supporting internal pages, external URLs, anchors, files, and disabled state
