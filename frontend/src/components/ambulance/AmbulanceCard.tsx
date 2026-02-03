@@ -398,9 +398,9 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
               {hasOpeningHours && (
                 <button
                   onClick={() => setIsFlipped(true)}
-                  className="flex items-center justify-center gap-2 w-full py-2 text-primary-600 hover:text-primary-700 font-medium text-sm transition-colors border border-primary-600 rounded-lg hover:bg-primary-50"
+                  className="flex items-center justify-center gap-2 w-full py-2 bg-primary-600 text-white font-medium text-sm transition-colors border border-primary-600 rounded-lg hover:bg-primary-700 hover:border-primary-700"
                 >
-                  <Clock className="w-4 h-4 text-primary-600" />
+                  <Clock className="w-4 h-4 text-white" />
                   <span>Ordinační hodiny</span>
                 </button>
               )}

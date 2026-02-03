@@ -127,9 +127,9 @@ const LocationCard: React.FC<{ card: LocationCardData }> = ({ card }) => {
               {hasOpeningHours && (
                 <button
                   onClick={() => setIsFlipped(true)}
-                  className="mt-4 flex items-center justify-center gap-2 w-full py-2 text-primary-600 hover:text-primary-700 font-medium text-sm transition-colors border border-primary-600 rounded-lg hover:bg-primary-50"
+                  className="mt-4 flex items-center justify-center gap-2 w-full py-2 bg-primary-600 text-white font-medium text-sm transition-colors border border-primary-600 rounded-lg hover:bg-primary-700 hover:border-primary-700"
                 >
-                  <Clock className="w-4 h-4 text-primary-600" />
+                  <Clock className="w-4 h-4 text-white" />
                   <span>Ordinační hodiny</span>
                 </button>
               )}
@@ -141,10 +141,10 @@ const LocationCard: React.FC<{ card: LocationCardData }> = ({ card }) => {
                     href={card.link.url}
                     target={card.link.external ? '_blank' : undefined}
                     rel={card.link.external ? 'noopener noreferrer' : undefined}
-                    className="flex items-center justify-center w-full px-3 py-2 bg-primary-600 text-white text-sm rounded hover:bg-primary-700 transition-colors group"
+                    className="flex items-center justify-center w-full px-3 py-2 text-primary-600 hover:text-primary-700 text-sm rounded-lg border border-primary-600 hover:bg-primary-50 transition-colors group"
                   >
                     <span>{card.link.text}</span>
-                    <ArrowRight className="w-3.5 h-3.5 ml-1.5 group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight className="w-3.5 h-3.5 ml-1.5 text-primary-600 group-hover:translate-x-1 transition-transform" />
                   </Link>
                 </div>
               )}
