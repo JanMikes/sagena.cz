@@ -33,6 +33,10 @@
       },
       "component": "elements.intranet-link",
       "repeatable": false
+    },
+    "sortOrder": {
+      "type": "integer",
+      "default": 0
     }
   }
 }

@@ -1932,15 +1932,17 @@ export async function fetchTags(locale: string = 'cs'): Promise<Tag[]> {
 
 /**
  * Fetch intranet menu items
+ * Falls back to fetching all locales if no items found for requested locale
  * @param locale - Locale for i18n (default: 'cs')
  */
 export async function fetchIntranetMenu(
   locale: string = 'cs'
 ): Promise<NavigationItem[]> {
   // Check Redis cache first
+  // Only use cache if it contains items - don't cache empty results
   const cacheKey = `${CACHE_KEYS.intranetMenu}${locale}`;
   const cached = await cacheGet<NavigationItem[]>(cacheKey);
-  if (cached) {
+  if (cached && cached.length > 0) {
     return cached;
   }
 
@@ -1949,6 +1951,7 @@ export async function fetchIntranetMenu(
     const [response, hierarchy] = await Promise.all([
       fetchAPI<StrapiCollectionResponse<any>>('/intranet-menus', {
         locale,
+        sort: 'sortOrder:asc',
         populate: {
           link: {
             populate: ['intranetPage', 'file'],
@@ -1958,9 +1961,10 @@ export async function fetchIntranetMenu(
       getFullIntranetPageHierarchy(locale),
     ]);
 
+    const menuData = response.data || [];
     const items: NavigationItem[] = [];
 
-    for (const item of response.data || []) {
+    for (const item of menuData) {
       const link = item.link;
       // Use resolveIntranetLink which handles intranet page references directly
       const resolvedLink = resolveIntranetLink(link, locale, hierarchy);
@@ -1974,8 +1978,10 @@ export async function fetchIntranetMenu(
       }
     }
 
-    // Cache the result in Redis
-    await cacheSet(cacheKey, items, CACHE_TTL_SECONDS);
+    // Only cache non-empty results to avoid persisting missing data
+    if (items.length > 0) {
+      await cacheSet(cacheKey, items, CACHE_TTL_SECONDS);
+    }
 
     return items;
   } catch (error) {
