@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Lightbox from 'yet-another-react-lightbox';
 import 'yet-another-react-lightbox/styles.css';
@@ -26,86 +26,69 @@ const GallerySlider: React.FC<GallerySliderProps> = ({ photos, compact = false }
     setLightboxOpen(true);
   };
 
+  // Update currentIndex based on scroll position
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    const handleScroll = () => {
+      const scrollLeft = container.scrollLeft;
+      const itemWidth = compact ? container.offsetWidth : container.offsetWidth * 0.8;
+      const newIndex = Math.round(scrollLeft / itemWidth);
+      setCurrentIndex(Math.min(Math.max(0, newIndex), photos.length - 1));
+    };
+
+    container.addEventListener('scroll', handleScroll);
+    return () => container.removeEventListener('scroll', handleScroll);
+  }, [compact, photos.length]);
+
   const scroll = (direction: 'left' | 'right') => {
     if (!scrollContainerRef.current) return;
 
     const container = scrollContainerRef.current;
-    const scrollAmount = container.offsetWidth * 0.8;
+    // In compact mode, scroll by full width (one image at a time)
+    // In regular mode, scroll by 80% of container width
+    const scrollAmount = compact ? container.offsetWidth : container.offsetWidth * 0.8;
 
     if (direction === 'left') {
       container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-      setCurrentIndex(Math.max(0, currentIndex - 1));
     } else {
       container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-      setCurrentIndex(Math.min(photos.length - 1, currentIndex + 1));
     }
   };
 
   const showPrevButton = currentIndex > 0;
   const showNextButton = currentIndex < photos.length - 1;
 
-  // Compact mode: vertical stack for sidebar, regular mode: horizontal slider
-  if (compact) {
-    return (
-      <div className="space-y-2">
-        {photos.slice(0, 4).map((photo, index) => (
-          <button
-            key={index}
-            onClick={() => openLightbox(index)}
-            className="w-full cursor-pointer"
-          >
-            <div className="aspect-[16/9] rounded-lg overflow-hidden shadow-md">
-              <img
-                src={photo.url}
-                alt={photo.alt || `Photo ${index + 1}`}
-                className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-              />
-            </div>
-          </button>
-        ))}
-        {photos.length > 4 && (
-          <button
-            onClick={() => openLightbox(4)}
-            className="w-full text-sm text-primary-600 hover:text-primary-700 font-medium py-2"
-          >
-            + {photos.length - 4} dalších fotek
-          </button>
-        )}
-
-        {/* Lightbox */}
-        <Lightbox
-          open={lightboxOpen}
-          close={() => setLightboxOpen(false)}
-          index={lightboxIndex}
-          slides={photos.map((photo) => ({
-            src: photo.url,
-            alt: photo.alt,
-          }))}
-          controller={{ closeOnBackdropClick: true }}
-        />
-      </div>
-    );
-  }
-
+  // Compact mode: single image slider for sidebar
+  // Regular mode: multi-image horizontal slider
   return (
     <div className="relative group">
       {/* Slider Container */}
       <div
         ref={scrollContainerRef}
-        className="flex overflow-x-auto gap-4 scroll-smooth snap-x snap-mandatory hide-scrollbar pb-4"
+        className={`flex overflow-x-auto scroll-smooth snap-x snap-mandatory hide-scrollbar ${
+          compact ? 'gap-0' : 'gap-4 pb-4'
+        }`}
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         {photos.map((photo, index) => (
           <button
             key={index}
             onClick={() => openLightbox(index)}
-            className="flex-shrink-0 w-80 md:w-96 snap-center cursor-pointer"
+            className={`flex-shrink-0 snap-center cursor-pointer ${
+              compact ? 'w-full' : 'w-80 md:w-96'
+            }`}
           >
-            <div className="aspect-[4/3] rounded-xl overflow-hidden shadow-lg">
+            <div className={`overflow-hidden ${
+              compact
+                ? 'aspect-[4/3] rounded-lg shadow-md'
+                : 'aspect-[4/3] rounded-xl shadow-lg'
+            }`}>
               <img
                 src={photo.url}
                 alt={photo.alt || `Photo ${index + 1}`}
-                className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
               />
             </div>
           </button>
@@ -116,21 +99,32 @@ const GallerySlider: React.FC<GallerySliderProps> = ({ photos, compact = false }
       {showPrevButton && (
         <button
           onClick={() => scroll('left')}
-          className="absolute left-0 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-gray-900 p-2 rounded-full shadow-lg transition-all hover:scale-110"
+          className={`absolute top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-gray-900 rounded-full shadow-lg transition-all hover:scale-110 ${
+            compact ? 'left-1 p-1.5' : 'left-0 p-2'
+          }`}
           aria-label="Předchozí foto"
         >
-          <ChevronLeft className="w-5 h-5" />
+          <ChevronLeft className={compact ? 'w-4 h-4' : 'w-5 h-5'} />
         </button>
       )}
 
       {showNextButton && (
         <button
           onClick={() => scroll('right')}
-          className="absolute right-0 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-gray-900 p-2 rounded-full shadow-lg transition-all hover:scale-110"
+          className={`absolute top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-gray-900 rounded-full shadow-lg transition-all hover:scale-110 ${
+            compact ? 'right-1 p-1.5' : 'right-0 p-2'
+          }`}
           aria-label="Další foto"
         >
-          <ChevronRight className="w-5 h-5" />
+          <ChevronRight className={compact ? 'w-4 h-4' : 'w-5 h-5'} />
         </button>
+      )}
+
+      {/* Photo counter for compact mode */}
+      {compact && photos.length > 1 && (
+        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 bg-black/60 text-white text-xs px-2 py-0.5 rounded-full">
+          {currentIndex + 1} / {photos.length}
+        </div>
       )}
 
       <style jsx>{`

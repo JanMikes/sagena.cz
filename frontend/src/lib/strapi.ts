@@ -885,13 +885,12 @@ export async function fetchNavigation(
     // Pass hierarchy to resolve canonical paths for internal page links
     const resolvedLink = resolveLink(link, locale, hierarchy);
 
-    if (resolvedLink) {
-      items.push({
-        name: nav.title,
-        href: resolvedLink.href,
-        target: resolvedLink.target,
-      });
-    }
+    // Show menu items even without a link configured (use empty href as fallback)
+    items.push({
+      name: nav.title,
+      href: resolvedLink?.href || '',
+      target: resolvedLink?.target,
+    });
   }
 
   // Cache the result in Redis
