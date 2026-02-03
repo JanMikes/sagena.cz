@@ -4,7 +4,7 @@
   "info": {
     "singularName": "intranet-page",
     "pluralName": "intranet-pages",
-    "displayName": "Intranet - Stránky"
+    "displayName": "A - Intranet - Stránky"
   },
   "options": {
     "draftAndPublish": false

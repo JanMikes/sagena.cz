@@ -4,7 +4,7 @@
   "info": {
     "singularName": "ambulance",
     "pluralName": "ambulances",
-    "displayName": "Ambulance"
+    "displayName": "B - Ambulance"
   },
   "options": {
     "draftAndPublish": false

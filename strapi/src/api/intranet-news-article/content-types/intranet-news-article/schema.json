@@ -4,7 +4,7 @@
   "info": {
     "singularName": "intranet-news-article",
     "pluralName": "intranet-news-articles",
-    "displayName": "Intranet - Aktuality"
+    "displayName": "A - Intranet - Aktuality"
   },
   "options": {
     "draftAndPublish": false

@@ -433,7 +433,7 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
 export interface ApiAmbulanceAmbulance extends Struct.CollectionTypeSchema {
   collectionName: 'ambulances';
   info: {
-    displayName: 'Ambulance';
+    displayName: 'B - Ambulance';
     pluralName: 'ambulances';
     singularName: 'ambulance';
   };
@@ -472,7 +472,7 @@ export interface ApiAmbulanceAmbulance extends Struct.CollectionTypeSchema {
 export interface ApiDoctorDoctor extends Struct.CollectionTypeSchema {
   collectionName: 'doctors';
   info: {
-    displayName: 'Dokto\u0159i';
+    displayName: 'B - Dokto\u0159i';
     pluralName: 'doctors';
     singularName: 'doctor';
   };
@@ -605,7 +605,7 @@ export interface ApiHomepageHomepage extends Struct.SingleTypeSchema {
 export interface ApiIconIcon extends Struct.CollectionTypeSchema {
   collectionName: 'icons';
   info: {
-    displayName: 'Ikonky webu';
+    displayName: 'Ikony webu';
     pluralName: 'icons';
     singularName: 'icon';
   };
@@ -632,7 +632,7 @@ export interface ApiIntranetMenuIntranetMenu
   extends Struct.CollectionTypeSchema {
   collectionName: 'intranet_menus';
   info: {
-    displayName: 'Intranet - Polo\u017Eky menu';
+    displayName: 'A - Intranet - Menu';
     pluralName: 'intranet-menus';
     singularName: 'intranet-menu';
   };
@@ -678,7 +678,7 @@ export interface ApiIntranetNewsArticleIntranetNewsArticle
   extends Struct.CollectionTypeSchema {
   collectionName: 'intranet_news_articles';
   info: {
-    displayName: 'Intranet - Aktuality';
+    displayName: 'A - Intranet - Aktuality';
     pluralName: 'intranet-news-articles';
     singularName: 'intranet-news-article';
   };
@@ -761,7 +761,7 @@ export interface ApiIntranetPageIntranetPage
   extends Struct.CollectionTypeSchema {
   collectionName: 'intranet_pages';
   info: {
-    displayName: 'Intranet - Str\u00E1nky';
+    displayName: 'A - Intranet - Str\u00E1nky';
     pluralName: 'intranet-pages';
     singularName: 'intranet-page';
   };
@@ -879,7 +879,7 @@ export interface ApiIntranetPageIntranetPage
 export interface ApiNavigationNavigation extends Struct.CollectionTypeSchema {
   collectionName: 'navigations';
   info: {
-    displayName: 'Polo\u017Eky menu';
+    displayName: 'Hlavn\u00ED menu';
     pluralName: 'navigations';
     singularName: 'navigation';
   };
@@ -1021,7 +1021,7 @@ export interface ApiNewsArticleNewsArticle extends Struct.CollectionTypeSchema {
 export interface ApiNurseNurse extends Struct.CollectionTypeSchema {
   collectionName: 'nurses';
   info: {
-    displayName: 'Sestry';
+    displayName: 'B - Sestry';
     pluralName: 'nurses';
     singularName: 'nurse';
   };
@@ -1049,7 +1049,7 @@ export interface ApiNurseNurse extends Struct.CollectionTypeSchema {
 export interface ApiPagePage extends Struct.CollectionTypeSchema {
   collectionName: 'pages';
   info: {
-    displayName: 'Str\u00E1nka';
+    displayName: 'Jednotliv\u00E9 str\u00E1nky';
     pluralName: 'pages';
     singularName: 'page';
   };
@@ -1166,7 +1166,7 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
 export interface ApiPersonPerson extends Struct.CollectionTypeSchema {
   collectionName: 'people';
   info: {
-    displayName: 'Lid\u00E9';
+    displayName: 'Kontakty (lid\u00E9)';
     pluralName: 'people';
     singularName: 'person';
   };

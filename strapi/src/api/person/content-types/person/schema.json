@@ -4,7 +4,7 @@
   "info": {
     "singularName": "person",
     "pluralName": "people",
-    "displayName": "Lidé"
+    "displayName": "Kontakty (lidé)"
   },
   "options": {
     "draftAndPublish": false

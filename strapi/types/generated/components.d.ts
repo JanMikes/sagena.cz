@@ -167,7 +167,7 @@ export interface ComponentsImage extends Struct.ComponentSchema {
 export interface ComponentsIntranetNewsArticles extends Struct.ComponentSchema {
   collectionName: 'components_components_intranet_news_articles';
   info: {
-    displayName: 'intranet-news-articles';
+    displayName: 'Intranet aktuality';
     icon: 'feather';
   };
   attributes: {
