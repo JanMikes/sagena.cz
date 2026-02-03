@@ -173,7 +173,7 @@ const LocationCard: React.FC<{ card: LocationCardData }> = ({ card }) => {
                 }, {})
               ).map(([day, times]) => (
                 <div key={day} className="flex justify-between text-sm">
-                  <span className="font-medium">{day}</span>
+                  <span className="font-bold">{day}</span>
                   <div className="text-right">
                     {times.map((time, index) => (
                       <div key={index}>{time}</div>

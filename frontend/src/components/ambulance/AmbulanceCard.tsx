@@ -292,7 +292,7 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
 
               {/* Nurses Section */}
               {(nurses.length > 0 || nursesPhones.length > 0 || nursesEmail) && (
-                <div className="mb-4">
+                <div className={description || documents.filter(doc => doc.url).length > 0 || button || hasOpeningHours ? 'mb-4' : ''}>
                   {nurses.length > 0 && (
                     <h4 className="text-sm font-semibold text-gray-900 mb-2">Sestry</h4>
                   )}
@@ -404,8 +404,6 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
                   <span>Ordinační hodiny</span>
                 </button>
               )}
-              {/* Bottom spacer for proper spacing */}
-              <div className="h-2" />
             </div>
           </div>
 
@@ -420,12 +418,12 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
                 {openingHours.map((group, groupIndex) => (
                   <div key={groupIndex} className={groupIndex > 0 ? 'pt-4' : ''}>
                     {group.title && (
-                      <h5 className="text-base font-semibold text-white/80 mb-2">{group.title}</h5>
+                      <h5 className="text-base font-semibold text-primary-100 mb-2">{group.title}</h5>
                     )}
                     <div className="space-y-2">
                       {(group.hours || []).map((entry, entryIndex) => (
                         <div key={entryIndex} className="flex justify-between text-sm gap-2">
-                          <span className="font-medium flex-shrink-0">{entry.day}</span>
+                          <span className="font-bold flex-shrink-0">{entry.day}</span>
                           <div className="text-right flex-1">
                             {entry.time}{entry.time && entry.time_afternoon && ', '}{entry.time_afternoon}
                           </div>
