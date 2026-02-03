@@ -65,11 +65,12 @@ const IntranetNav: React.FC<IntranetNavProps> = ({
           {/* Navigation Items */}
           <nav className="hidden md:flex items-center space-x-1 flex-1">
             {allNavItems.map((item) => {
-              const isActive = normalizePath(pathname) === normalizePath(item.href);
+              const href = item.href || '';
+              const isActive = href && normalizePath(pathname) === normalizePath(href);
               return (
                 <Link
                   key={item.name}
-                  href={item.href}
+                  href={href}
                   target={item.target}
                   className={`flex items-center px-3 lg:px-4 py-2 rounded-lg transition-colors ${
                     isActive
@@ -121,11 +122,12 @@ const IntranetNav: React.FC<IntranetNavProps> = ({
         <nav className="md:hidden border-t border-primary-600">
           <div className={`grid gap-1 ${allNavItems.length <= 4 ? `grid-cols-${allNavItems.length}` : 'grid-cols-4'}`}>
             {allNavItems.map((item) => {
-              const isActive = normalizePath(pathname) === normalizePath(item.href);
+              const href = item.href || '';
+              const isActive = href && normalizePath(pathname) === normalizePath(href);
               return (
                 <Link
                   key={item.name}
-                  href={item.href}
+                  href={href}
                   target={item.target}
                   className={`flex flex-col items-center justify-center py-3 transition-colors ${
                     isActive
