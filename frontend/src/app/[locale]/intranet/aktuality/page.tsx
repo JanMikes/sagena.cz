@@ -129,19 +129,12 @@ export default async function IntranetNewsListingPage({ params }: IntranetNewsLi
       {/* Intranet Navigation */}
       <IntranetNav userName={userName} locale={locale as Locale} navigation={navigation} />
 
-      {/* Header */}
-      <div className="bg-gradient-to-r from-primary-600 to-primary-700 text-white py-16">
-        <div className="container-custom">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">{t.title}</h1>
-          <p className="text-lg text-primary-100">{t.description}</p>
-        </div>
-      </div>
-
-      <div className="container-custom py-12">
+      <div className="container-custom pt-6 pb-12">
         {/* Breadcrumb Navigation */}
-        <div className="mb-8">
-          <Breadcrumb items={breadcrumbItems} locale={locale} />
-        </div>
+        <Breadcrumb items={breadcrumbItems} locale={locale} />
+
+        {/* Page Title */}
+        <h1 className="text-4xl md:text-5xl font-bold text-primary-600 mt-6 mb-8">{t.title}</h1>
 
         {/* News articles grid */}
         <NewsArticles

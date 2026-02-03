@@ -18,6 +18,7 @@ interface HeaderProps {
   alternateLocale?: Locale;
   searchData?: Search | null;
   searchableContent?: SearchableItem[];
+  hideNavigation?: boolean;
 }
 
 const Header: React.FC<HeaderProps> = ({
@@ -26,6 +27,7 @@ const Header: React.FC<HeaderProps> = ({
   alternateLocale = 'en',
   searchData,
   searchableContent = [],
+  hideNavigation = false,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -167,7 +169,7 @@ const Header: React.FC<HeaderProps> = ({
             >
               <Home className="w-5 h-5" />
             </Link>
-            {navigation.map((item) => {
+            {!hideNavigation && navigation.map((item) => {
               const isActive = normalizePath(pathname) === normalizePath(item.href);
               return (
                 <Link
@@ -187,13 +189,15 @@ const Header: React.FC<HeaderProps> = ({
 
           {/* Search & Language Switcher */}
           <div className="hidden lg:flex items-center space-x-3">
-            <button
-              onClick={() => setSearchModalOpen(true)}
-              className="p-2 text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
-              aria-label="Vyhledávání"
-            >
-              <SearchIcon className="w-5 h-5" />
-            </button>
+            {!hideNavigation && (
+              <button
+                onClick={() => setSearchModalOpen(true)}
+                className="p-2 text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
+                aria-label="Vyhledávání"
+              >
+                <SearchIcon className="w-5 h-5" />
+              </button>
+            )}
             <LocaleSwitcher
               currentLocale={currentLocale}
               alternateLocale={alternateLocale}
@@ -235,7 +239,7 @@ const Header: React.FC<HeaderProps> = ({
                 <Home className="w-5 h-5" />
                 <span>{currentLocale === 'cs' ? 'Domů' : 'Home'}</span>
               </Link>
-              {navigation.map((item) => {
+              {!hideNavigation && navigation.map((item) => {
                 const isActive = normalizePath(pathname) === normalizePath(item.href);
                 return (
                   <Link
@@ -252,17 +256,19 @@ const Header: React.FC<HeaderProps> = ({
                   </Link>
                 );
               })}
-              <button
-                onClick={() => {
-                  setSearchModalOpen(true);
-                  setMobileMenuOpen(false);
-                }}
-                className="flex items-center space-x-2 px-4 py-3 text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors text-left"
-                aria-label="Vyhledávání"
-              >
-                <SearchIcon className="w-5 h-5" />
-                <span className="font-medium">Vyhledávání</span>
-              </button>
+              {!hideNavigation && (
+                <button
+                  onClick={() => {
+                    setSearchModalOpen(true);
+                    setMobileMenuOpen(false);
+                  }}
+                  className="flex items-center space-x-2 px-4 py-3 text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors text-left"
+                  aria-label="Vyhledávání"
+                >
+                  <SearchIcon className="w-5 h-5" />
+                  <span className="font-medium">Vyhledávání</span>
+                </button>
+              )}
               {/* Mobile Language Switcher */}
               <div className="px-4 py-2">
                 <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">

@@ -41,15 +41,18 @@ export default async function LocaleLayout({
   const isIntranet = pathname.includes('/intranet');
 
   // Fetch navigation, footer, search data and searchable content for current locale
-  // Skip fetching for intranet pages since we don't show the main navigation
+  // For intranet pages, we still show the header but without navigation links
   let navbarItems: NavigationItem[] = [];
   let footerNavItems: NavigationItem[] = [];
   let footer: FooterType | null = null;
   let searchData: Search | null = null;
   let searchableContent: SearchableItem[] = [];
 
-  if (!isIntranet) {
-    try {
+  try {
+    if (isIntranet) {
+      // For intranet, only fetch minimal data needed for header
+      // Navigation links will be hidden, so no need to fetch them
+    } else {
       [navbarItems, footer, footerNavItems, searchData, searchableContent] = await Promise.all([
         fetchNavigation(true, undefined, locale),
         fetchFooter(locale),
@@ -57,19 +60,27 @@ export default async function LocaleLayout({
         fetchSearch(locale),
         fetchSearchableContent(locale),
       ]);
-    } catch (error) {
-      console.error('Failed to fetch layout data from Strapi:', error);
     }
+  } catch (error) {
+    console.error('Failed to fetch layout data from Strapi:', error);
   }
 
   const alternateLocale = getAlternateLocale(locale as Locale);
 
-  // Intranet pages have their own navigation - don't show main Header/Footer
+  // Intranet pages have their own secondary navigation - show main Header without nav links, no Footer
   if (isIntranet) {
     return (
-      <LocaleProvider>
-        {children}
-      </LocaleProvider>
+      <ReservationModalProvider>
+        <LocaleProvider>
+          <Header
+            navigation={[]}
+            currentLocale={locale as Locale}
+            alternateLocale={alternateLocale}
+            hideNavigation
+          />
+          <main>{children}</main>
+        </LocaleProvider>
+      </ReservationModalProvider>
     );
   }
 

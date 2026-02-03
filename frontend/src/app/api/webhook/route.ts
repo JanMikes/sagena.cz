@@ -39,8 +39,26 @@ export async function POST(request: NextRequest) {
 
     console.log(`[Webhook] Processing: ${event} on ${rawModel} (normalized: ${model})${entry?.slug ? ` slug:${entry.slug}` : ''}${entry?.locale ? ` locale:${entry.locale}` : ''}`);
 
+    // Wait for Strapi's DB transaction to commit before invalidating cache
+    // Strapi sends webhook BEFORE the transaction commits, causing a race condition
+    // where the old data gets re-cached if any request comes in before commit
+    await new Promise(resolve => setTimeout(resolve, 500));
+
     // Invalidate cache based on model/slug/locale
     await invalidateCache(model, entry?.slug, entry?.locale);
+
+    // Schedule a delayed re-invalidation as a safety net
+    // This catches cases where 500ms wasn't enough or a request sneaked in
+    const slug = entry?.slug;
+    const locale = entry?.locale;
+    setTimeout(async () => {
+      try {
+        await invalidateCache(model, slug, locale);
+        console.log(`[Webhook] Delayed re-invalidation for ${model}${slug ? `:${slug}` : ''}${locale ? `:${locale}` : ''}`);
+      } catch (err) {
+        console.error('[Webhook] Delayed re-invalidation failed:', err);
+      }
+    }, 1000);
 
     return NextResponse.json({
       received: true,
