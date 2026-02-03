@@ -1090,6 +1090,7 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
         'components.popup',
         'components.badges',
         'components.image',
+        'components.tarify',
       ]
     > &
       Schema.Attribute.Required &

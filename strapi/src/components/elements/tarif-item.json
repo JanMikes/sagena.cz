@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_elements_tarif_items",
+  "info": {
+    "displayName": "Položka tarifu",
+    "icon": "bulletList"
+  },
+  "options": {},
+  "attributes": {
+    "text": {
+      "type": "string",
+      "required": true
+    }
+  },
+  "config": {}
+}

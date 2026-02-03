@@ -167,7 +167,7 @@ export interface ComponentsImage extends Struct.ComponentSchema {
 export interface ComponentsIntranetNewsArticles extends Struct.ComponentSchema {
   collectionName: 'components_components_intranet_news_articles';
   info: {
-    displayName: 'Intranet aktuality';
+    displayName: 'intranet-news-articles';
     icon: 'feather';
   };
   attributes: {
@@ -401,6 +401,17 @@ export interface ComponentsSlider extends Struct.ComponentSchema {
     autoplay_interval: Schema.Attribute.Integer &
       Schema.Attribute.DefaultTo<5000>;
     slides: Schema.Attribute.Component<'elements.slide', true>;
+  };
+}
+
+export interface ComponentsTarify extends Struct.ComponentSchema {
+  collectionName: 'components_components_tarify';
+  info: {
+    displayName: 'Tarify';
+    icon: 'grid';
+  };
+  attributes: {
+    tarify: Schema.Attribute.Component<'elements.tarif', true>;
   };
 }
 
@@ -795,6 +806,34 @@ export interface ElementsSlide extends Struct.ComponentSchema {
   };
 }
 
+export interface ElementsTarif extends Struct.ComponentSchema {
+  collectionName: 'components_elements_tarifs';
+  info: {
+    displayName: 'Tarif';
+    icon: 'priceTag';
+  };
+  attributes: {
+    items: Schema.Attribute.Component<'elements.tarif-item', true>;
+    label: Schema.Attribute.String;
+    link: Schema.Attribute.Component<'elements.text-link', false>;
+    style: Schema.Attribute.Enumeration<['Style 1', 'Style 2']> &
+      Schema.Attribute.DefaultTo<'Style 1'>;
+    subtitle: Schema.Attribute.String;
+    title: Schema.Attribute.String;
+  };
+}
+
+export interface ElementsTarifItem extends Struct.ComponentSchema {
+  collectionName: 'components_elements_tarif_items';
+  info: {
+    displayName: 'Polo\u017Eka tarifu';
+    icon: 'bulletList';
+  };
+  attributes: {
+    text: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
 export interface ElementsTextLink extends Struct.ComponentSchema {
   collectionName: 'components_elements_text_links';
   info: {
@@ -855,6 +894,7 @@ declare module '@strapi/strapi' {
       'components.section-divider': ComponentsSectionDivider;
       'components.service-cards': ComponentsServiceCards;
       'components.slider': ComponentsSlider;
+      'components.tarify': ComponentsTarify;
       'components.text': ComponentsText;
       'components.timeline': ComponentsTimeline;
       'components.video': ComponentsVideo;
@@ -883,6 +923,8 @@ declare module '@strapi/strapi' {
       'elements.position': ElementsPosition;
       'elements.service-card': ElementsServiceCard;
       'elements.slide': ElementsSlide;
+      'elements.tarif': ElementsTarif;
+      'elements.tarif-item': ElementsTarifItem;
       'elements.text-link': ElementsTextLink;
       'elements.timeline-item': ElementsTimelineItem;
     }

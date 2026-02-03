@@ -31,6 +31,7 @@ import Directions from '@/components/layout/Directions';
 import SectionDivider from '@/components/layout/SectionDivider';
 import ButtonGroup from '@/components/layout/ButtonGroup';
 import LocationCards from '@/components/content/LocationCards';
+import Tarify from '@/components/content/Tarify';
 import Badge from '@/components/ui/Badge';
 import Card from '@/components/ui/Card';
 import PartnerLogos from '@/components/content/PartnerLogos';
@@ -489,6 +490,114 @@ Centrum Zdraví Sagena poskytuje **komplexní zdravotní péči** již více ne�
       <Badge variant="info">Info</Badge>
       <Badge variant="primary" size="sm">Malý štítek</Badge>
       <Badge variant="primary" size="md">Velký štítek</Badge>
+
+      <SectionDivider />
+
+      <Heading level={2}>Tarify (Ceníky)</Heading>
+      <Heading level={3}>3 tarify - Style 1 a Style 2</Heading>
+      <Tarify
+        tarify={[
+          {
+            title: 'Základní',
+            subtitle: '500 Kč / měsíc',
+            items: [
+              { text: 'Základní vyšetření' },
+              { text: 'Konzultace online' },
+              { text: 'Preventivní prohlídky' },
+            ],
+            link: { text: 'Vybrat', url: '#' },
+            style: 'Style 1',
+          },
+          {
+            title: 'Prémiový',
+            subtitle: '1 200 Kč / měsíc',
+            label: 'Nejoblíbenější',
+            items: [
+              { text: 'Vše ze Základního' },
+              { text: 'Specializovaná péče' },
+              { text: 'Přednostní termíny' },
+              { text: 'Telefonická linka 24/7' },
+            ],
+            link: { text: 'Vybrat', url: '#' },
+            style: 'Style 2',
+          },
+          {
+            title: 'Firemní',
+            subtitle: 'Individuální cena',
+            label: 'Pro firmy',
+            items: [
+              { text: 'Vše z Prémiového' },
+              { text: 'Skupinové prohlídky' },
+              { text: 'Firemní reporting' },
+              { text: 'Dedikovaný kontakt' },
+            ],
+            link: { text: 'Kontaktujte nás', url: '#' },
+            style: 'Style 1',
+          },
+        ]}
+      />
+
+      <Heading level={3}>4 tarify - smíšené styly</Heading>
+      <Tarify
+        tarify={[
+          {
+            title: 'Start',
+            subtitle: 'Zdarma',
+            items: [
+              { text: 'Základní funkce' },
+            ],
+            link: { text: 'Začít', url: '#' },
+          },
+          {
+            title: 'Pro',
+            subtitle: '299 Kč',
+            items: [
+              { text: 'Rozšířené funkce' },
+              { text: 'Podpora email' },
+            ],
+            link: { text: 'Koupit', url: '#' },
+          },
+          {
+            title: 'Business',
+            subtitle: '799 Kč',
+            label: 'Doporučeno',
+            items: [
+              { text: 'Vše z Pro' },
+              { text: 'Prioritní podpora' },
+              { text: 'Analytika' },
+            ],
+            link: { text: 'Koupit', url: '#' },
+            style: 'Style 2',
+          },
+          {
+            title: 'Enterprise',
+            subtitle: 'Na míru',
+            items: [
+              { text: 'Neomezené funkce' },
+              { text: 'Dedikovaná podpora' },
+              { text: 'SLA garance' },
+            ],
+            link: { text: 'Kontakt', url: '#' },
+          },
+        ]}
+      />
+
+      <Heading level={3}>Jednoduchý tarif bez položek</Heading>
+      <Tarify
+        tarify={[
+          {
+            title: 'Konzultace',
+            subtitle: '800 Kč / hodina',
+            link: { text: 'Objednat', url: '#' },
+          },
+          {
+            title: 'Vyšetření',
+            subtitle: '1 500 Kč',
+            link: { text: 'Objednat', url: '#' },
+            style: 'Style 2',
+          },
+        ]}
+      />
 
       <SectionDivider />
 

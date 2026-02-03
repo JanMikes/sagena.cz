@@ -588,6 +588,17 @@ export interface ComponentsBadges {
   alignment?: 'Left aligned' | 'Center aligned' | 'Right aligned' | null;
 }
 
+/**
+ * Components: Tarify (Tariffs/Pricing)
+ * Location: strapi/src/components/components/tarify.json
+ * Usage: Pricing tariff cards displayed in a responsive grid
+ */
+export interface ComponentsTarify {
+  id: number;
+  __component: 'components.tarify';
+  tarify?: ElementsTarif[] | null;
+}
+
 // ============================================================================
 // Strapi Elements (embedded in other components, never standalone)
 // ============================================================================
@@ -904,6 +915,33 @@ export interface ElementsBadge {
 }
 
 /**
+ * Elements: Tarif Item
+ * Location: strapi/src/components/elements/tarif-item.json
+ * Usage: Individual text line item within a tarif (for ul/li lists)
+ */
+export interface ElementsTarifItem {
+  id: number;
+  __component?: 'elements.tarif-item';
+  text: string;
+}
+
+/**
+ * Elements: Tarif
+ * Location: strapi/src/components/elements/tarif.json
+ * Usage: Individual tariff/pricing card with title, subtitle, label, items list, link, and style
+ */
+export interface ElementsTarif {
+  id: number;
+  __component?: 'elements.tarif';
+  title?: string | null;
+  subtitle?: string | null;
+  label?: string | null;
+  items?: ElementsTarifItem[] | null;
+  link?: ElementsTextLink | null;
+  style?: 'Style 1' | 'Style 2' | null;
+}
+
+/**
  * Elements: Person
  * Location: strapi/src/components/elements/person.json
  * Usage: Wrapper element that references a Person content type
@@ -987,7 +1025,7 @@ export interface ElementsContactCard {
 /**
  * Page content dynamic zone - all components that can appear in page content area
  */
-export type PageContentComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsPopup | ComponentsLinksList | ComponentsVideo | ComponentsServiceCards | ComponentsFullWidthCards | ComponentsDocuments | ComponentsJobPosting | ComponentsPartnerLogos | ComponentsMarketingArguments | ComponentsTimeline | ComponentsSectionDivider | ComponentsSlider | ComponentsGallerySlider | ComponentsPhotoGallery | ComponentsDirections | ComponentsAccordionSections | ComponentsButtonGroup | ComponentsContactCards | ComponentsNewsArticles | ComponentsLocationCards | ComponentsBadges | ComponentsImage | ComponentsAmbulances;
+export type PageContentComponent = ComponentsHeading | ComponentsText | ComponentsAlert | ComponentsPopup | ComponentsLinksList | ComponentsVideo | ComponentsServiceCards | ComponentsFullWidthCards | ComponentsDocuments | ComponentsJobPosting | ComponentsPartnerLogos | ComponentsMarketingArguments | ComponentsTimeline | ComponentsSectionDivider | ComponentsSlider | ComponentsGallerySlider | ComponentsPhotoGallery | ComponentsDirections | ComponentsAccordionSections | ComponentsButtonGroup | ComponentsContactCards | ComponentsNewsArticles | ComponentsLocationCards | ComponentsBadges | ComponentsImage | ComponentsAmbulances | ComponentsTarify;
 
 /**
  * Page sidebar dynamic zone - all components that can appear in page sidebar

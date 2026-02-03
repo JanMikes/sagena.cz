@@ -1414,6 +1414,18 @@ export async function fetchPageBySlug(
               },
             },
             'components.badges': { populate: '*' },
+            'components.tarify': {
+              populate: {
+                tarify: {
+                  populate: {
+                    items: true,
+                    link: {
+                      populate: ['page', 'file'],
+                    },
+                  },
+                },
+              },
+            },
             'components.image': {
               populate: {
                 image: {
@@ -2349,6 +2361,18 @@ export async function fetchIntranetPageBySlug(
               },
             },
             'components.badges': { populate: '*' },
+            'components.tarify': {
+              populate: {
+                tarify: {
+                  populate: {
+                    items: true,
+                    link: {
+                      populate: ['page', 'file'],
+                    },
+                  },
+                },
+              },
+            },
             'components.image': {
               populate: {
                 image: {

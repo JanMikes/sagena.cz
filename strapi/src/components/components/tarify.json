@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_components_tarify",
+  "info": {
+    "displayName": "Tarify",
+    "icon": "grid"
+  },
+  "options": {},
+  "attributes": {
+    "tarify": {
+      "type": "component",
+      "component": "elements.tarif",
+      "repeatable": true
+    }
+  },
+  "config": {}
+}

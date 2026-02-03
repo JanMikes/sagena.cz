@@ -1,0 +1,35 @@
+{
+  "collectionName": "components_elements_tarifs",
+  "info": {
+    "displayName": "Tarif",
+    "icon": "priceTag"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "subtitle": {
+      "type": "string"
+    },
+    "label": {
+      "type": "string"
+    },
+    "items": {
+      "type": "component",
+      "component": "elements.tarif-item",
+      "repeatable": true
+    },
+    "link": {
+      "type": "component",
+      "component": "elements.text-link",
+      "repeatable": false
+    },
+    "style": {
+      "type": "enumeration",
+      "default": "Style 1",
+      "enum": ["Style 1", "Style 2"]
+    }
+  },
+  "config": {}
+}

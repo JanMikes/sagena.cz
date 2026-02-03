@@ -33,6 +33,7 @@ import AmbulanceCard from '@/components/ambulance/AmbulanceCard';
 import NewsArticles from '@/components/content/NewsArticles';
 import LocationCards from '@/components/content/LocationCards';
 import Badges from '@/components/content/Badges';
+import Tarify from '@/components/content/Tarify';
 import { getStrapiMediaURL, getIconUrlById, fetchNewsArticles, fetchIntranetNewsArticles, resolveTextLink, hasLinkDestination } from '@/lib/strapi';
 import {
   PageContentComponent,
@@ -67,6 +68,7 @@ import {
   ComponentsLocationCards,
   ComponentsBadges,
   ComponentsImage,
+  ComponentsTarify,
   ElementsTextLink,
   StrapiMedia,
 } from '@/types/strapi';
@@ -1247,6 +1249,37 @@ async function renderComponent(
           key={`${__component}-${component.id || index}`}
           badges={badges}
           alignment={alignment}
+        />
+      );
+    }
+
+    case 'components.tarify': {
+      const tarifyComponent = component as ComponentsTarify;
+
+      // Transform Strapi data to Tarify component props
+      const tarify = (tarifyComponent.tarify ?? []).map((tarif) => {
+        // Resolve link if present
+        const resolved = tarif.link ? resolveTextLink(tarif.link, locale) : null;
+
+        return {
+          title: tarif.title || null,
+          subtitle: tarif.subtitle || null,
+          label: tarif.label || null,
+          items: (tarif.items ?? []).map((item) => ({
+            text: item.text,
+          })),
+          link: resolved && hasLinkDestination(tarif.link!) ? {
+            text: tarif.link?.text || '',
+            url: resolved.url,
+          } : null,
+          style: tarif.style as 'Style 1' | 'Style 2' | undefined,
+        };
+      });
+
+      return (
+        <Tarify
+          key={`${__component}-${component.id || index}`}
+          tarify={tarify}
         />
       );
     }

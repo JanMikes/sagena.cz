@@ -89,7 +89,8 @@
         "components.location-cards",
         "components.popup",
         "components.badges",
-        "components.image"
+        "components.image",
+        "components.tarify"
       ],
       "required": true
     },
