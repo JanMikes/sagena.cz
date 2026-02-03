@@ -115,7 +115,7 @@
   }
 
   .prose strong {
-    @apply font-semibold text-gray-900;
+    @apply font-semibold;
   }
 
   .prose blockquote {
