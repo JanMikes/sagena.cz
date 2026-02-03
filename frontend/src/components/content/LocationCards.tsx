@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { MapPin, Phone, Mail, ArrowRight, Map, Clock } from 'lucide-react';
+import { MapPin, Phone, Mail, ArrowRight, Clock } from 'lucide-react';
 import RichText from '@/components/typography/RichText';
 
 interface LocationCardData {
@@ -82,10 +82,22 @@ const LocationCard: React.FC<{ card: LocationCardData }> = ({ card }) => {
               <div className="space-y-2">
                 {/* Address */}
                 {card.address && (
-                  <div className="flex items-start space-x-3 text-gray-600">
-                    <MapPin className="w-5 h-5 flex-shrink-0 text-primary-600 mt-0.5" />
-                    <span className="text-sm whitespace-pre-line">{card.address}</span>
-                  </div>
+                  card.mapLink ? (
+                    <a
+                      href={card.mapLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-start space-x-3 text-gray-600 hover:text-primary-600 transition-colors"
+                    >
+                      <MapPin className="w-5 h-5 flex-shrink-0 text-primary-600 mt-0.5" />
+                      <span className="text-sm whitespace-pre-line">{card.address}</span>
+                    </a>
+                  ) : (
+                    <div className="flex items-start space-x-3 text-gray-600">
+                      <MapPin className="w-5 h-5 flex-shrink-0 text-primary-600 mt-0.5" />
+                      <span className="text-sm whitespace-pre-line">{card.address}</span>
+                    </div>
+                  )
                 )}
 
                 {/* Phone */}
@@ -115,38 +127,25 @@ const LocationCard: React.FC<{ card: LocationCardData }> = ({ card }) => {
               {hasOpeningHours && (
                 <button
                   onClick={() => setIsFlipped(true)}
-                  className="mt-4 flex items-center justify-center space-x-1.5 w-full py-1.5 text-primary-600 hover:text-primary-700 text-xs transition-colors border border-primary-200 rounded hover:bg-primary-50"
+                  className="mt-4 flex items-center justify-center gap-2 w-full py-2 text-primary-600 hover:text-primary-700 font-medium text-sm transition-colors border border-primary-600 rounded-lg hover:bg-primary-50"
                 >
-                  <Clock className="w-3.5 h-3.5" />
+                  <Clock className="w-4 h-4 text-primary-600" />
                   <span>Ordinační hodiny</span>
                 </button>
               )}
 
               {/* Buttons (full-width at bottom) */}
-              {(card.link || card.mapLink) && (
-                <div className="mt-3 pt-3 border-t border-gray-100 space-y-2">
-                  {card.link && (
-                    <Link
-                      href={card.link.url}
-                      target={card.link.external ? '_blank' : undefined}
-                      rel={card.link.external ? 'noopener noreferrer' : undefined}
-                      className="flex items-center justify-center w-full px-3 py-2 bg-primary-600 text-white text-sm rounded hover:bg-primary-700 transition-colors group"
-                    >
-                      <span>{card.link.text}</span>
-                      <ArrowRight className="w-3.5 h-3.5 ml-1.5 group-hover:translate-x-1 transition-transform" />
-                    </Link>
-                  )}
-                  {card.mapLink && (
-                    <Link
-                      href={card.mapLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center justify-center w-full px-3 py-2 border border-primary-600 text-primary-600 text-sm rounded hover:bg-primary-50 transition-colors group"
-                    >
-                      <Map className="w-3.5 h-3.5 mr-1.5" />
-                      <span>Zobrazit na mapě</span>
-                    </Link>
-                  )}
+              {card.link && (
+                <div className="mt-3 pt-3 border-t border-gray-100">
+                  <Link
+                    href={card.link.url}
+                    target={card.link.external ? '_blank' : undefined}
+                    rel={card.link.external ? 'noopener noreferrer' : undefined}
+                    className="flex items-center justify-center w-full px-3 py-2 bg-primary-600 text-white text-sm rounded hover:bg-primary-700 transition-colors group"
+                  >
+                    <span>{card.link.text}</span>
+                    <ArrowRight className="w-3.5 h-3.5 ml-1.5 group-hover:translate-x-1 transition-transform" />
+                  </Link>
                 </div>
               )}
             </div>
