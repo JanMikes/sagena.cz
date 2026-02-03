@@ -263,13 +263,13 @@ const Slider: React.FC<SliderProps> = ({
 
             {/* Content */}
             <div className="relative flex flex-col justify-center" style={containerStyle}>
-              <div className={`container-custom px-16 md:px-20 lg:px-24 flex-1 flex flex-col py-8 ${variant === 'header' ? 'md:py-12' : ''}`}>
-                <div className={`gap-4 lg:gap-8 flex-1 ${slideItem.image ? 'flex flex-col lg:grid lg:grid-cols-2' : 'flex'}`}>
+              <div className={`container-custom px-16 md:px-20 lg:px-24 py-8 ${variant === 'header' ? 'md:py-12' : ''}`}>
+                <div className={`gap-4 lg:gap-8 ${slideItem.image ? 'flex flex-col lg:grid lg:grid-cols-2' : 'flex'}`}>
                   <div className={`flex flex-col ${
                     slideItem.textPosition === 'top' ? 'justify-start' :
                     slideItem.textPosition === 'bottom' ? 'justify-end' :
                     'justify-center'
-                  } ${slideItem.image ? 'flex-shrink-0 lg:h-full order-1 ' + (slideItem.imagePosition === 'left' ? 'lg:order-2' : 'lg:order-1') : 'h-full w-full'}`}>
+                  } ${slideItem.image ? 'flex-shrink-0 lg:h-full order-1 ' + (slideItem.imagePosition === 'left' ? 'lg:order-2' : 'lg:order-1') : 'w-full'}`}>
                     <div className={slideItem.image ? '' : 'max-w-3xl'}>
                       <h2 className={`font-bold mb-3 leading-tight ${isActive ? 'animate-fade-slide-left' : ''} ${
                         variant === 'header' ? 'text-2xl md:text-3xl lg:text-4xl' : 'text-xl md:text-2xl'
