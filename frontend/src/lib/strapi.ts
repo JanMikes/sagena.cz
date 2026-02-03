@@ -1969,13 +1969,12 @@ export async function fetchIntranetMenu(
       // Use resolveIntranetLink which handles intranet page references directly
       const resolvedLink = resolveIntranetLink(link, locale, hierarchy);
 
-      if (resolvedLink) {
-        items.push({
-          name: item.title,
-          href: resolvedLink.href,
-          target: resolvedLink.target,
-        });
-      }
+      // Show menu items even without a link configured (use # as fallback)
+      items.push({
+        name: item.title,
+        href: resolvedLink?.href || '#',
+        target: resolvedLink?.target || '_self',
+      });
     }
 
     // Only cache non-empty results to avoid persisting missing data
