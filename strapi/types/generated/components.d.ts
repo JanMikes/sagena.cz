@@ -232,6 +232,8 @@ export interface ComponentsMarketingArguments extends Struct.ComponentSchema {
     icon: 'lightbulb';
   };
   attributes: {
+    alignment: Schema.Attribute.Enumeration<['Center', 'Left']> &
+      Schema.Attribute.DefaultTo<'Center'>;
     arguments: Schema.Attribute.Component<'elements.marketing-argument', true>;
     background: Schema.Attribute.Enumeration<
       ['None', 'Primary light', 'Neutral light']

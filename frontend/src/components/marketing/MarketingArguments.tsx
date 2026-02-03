@@ -11,11 +11,13 @@ interface Argument {
 interface MarketingArgumentsProps {
   arguments: Argument[];
   columns?: 2 | 3 | 4;
+  alignment?: 'left' | 'center';
 }
 
 const MarketingArguments: React.FC<MarketingArgumentsProps> = ({
   arguments: args,
   columns = 3,
+  alignment = 'center',
 }) => {
   const gridCols = {
     2: 'md:grid-cols-2',
@@ -26,10 +28,12 @@ const MarketingArguments: React.FC<MarketingArgumentsProps> = ({
   return (
     <div className={`grid grid-cols-1 ${gridCols[columns]} gap-8`}>
       {args.map((arg, index) => {
+        const isLeft = alignment === 'left';
+
         return (
-          <div key={index} className="text-center">
+          <div key={index} className={isLeft ? 'text-left' : 'text-center'}>
             {/* Icon or Number */}
-            <div className="flex items-center justify-center mb-4">
+            <div className={`flex items-center mb-4 ${isLeft ? 'justify-start' : 'justify-center'}`}>
               {arg.icon && (
                 <div className="flex items-center justify-center w-16 h-16">
                   <Image

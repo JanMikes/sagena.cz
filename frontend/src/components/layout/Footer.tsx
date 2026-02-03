@@ -150,8 +150,22 @@ const Footer: React.FC<FooterProps> = ({ data, locale = 'cs', footerNavigation =
           </div>
 
           {/* Footer Links - Takes remaining 8 columns */}
-          {(data?.links && data.links.length > 0) || footerNavigation.length > 0 ? (
-            <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+          {(data?.links && data.links.length > 0) || footerNavigation.length > 0 ? (() => {
+            const linksCount = data?.links?.length ?? 0;
+            const hasFooterNav = footerNavigation.length > 0 ? 1 : 0;
+            const totalGroups = linksCount + hasFooterNav;
+
+            const mdGridCols = totalGroups <= 1 ? 'md:grid-cols-1'
+              : totalGroups === 2 ? 'md:grid-cols-2'
+              : 'md:grid-cols-3';
+
+            const lgGridCols = totalGroups <= 1 ? 'lg:grid-cols-1'
+              : totalGroups === 2 ? 'lg:grid-cols-2'
+              : totalGroups === 3 ? 'lg:grid-cols-3'
+              : 'lg:grid-cols-4';
+
+            return (
+            <div className={`lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 ${mdGridCols} ${lgGridCols} gap-8`}>
               {/* Links from footer single collection (grouped sections) */}
               {data?.links?.map((section, sectionIndex) => (
                 <div key={section.id || sectionIndex}>
@@ -220,7 +234,8 @@ const Footer: React.FC<FooterProps> = ({ data, locale = 'cs', footerNavigation =
                 </div>
               )}
             </div>
-          ) : null}
+            );
+          })() : null}
         </div>
 
         {/* Insurance Logos */}

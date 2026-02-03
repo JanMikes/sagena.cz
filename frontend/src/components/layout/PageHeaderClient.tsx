@@ -74,21 +74,41 @@ const PageHeaderClient: React.FC<PageHeaderClientProps> = ({
         </div>
       )}
 
+      {/* Mobile Navigation Dots - above cards (mobile only) */}
+      {shouldRenderExternalNav && (
+        <div className="flex justify-center pt-4 pb-2 md:hidden">
+          <div className="flex space-x-2">
+            {Array.from({ length: slidesCount }).map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentSlide(index)}
+                className={`w-3 h-3 rounded-full transition-all border-2 border-white ${
+                  index === currentSlide
+                    ? 'bg-primary-600 w-8'
+                    : 'bg-primary-300 hover:bg-primary-400'
+                }`}
+                aria-label={`Slide ${index + 1}`}
+              />
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Service Cards - overlaps with negative margin when slider present */}
       {serviceCardsProps && (
         <div
           className={`
             relative z-10 px-4 md:px-8 lg:px-16
-            ${hasSlider ? '-mt-8 md:-mt-12' : ''}
+            ${hasSlider ? 'md:-mt-12' : ''}
           `}
         >
           <ServiceCards {...serviceCardsProps} />
         </div>
       )}
 
-      {/* External Navigation Dots - below cards */}
+      {/* Desktop Navigation Dots - below cards (desktop only) */}
       {shouldRenderExternalNav && (
-        <div className="flex justify-center mt-6 mb-2">
+        <div className="hidden md:flex justify-center mt-6 mb-2">
           <div className="flex space-x-2">
             {Array.from({ length: slidesCount }).map((_, index) => (
               <button

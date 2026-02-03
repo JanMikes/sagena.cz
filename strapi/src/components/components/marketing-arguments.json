@@ -24,6 +24,11 @@
       "type": "enumeration",
       "default": "None",
       "enum": ["None", "Primary light", "Neutral light"]
+    },
+    "alignment": {
+      "type": "enumeration",
+      "default": "Center",
+      "enum": ["Center", "Left"]
     }
   },
   "config": {}

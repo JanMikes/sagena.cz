@@ -89,8 +89,7 @@ const NewsArticle: React.FC<NewsArticleProps> = ({
           <div className="absolute bottom-0 right-0">
             <Link
               href={readMoreUrl}
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-tl-lg rounded-br-xl hover:brightness-95 transition-all group"
-              style={{ backgroundColor: '#a0bfdf' }}
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-tl-lg rounded-br-xl bg-[#a0bfdf] hover:bg-primary-700 transition-colors group"
             >
               <span className="text-white font-medium text-sm">{readMoreText}</span>
               <ArrowRight className="w-3.5 h-3.5 text-white group-hover:translate-x-1 transition-transform" />
@@ -151,8 +150,7 @@ const NewsArticle: React.FC<NewsArticleProps> = ({
         <div className="absolute bottom-0 right-0">
           <Link
             href={readMoreUrl}
-            className="inline-flex items-center gap-2 px-5 py-3 rounded-tl-lg rounded-br-xl hover:brightness-95 transition-all group"
-            style={{ backgroundColor: '#a0bfdf' }}
+            className="inline-flex items-center gap-2 px-5 py-3 rounded-tl-lg rounded-br-xl bg-[#a0bfdf] hover:bg-primary-700 transition-colors group"
           >
             <span className="text-white font-medium text-sm">{readMoreText}</span>
             <ArrowRight className="w-4 h-4 text-white group-hover:translate-x-1 transition-transform" />

@@ -357,6 +357,7 @@ export interface ComponentsMarketingArguments {
   arguments?: ElementsMarketingArgument[] | null;
   columns?: 'Two columns' | 'Three columns' | 'Four columns' | null;
   background?: 'None' | 'Primary light' | 'Neutral light' | null;
+  alignment?: 'Center' | 'Left' | null;
 }
 
 /**

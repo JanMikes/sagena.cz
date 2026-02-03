@@ -540,11 +540,15 @@ async function renderComponent(
       };
       const bgClass = backgroundClasses[background] || '';
 
+      // Get alignment
+      const alignment = marketingArgumentsComponent.alignment === 'Left' ? 'left' : 'center';
+
       const content = (
         <MarketingArguments
           key={`${__component}-${component.id || index}`}
           arguments={args}
           columns={columns}
+          alignment={alignment}
         />
       );
 
