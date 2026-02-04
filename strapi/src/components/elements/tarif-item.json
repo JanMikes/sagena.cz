@@ -9,6 +9,11 @@
     "text": {
       "type": "string",
       "required": true
+    },
+    "style": {
+      "type": "enumeration",
+      "default": "included",
+      "enum": ["included", "excluded"]
     }
   },
   "config": {}

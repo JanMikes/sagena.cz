@@ -834,6 +834,8 @@ export interface ElementsTarifItem extends Struct.ComponentSchema {
     icon: 'bulletList';
   };
   attributes: {
+    style: Schema.Attribute.Enumeration<['included', 'excluded']> &
+      Schema.Attribute.DefaultTo<'included'>;
     text: Schema.Attribute.String & Schema.Attribute.Required;
   };
 }

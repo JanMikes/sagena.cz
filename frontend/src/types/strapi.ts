@@ -929,6 +929,7 @@ export interface ElementsTarifItem {
   id: number;
   __component?: 'elements.tarif-item';
   text: string;
+  style?: 'included' | 'excluded' | null;
 }
 
 /**

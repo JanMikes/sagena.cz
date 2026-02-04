@@ -522,13 +522,17 @@ async function renderComponent(
 
       // Transform Strapi data to MarketingArguments component props
       const args = await Promise.all((marketingArgumentsComponent.arguments ?? []).map(async (arg) => {
-        // Get icon URL from cache by ID if display_type is Icon
-        const iconUrl = arg.display_type === 'Icon' && arg.icon?.icon?.id
+        // Check if we should use first letter instead of icon
+        const useFirstLetter = arg.icon?.use_first_letter ?? false;
+
+        // Get icon URL from cache by ID if display_type is Icon (skip if using first letter)
+        const iconUrl = arg.display_type === 'Icon' && !useFirstLetter && arg.icon?.icon?.id
           ? await getIconUrlById(arg.icon.icon.id)
           : null;
 
         return {
           icon: iconUrl,
+          useFirstLetter: arg.display_type === 'Icon' ? useFirstLetter : false,
           number: arg.display_type === 'Number' ? (arg.number || undefined) : undefined,
           title: arg.title || '',
           description: arg.description || '',
@@ -1279,6 +1283,7 @@ async function renderComponent(
           label: tarif.label || null,
           items: (tarif.items ?? []).map((item) => ({
             text: item.text,
+            style: item.style as 'included' | 'excluded' | undefined,
           })),
           link: resolved && hasLinkDestination(tarif.link!) ? {
             text: tarif.link?.text || '',

@@ -69,6 +69,16 @@ export default function KomponentyPage() {
         ]}
       />
 
+      <Heading level={3}>S prvním písmenem místo ikony</Heading>
+      <ServiceCards
+        columns={3}
+        cards={[
+          { useFirstLetter: true, title: 'Kardiologie', description: 'Péče o vaše srdce', link: { text: 'Zjistit více', url: '#' } },
+          { useFirstLetter: true, title: 'Rehabilitace', description: 'Moderní rehabilitační metody', link: { text: 'Zjistit více', url: '#' } },
+          { useFirstLetter: true, title: 'Ordinace', description: 'Široká nabídka ordinací', link: { text: 'Zjistit více', url: '#' } },
+        ]}
+      />
+
       <SectionDivider />
 
       <Heading level={2}>Karty na celou šířku</Heading>
@@ -77,6 +87,15 @@ export default function KomponentyPage() {
           { icon: null, title: 'Objednání', description: 'Objednejte se online', url: '#' },
           { icon: null, title: 'Dokumenty', description: 'Stáhněte si potřebné formuláře', url: '#' },
           { icon: null, title: 'Náš tým', description: 'Seznamte se s našimi lékaři', url: '#' },
+        ]}
+      />
+
+      <Heading level={3}>S prvním písmenem místo ikony</Heading>
+      <FullWidthCards
+        cards={[
+          { useFirstLetter: true, title: 'Objednání', description: 'Objednejte se online', url: '#' },
+          { useFirstLetter: true, title: 'Dokumenty', description: 'Stáhněte si potřebné formuláře', url: '#' },
+          { useFirstLetter: true, title: 'Náš tým', description: 'Seznamte se s našimi lékaři', url: '#' },
         ]}
       />
 
@@ -165,6 +184,16 @@ export default function KomponentyPage() {
           { icon: null, title: 'Zkušený tým', description: '50+ lékařů a specialistů' },
           { icon: null, title: 'Moderní vybavení', description: 'Nejnovější zdravotnická technika' },
           { number: '15+', title: 'Let zkušeností', description: 'V péči o vaše zdraví' },
+        ]}
+      />
+
+      <Heading level={3}>S prvním písmenem místo ikony</Heading>
+      <MarketingArguments
+        columns={3}
+        arguments={[
+          { useFirstLetter: true, title: 'Zkušený tým', description: '50+ lékařů a specialistů' },
+          { useFirstLetter: true, title: 'Moderní vybavení', description: 'Nejnovější zdravotnická technika' },
+          { useFirstLetter: true, title: 'Prevence', description: 'Prevence je základ zdraví' },
         ]}
       />
 
@@ -494,7 +523,7 @@ Centrum Zdraví Sagena poskytuje **komplexní zdravotní péči** již více ne�
       <SectionDivider />
 
       <Heading level={2}>Tarify (Ceníky)</Heading>
-      <Heading level={3}>3 tarify - Style 1 a Style 2</Heading>
+      <Heading level={3}>3 tarify - Style 1 a Style 2 (s included/excluded položkami)</Heading>
       <Tarify
         tarify={[
           {
@@ -504,6 +533,8 @@ Centrum Zdraví Sagena poskytuje **komplexní zdravotní péči** již více ne�
               { text: 'Základní vyšetření' },
               { text: 'Konzultace online' },
               { text: 'Preventivní prohlídky' },
+              { text: 'Přednostní termíny', style: 'excluded' },
+              { text: 'Telefonická linka 24/7', style: 'excluded' },
             ],
             link: { text: 'Vybrat', url: '#' },
             style: 'Style 1',
@@ -517,6 +548,7 @@ Centrum Zdraví Sagena poskytuje **komplexní zdravotní péči** již více ne�
               { text: 'Specializovaná péče' },
               { text: 'Přednostní termíny' },
               { text: 'Telefonická linka 24/7' },
+              { text: 'Dedikovaný kontakt', style: 'excluded' },
             ],
             link: { text: 'Vybrat', url: '#' },
             style: 'Style 2',

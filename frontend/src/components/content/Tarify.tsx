@@ -1,9 +1,10 @@
 import React from 'react';
 import Link from 'next/link';
-import { ArrowRight, Check } from 'lucide-react';
+import { ArrowRight, Check, X } from 'lucide-react';
 
 interface TarifItem {
   text: string;
+  style?: 'included' | 'excluded';
 }
 
 interface Tarif {
@@ -45,6 +46,10 @@ const TarifCard: React.FC<{ tarif: Tarif }> = ({ tarif }) => {
     ? 'text-primary-200'
     : 'text-primary-400';
 
+  const crossClasses = isStyle2
+    ? 'text-red-300'
+    : 'text-red-400';
+
   const dividerClasses = isStyle2
     ? 'border-white/20'
     : 'border-primary-100';
@@ -81,12 +86,19 @@ const TarifCard: React.FC<{ tarif: Tarif }> = ({ tarif }) => {
       {/* Items list */}
       {tarif.items && tarif.items.length > 0 && (
         <ul className="flex-grow py-4 space-y-3">
-          {tarif.items.map((item, idx) => (
-            <li key={idx} className={`flex items-start gap-3 ${itemClasses}`}>
-              <Check className={`w-5 h-5 flex-shrink-0 mt-0.5 ${checkClasses}`} />
-              <span className="text-sm leading-relaxed">{item.text}</span>
-            </li>
-          ))}
+          {tarif.items.map((item, idx) => {
+            const isExcluded = item.style === 'excluded';
+            return (
+              <li key={idx} className={`flex items-start gap-3 ${itemClasses}`}>
+                {isExcluded ? (
+                  <X className={`w-5 h-5 flex-shrink-0 mt-0.5 ${crossClasses}`} />
+                ) : (
+                  <Check className={`w-5 h-5 flex-shrink-0 mt-0.5 ${checkClasses}`} />
+                )}
+                <span className={`text-sm leading-relaxed ${isExcluded ? 'line-through opacity-70' : ''}`}>{item.text}</span>
+              </li>
+            );
+          })}
         </ul>
       )}
 
