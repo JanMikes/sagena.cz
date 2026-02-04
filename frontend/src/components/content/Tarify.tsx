@@ -118,8 +118,8 @@ const Tarify: React.FC<TarifyProps> = ({ tarify }) => {
 
   // Grid column classes based on count
   const getGridCols = () => {
-    if (count === 1) return 'grid-cols-1 max-w-sm mx-auto';
-    if (count === 2) return 'grid-cols-1 sm:grid-cols-2 max-w-2xl mx-auto';
+    if (count === 1) return 'grid-cols-1 max-w-sm';
+    if (count === 2) return 'grid-cols-1 sm:grid-cols-2 max-w-2xl';
     if (count === 3) return 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3';
     if (count === 4) return 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4';
     if (count === 5) return 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5';
@@ -128,19 +128,14 @@ const Tarify: React.FC<TarifyProps> = ({ tarify }) => {
   };
 
   return (
-    <div className={`grid ${getGridCols()} gap-6`}>
+    <div className={`grid ${getGridCols()} gap-6 justify-start`}>
       {tarify.map((tarif, index) => {
-        const isStyle2 = tarif.style === 'Style 2';
-        const labelClasses = isStyle2
-          ? 'bg-primary-200/90 text-primary-700'
-          : 'bg-primary-600/90 text-white';
-
         return (
-          <div key={index} className={`relative ${tarif.label ? 'pt-4' : ''}`}>
-            {/* Label badge - in parent wrapper */}
+          <div key={index} className="relative">
+            {/* Label badge - positioned at top of card */}
             {tarif.label && (
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 z-10">
-                <span className={`inline-block px-4 py-1 rounded-full text-sm font-medium whitespace-nowrap shadow-sm ${labelClasses}`}>
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
+                <span className="inline-block px-4 py-1 rounded-full text-sm font-medium whitespace-nowrap shadow-sm bg-[#679641] text-white">
                   {tarif.label}
                 </span>
               </div>

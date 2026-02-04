@@ -1000,6 +1000,11 @@ export async function fetchIntranetFooter(locale: string = 'cs'): Promise<Footer
 
     return footer || null;
   } catch (error) {
+    // 404 is expected when intranet-footer collection doesn't exist - silently return null
+    if (error instanceof Error && error.message.includes('404')) {
+      return null;
+    }
+    // Log other unexpected errors
     console.error(`Failed to fetch intranet footer for locale ${locale}:`, error);
     return null;
   }
