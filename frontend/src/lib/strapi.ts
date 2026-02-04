@@ -202,6 +202,7 @@ const CACHE_KEYS = {
   navigation: 'navigation:',
   intranetMenu: 'intranet-menu:',
   footer: 'footer:',
+  intranetFooter: 'intranet-footer:',
   homepage: 'homepage:',
   search: 'search:',
   searchableContent: 'searchable:',
@@ -271,6 +272,14 @@ export async function invalidateCache(model: string, slug?: string, locale?: str
         await cacheDeletePattern(`${CACHE_KEYS.footer}${locale}`);
       } else {
         await cacheDeletePattern(`${CACHE_KEYS.footer}*`);
+      }
+      break;
+
+    case 'intranet-footer':
+      if (locale) {
+        await cacheDeletePattern(`${CACHE_KEYS.intranetFooter}${locale}`);
+      } else {
+        await cacheDeletePattern(`${CACHE_KEYS.intranetFooter}*`);
       }
       break;
 
@@ -943,6 +952,55 @@ export async function fetchFooter(locale: string = 'cs'): Promise<Footer | null>
     return footer || null;
   } catch (error) {
     console.error(`Failed to fetch footer for locale ${locale}:`, error);
+    return null;
+  }
+}
+
+/**
+ * Fetch intranet footer data (single type)
+ * Used for intranet pages - separate from main site footer
+ * @param locale - Locale for i18n (default: 'cs')
+ */
+export async function fetchIntranetFooter(locale: string = 'cs'): Promise<Footer | null> {
+  // Check Redis cache first
+  const cacheKey = `${CACHE_KEYS.intranetFooter}${locale}`;
+  const cached = await cacheGet<Footer>(cacheKey);
+  if (cached) {
+    return cached;
+  }
+
+  try {
+    // Fetch intranet footer with nested population for links and insurance logos
+    const response = await fetchAPI<StrapiResponse<Footer>>('/intranet-footer', {
+      locale,
+      populate: {
+        links: {
+          populate: {
+            links: {
+              populate: ['page', 'file'],
+            },
+          },
+        },
+        insurance_logos: {
+          populate: {
+            partners: {
+              populate: ['logo'],
+            },
+          },
+        },
+      },
+    });
+
+    const footer = response.data;
+
+    if (footer) {
+      // Cache the result in Redis
+      await cacheSet(cacheKey, footer, CACHE_TTL_SECONDS);
+    }
+
+    return footer || null;
+  } catch (error) {
+    console.error(`Failed to fetch intranet footer for locale ${locale}:`, error);
     return null;
   }
 }

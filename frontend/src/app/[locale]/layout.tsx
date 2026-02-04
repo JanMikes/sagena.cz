@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import { headers } from 'next/headers';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
-import { fetchNavigation, fetchFooter, fetchSearch, fetchSearchableContent } from '@/lib/strapi';
+import { fetchNavigation, fetchFooter, fetchIntranetFooter, fetchSearch, fetchSearchableContent } from '@/lib/strapi';
 import { isValidLocale, getAlternateLocale, type Locale } from '@/i18n/config';
 import { LocaleProvider } from '@/contexts/LocaleContext';
 import { ReservationModalProvider } from '@/contexts/ReservationModalContext';
@@ -50,8 +50,11 @@ export default async function LocaleLayout({
 
   try {
     if (isIntranet) {
-      // For intranet, only fetch minimal data needed for header
-      // Navigation links will be hidden, so no need to fetch them
+      // For intranet, fetch intranet-specific footer data but not navigation
+      [footer, footerNavItems] = await Promise.all([
+        fetchIntranetFooter(locale),
+        fetchNavigation(undefined, true, locale),
+      ]);
     } else {
       [navbarItems, footer, footerNavItems, searchData, searchableContent] = await Promise.all([
         fetchNavigation(true, undefined, locale),
@@ -67,7 +70,7 @@ export default async function LocaleLayout({
 
   const alternateLocale = getAlternateLocale(locale as Locale);
 
-  // Intranet pages have their own secondary navigation - show main Header without nav links, no Footer
+  // Intranet pages have their own secondary navigation - show main Header without nav links
   if (isIntranet) {
     return (
       <ReservationModalProvider>
@@ -79,6 +82,7 @@ export default async function LocaleLayout({
             hideNavigation
           />
           <main>{children}</main>
+          <Footer data={footer} locale={locale} footerNavigation={footerNavItems} />
         </LocaleProvider>
       </ReservationModalProvider>
     );

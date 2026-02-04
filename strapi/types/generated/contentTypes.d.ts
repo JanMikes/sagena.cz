@@ -628,6 +628,77 @@ export interface ApiIconIcon extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiIntranetFooterIntranetFooter
+  extends Struct.SingleTypeSchema {
+  collectionName: 'intranet_footers';
+  info: {
+    displayName: 'Intranet - Footer';
+    pluralName: 'intranet-footers';
+    singularName: 'intranet-footer';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    contact_address: Schema.Attribute.Text &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    contact_email: Schema.Attribute.Email &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    contact_phone: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    insurance_logos: Schema.Attribute.Component<
+      'components.partner-logos',
+      false
+    > &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    links: Schema.Attribute.Component<'elements.links-section', true> &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::intranet-footer.intranet-footer'
+    >;
+    publishedAt: Schema.Attribute.DateTime;
+    text: Schema.Attribute.RichText &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiIntranetMenuIntranetMenu
   extends Struct.CollectionTypeSchema {
   collectionName: 'intranet_menus';
@@ -1820,6 +1891,7 @@ declare module '@strapi/strapi' {
       'api::footer.footer': ApiFooterFooter;
       'api::homepage.homepage': ApiHomepageHomepage;
       'api::icon.icon': ApiIconIcon;
+      'api::intranet-footer.intranet-footer': ApiIntranetFooterIntranetFooter;
       'api::intranet-menu.intranet-menu': ApiIntranetMenuIntranetMenu;
       'api::intranet-news-article.intranet-news-article': ApiIntranetNewsArticleIntranetNewsArticle;
       'api::intranet-page.intranet-page': ApiIntranetPageIntranetPage;
