@@ -95,7 +95,7 @@ const TarifCard: React.FC<{ tarif: Tarif }> = ({ tarif }) => {
                 ) : (
                   <Check className={`w-5 h-5 flex-shrink-0 mt-0.5 ${checkClasses}`} />
                 )}
-                <span className={`text-sm leading-relaxed ${isExcluded ? 'line-through opacity-70' : ''}`}>{item.text}</span>
+                <span className={`text-sm leading-relaxed ${isExcluded ? 'opacity-70' : ''}`}>{item.text}</span>
               </li>
             );
           })}

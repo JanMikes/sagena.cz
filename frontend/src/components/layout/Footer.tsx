@@ -246,13 +246,20 @@ const Footer: React.FC<FooterProps> = ({ data, locale = 'cs', footerNavigation =
             >
               {insuranceLogos.partners
                 .filter((partner) => partner.logo?.url)
-                .map((partner, index) => (
+                .map((partner, index) => {
+                  // Background style based on Strapi setting
+                  const isWhite = partner.background === 'White';
+                  const bgClasses = isWhite
+                    ? 'bg-white border-gray-200 hover:border-gray-300'
+                    : 'bg-gray-800 border-gray-700 hover:border-gray-600 hover:bg-gray-750';
+
+                  return (
                 <a
                   key={partner.id || index}
                   href={partner.url || '#'}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center w-full h-full p-4 bg-gray-800 border border-gray-700 rounded-lg hover:border-gray-600 hover:bg-gray-750 transition-all duration-300"
+                  className={`flex items-center justify-center w-full h-full p-4 rounded-lg border transition-all duration-300 ${bgClasses}`}
                   aria-label={partner.name || ''}
                 >
                   <Image
@@ -267,7 +274,8 @@ const Footer: React.FC<FooterProps> = ({ data, locale = 'cs', footerNavigation =
                     }`}
                   />
                 </a>
-              ))}
+                  );
+                })}
             </div>
           </div>
         )}

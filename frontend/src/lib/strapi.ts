@@ -1234,7 +1234,7 @@ export async function fetchPageBySlug(
                 documents: {
                   populate: {
                     file: {
-                      fields: ['url', 'name', 'ext', 'size'],
+                      fields: ['url', 'name', 'caption', 'ext', 'size'],
                     },
                   },
                 },
@@ -1601,7 +1601,7 @@ export async function fetchPageBySlug(
                 documents: {
                   populate: {
                     file: {
-                      fields: ['url', 'name', 'ext', 'size'],
+                      fields: ['url', 'name', 'caption', 'ext', 'size'],
                     },
                   },
                 },
@@ -2173,7 +2173,7 @@ export async function fetchIntranetPageBySlug(
                 documents: {
                   populate: {
                     file: {
-                      fields: ['url', 'name', 'ext', 'size'],
+                      fields: ['url', 'name', 'caption', 'ext', 'size'],
                     },
                   },
                 },
@@ -2500,7 +2500,7 @@ export async function fetchIntranetPageBySlug(
                 documents: {
                   populate: {
                     file: {
-                      fields: ['url', 'name', 'ext', 'size'],
+                      fields: ['url', 'name', 'caption', 'ext', 'size'],
                     },
                   },
                 },

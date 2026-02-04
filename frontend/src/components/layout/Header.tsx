@@ -89,22 +89,33 @@ const Header: React.FC<HeaderProps> = ({
           isScrolled ? 'lg:-translate-y-[60px]' : 'translate-y-0'
         }`}
       >
-      {/* Row 1: Logo, Phone, CTA - Slides up on scroll via transform (Desktop only) */}
+      {/* Animated Logo Container - spans both rows (Desktop only) */}
+      <div className="hidden lg:block absolute inset-x-0 top-0 bottom-0 pointer-events-none z-10">
+        <div className="container-custom relative h-full">
+          <Link
+            href={`/${currentLocale}/`}
+            className={`pointer-events-auto flex items-center absolute left-0 bg-white transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] ${
+              isScrolled
+                ? 'top-[68px] h-[48px] py-1 px-2'
+                : 'top-2 h-[116px] py-3 px-3'
+            }`}
+          >
+            <img
+              src="/logo-color.svg"
+              alt="Sagena"
+              className="h-full w-auto"
+            />
+          </Link>
+        </div>
+      </div>
+
+      {/* Row 1: Phone, CTA, Search, Language - Slides up on scroll via transform (Desktop only) */}
       <div
         className={`hidden lg:block h-[60px] border-b border-gray-100 transition-[opacity,visibility] duration-200 ${
           isScrolled ? 'opacity-0 invisible' : 'opacity-100 visible'
         }`}
       >
-        <div className="container-custom flex items-center justify-between h-full">
-          {/* Logo */}
-          <Link href={`/${currentLocale}/`} className="flex items-center">
-            <img
-              src="/logo-color.svg"
-              alt="Sagena"
-              className="h-12 w-auto"
-            />
-          </Link>
-
+        <div className="container-custom flex items-center justify-end h-full">
           {/* Phone & CTA - Desktop */}
           <div className="hidden lg:flex items-center space-x-4">
             <a
@@ -117,27 +128,28 @@ const Header: React.FC<HeaderProps> = ({
             <Button onClick={openReservationModal} size="sm">
               Objednat se
             </Button>
+            {/* Search & Language Switcher */}
+            {!hideNavigation && (
+              <button
+                onClick={() => setSearchModalOpen(true)}
+                className="p-2 text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
+                aria-label="Vyhledávání"
+              >
+                <SearchIcon className="w-5 h-5" />
+              </button>
+            )}
+            <LocaleSwitcher
+              currentLocale={currentLocale}
+              alternateLocale={alternateLocale}
+              alternateUrl={computedAlternateUrl}
+            />
           </div>
         </div>
       </div>
 
-      {/* Row 2: Navigation, Search, Language Switcher - Always visible */}
+      {/* Row 2: Navigation - Always visible */}
       <nav className="container-custom">
         <div className="flex items-center justify-between h-16">
-          {/* Scaled logo - appears when scrolled (Desktop) */}
-          <Link
-            href={`/${currentLocale}/`}
-            className={`hidden lg:flex items-center transition-[opacity,visibility] duration-200 ${
-              isScrolled ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'
-            }`}
-          >
-            <img
-              src="/logo-color.svg"
-              alt="Sagena"
-              className="h-8 w-auto"
-            />
-          </Link>
-
           {/* Mobile: Logo + Phone (always visible) */}
           <div className="lg:hidden flex items-center space-x-3">
             <Link href={`/${currentLocale}/`} className="flex items-center">
@@ -185,24 +197,6 @@ const Header: React.FC<HeaderProps> = ({
                 </Link>
               );
             })}
-          </div>
-
-          {/* Search & Language Switcher */}
-          <div className="hidden lg:flex items-center space-x-3">
-            {!hideNavigation && (
-              <button
-                onClick={() => setSearchModalOpen(true)}
-                className="p-2 text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
-                aria-label="Vyhledávání"
-              >
-                <SearchIcon className="w-5 h-5" />
-              </button>
-            )}
-            <LocaleSwitcher
-              currentLocale={currentLocale}
-              alternateLocale={alternateLocale}
-              alternateUrl={computedAlternateUrl}
-            />
           </div>
 
           {/* Mobile menu button */}
