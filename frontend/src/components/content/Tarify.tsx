@@ -140,7 +140,7 @@ const Tarify: React.FC<TarifyProps> = ({ tarify }) => {
   };
 
   return (
-    <div className={`grid ${getGridCols()} gap-6 justify-start`}>
+    <div className={`mt-8 grid ${getGridCols()} gap-6 justify-start`}>
       {tarify.map((tarif, index) => {
         return (
           <div key={index} className="relative">
