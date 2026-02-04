@@ -263,7 +263,7 @@ const Slider: React.FC<SliderProps> = ({
 
             {/* Content */}
             <div className="relative flex flex-col justify-center" style={containerStyle}>
-              <div className={`${variant === 'header' ? 'container-custom pt-4 pb-0' : 'container-custom px-16 md:px-20 lg:px-24 py-8'}`}>
+              <div className={`${variant === 'header' ? 'w-full mx-auto max-w-[1280px] px-4 sm:px-6 py-4' : 'container-custom px-16 md:px-20 lg:px-24 py-8'}`}>
                 <div className={`gap-4 lg:gap-8 ${slideItem.image ? 'flex flex-col lg:grid lg:grid-cols-2' : 'flex'}`}>
                   <div className={`flex flex-col ${
                     slideItem.textPosition === 'top' ? 'justify-start' :

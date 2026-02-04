@@ -94,14 +94,9 @@ const PageHeaderClient: React.FC<PageHeaderClientProps> = ({
         </div>
       )}
 
-      {/* Service Cards - overlaps with negative margin when slider present */}
+      {/* Service Cards */}
       {serviceCardsProps && (
-        <div
-          className={`
-            relative z-10 px-4 md:px-8 lg:px-16
-            ${hasSlider ? 'md:-mt-12' : ''}
-          `}
-        >
+        <div className="relative z-10 px-4 md:px-8 lg:px-16">
           <ServiceCards {...serviceCardsProps} />
         </div>
       )}

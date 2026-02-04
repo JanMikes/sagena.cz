@@ -52,8 +52,8 @@ const FullWidthCards: React.FC<FullWidthCardsProps> = ({ cards }) => {
             className="flex items-center space-x-4 p-6 bg-white border border-gray-200 rounded-xl hover:border-primary-300 hover:shadow-md hover:bg-primary-50/30 transition-all duration-300 group w-full"
           >
             {card.useFirstLetter ? (
-              <div className="flex items-center justify-center w-12 h-12 flex-shrink-0 rounded-full bg-primary-100">
-                <span className="text-xl font-bold text-primary-600">
+              <div className="flex items-center justify-center w-12 h-12 flex-shrink-0 rounded-full bg-primary-600">
+                <span className="text-xl font-bold text-white">
                   {card.title.charAt(0).toUpperCase()}
                 </span>
               </div>
