@@ -49,7 +49,7 @@ const ServiceCards: React.FC<ServiceCardsProps> = ({
             {/* Icon + Title on same line */}
             <div className={`flex items-center gap-3 ${isCentered ? 'justify-center' : ''} ${!card.description && card.link ? 'mb-6' : 'mb-2'}`}>
               {card.useFirstLetter ? (
-                <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary-600 flex items-center justify-center">
+                <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary-200 flex items-center justify-center">
                   <span className="text-lg font-bold text-white">
                     {card.title.charAt(0).toUpperCase()}
                   </span>

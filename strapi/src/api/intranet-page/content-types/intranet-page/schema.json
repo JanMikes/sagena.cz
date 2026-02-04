@@ -109,7 +109,8 @@
         "components.intranet-news-articles",
         "components.badges",
         "components.image",
-        "components.ambulances"
+        "components.ambulances",
+        "components.job-posting"
       ]
     }
   }

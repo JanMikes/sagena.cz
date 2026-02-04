@@ -921,6 +921,7 @@ export interface ApiIntranetPageIntranetPage
         'components.badges',
         'components.image',
         'components.ambulances',
+        'components.job-posting',
       ]
     > &
       Schema.Attribute.SetPluginOptions<{
@@ -1208,6 +1209,7 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
         'components.badges',
         'components.image',
         'components.ambulances',
+        'components.job-posting',
       ]
     > &
       Schema.Attribute.SetPluginOptions<{

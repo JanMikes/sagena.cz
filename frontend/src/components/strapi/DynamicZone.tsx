@@ -466,6 +466,7 @@ async function renderComponent(
             text: jobPostingComponent.cta_link?.text || '',
             url: resolved.url,
           } : { text: '', url: '#' }}
+          compact={compact}
         />
       );
     }
