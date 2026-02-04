@@ -61,7 +61,7 @@ const PageHeaderClient: React.FC<PageHeaderClientProps> = ({
 
   return (
     <>
-      {/* Slider - 100% width */}
+      {/* Slider - full width, content contained inside */}
       {sliderProps && (
         <div className="w-full">
           <Slider
