@@ -227,7 +227,6 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
               {/* Doctors Section */}
               {doctors.length > 0 && (
                 <div className="mb-4">
-                  <h4 className="text-sm font-semibold text-gray-900 mb-3">Lékaři</h4>
                   <div>
                     {doctors.map((doctor, index) => (
                       <div key={index} className="py-3 border-b border-gray-100">
