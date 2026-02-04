@@ -7,6 +7,7 @@ import Image from 'next/image';
  */
 interface CardItem {
   icon?: string | null;  // Icon image URL
+  useFirstLetter?: boolean;  // When true, display first letter of title in circle instead of icon
   title: string;
   description: string;
   url: string;
@@ -18,6 +19,7 @@ interface CardItem {
  */
 interface StrapiCardItem {
   icon?: string | null;  // Icon image URL from Strapi
+  useFirstLetter?: boolean;  // When true, display first letter of title in circle instead of icon
   title: string;
   description: string;
   link: {
@@ -49,7 +51,13 @@ const FullWidthCards: React.FC<FullWidthCardsProps> = ({ cards }) => {
             href={url}
             className="flex items-center space-x-4 p-6 bg-white border border-gray-200 rounded-xl hover:border-primary-300 hover:shadow-md hover:bg-primary-50/30 transition-all duration-300 group w-full"
           >
-            {card.icon && (
+            {card.useFirstLetter ? (
+              <div className="flex items-center justify-center w-12 h-12 flex-shrink-0 rounded-full bg-primary-100">
+                <span className="text-xl font-bold text-primary-600">
+                  {card.title.charAt(0).toUpperCase()}
+                </span>
+              </div>
+            ) : card.icon && (
               <div className="flex items-center justify-center w-12 h-12 flex-shrink-0">
                 <Image
                   src={card.icon}

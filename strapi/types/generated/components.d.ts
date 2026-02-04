@@ -623,6 +623,8 @@ export interface ElementsIcon extends Struct.ComponentSchema {
   };
   attributes: {
     icon: Schema.Attribute.Relation<'oneToOne', 'api::icon.icon'>;
+    use_first_letter: Schema.Attribute.Boolean &
+      Schema.Attribute.DefaultTo<false>;
   };
 }
 
@@ -723,6 +725,8 @@ export interface ElementsPartnerLogo extends Struct.ComponentSchema {
     icon: 'briefcase';
   };
   attributes: {
+    background: Schema.Attribute.Enumeration<['White', 'Primary']> &
+      Schema.Attribute.DefaultTo<'White'>;
     logo: Schema.Attribute.Media<'images'>;
     name: Schema.Attribute.String;
     url: Schema.Attribute.String;

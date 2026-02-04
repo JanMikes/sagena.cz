@@ -10,6 +10,10 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::icon.icon"
+    },
+    "use_first_letter": {
+      "type": "boolean",
+      "default": false
     }
   },
   "config": {}

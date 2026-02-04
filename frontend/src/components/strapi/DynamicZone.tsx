@@ -250,9 +250,12 @@ async function renderComponent(
 
       // Transform Strapi data to ServiceCards component props
       const cards = await Promise.all((serviceCardsComponent.cards ?? []).map(async (card) => {
-        // Get icon URL from cache by ID
+        // Check if we should use first letter instead of icon
+        const useFirstLetter = card.icon?.use_first_letter ?? false;
+
+        // Get icon URL from cache by ID (skip if using first letter)
         // Structure: card.icon (component) → icon (relation) → icon.id
-        const iconUrl = card.icon?.icon?.id
+        const iconUrl = !useFirstLetter && card.icon?.icon?.id
           ? await getIconUrlById(card.icon.icon.id)
           : null;
 
@@ -270,6 +273,7 @@ async function renderComponent(
 
         return {
           icon: iconUrl,
+          useFirstLetter,
           title: card.title || '',
           description: card.description || '',
           link,
@@ -328,9 +332,12 @@ async function renderComponent(
 
       // Transform Strapi data to FullWidthCards component props
       const cards = await Promise.all((fullWidthCardsComponent.cards ?? []).map(async (card) => {
-        // Get icon URL from cache by ID
+        // Check if we should use first letter instead of icon
+        const useFirstLetter = card.icon?.use_first_letter ?? false;
+
+        // Get icon URL from cache by ID (skip if using first letter)
         // Structure: card.icon (component) → icon (relation) → icon.id
-        const iconUrl = card.icon?.icon?.id
+        const iconUrl = !useFirstLetter && card.icon?.icon?.id
           ? await getIconUrlById(card.icon.icon.id)
           : null;
 
@@ -339,6 +346,7 @@ async function renderComponent(
 
         return {
           icon: iconUrl,
+          useFirstLetter,
           title: card.title || '',
           description: card.description || '',
           link: resolved ? {
@@ -409,8 +417,11 @@ async function renderComponent(
           }
         }
 
+        // Fallback chain: name -> caption -> filename
+        const displayName = doc.name || doc.file?.caption || doc.file?.name || '';
+
         return {
-          name: doc.name || '',
+          name: displayName,
           file: fileUrl,
           size: formattedSize,
           extension: extension,
@@ -471,6 +482,7 @@ async function renderComponent(
           name: partner.name || '',
           logo: logoUrl,
           url: partner.url || '',
+          background: partner.background,
         };
       });
 

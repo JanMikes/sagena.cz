@@ -3,6 +3,7 @@ import Image from 'next/image';
 
 interface Argument {
   icon?: string | null;  // Icon image URL
+  useFirstLetter?: boolean;  // When true, display first letter of title in circle instead of icon
   number?: string;
   title: string;
   description: string;
@@ -32,9 +33,15 @@ const MarketingArguments: React.FC<MarketingArgumentsProps> = ({
 
         return (
           <div key={index} className={isLeft ? 'text-left' : 'text-center'}>
-            {/* Icon or Number */}
+            {/* Icon, First Letter Circle, or Number */}
             <div className={`flex items-center mb-4 ${isLeft ? 'justify-start' : 'justify-center'}`}>
-              {arg.icon && (
+              {arg.useFirstLetter ? (
+                <div className="flex items-center justify-center w-16 h-16 rounded-full bg-primary-100">
+                  <span className="text-2xl font-bold text-primary-600">
+                    {arg.title.charAt(0).toUpperCase()}
+                  </span>
+                </div>
+              ) : arg.icon ? (
                 <div className="flex items-center justify-center w-16 h-16">
                   <Image
                     src={arg.icon}
@@ -44,8 +51,7 @@ const MarketingArguments: React.FC<MarketingArgumentsProps> = ({
                     className="w-16 h-16 object-contain"
                   />
                 </div>
-              )}
-              {arg.number && !arg.icon && (
+              ) : arg.number && (
                 <div className="text-5xl font-bold text-primary-600">
                   {arg.number}
                 </div>

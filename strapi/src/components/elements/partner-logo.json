@@ -16,6 +16,12 @@
     },
     "url": {
       "type": "string"
+    },
+    "background": {
+      "type": "enumeration",
+      "enum": ["White", "Primary"],
+      "default": "White",
+      "required": false
     }
   },
   "config": {}

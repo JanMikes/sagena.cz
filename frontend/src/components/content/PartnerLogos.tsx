@@ -9,6 +9,7 @@ interface PartnerLogoItem {
   name: string;
   logo: string;
   url: string;
+  background?: 'White' | 'Primary' | null;
 }
 
 interface PartnerLogosProps {
@@ -42,28 +43,35 @@ const PartnerLogos: React.FC<PartnerLogosProps> = ({
     <div
       className={`grid ${gridColumns[columns]} ${gapStyles[gap]} items-center justify-items-center`}
     >
-      {partners.map((partner, index) => (
-        <Link
-          key={index}
-          href={partner.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center justify-center w-full h-full p-4 bg-white border border-gray-200 rounded-lg hover:border-primary-300 hover:shadow-md transition-all duration-300"
-          aria-label={partner.name}
-        >
-          <Image
-            src={partner.logo}
-            alt={partner.name}
-            width={120}
-            height={60}
-            className={`w-full h-auto max-h-16 object-contain ${
-              grayscale
-                ? 'grayscale hover:grayscale-0 transition-all duration-300'
-                : ''
-            }`}
-          />
-        </Link>
-      ))}
+      {partners.map((partner, index) => {
+        const isPrimary = partner.background === 'Primary';
+        const bgClasses = isPrimary
+          ? 'bg-primary-500 border-primary-500 hover:bg-primary-600 hover:border-primary-600'
+          : 'bg-white border-gray-200 hover:border-primary-300 hover:shadow-md';
+
+        return (
+          <Link
+            key={index}
+            href={partner.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`flex items-center justify-center w-full h-full p-4 rounded-lg border transition-all duration-300 ${bgClasses}`}
+            aria-label={partner.name}
+          >
+            <Image
+              src={partner.logo}
+              alt={partner.name}
+              width={120}
+              height={60}
+              className={`w-full h-auto max-h-16 object-contain ${
+                grayscale
+                  ? 'grayscale hover:grayscale-0 transition-all duration-300'
+                  : ''
+              }`}
+            />
+          </Link>
+        );
+      })}
     </div>
   );
 };

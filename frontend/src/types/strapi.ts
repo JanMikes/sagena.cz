@@ -669,11 +669,15 @@ export interface ElementsLinksSection {
  * Elements: Icon Component
  * Location: strapi/src/components/elements/icon.json
  * Usage: Icon component wrapper containing a relation to Icon content type
+ *
+ * When use_first_letter is true, the first letter of the associated title
+ * will be displayed in a circle instead of the icon image.
  */
 export interface ElementsIcon {
   id: number;
   __component?: 'elements.icon';
   icon: Icon;  // Relation to api::icon.icon
+  use_first_letter?: boolean | null;  // When true, display first letter instead of icon
 }
 
 /**
@@ -723,6 +727,7 @@ export interface ElementsDocumentItem {
     documentId: string;
     url: string;
     name: string;
+    caption?: string | null;  // Caption from Strapi media
     ext: string;  // e.g., ".pdf", ".svg"
     size: number; // Size in KB (e.g., 1.27)
   } | null;
@@ -749,6 +754,7 @@ export interface ElementsPartnerLogo {
     height?: number;
   } | null;
   url?: string | null;
+  background?: 'White' | 'Primary' | null;
 }
 
 /**

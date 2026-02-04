@@ -6,6 +6,7 @@ import RichText from '@/components/typography/RichText';
 
 interface CardItem {
   icon?: string | null;  // Icon image URL from Strapi
+  useFirstLetter?: boolean;  // When true, display first letter of title in circle instead of icon
   title: string;
   description?: string;
   link?: {
@@ -47,7 +48,13 @@ const ServiceCards: React.FC<ServiceCardsProps> = ({
           <>
             {/* Icon + Title on same line */}
             <div className={`flex items-center gap-3 ${isCentered ? 'justify-center' : ''} ${!card.description && card.link ? 'mb-6' : 'mb-2'}`}>
-              {card.icon && (
+              {card.useFirstLetter ? (
+                <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary-100 flex items-center justify-center">
+                  <span className="text-lg font-bold text-primary-600">
+                    {card.title.charAt(0).toUpperCase()}
+                  </span>
+                </div>
+              ) : card.icon && (
                 <div className="flex-shrink-0 w-10 h-10">
                   <Image
                     src={card.icon}
