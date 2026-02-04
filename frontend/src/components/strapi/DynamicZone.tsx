@@ -226,6 +226,7 @@ async function renderComponent(
           key={`${__component}-${component.id || index}`}
           links={links}
           layout={linksListComponent.layout || 'Grid'}
+          compact={compact}
         />
       );
     }
@@ -442,6 +443,7 @@ async function renderComponent(
           key={`${__component}-${component.id || index}`}
           documents={documents}
           columns={columns}
+          compact={compact}
         />
       );
     }

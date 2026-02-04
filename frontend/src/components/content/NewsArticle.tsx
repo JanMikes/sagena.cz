@@ -135,7 +135,7 @@ const NewsArticle: React.FC<NewsArticleProps> = ({
               </div>
             )}
           </div>
-          <h3 className="text-lg font-bold text-primary-600 mb-4 leading-snug group-hover:text-primary-700 transition-colors">
+          <h3 className="text-base font-bold text-primary-600 mb-4 leading-snug group-hover:text-primary-700 transition-colors">
             {title}
           </h3>
           {excerpt && (

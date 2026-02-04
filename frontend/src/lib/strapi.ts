@@ -1140,8 +1140,7 @@ export async function fetchPageBySlug(
                 cards: {
                   populate: {
                     icon: {
-                      fields: ['id'],
-                      populate: {
+                                            populate: {
                         icon: {
                           fields: ['name'],
                           populate: {
@@ -1186,8 +1185,7 @@ export async function fetchPageBySlug(
                 cards: {
                   populate: {
                     icon: {
-                      fields: ['id'],
-                      populate: {
+                                            populate: {
                         icon: {
                           fields: ['name'],
                           populate: {
@@ -1210,8 +1208,7 @@ export async function fetchPageBySlug(
                 cards: {
                   populate: {
                     icon: {
-                      fields: ['id'],
-                      populate: {
+                                            populate: {
                         icon: {
                           fields: ['name'],
                           populate: {
@@ -1259,8 +1256,7 @@ export async function fetchPageBySlug(
                 arguments: {
                   populate: {
                     icon: {
-                      fields: ['id'],
-                      populate: {
+                                            populate: {
                         icon: {
                           fields: ['name'],
                           populate: {
@@ -1523,8 +1519,7 @@ export async function fetchPageBySlug(
                 cards: {
                   populate: {
                     icon: {
-                      fields: ['id'],
-                      populate: {
+                                            populate: {
                         icon: {
                           fields: ['name'],
                           populate: {
@@ -1547,8 +1542,7 @@ export async function fetchPageBySlug(
                 cards: {
                   populate: {
                     icon: {
-                      fields: ['id'],
-                      populate: {
+                                            populate: {
                         icon: {
                           fields: ['name'],
                           populate: {
@@ -2125,8 +2119,7 @@ export async function fetchIntranetPageBySlug(
                 cards: {
                   populate: {
                     icon: {
-                      fields: ['id'],
-                      populate: {
+                                            populate: {
                         icon: {
                           fields: ['name'],
                           populate: {
@@ -2149,8 +2142,7 @@ export async function fetchIntranetPageBySlug(
                 cards: {
                   populate: {
                     icon: {
-                      fields: ['id'],
-                      populate: {
+                                            populate: {
                         icon: {
                           fields: ['name'],
                           populate: {
@@ -2198,8 +2190,7 @@ export async function fetchIntranetPageBySlug(
                 arguments: {
                   populate: {
                     icon: {
-                      fields: ['id'],
-                      populate: {
+                                            populate: {
                         icon: {
                           fields: ['name'],
                           populate: {
@@ -2561,8 +2552,7 @@ export async function fetchIntranetPageBySlug(
                 cards: {
                   populate: {
                     icon: {
-                      fields: ['id'],
-                      populate: {
+                                            populate: {
                         icon: {
                           fields: ['name'],
                           populate: {

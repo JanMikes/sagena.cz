@@ -13,13 +13,17 @@ interface LinkItem {
 interface LinksListProps {
   links: LinkItem[];
   layout?: 'Grid' | 'Rows';
+  compact?: boolean;
 }
 
-const LinksList: React.FC<LinksListProps> = ({ links, layout = 'Grid' }) => {
+const LinksList: React.FC<LinksListProps> = ({ links, layout = 'Grid', compact = false }) => {
   const isGrid = layout === 'Grid';
 
+  // In compact mode (sidebar), use single column; otherwise use responsive grid
   const containerClass = isGrid
-    ? 'grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'
+    ? compact
+      ? 'grid grid-cols-1 gap-3'
+      : 'grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'
     : 'space-y-3';
 
   return (
