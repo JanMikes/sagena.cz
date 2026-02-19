@@ -5,6 +5,7 @@ import { Mail, Phone, MapPin, Facebook, Instagram, Linkedin } from 'lucide-react
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import { resolveTextLink, getStrapiMediaURL } from '@/lib/strapi';
+import { linkifyPhones } from '@/lib/typography';
 import type { Footer as FooterType, NavigationItem, ElementsTextLink } from '@/types/strapi';
 
 interface FooterProps {
@@ -118,7 +119,7 @@ const Footer: React.FC<FooterProps> = ({ data, locale = 'cs', footerNavigation =
             {data?.text && (
               <div
                 className="text-gray-400 mb-4 prose prose-sm prose-invert"
-                dangerouslySetInnerHTML={{ __html: data.text }}
+                dangerouslySetInnerHTML={{ __html: linkifyPhones(data.text) }}
               />
             )}
             <div className="space-y-2">

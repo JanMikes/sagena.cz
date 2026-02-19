@@ -26,3 +26,25 @@ export function preventOrphans(text: string): string {
   // Using [ ] instead of \s to preserve newlines (important for markdown parsing)
   return text.replace(/\b([aAiIkKoOsSuUvVzZ]) +/g, '$1\u00A0');
 }
+
+/**
+ * Converts phone numbers in HTML to clickable tel: links.
+ * Skips numbers already inside <a> tags.
+ * Matches Czech phone format: +420 553 030 800 or 553 030 800
+ */
+const phoneRegex = /(?<!\d)(\+?\d{3})[\s\u00a0]?(\d{3})[\s\u00a0]?(\d{3})[\s\u00a0]?(\d{3})(?!\d)/g;
+
+export function linkifyPhones(html: string): string {
+  if (!html) return '';
+  // Split by <a ...>...</a> to avoid double-linking existing anchors
+  const parts = html.split(/(<a\s[^>]*>.*?<\/a>)/gi);
+  for (let i = 0; i < parts.length; i++) {
+    if (i % 2 === 0) {
+      parts[i] = parts[i].replace(phoneRegex, (match, p1, p2, p3, p4) => {
+        const digits = `${p1}${p2}${p3}${p4}`;
+        return `<a href="tel:${digits}">${match}</a>`;
+      });
+    }
+  }
+  return parts.join('');
+}

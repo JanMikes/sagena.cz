@@ -1,6 +1,6 @@
 import React from 'react';
 import { marked, Renderer } from 'marked';
-import { preventOrphans } from '@/lib/typography';
+import { preventOrphans, linkifyPhones } from '@/lib/typography';
 
 // Custom renderer to avoid <p> inside <li> and properly parse inline markdown
 const renderer = new Renderer();
@@ -20,7 +20,7 @@ interface RichTextProps {
 
 const RichText: React.FC<RichTextProps> = ({ content, className = '', size = 'lg' }) => {
   const processedContent = preventOrphans(content);
-  const html = marked.parse(processedContent, { async: false, renderer }) as string;
+  const html = linkifyPhones(marked.parse(processedContent, { async: false, renderer }) as string);
 
   const sizeClass = {
     xs: 'prose-sm text-xs',
