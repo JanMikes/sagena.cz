@@ -223,7 +223,7 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
             className="absolute inset-0 w-full"
             style={{ backfaceVisibility: 'hidden' }}
           >
-            <div ref={frontRef} className="bg-white border border-gray-200 rounded-xl p-5 pb-6 flex flex-col">
+            <div ref={frontRef} className="bg-white border border-gray-200 rounded-xl p-5 pb-6 flex flex-col h-full">
               {/* Doctors Section */}
               {doctors.length > 0 && (
                 <div className="mb-4">
@@ -411,9 +411,9 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
             className="absolute inset-0 w-full [transform:rotateY(180deg)]"
             style={{ backfaceVisibility: 'hidden' }}
           >
-            <div ref={backRef} className="bg-primary-600 text-white rounded-xl p-5 pb-6 flex flex-col">
+            <div ref={backRef} className="bg-primary-600 text-white rounded-xl p-5 pb-6 flex flex-col h-full">
               <h4 className="text-lg font-bold mb-4">Ordinační hodiny</h4>
-              <div className="space-y-4 flex-1 overflow-y-auto divide-y divide-white/50">
+              <div className="space-y-4 flex-1 overflow-y-auto min-h-0 divide-y divide-white/50">
                 {openingHours.map((group, groupIndex) => (
                   <div key={groupIndex} className={groupIndex > 0 ? 'pt-4' : ''}>
                     {group.title && (

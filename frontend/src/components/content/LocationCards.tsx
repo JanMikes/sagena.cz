@@ -162,7 +162,7 @@ const LocationCard: React.FC<{ card: LocationCardData }> = ({ card }) => {
             {card.title && (
               <p className="text-primary-100 mb-4">{card.title}</p>
             )}
-            <div className="space-y-2 flex-1">
+            <div className="space-y-2 flex-1 overflow-y-auto min-h-0">
               {card.openingHours && Object.entries(
                 card.openingHours.reduce<Record<string, string[]>>((acc, hours) => {
                   if (!acc[hours.day]) {
