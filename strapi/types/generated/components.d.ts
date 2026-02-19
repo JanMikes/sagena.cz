@@ -92,6 +92,8 @@ export interface ComponentsDirections extends Struct.ComponentSchema {
   attributes: {
     description: Schema.Attribute.RichText;
     instructions: Schema.Attribute.Component<'elements.direction-step', true>;
+    instructionsColor: Schema.Attribute.Enumeration<['light', 'dark']> &
+      Schema.Attribute.DefaultTo<'light'>;
     style: Schema.Attribute.Enumeration<['Style 1', 'Style 2']> &
       Schema.Attribute.DefaultTo<'Style 1'>;
     title: Schema.Attribute.String;

@@ -24,6 +24,14 @@
         "Style 1",
         "Style 2"
       ]
+    },
+    "instructionsColor": {
+      "type": "enumeration",
+      "default": "light",
+      "enum": [
+        "light",
+        "dark"
+      ]
     }
   },
   "config": {}

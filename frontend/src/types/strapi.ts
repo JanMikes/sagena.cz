@@ -447,6 +447,7 @@ export interface ComponentsDirections {
   instructions?: ElementsDirectionStep[] | null;  // Array of direction steps
   description?: string | null;  // Optional markdown description shown below steps
   style?: 'Style 1' | 'Style 2' | null;  // Style variant (Style 1 = white bg, Style 2 = primary gradient)
+  instructionsColor?: 'light' | 'dark' | null;  // Number badge color (light = primary-200, dark = primary-600)
 }
 
 /**

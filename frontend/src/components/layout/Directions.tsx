@@ -13,6 +13,7 @@ interface DirectionsProps {
   instructions: Instruction[];
   description?: string | null;  // Optional markdown description shown below steps
   style?: 'Style 1' | 'Style 2';
+  instructionsColor?: 'light' | 'dark';
 }
 
 const Directions: React.FC<DirectionsProps> = ({
@@ -20,8 +21,10 @@ const Directions: React.FC<DirectionsProps> = ({
   instructions,
   description,
   style = 'Style 1',
+  instructionsColor = 'light',
 }) => {
   const isStyle2 = style === 'Style 2';
+  const isDarkInstructions = instructionsColor === 'dark';
 
   // Style 1: White background with border (current/default)
   // Style 2: Primary gradient background
@@ -35,9 +38,10 @@ const Directions: React.FC<DirectionsProps> = ({
 
   const iconContainerClasses = 'flex items-center justify-center w-12 h-12 flex-shrink-0';
 
+  const numberContainerBase = 'flex items-center justify-center w-12 h-12 rounded-lg flex-shrink-0';
   const numberContainerClasses = isStyle2
-    ? 'flex items-center justify-center w-12 h-12 bg-white/20 backdrop-blur-sm rounded-lg flex-shrink-0'
-    : 'flex items-center justify-center w-12 h-12 bg-primary-200 rounded-lg flex-shrink-0';
+    ? `${numberContainerBase} bg-white/20 backdrop-blur-sm`
+    : `${numberContainerBase} ${isDarkInstructions ? 'bg-primary-600' : 'bg-primary-200'}`;
 
   const stepNumberClasses = isStyle2
     ? 'text-xl font-bold text-white'

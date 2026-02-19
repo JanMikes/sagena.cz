@@ -763,6 +763,7 @@ async function renderComponent(
           instructions={instructions}
           description={directionsComponent.description || undefined}
           style={directionsComponent.style || 'Style 1'}
+          instructionsColor={directionsComponent.instructionsColor || 'light'}
         />
       );
     }
