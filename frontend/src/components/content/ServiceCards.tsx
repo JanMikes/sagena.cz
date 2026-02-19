@@ -82,7 +82,7 @@ const ServiceCards: React.FC<ServiceCardsProps> = ({
                 {!cardClickable ? (
                   <Link
                     href={card.link.url}
-                    className="inline-flex items-center gap-2 px-5 py-3 rounded-tl-lg rounded-br-xl bg-[#a0bfdf] hover:bg-primary-700 transition-colors group"
+                    className="inline-flex items-center gap-2 px-5 py-3 rounded-tl-lg rounded-br-xl bg-primary-200 hover:bg-primary-700 transition-colors group"
                   >
                     {card.link.text && (
                       <span className="text-white font-medium text-sm">{card.link.text}</span>
@@ -90,7 +90,7 @@ const ServiceCards: React.FC<ServiceCardsProps> = ({
                     <ArrowRight className="w-4 h-4 text-white group-hover:translate-x-1 transition-transform" />
                   </Link>
                 ) : (
-                  <span className="inline-flex items-center gap-2 px-5 py-3 rounded-tl-lg rounded-br-xl bg-[#a0bfdf] group-hover:bg-primary-700 transition-colors">
+                  <span className="inline-flex items-center gap-2 px-5 py-3 rounded-tl-lg rounded-br-xl bg-primary-200 group-hover:bg-primary-700 transition-colors">
                     {card.link.text && (
                       <span className="text-white font-medium text-sm">{card.link.text}</span>
                     )}

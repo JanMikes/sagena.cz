@@ -37,7 +37,7 @@ const Directions: React.FC<DirectionsProps> = ({
 
   const numberContainerClasses = isStyle2
     ? 'flex items-center justify-center w-12 h-12 bg-white/20 backdrop-blur-sm rounded-lg flex-shrink-0'
-    : 'flex items-center justify-center w-12 h-12 bg-[#a0bfdf] rounded-lg flex-shrink-0';
+    : 'flex items-center justify-center w-12 h-12 bg-primary-200 rounded-lg flex-shrink-0';
 
   const stepNumberClasses = isStyle2
     ? 'text-xl font-bold text-white'
@@ -45,7 +45,7 @@ const Directions: React.FC<DirectionsProps> = ({
 
   const floorBadgeClasses = isStyle2
     ? 'inline-block text-sm font-bold text-primary-800 bg-white/90 px-2.5 py-1 rounded mb-2'
-    : 'inline-block text-sm font-bold text-white bg-[#a0bfdf] px-2.5 py-1 rounded mb-2';
+    : 'inline-block text-sm font-bold text-white bg-primary-200 px-2.5 py-1 rounded mb-2';
 
   const textClasses = isStyle2
     ? 'prose-invert [&_p]:text-white/90 [&_p]:mb-0 [&_a]:text-primary-200 [&_strong]:text-white'

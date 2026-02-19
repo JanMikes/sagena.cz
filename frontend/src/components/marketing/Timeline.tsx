@@ -53,7 +53,7 @@ const Timeline: React.FC<TimelineProps> = ({ items, compact = false }) => {
                   </div>
                 )}
                 {item.number && !item.icon && (
-                  <div className={`flex items-center justify-center ${iconSize} bg-[#a0bfdf] rounded-full z-10 relative border-2 border-white shadow-md`}>
+                  <div className={`flex items-center justify-center ${iconSize} bg-primary-200 rounded-full z-10 relative border-2 border-white shadow-md`}>
                     <span className={`${numberSize} font-bold text-white`}>
                       {item.number}
                     </span>
