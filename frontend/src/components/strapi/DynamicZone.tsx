@@ -988,6 +988,9 @@ async function renderComponent(
             // Use component description if set, otherwise fall back to ambulance description
             const description = item.description || ambulance.description || undefined;
 
+            // Custom opening hours label with locale-aware default
+            const openingHoursLabel = item.opening_hours_label || (locale === 'en' ? 'Opening hours' : 'Ordinační hodiny');
+
             return (
               <AmbulanceCard
                 key={item.id || itemIndex}
@@ -1002,6 +1005,7 @@ async function renderComponent(
                 documents={documents}
                 button={button}
                 openingHours={openingHours}
+                openingHoursLabel={openingHoursLabel}
               />
             );
           })}

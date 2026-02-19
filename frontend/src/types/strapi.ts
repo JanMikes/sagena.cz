@@ -515,6 +515,7 @@ export interface ElementsAmbulanceItem {
   description?: string | null;  // Rich text override (use ambulance description if not set)
   documents?: ElementsDocumentItem[] | null;  // Repeatable document items
   button?: ElementsTextLink | null;  // Optional CTA button
+  opening_hours_label?: string | null;  // Custom label for opening hours button (default: "Ordinační hodiny")
 }
 
 /**

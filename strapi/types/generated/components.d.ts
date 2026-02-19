@@ -468,6 +468,7 @@ export interface ElementsAmbulanceItem extends Struct.ComponentSchema {
     button: Schema.Attribute.Component<'elements.text-link', false>;
     description: Schema.Attribute.RichText;
     documents: Schema.Attribute.Component<'elements.document-item', true>;
+    opening_hours_label: Schema.Attribute.String;
   };
 }
 

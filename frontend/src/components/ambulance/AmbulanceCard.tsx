@@ -52,6 +52,7 @@ interface AmbulanceCardProps {
   documents?: Document[];
   button?: { text: string; url: string };
   openingHours?: OpeningHoursGroup[];
+  openingHoursLabel?: string;
 }
 
 const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
@@ -66,7 +67,9 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
   documents = [],
   button,
   openingHours = [],
+  openingHoursLabel,
 }) => {
+  const hoursLabel = openingHoursLabel || 'Ordinační hodiny';
   const [isFlipped, setIsFlipped] = useState(false);
   const [cardHeight, setCardHeight] = useState<number | null>(null);
   const frontRef = useRef<HTMLDivElement>(null);
@@ -400,7 +403,7 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
                   className="flex items-center justify-center gap-2 w-full py-2 bg-primary-600 text-white font-medium text-sm transition-colors border border-primary-600 rounded-lg hover:bg-primary-700 hover:border-primary-700"
                 >
                   <Clock className="w-4 h-4 text-white" />
-                  <span>Ordinační hodiny</span>
+                  <span>{hoursLabel}</span>
                 </button>
               )}
             </div>
@@ -412,7 +415,7 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
             style={{ backfaceVisibility: 'hidden' }}
           >
             <div ref={backRef} className="bg-primary-600 text-white rounded-xl p-5 pb-6 flex flex-col h-full">
-              <h4 className="text-lg font-bold mb-4">Ordinační hodiny</h4>
+              <h4 className="text-lg font-bold mb-4">{hoursLabel}</h4>
               <div className="space-y-4 flex-1 overflow-y-auto min-h-0 divide-y divide-white/50">
                 {openingHours.map((group, groupIndex) => (
                   <div key={groupIndex} className={groupIndex > 0 ? 'pt-4' : ''}>
