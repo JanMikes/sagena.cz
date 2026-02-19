@@ -53,7 +53,7 @@ const ContactCard: React.FC<ContactCardProps> = ({ name, email, phone, photo, fu
           )}
           {phone && (
             <a
-              href={`tel:${phone}`}
+              href={`tel:${phone.replace(/\s/g, '')}`}
               className="flex items-center space-x-2 text-sm text-gray-600 hover:text-primary-600 transition-colors"
             >
               <Phone className="w-3.5 h-3.5 flex-shrink-0" />

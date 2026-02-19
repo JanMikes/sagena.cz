@@ -185,7 +185,7 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
         <div className="flex flex-wrap gap-4 mb-3 text-sm">
           {phone && (
             <a
-              href={`tel:${phone}`}
+              href={`tel:${phone.replace(/\s/g, '')}`}
               className="flex items-center gap-1.5 text-gray-600 hover:text-primary-600 transition-colors"
             >
               <Phone className="w-4 h-4 text-primary-600" />
@@ -263,7 +263,7 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
                               <div className="space-y-1 mt-3">
                                 {doctor.phone && (
                                   <a
-                                    href={`tel:${doctor.phone}`}
+                                    href={`tel:${doctor.phone.replace(/\s/g, '')}`}
                                     className="flex items-center gap-1.5 text-sm text-gray-600 hover:text-primary-600 transition-colors"
                                   >
                                     <Phone className="w-4 h-4 text-primary-600" />
@@ -320,7 +320,7 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
                       {nursesPhones.map((phoneNum, index) => (
                         <a
                           key={index}
-                          href={`tel:${phoneNum}`}
+                          href={`tel:${phoneNum.replace(/\s/g, '')}`}
                           className="flex items-center gap-1.5 hover:text-primary-600 transition-colors"
                         >
                           <Phone className="w-4 h-4 text-primary-600" />
