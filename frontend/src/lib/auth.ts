@@ -116,11 +116,12 @@ export async function getSession(): Promise<AuthSession | null> {
     const secret = new TextEncoder().encode(JWT_SECRET);
     const { payload } = await jose.jwtVerify(token.value, secret);
 
-    // Fetch user info from Strapi using the JWT
+    // Fetch user info from Strapi using the JWT (never cache)
     const response = await fetch(`${STRAPI_URL}/api/users/me`, {
       headers: {
         Authorization: `Bearer ${token.value}`,
       },
+      cache: 'no-store',
     });
 
     if (!response.ok) {
@@ -128,6 +129,13 @@ export async function getSession(): Promise<AuthSession | null> {
     }
 
     const user = (await response.json()) as StrapiUser;
+
+    // Reject unconfirmed or blocked users
+    if (!user.confirmed || user.blocked) {
+      // Clear the cookie so they get redirected to login
+      cookieStore.delete(COOKIE_NAME);
+      return null;
+    }
 
     return {
       jwt: token.value,
