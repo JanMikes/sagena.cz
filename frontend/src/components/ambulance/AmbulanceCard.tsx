@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Mail, Phone, Clock, FileText, Plane, ExternalLink, Download, Info } from 'lucide-react';
 import RichText from '@/components/typography/RichText';
 
@@ -71,21 +71,6 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
 }) => {
   const hoursLabel = openingHoursLabel || 'Ordinační hodiny';
   const [isFlipped, setIsFlipped] = useState(false);
-  const [cardHeight, setCardHeight] = useState<number | null>(null);
-  const frontRef = useRef<HTMLDivElement>(null);
-  const backRef = useRef<HTMLDivElement>(null);
-
-  // Calculate max height of both sides
-  useEffect(() => {
-    const updateHeight = () => {
-      const frontHeight = frontRef.current?.scrollHeight || 0;
-      const backHeight = backRef.current?.scrollHeight || 0;
-      setCardHeight(Math.max(frontHeight, backHeight));
-    };
-    updateHeight();
-    window.addEventListener('resize', updateHeight);
-    return () => window.removeEventListener('resize', updateHeight);
-  }, [doctors, nurses, documents, openingHours, description, button]);
 
   const getSurname = (fullName?: string): string => {
     if (!fullName) return '';
@@ -208,25 +193,19 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
       )}
 
       {/* Flip Card Container */}
-      <div
-        className="relative"
-        style={{
-          perspective: '1000px',
-          height: cardHeight ? `${cardHeight}px` : 'auto'
-        }}
-      >
+      <div style={{ perspective: '1000px' }}>
         <div
-          className={`relative w-full h-full transition-transform duration-700 ${
+          className={`grid transition-transform duration-700 ${
             isFlipped ? '[transform:rotateY(180deg)]' : ''
           }`}
           style={{ transformStyle: 'preserve-3d' }}
         >
           {/* Front Side */}
           <div
-            className="absolute inset-0 w-full"
+            className="[grid-area:1/1]"
             style={{ backfaceVisibility: 'hidden' }}
           >
-            <div ref={frontRef} className="bg-white border border-gray-200 rounded-xl p-5 pb-6 flex flex-col h-full">
+            <div className="bg-white border border-gray-200 rounded-xl p-5 pb-6 flex flex-col h-full">
               {/* Doctors Section */}
               {doctors.length > 0 && (
                 <div className="mb-4">
@@ -411,12 +390,12 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
 
           {/* Back Side - Opening Hours */}
           <div
-            className="absolute inset-0 w-full [transform:rotateY(180deg)]"
+            className="[grid-area:1/1] [transform:rotateY(180deg)]"
             style={{ backfaceVisibility: 'hidden' }}
           >
-            <div ref={backRef} className="bg-primary-600 text-white rounded-xl p-5 pb-6 flex flex-col h-full">
+            <div className="bg-primary-600 text-white rounded-xl p-5 pb-6 flex flex-col h-full">
               <h4 className="text-lg font-bold mb-4">{hoursLabel}</h4>
-              <div className="space-y-4 flex-1 overflow-y-auto min-h-0 divide-y divide-white/50">
+              <div className="space-y-4 flex-1 divide-y divide-white/50">
                 {openingHours.map((group, groupIndex) => (
                   <div key={groupIndex} className={groupIndex > 0 ? 'pt-4' : ''}>
                     {group.title && (
