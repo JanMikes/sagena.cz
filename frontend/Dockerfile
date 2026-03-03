@@ -1,21 +1,23 @@
-FROM node:22 AS base
-
-EXPOSE 3000
-
+FROM node:22-alpine AS deps
 WORKDIR /app
-
-# Install dependencies (including devDependencies needed for build)
 COPY package.json package-lock.json ./
-RUN npm ci
+RUN --mount=type=cache,target=/root/.npm npm ci
 
-# Copy source and build
+FROM node:22-alpine AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-RUN npm run build
-
-# Set production env for runtime
 ENV NODE_ENV=production
-
 ARG APP_VERSION
 ENV SENTRY_RELEASE="${APP_VERSION}"
+RUN --mount=type=cache,target=/app/.next/cache npm run build
 
-CMD ["npm", "run", "start"]
+FROM node:22-alpine AS runner
+WORKDIR /app
+ENV NODE_ENV=production
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
+COPY --from=builder /app/public ./public
+EXPOSE 3000
+ENV HOSTNAME=0.0.0.0
+CMD ["node", "server.js"]

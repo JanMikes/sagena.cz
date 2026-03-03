@@ -1,5 +1,3 @@
-# https://github.com/docker/build-push-action/blob/master/docs/advanced/tags-labels.md
-
 name: Nginx
 
 permissions:
@@ -15,6 +13,10 @@ on:
             - 'nginx/**'
             - '.github/workflows/nginx.yml'
 
+concurrency:
+    group: ${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: true
+
 jobs:
     docker-image:
         runs-on: ubuntu-latest
@@ -26,10 +28,8 @@ jobs:
                 id: meta
                 uses: docker/metadata-action@v5
                 with:
-                    # list of Docker images to use as base name for tags
                     images: |
                         ghcr.io/janmikes/sagena.cz-nginx
-                    # generate Docker tags based on the following events/attributes
                     tags: |
                         type=ref,event=branch
                         type=ref,event=pr
@@ -52,10 +52,10 @@ jobs:
                     push: ${{ github.event_name != 'pull_request' }}
                     tags: ${{ steps.meta.outputs.tags }}
                     labels: ${{ steps.meta.outputs.labels }}
-                    cache-from: |
-                        type=gha,scope=${{ github.workflow }}
-                        type=registry,ref=ghcr.io/janmikes/sagena.cz-nginx:main
-                    cache-to: type=gha,scope=${{ github.workflow }},mode=max
+                    provenance: false
+                    sbom: false
+                    cache-from: type=registry,ref=ghcr.io/janmikes/sagena.cz-nginx:cache
+                    cache-to: type=registry,ref=ghcr.io/janmikes/sagena.cz-nginx:cache,mode=max,oci-mediatypes=true,compression=zstd,force-compression=true,ignore-error=true
 
     deploy:
         runs-on: ubuntu-latest

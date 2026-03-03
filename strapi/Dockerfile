@@ -1,4 +1,4 @@
-FROM node:22 AS dev
+FROM node:22-alpine AS dev
 
 RUN mkdir /app && chown 1000:1000 -R /app
 
@@ -13,14 +13,20 @@ CMD ["npm", "run", "develop"]
 EXPOSE 1337
 
 
-FROM dev AS prod
+FROM node:22-alpine AS prod
+
+WORKDIR /app
 
 ENV NODE_ENV=production
 
 COPY ./package.json ./package-lock.json ./
 
-RUN npm ci
+RUN --mount=type=cache,target=/root/.npm npm ci
 
 COPY . .
+
+RUN npm run build
+
+EXPOSE 1337
 
 CMD ["npm", "run", "start"]
