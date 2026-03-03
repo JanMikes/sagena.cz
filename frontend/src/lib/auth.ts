@@ -22,6 +22,9 @@ export interface StrapiUser {
   blocked: boolean;
   createdAt: string;
   updatedAt: string;
+  firstName?: string;
+  lastName?: string;
+  gdprConsentAt?: string;
 }
 
 export interface AuthSession {

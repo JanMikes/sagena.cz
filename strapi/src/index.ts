@@ -5,7 +5,17 @@ export default {
    *
    * This gives you an opportunity to extend code.
    */
-  register(/* { strapi } */) {},
+  register({ strapi }: { strapi: any }) {
+    strapi.contentType('plugin::users-permissions.user').attributes.firstName = {
+      type: 'string',
+    };
+    strapi.contentType('plugin::users-permissions.user').attributes.lastName = {
+      type: 'string',
+    };
+    strapi.contentType('plugin::users-permissions.user').attributes.gdprConsentAt = {
+      type: 'datetime',
+    };
+  },
 
   /**
    * An asynchronous bootstrap function that runs before

@@ -50,11 +50,12 @@ export function middleware(request: NextRequest) {
     // Extract locale from pathname
     const locale = pathname.split('/')[1] as Locale;
 
-    // Check if this is a protected intranet route (not the login page)
+    // Check if this is a protected intranet route (not the login or signup page)
     const isIntranetRoute = pathname.includes('/intranet');
     const isLoginPage = pathname.includes('/intranet/login');
+    const isSignupPage = pathname.includes('/intranet/signup');
 
-    if (isIntranetRoute && !isLoginPage) {
+    if (isIntranetRoute && !isLoginPage && !isSignupPage) {
       // Check for authentication cookie
       const sessionCookie = request.cookies.get(COOKIE_NAME);
 
@@ -66,8 +67,8 @@ export function middleware(request: NextRequest) {
       }
     }
 
-    // If on login page but already authenticated, redirect to dashboard
-    if (isLoginPage) {
+    // If on login or signup page but already authenticated, redirect to dashboard
+    if (isLoginPage || isSignupPage) {
       const sessionCookie = request.cookies.get(COOKIE_NAME);
 
       if (sessionCookie?.value) {
