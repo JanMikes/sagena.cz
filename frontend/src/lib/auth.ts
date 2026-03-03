@@ -132,8 +132,6 @@ export async function getSession(): Promise<AuthSession | null> {
 
     // Reject unconfirmed or blocked users
     if (!user.confirmed || user.blocked) {
-      // Clear the cookie so they get redirected to login
-      cookieStore.delete(COOKIE_NAME);
       return null;
     }
 

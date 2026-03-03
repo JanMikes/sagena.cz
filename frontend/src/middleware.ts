@@ -52,10 +52,9 @@ export function middleware(request: NextRequest) {
 
     // Check if this is a protected intranet route (not the login or signup page)
     const isIntranetRoute = pathname.includes('/intranet');
-    const isLoginPage = pathname.includes('/intranet/login');
-    const isSignupPage = pathname.includes('/intranet/signup');
+    const isAuthPage = pathname.includes('/intranet/login') || pathname.includes('/intranet/signup');
 
-    if (isIntranetRoute && !isLoginPage && !isSignupPage) {
+    if (isIntranetRoute && !isAuthPage) {
       // Check for authentication cookie
       const sessionCookie = request.cookies.get(COOKIE_NAME);
 
@@ -63,17 +62,6 @@ export function middleware(request: NextRequest) {
         // Redirect to login page with the same locale
         return NextResponse.redirect(
           new URL(`/${locale}/intranet/login/`, request.url)
-        );
-      }
-    }
-
-    // If on login or signup page but already authenticated, redirect to dashboard
-    if (isLoginPage || isSignupPage) {
-      const sessionCookie = request.cookies.get(COOKIE_NAME);
-
-      if (sessionCookie?.value) {
-        return NextResponse.redirect(
-          new URL(`/${locale}/intranet/`, request.url)
         );
       }
     }

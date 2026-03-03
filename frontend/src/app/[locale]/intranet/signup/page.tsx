@@ -1,5 +1,6 @@
 import { isValidLocale, type Locale } from '@/i18n/config';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
+import { getSession } from '@/lib/auth';
 import SignupForm from '@/components/intranet/SignupForm';
 
 interface SignupPageProps {
@@ -13,6 +14,12 @@ export default async function SignupPage({ params, searchParams }: SignupPagePro
 
   if (!isValidLocale(locale)) {
     notFound();
+  }
+
+  // Redirect confirmed users to dashboard
+  const session = await getSession();
+  if (session) {
+    redirect(`/${locale}/intranet/`);
   }
 
   // Verify secret server-side if provided via query param
