@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useActionState } from 'react';
-import { UserPlus, Lock, User, Mail, Eye, EyeOff, AlertCircle, Loader2, KeyRound, ShieldCheck } from 'lucide-react';
+import { UserPlus, Lock, User, Mail, Eye, EyeOff, AlertCircle, Loader2, KeyRound, ShieldCheck, Clock } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import { verifySecretAction, signupAction, type VerifySecretActionState, type SignupActionState } from '@/lib/actions/signup';
 import type { Locale } from '@/i18n/config';
@@ -34,6 +34,9 @@ const translations = {
     submitting: 'Registrace...',
     alreadyHaveAccount: 'Již máte účet?',
     signIn: 'Přihlaste se',
+    pendingTitle: 'Registrace úspěšná',
+    pendingMessage: 'Váš účet čeká na schválení administrátorem. Jakmile bude váš účet aktivován, budete se moci přihlásit.',
+    goToLogin: 'Přejít na přihlášení',
   },
   en: {
     title: 'Intranet Registration',
@@ -56,6 +59,9 @@ const translations = {
     submitting: 'Signing up...',
     alreadyHaveAccount: 'Already have an account?',
     signIn: 'Sign in',
+    pendingTitle: 'Registration successful',
+    pendingMessage: 'Your account is waiting for administrator approval. Once your account is activated, you will be able to sign in.',
+    goToLogin: 'Go to sign in',
   },
 } as const;
 
@@ -103,7 +109,24 @@ const SignupForm: React.FC<SignupFormProps> = ({ locale, initialSecret, secretPr
         </div>
 
         <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-200">
-          {!secretVerified ? (
+          {signupState.success ? (
+            /* Success: Pending admin approval */
+            <div className="text-center py-4">
+              <div className="flex items-center justify-center mb-4">
+                <div className="flex items-center justify-center w-14 h-14 bg-amber-100 rounded-full">
+                  <Clock className="w-7 h-7 text-amber-600" />
+                </div>
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">{t.pendingTitle}</h3>
+              <p className="text-gray-600 mb-6">{t.pendingMessage}</p>
+              <a
+                href={`/${locale}/intranet/login/`}
+                className="inline-flex items-center justify-center px-6 py-2.5 bg-primary-600 text-white rounded-lg hover:bg-primary-700 font-medium transition-colors"
+              >
+                {t.goToLogin}
+              </a>
+            </div>
+          ) : !secretVerified ? (
             /* Phase 1: Secret Gate */
             <>
               {verifyState.error && (

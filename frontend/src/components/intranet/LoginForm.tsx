@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useActionState } from 'react';
-import { Lock, User, Eye, EyeOff, AlertCircle, Loader2 } from 'lucide-react';
+import { Lock, User, Eye, EyeOff, AlertCircle, Loader2, Clock } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import { loginAction, type LoginActionState } from '@/lib/actions/auth';
 import type { Locale } from '@/i18n/config';
@@ -68,8 +68,16 @@ const LoginForm: React.FC<LoginFormProps> = ({ locale }) => {
 
         {/* Login Form */}
         <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-200">
+          {/* Pending Confirmation Alert */}
+          {state.pendingConfirmation && state.error && (
+            <div className="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-lg flex items-start gap-3">
+              <Clock className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
+              <p className="text-sm text-amber-700">{state.error}</p>
+            </div>
+          )}
+
           {/* Error Alert */}
-          {state.error && (
+          {state.error && !state.pendingConfirmation && (
             <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-start gap-3">
               <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
               <p className="text-sm text-red-700">{state.error}</p>

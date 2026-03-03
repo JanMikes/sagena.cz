@@ -12,6 +12,7 @@ import type { Locale } from '@/i18n/config';
 export interface LoginActionState {
   success: boolean;
   error?: string;
+  pendingConfirmation?: boolean;
   fieldErrors?: {
     email?: string[];
     password?: string[];
@@ -23,11 +24,13 @@ const errorMessages = {
     invalidCredentials: 'Nesprávný e-mail nebo heslo',
     connectionError: 'Chyba připojení k serveru',
     unknownError: 'Došlo k neočekávané chybě',
+    pendingConfirmation: 'Váš účet čeká na schválení administrátorem. Jakmile bude aktivován, budete se moci přihlásit.',
   },
   en: {
     invalidCredentials: 'Invalid email or password',
     connectionError: 'Server connection error',
     unknownError: 'An unexpected error occurred',
+    pendingConfirmation: 'Your account is waiting for administrator approval. Once activated, you will be able to sign in.',
   },
 } as const;
 
@@ -66,6 +69,18 @@ export async function loginAction(
   const result = await login(email, password);
 
   if (!result.success) {
+    // Check if user account is not yet confirmed by admin
+    if (
+      result.error.includes('confirmed') ||
+      result.error.includes('confirmation')
+    ) {
+      return {
+        success: false,
+        pendingConfirmation: true,
+        error: messages.pendingConfirmation,
+      };
+    }
+
     // Map Strapi error messages to locale-aware messages
     let errorMessage: string = messages.unknownError;
     if (

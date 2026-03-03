@@ -4,8 +4,6 @@
  * Server actions for intranet signup
  */
 
-import { redirect } from 'next/navigation';
-import { login } from '@/lib/auth';
 import { getSignupSchema } from '@/lib/validations/signup';
 import type { Locale } from '@/i18n/config';
 
@@ -106,7 +104,7 @@ export async function signupAction(
   }
 
   const { firstName, lastName, email, password } = validationResult.data;
-  const username = email.split('@')[0];
+  const username = email; // Use full email as username
   const gdprConsentAt = new Date().toISOString();
 
   // Create user via Strapi API
@@ -124,7 +122,7 @@ export async function signupAction(
         firstName,
         lastName,
         gdprConsentAt,
-        confirmed: true,
+        confirmed: false, // Requires admin confirmation
         role: 1, // Authenticated role
       }),
     });
@@ -141,18 +139,10 @@ export async function signupAction(
       return { success: false, error: messages.unknownError };
     }
 
-    // Auto-login
-    const loginResult = await login(email, password);
-
-    if (!loginResult.success) {
-      console.error('Auto-login after signup failed:', loginResult.error);
-      // User was created but auto-login failed — redirect to login page
-      redirect(`/${locale}/intranet/login/`);
-    }
+    // Account created — needs admin confirmation before login
+    return { success: true };
   } catch (error) {
     console.error('Signup error:', error);
     return { success: false, error: messages.connectionError };
   }
-
-  redirect(`/${locale}/intranet/`);
 }
