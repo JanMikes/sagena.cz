@@ -5,9 +5,11 @@ import { Lock, User, Eye, EyeOff, AlertCircle, Loader2, Clock } from 'lucide-rea
 import Button from '@/components/ui/Button';
 import { loginAction, type LoginActionState } from '@/lib/actions/auth';
 import type { Locale } from '@/i18n/config';
+import type { SessionRejectedReason } from '@/lib/auth';
 
 interface LoginFormProps {
   locale: Locale;
+  rejectedReason?: SessionRejectedReason;
 }
 
 const translations = {
@@ -24,6 +26,8 @@ const translations = {
     submitting: 'Přihlašování...',
     needAccess: 'Potřebujete přístup?',
     contactIt: 'Kontaktujte IT podporu',
+    pendingReason: 'Váš účet čeká na schválení administrátorem. Jakmile bude aktivován, budete se moci přihlásit.',
+    blockedReason: 'Váš účet byl zablokován. Kontaktujte prosím administrátora.',
   },
   en: {
     title: 'Sagena Intranet',
@@ -38,12 +42,18 @@ const translations = {
     submitting: 'Signing in...',
     needAccess: 'Need access?',
     contactIt: 'Contact IT support',
+    pendingReason: 'Your account is waiting for administrator approval. Once activated, you will be able to sign in.',
+    blockedReason: 'Your account has been blocked. Please contact the administrator.',
   },
 } as const;
 
-const LoginForm: React.FC<LoginFormProps> = ({ locale }) => {
+const LoginForm: React.FC<LoginFormProps> = ({ locale, rejectedReason }) => {
   const t = translations[locale];
   const [showPassword, setShowPassword] = useState(false);
+
+  const rejectedMessage = rejectedReason === 'pending' ? t.pendingReason
+    : rejectedReason === 'blocked' ? t.blockedReason
+    : null;
 
   const initialState: LoginActionState = { success: false };
   const loginActionWithLocale = loginAction.bind(null, locale);
@@ -68,7 +78,15 @@ const LoginForm: React.FC<LoginFormProps> = ({ locale }) => {
 
         {/* Login Form */}
         <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-200">
-          {/* Pending Confirmation Alert */}
+          {/* Rejected reason from redirect (pending/blocked) */}
+          {rejectedMessage && !state.error && (
+            <div className="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-lg flex items-start gap-3">
+              <Clock className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
+              <p className="text-sm text-amber-700">{rejectedMessage}</p>
+            </div>
+          )}
+
+          {/* Pending Confirmation Alert (from login attempt) */}
           {state.pendingConfirmation && state.error && (
             <div className="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-lg flex items-start gap-3">
               <Clock className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />

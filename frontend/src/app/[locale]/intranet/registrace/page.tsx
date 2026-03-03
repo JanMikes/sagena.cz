@@ -103,9 +103,10 @@ export default async function RegistrationsPage({ params }: RegistrationsPagePro
   }
 
   // Double-check authentication (middleware should have caught this)
-  const session = await getSession();
+  const { session, rejected } = await getSession();
   if (!session) {
-    redirect(`/${locale}/intranet/login/`);
+    const params = rejected ? `?reason=${rejected}` : '';
+    redirect(`/${locale}/intranet/login/${params}`);
   }
 
   const alternateLocale = getAlternateLocale(locale as Locale);

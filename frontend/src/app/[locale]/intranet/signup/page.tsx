@@ -17,7 +17,7 @@ export default async function SignupPage({ params, searchParams }: SignupPagePro
   }
 
   // Redirect confirmed users to dashboard
-  const session = await getSession();
+  const { session } = await getSession();
   if (session) {
     redirect(`/${locale}/intranet/`);
   }

@@ -99,17 +99,24 @@ export async function logout(): Promise<void> {
   cookieStore.delete(COOKIE_NAME);
 }
 
+export type SessionRejectedReason = 'pending' | 'blocked';
+
+type GetSessionResult =
+  | { session: AuthSession; rejected?: never }
+  | { session: null; rejected?: SessionRejectedReason };
+
 /**
  * Get the current session from cookie
- * Returns null if not authenticated or token is invalid
+ * Returns null if not authenticated or token is invalid.
+ * Returns a `rejected` reason when user has a valid token but is not allowed in.
  */
-export async function getSession(): Promise<AuthSession | null> {
+export async function getSession(): Promise<GetSessionResult> {
   try {
     const cookieStore = await cookies();
     const token = cookieStore.get(COOKIE_NAME);
 
     if (!token?.value) {
-      return null;
+      return { session: null };
     }
 
     // Verify JWT signature
@@ -125,24 +132,31 @@ export async function getSession(): Promise<AuthSession | null> {
     });
 
     if (!response.ok) {
-      return null;
+      return { session: null };
     }
 
     const user = (await response.json()) as StrapiUser;
 
-    // Reject unconfirmed or blocked users
-    if (!user.confirmed || user.blocked) {
-      return null;
+    // Reject blocked users
+    if (user.blocked) {
+      return { session: null, rejected: 'blocked' };
+    }
+
+    // Reject unconfirmed users
+    if (!user.confirmed) {
+      return { session: null, rejected: 'pending' };
     }
 
     return {
-      jwt: token.value,
-      user,
+      session: {
+        jwt: token.value,
+        user,
+      },
     };
   } catch (error) {
     // Token verification failed or other error
     console.error('Session verification error:', error);
-    return null;
+    return { session: null };
   }
 }
 

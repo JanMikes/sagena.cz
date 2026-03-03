@@ -18,11 +18,12 @@ export default async function IntranetPage({ params }: IntranetPageProps) {
     redirect(`/cs/intranet/`);
   }
 
-  const session = await getSession();
+  const { session, rejected } = await getSession();
 
   // Double-check authentication (middleware should have caught this)
   if (!session) {
-    redirect(`/${locale}/intranet/login/`);
+    const params = rejected ? `?reason=${rejected}` : '';
+    redirect(`/${locale}/intranet/login/${params}`);
   }
 
   // Fetch intranet navigation menu
