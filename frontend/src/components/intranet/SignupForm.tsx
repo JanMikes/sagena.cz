@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useActionState } from 'react';
-import { UserPlus, Lock, User, Mail, Eye, EyeOff, AlertCircle, Loader2, KeyRound, ShieldCheck, Clock } from 'lucide-react';
+import { UserPlus, Lock, User, Mail, Eye, EyeOff, AlertCircle, Loader2, KeyRound, Clock } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import { verifySecretAction, signupAction, type VerifySecretActionState, type SignupActionState } from '@/lib/actions/signup';
 import type { Locale } from '@/i18n/config';
@@ -29,7 +29,10 @@ const translations = {
     emailPlaceholder: 'vas.email@sagena.cz',
     passwordLabel: 'Heslo',
     passwordPlaceholder: '********',
-    gdprConsent: 'Souhlasím se zpracováním osobních údajů',
+    gdprConsentPrefix: 'Kliknutím na „Zaregistrovat se" souhlasíte se zpracováním Vašeho jména, příjmení a e-mailové adresy pro využívání sítě intranet společnosti Sagena, s.r.o. Tyto údaje nejsou uváděny veřejně. Bližší informace viz „',
+    gdprConsentLinkText: 'Informace o zpracování osobních údajů',
+    gdprConsentSuffix: '".',
+    gdprConsentLinkUrl: '/cs/informace-o-zpracovani-osobnich-udaju-uzivatelu-site-intranet/',
     submit: 'Zaregistrovat se',
     submitting: 'Registrace...',
     alreadyHaveAccount: 'Již máte účet?',
@@ -54,7 +57,10 @@ const translations = {
     emailPlaceholder: 'your.email@sagena.cz',
     passwordLabel: 'Password',
     passwordPlaceholder: '********',
-    gdprConsent: 'I agree to the processing of personal data',
+    gdprConsentPrefix: 'By clicking "Sign up" you agree to the processing of your first name, last name, and email address for the use of the intranet of Sagena, s.r.o. This data is not published publicly. For more information see "',
+    gdprConsentLinkText: 'Information on personal data processing',
+    gdprConsentSuffix: '".',
+    gdprConsentLinkUrl: '/en/informace-o-zpracovani-osobnich-udaju-uzivatelu-site-intranet/',
     submit: 'Sign up',
     submitting: 'Signing up...',
     alreadyHaveAccount: 'Already have an account?',
@@ -345,9 +351,17 @@ const SignupForm: React.FC<SignupFormProps> = ({ locale, initialSecret, secretPr
                       className="mt-1 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
                       disabled={isSubmitting}
                     />
-                    <span className="text-sm text-gray-600 flex items-center gap-1.5">
-                      <ShieldCheck className="h-4 w-4 text-primary-600 flex-shrink-0" />
-                      {t.gdprConsent}
+                    <span className="text-sm text-gray-600">
+                      {t.gdprConsentPrefix}
+                      <a
+                        href={t.gdprConsentLinkUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-primary-600 hover:text-primary-700 underline"
+                      >
+                        {t.gdprConsentLinkText}
+                      </a>
+                      {t.gdprConsentSuffix}
                     </span>
                   </label>
                   {signupState.fieldErrors?.gdprConsent && (
