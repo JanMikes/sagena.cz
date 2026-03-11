@@ -291,8 +291,8 @@ Centrum Zdraví Sagena poskytuje **komplexní zdravotní péči** již více ne�
       <SectionDivider />
 
       <Heading level={2}>Kontaktní karty</Heading>
-      <ContactCard name="Jan Novák" email="novak@sagena.cz" phone="+420 553 030 800" />
-      <ContactCard name="Marie Svobodová" email="svobodova@sagena.cz" phone="+420 553 030 801" />
+      <ContactCard name="Jan Novák" email="novak@sagena.cz" phone="+420 553 030 830" />
+      <ContactCard name="Marie Svobodová" email="svobodova@sagena.cz" phone="+420 553 030 831" />
 
       <SectionDivider />
 

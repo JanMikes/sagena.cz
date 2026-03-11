@@ -30,7 +30,7 @@ export function preventOrphans(text: string): string {
 /**
  * Converts phone numbers in HTML to clickable tel: links.
  * Skips numbers already inside <a> tags.
- * Matches Czech phone format: +420 553 030 800 or 553 030 800
+ * Matches Czech phone format: +420 553 030 830 or 553 030 830
  */
 const phoneRegex = /(?<!\d)(\+?\d{3})[\s\u00a0]?(\d{3})[\s\u00a0]?(\d{3})[\s\u00a0]?(\d{3})(?!\d)/g;
 

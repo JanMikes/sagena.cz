@@ -123,7 +123,7 @@ const Header: React.FC<HeaderProps> = ({
               className="flex items-center space-x-2 text-gray-700 hover:text-primary-600 transition-colors"
             >
               <Phone className="w-5 h-5" />
-              <span className="font-medium">+420 553 030 800</span>
+              <span className="font-medium">+420 553 030 830</span>
             </a>
             <Button onClick={openReservationModal} size="sm">
               Objednat se
@@ -164,7 +164,7 @@ const Header: React.FC<HeaderProps> = ({
               className="flex items-center space-x-1.5 text-gray-700 hover:text-primary-600 transition-colors"
             >
               <Phone className="w-4 h-4" />
-              <span className="text-sm font-medium">553 030 800</span>
+              <span className="text-sm font-medium">553 030 830</span>
             </a>
           </div>
 
