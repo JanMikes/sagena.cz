@@ -6,6 +6,7 @@
 
 import { getSignupSchema } from '@/lib/validations/signup';
 import type { Locale } from '@/i18n/config';
+import { sendEmail, sagenaEmailTemplate } from '@/lib/email';
 
 const STRAPI_URL = process.env.STRAPI_URL || 'http://localhost:1337';
 const STRAPI_API_TOKEN = process.env.STRAPI_API_TOKEN || '';
@@ -138,6 +139,53 @@ export async function signupAction(
       console.error('Strapi user creation error:', errorData);
       return { success: false, error: messages.unknownError };
     }
+
+    // Fire-and-forget: notify admin about new signup
+    sendEmail({
+      to: 'sagena@sagena.cz',
+      subject: `Nová registrace do intranetu: ${firstName} ${lastName}`,
+      html: sagenaEmailTemplate({
+        title: 'Nová registrace do intranetu',
+        subtitle: 'Čeká na schválení administrátorem',
+        bodyHtml: `<table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+          <tr>
+            <td style="padding-bottom: 24px;">
+              <p style="margin: 0 0 6px 0; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: #71717a; font-weight: 600;">Jméno a příjmení</p>
+              <p style="margin: 0; font-size: 16px; color: #18181b; font-weight: 500;">${firstName} ${lastName}</p>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding-bottom: 24px;">
+              <p style="margin: 0 0 6px 0; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: #71717a; font-weight: 600;">E-mail</p>
+              <p style="margin: 0; font-size: 16px; color: #18181b;"><a href="mailto:${email}" style="color: #005086; text-decoration: none;">${email}</a></p>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <p style="margin: 0 0 6px 0; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: #71717a; font-weight: 600;">Čas registrace</p>
+              <p style="margin: 0; font-size: 16px; color: #18181b;">${new Date().toLocaleString('cs-CZ', { timeZone: 'Europe/Prague' })}</p>
+            </td>
+          </tr>
+        </table>`,
+      }),
+    }).catch((error) => {
+      console.error('Failed to send admin signup notification:', error);
+    });
+
+    // Fire-and-forget: confirm to user their registration is pending
+    sendEmail({
+      to: email,
+      subject: 'Registrace na intranet Sagena',
+      html: sagenaEmailTemplate({
+        title: 'Registrace na intranet Sagena',
+        bodyHtml: `<p style="margin: 0 0 16px 0; font-size: 16px; color: #18181b; line-height: 1.6;">Dobrý den, ${firstName},</p>
+          <p style="margin: 0 0 16px 0; font-size: 16px; color: #18181b; line-height: 1.6;">Vaše registrace na intranet Sagena byla úspěšně přijata a čeká na schválení administrátorem.</p>
+          <p style="margin: 0 0 16px 0; font-size: 16px; color: #18181b; line-height: 1.6;">O schválení vašeho účtu budete informováni e-mailem.</p>
+          <p style="margin: 0; font-size: 16px; color: #71717a; line-height: 1.6;">S pozdravem,<br>Tým Sagena</p>`,
+      }),
+    }).catch((error) => {
+      console.error('Failed to send user signup confirmation:', error);
+    });
 
     // Account created — needs admin confirmation before login
     return { success: true };

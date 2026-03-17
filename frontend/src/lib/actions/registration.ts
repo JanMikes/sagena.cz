@@ -6,7 +6,7 @@
 
 import { getRegistrationSchema } from '@/lib/validations/registration';
 import type { Locale } from '@/i18n/config';
-import nodemailer from 'nodemailer';
+import { sendEmail, sagenaEmailTemplate } from '@/lib/email';
 
 export interface RegistrationActionState {
   success: boolean;
@@ -51,103 +51,53 @@ async function sendNotificationEmail(data: {
     return;
   }
 
-  const smtpPort = parseInt(process.env.SMTP_PORT || '1025', 10);
-  const smtpEncryption = process.env.SMTP_ENCRYPTION?.toLowerCase();
-
-  // secure: true for SSL/TLS on port 465, false for STARTTLS on port 587
-  const isSecure = smtpEncryption === 'ssl' || smtpEncryption === 'tls' || smtpPort === 465;
-
-  const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST || 'localhost',
-    port: smtpPort,
-    secure: isSecure,
-    auth: process.env.SMTP_USER ? {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS,
-    } : undefined,
-  });
-
   const submittedDate = new Date(data.submittedAt).toLocaleString('cs-CZ', {
     timeZone: 'Europe/Prague',
   });
 
-  await transporter.sendMail({
-    from: process.env.EMAIL_FROM || 'noreply@sagena.cz',
-    to: recipients,
-    subject: `Nová registrace: ${data.fullName}`,
-    html: `
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<body style="margin: 0; padding: 0; background-color: #f4f4f5; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
-  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #f4f4f5; padding: 40px 20px;">
+  const bodyHtml = `<table role="presentation" width="100%" cellspacing="0" cellpadding="0">
     <tr>
-      <td align="center">
-        <table role="presentation" width="600" cellspacing="0" cellpadding="0" style="background-color: #ffffff; border-radius: 12px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); overflow: hidden;">
-          <!-- Header -->
-          <tr>
-            <td style="background: linear-gradient(135deg, #005086 0%, #004069 100%); padding: 32px 40px;">
-              <h1 style="margin: 0; color: #ffffff; font-size: 24px; font-weight: 600;">Nová registrace</h1>
-              <p style="margin: 8px 0 0 0; color: rgba(255, 255, 255, 0.9); font-size: 14px;">Registrace k praktickému lékaři</p>
-            </td>
-          </tr>
-          <!-- Content -->
-          <tr>
-            <td style="padding: 40px;">
-              <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
-                <tr>
-                  <td style="padding-bottom: 24px;">
-                    <p style="margin: 0 0 6px 0; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: #71717a; font-weight: 600;">Jméno a příjmení</p>
-                    <p style="margin: 0; font-size: 16px; color: #18181b; font-weight: 500;">${data.fullName}</p>
-                  </td>
-                </tr>
-                <tr>
-                  <td style="padding-bottom: 24px;">
-                    <p style="margin: 0 0 6px 0; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: #71717a; font-weight: 600;">E-mail</p>
-                    <p style="margin: 0; font-size: 16px; color: #18181b;"><a href="mailto:${data.email}" style="color: #005086; text-decoration: none;">${data.email}</a></p>
-                  </td>
-                </tr>
-                <tr>
-                  <td style="padding-bottom: 24px;">
-                    <p style="margin: 0 0 6px 0; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: #71717a; font-weight: 600;">Telefon</p>
-                    <p style="margin: 0; font-size: 16px; color: #18181b;"><a href="tel:${data.phone}" style="color: #005086; text-decoration: none;">${data.phone}</a></p>
-                  </td>
-                </tr>
-                ${data.message ? `
-                <tr>
-                  <td style="padding-bottom: 24px;">
-                    <p style="margin: 0 0 6px 0; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: #71717a; font-weight: 600;">Zpráva</p>
-                    <p style="margin: 0; font-size: 16px; color: #18181b; line-height: 1.5; white-space: pre-wrap;">${data.message}</p>
-                  </td>
-                </tr>
-                ` : ''}
-                <tr>
-                  <td>
-                    <p style="margin: 0 0 6px 0; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: #71717a; font-weight: 600;">Čas odeslání</p>
-                    <p style="margin: 0; font-size: 16px; color: #18181b;">${submittedDate}</p>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-          <!-- Footer -->
-          <tr>
-            <td style="background-color: #fafafa; padding: 24px 40px; border-top: 1px solid #e4e4e7;">
-              <p style="margin: 0; font-size: 13px; color: #71717a; text-align: center;">
-                Tato zpráva byla automaticky vygenerována systémem <strong style="color: #005086;">Sagena</strong>
-              </p>
-            </td>
-          </tr>
-        </table>
+      <td style="padding-bottom: 24px;">
+        <p style="margin: 0 0 6px 0; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: #71717a; font-weight: 600;">Jméno a příjmení</p>
+        <p style="margin: 0; font-size: 16px; color: #18181b; font-weight: 500;">${data.fullName}</p>
       </td>
     </tr>
-  </table>
-</body>
-</html>
-    `,
+    <tr>
+      <td style="padding-bottom: 24px;">
+        <p style="margin: 0 0 6px 0; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: #71717a; font-weight: 600;">E-mail</p>
+        <p style="margin: 0; font-size: 16px; color: #18181b;"><a href="mailto:${data.email}" style="color: #005086; text-decoration: none;">${data.email}</a></p>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding-bottom: 24px;">
+        <p style="margin: 0 0 6px 0; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: #71717a; font-weight: 600;">Telefon</p>
+        <p style="margin: 0; font-size: 16px; color: #18181b;"><a href="tel:${data.phone}" style="color: #005086; text-decoration: none;">${data.phone}</a></p>
+      </td>
+    </tr>
+    ${data.message ? `
+    <tr>
+      <td style="padding-bottom: 24px;">
+        <p style="margin: 0 0 6px 0; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: #71717a; font-weight: 600;">Zpráva</p>
+        <p style="margin: 0; font-size: 16px; color: #18181b; line-height: 1.5; white-space: pre-wrap;">${data.message}</p>
+      </td>
+    </tr>
+    ` : ''}
+    <tr>
+      <td>
+        <p style="margin: 0 0 6px 0; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: #71717a; font-weight: 600;">Čas odeslání</p>
+        <p style="margin: 0; font-size: 16px; color: #18181b;">${submittedDate}</p>
+      </td>
+    </tr>
+  </table>`;
+
+  await sendEmail({
+    to: recipients,
+    subject: `Nová registrace: ${data.fullName}`,
+    html: sagenaEmailTemplate({
+      title: 'Nová registrace',
+      subtitle: 'Registrace k praktickému lékaři',
+      bodyHtml,
+    }),
   });
 }
 
