@@ -52,7 +52,7 @@ export function middleware(request: NextRequest) {
 
     // Check if this is a protected intranet route (not the login or signup page)
     const isIntranetRoute = pathname.includes('/intranet');
-    const isAuthPage = pathname.includes('/intranet/login') || pathname.includes('/intranet/signup');
+    const isAuthPage = pathname.includes('/intranet/login') || pathname.includes('/intranet/signup') || pathname.includes('/intranet/forgot-password') || pathname.includes('/intranet/reset-password');
 
     if (isIntranetRoute && !isAuthPage) {
       // Check for authentication cookie

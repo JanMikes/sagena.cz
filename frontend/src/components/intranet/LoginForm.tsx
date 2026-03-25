@@ -192,7 +192,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ locale, rejectedReason }) => {
                 </span>
               </label>
               <a
-                href="#"
+                href={`/${locale}/intranet/forgot-password/`}
                 className="text-sm text-primary-600 hover:text-primary-700"
               >
                 {t.forgotPassword}
