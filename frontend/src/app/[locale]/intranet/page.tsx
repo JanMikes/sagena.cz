@@ -22,8 +22,10 @@ export default async function IntranetPage({ params }: IntranetPageProps) {
 
   // Double-check authentication (middleware should have caught this)
   if (!session) {
-    const params = rejected ? `?reason=${rejected}` : '';
-    redirect(`/${locale}/intranet/login/${params}`);
+    const loginParams = new URLSearchParams();
+    if (rejected) loginParams.set('reason', rejected);
+    loginParams.set('redirectTo', `/${locale}/intranet/`);
+    redirect(`/${locale}/intranet/login/?${loginParams.toString()}`);
   }
 
   // Fetch intranet navigation menu

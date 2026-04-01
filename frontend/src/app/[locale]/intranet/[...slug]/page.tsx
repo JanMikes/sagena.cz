@@ -125,8 +125,10 @@ export default async function IntranetPage({ params }: PageProps) {
   // Double-check authentication (middleware should have caught this)
   const { session, rejected } = await getSession();
   if (!session) {
-    const params = rejected ? `?reason=${rejected}` : '';
-    redirect(`/${locale}/intranet/login/${params}`);
+    const loginParams = new URLSearchParams();
+    if (rejected) loginParams.set('reason', rejected);
+    loginParams.set('redirectTo', `/${locale}/intranet/${slugArray.join('/')}/`);
+    redirect(`/${locale}/intranet/login/?${loginParams.toString()}`);
   }
 
   // Get hierarchy info (cached) and page content in parallel

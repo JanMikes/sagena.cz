@@ -39,6 +39,7 @@ const errorMessages = {
  */
 export async function loginAction(
   locale: Locale,
+  redirectTo: string | null,
   prevState: LoginActionState,
   formData: FormData
 ): Promise<LoginActionState> {
@@ -98,7 +99,10 @@ export async function loginAction(
     };
   }
 
-  // Redirect to intranet dashboard on success
+  // Redirect to original URL or intranet dashboard on success
+  if (redirectTo && redirectTo.startsWith(`/${locale}/intranet/`)) {
+    redirect(redirectTo);
+  }
   redirect(`/${locale}/intranet/`);
 }
 

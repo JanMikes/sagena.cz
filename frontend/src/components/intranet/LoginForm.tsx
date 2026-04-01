@@ -10,6 +10,7 @@ import type { SessionRejectedReason } from '@/lib/auth';
 interface LoginFormProps {
   locale: Locale;
   rejectedReason?: SessionRejectedReason;
+  redirectTo?: string;
 }
 
 const translations = {
@@ -47,7 +48,7 @@ const translations = {
   },
 } as const;
 
-const LoginForm: React.FC<LoginFormProps> = ({ locale, rejectedReason }) => {
+const LoginForm: React.FC<LoginFormProps> = ({ locale, rejectedReason, redirectTo }) => {
   const t = translations[locale];
   const [showPassword, setShowPassword] = useState(false);
 
@@ -56,9 +57,9 @@ const LoginForm: React.FC<LoginFormProps> = ({ locale, rejectedReason }) => {
     : null;
 
   const initialState: LoginActionState = { success: false };
-  const loginActionWithLocale = loginAction.bind(null, locale);
+  const loginActionWithLocaleAndRedirect = loginAction.bind(null, locale, redirectTo ?? null);
   const [state, formAction, isPending] = useActionState(
-    loginActionWithLocale,
+    loginActionWithLocaleAndRedirect,
     initialState
   );
 
