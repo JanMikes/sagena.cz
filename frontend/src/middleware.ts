@@ -59,10 +59,12 @@ export function middleware(request: NextRequest) {
       const sessionCookie = request.cookies.get(COOKIE_NAME);
 
       if (!sessionCookie?.value) {
-        // Redirect to login page with the same locale
-        return NextResponse.redirect(
-          new URL(`/${locale}/intranet/login/`, request.url)
-        );
+        // Redirect to login page, preserving the original URL so the user
+        // returns to the page they tried to visit after logging in.
+        const loginUrl = new URL(`/${locale}/intranet/login/`, request.url);
+        const redirectTo = pathname + (request.nextUrl.search || '');
+        loginUrl.searchParams.set('redirectTo', redirectTo);
+        return NextResponse.redirect(loginUrl);
       }
     }
 
