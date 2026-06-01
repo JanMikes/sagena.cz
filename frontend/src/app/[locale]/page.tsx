@@ -32,6 +32,7 @@ export async function generateMetadata({ params }: HomePageProps): Promise<Metad
     title: titles[locale as Locale] || titles.cs,
     description: descriptions[locale as Locale] || descriptions.cs,
     alternates: {
+      canonical: `/${locale}/`,
       languages: {
         cs: '/cs/',
         en: '/en/',

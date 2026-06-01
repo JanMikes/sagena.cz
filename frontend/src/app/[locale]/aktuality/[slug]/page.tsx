@@ -46,6 +46,9 @@ export async function generateMetadata({
     description: article.text
       ? article.text.replace(/<[^>]*>/g, '').substring(0, 160)
       : undefined,
+    alternates: {
+      canonical: `/${locale}/aktuality/${slug}/`,
+    },
     openGraph: imageUrl
       ? {
           images: [imageUrl],

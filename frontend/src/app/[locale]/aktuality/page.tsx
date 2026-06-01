@@ -35,6 +35,7 @@ export async function generateMetadata({ params }: NewsListingPageProps): Promis
     title: titles[locale as Locale] || titles.cs,
     description: descriptions[locale as Locale] || descriptions.cs,
     alternates: {
+      canonical: `/${locale}/aktuality/`,
       languages: {
         cs: '/cs/aktuality/',
         en: '/en/aktuality/',

@@ -13,9 +13,9 @@
  */
 
 import { Metadata } from 'next';
-import { notFound, redirect } from 'next/navigation';
+import { notFound, permanentRedirect } from 'next/navigation';
 import * as Sentry from '@sentry/nextjs';
-import { fetchPageBySlug, hasSidebar, getPageHierarchy } from '@/lib/strapi';
+import { fetchPageBySlug, hasSidebar, getPageHierarchy, fetchHomepage } from '@/lib/strapi';
 import DynamicZone from '@/components/strapi/DynamicZone';
 import SidePanel from '@/components/layout/SidePanel';
 import PageHeader from '@/components/layout/PageHeader';
@@ -99,12 +99,14 @@ export default async function Page({ params }: PageProps) {
 
   let hierarchy;
   let page;
+  let homepage;
 
   try {
-    // Get hierarchy info (cached) and page content in parallel
-    [hierarchy, page] = await Promise.all([
+    // Get hierarchy info (cached), page content and homepage slug (cached) in parallel
+    [hierarchy, page, homepage] = await Promise.all([
       getPageHierarchy(leafSlug, effectiveLocale),
       fetchPageBySlug(leafSlug, effectiveLocale),
+      fetchHomepage(effectiveLocale),
     ]);
   } catch (error) {
     // Log fetch errors - these should NOT result in 404
@@ -126,15 +128,22 @@ export default async function Page({ params }: PageProps) {
     notFound();
   }
 
+  // The homepage is canonically served at the locale root (/cs/, /en/).
+  // Permanently redirect its slug-based URL (e.g. /cs/uvod/) there to avoid
+  // duplicate content.
+  if (homepage?.page?.slug && leafSlug === homepage.page.slug) {
+    permanentRedirect(`/${locale}/`);
+  }
+
   // Validate URL matches canonical path
   const requestedPath = slugArray.join('/');
 
-  // Redirect to canonical URL if the requested path doesn't match
+  // Permanently redirect to the canonical URL if the requested path doesn't match
   // This handles cases like:
   // - /cs/child/ when it should be /cs/parent/child/
   // - /cs/wrong-parent/child/ when parent is different
   if (requestedPath !== hierarchy.canonicalPath) {
-    redirect(`/${locale}/${hierarchy.canonicalPath}/`);
+    permanentRedirect(`/${locale}/${hierarchy.canonicalPath}/`);
   }
 
   const showSidebar = hasSidebar(page.sidebar);

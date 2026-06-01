@@ -79,6 +79,8 @@ services:
             PUBLIC_UPLOADS_URL: http://localhost:8080
             STRAPI_WEBHOOK_SECRET: ${STRAPI_WEBHOOK_SECRET:-your-webhook-secret}
             REDIS_URL: redis://redis:6379
+            # Public site URL for canonical metadata, robots.txt and sitemap.xml
+            SITE_URL: ${SITE_URL:-http://localhost:3000}
             # Email configuration
             SMTP_HOST: mailpit
             SMTP_PORT: 1025
