@@ -119,6 +119,7 @@ const PageHeader: React.FC<PageHeaderProps> = async ({ header, locale = 'cs' }) 
         serviceCardsProps={serviceCardsProps}
         hasSlider={hasSlider}
         hasServiceCards={hasServiceCards}
+        locale={locale}
       />
     </div>
   );

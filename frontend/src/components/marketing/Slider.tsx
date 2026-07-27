@@ -36,7 +36,13 @@ interface SliderProps {
   onSlideChange?: (index: number) => void;
   /** When true, hides the navigation dots (for external rendering) */
   hideNavigation?: boolean;
+  locale?: string;
 }
+
+const translations = {
+  cs: { previous: 'Předchozí slide', next: 'Další slide' },
+  en: { previous: 'Previous slide', next: 'Next slide' },
+} as const;
 
 const Slider: React.FC<SliderProps> = ({
   slides,
@@ -47,7 +53,9 @@ const Slider: React.FC<SliderProps> = ({
   currentSlide: controlledCurrentSlide,
   onSlideChange,
   hideNavigation = false,
+  locale = 'cs',
 }) => {
+  const t = translations[locale as keyof typeof translations] || translations.cs;
   const [internalCurrentSlide, setInternalCurrentSlide] = useState(0);
   const [maxHeight, setMaxHeight] = useState<number | null>(null);
   const slidesContainerRef = useRef<HTMLDivElement>(null);
@@ -193,14 +201,14 @@ const Slider: React.FC<SliderProps> = ({
             <button
               onClick={prevSlide}
               className="absolute left-1.5 top-16 -translate-y-1/2 bg-white/90 hover:bg-white text-gray-900 p-1.5 rounded-full shadow-md transition-all hover:scale-110 z-10"
-              aria-label="Předchozí slide"
+              aria-label={t.previous}
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
             <button
               onClick={nextSlide}
               className="absolute right-1.5 top-16 -translate-y-1/2 bg-white/90 hover:bg-white text-gray-900 p-1.5 rounded-full shadow-md transition-all hover:scale-110 z-10"
-              aria-label="Další slide"
+              aria-label={t.next}
             >
               <ChevronRight className="w-4 h-4" />
             </button>
@@ -330,14 +338,14 @@ const Slider: React.FC<SliderProps> = ({
           <button
             onClick={prevSlide}
             className="absolute left-2 md:left-4 lg:left-6 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-gray-900 p-2 md:p-3 rounded-full shadow-lg transition-all hover:scale-110 z-10"
-            aria-label="Předchozí slide"
+            aria-label={t.previous}
           >
             <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
           </button>
           <button
             onClick={nextSlide}
             className="absolute right-2 md:right-4 lg:right-6 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-gray-900 p-2 md:p-3 rounded-full shadow-lg transition-all hover:scale-110 z-10"
-            aria-label="Další slide"
+            aria-label={t.next}
           >
             <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
           </button>

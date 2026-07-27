@@ -16,8 +16,14 @@ interface NewsArticleProps {
   tags?: Array<{ name: string; slug: string }>; // Optional tags
   readMoreUrl: string;
   readMoreText?: string;
+  locale?: string;
   compact?: boolean; // Compact mode for sidebar (smaller, horizontal layout)
 }
+
+const translations = {
+  cs: { readMore: 'Číst více' },
+  en: { readMore: 'Read more' },
+} as const;
 
 const NewsArticle: React.FC<NewsArticleProps> = ({
   title,
@@ -27,9 +33,12 @@ const NewsArticle: React.FC<NewsArticleProps> = ({
   imageAlt,
   tags,
   readMoreUrl,
-  readMoreText = 'Číst více',
+  readMoreText,
+  locale = 'cs',
   compact = false,
 }) => {
+  const t = translations[locale as keyof typeof translations] || translations.cs;
+  const readMoreLabel = readMoreText || t.readMore;
   // Strip HTML tags from rich text for excerpt if needed
   const getPlainTextExcerpt = (html: string): string => {
     // Simple HTML tag stripping for excerpt display
@@ -58,7 +67,7 @@ const NewsArticle: React.FC<NewsArticleProps> = ({
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center space-x-1.5 text-xs text-gray-500">
                 <Calendar className="w-3.5 h-3.5" />
-                <time dateTime={date}>{new Date(date).toLocaleDateString('cs')}</time>
+                <time dateTime={date}>{new Date(date).toLocaleDateString(locale === 'en' ? 'en-GB' : 'cs')}</time>
               </div>
               {tags && tags.length > 0 && (
                 <div className="flex items-center gap-1.5">
@@ -87,7 +96,7 @@ const NewsArticle: React.FC<NewsArticleProps> = ({
             )}
             <div className="absolute bottom-0 right-0">
               <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-tl-lg rounded-br-xl bg-primary-200 group-hover:bg-primary-700 transition-colors">
-                <span className="text-white font-medium text-sm">{readMoreText}</span>
+                <span className="text-white font-medium text-sm">{readMoreLabel}</span>
                 <ArrowRight className="w-3.5 h-3.5 text-white group-hover:translate-x-1 transition-transform" />
               </span>
             </div>
@@ -116,7 +125,7 @@ const NewsArticle: React.FC<NewsArticleProps> = ({
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center space-x-2 text-sm text-gray-500">
               <Calendar className="w-4 h-4" />
-              <time dateTime={date}>{new Date(date).toLocaleDateString('cs')}</time>
+              <time dateTime={date}>{new Date(date).toLocaleDateString(locale === 'en' ? 'en-GB' : 'cs')}</time>
             </div>
             {tags && tags.length > 0 && (
               <div className="flex items-center gap-2">
@@ -145,7 +154,7 @@ const NewsArticle: React.FC<NewsArticleProps> = ({
           )}
           <div className="absolute bottom-0 right-0">
             <span className="inline-flex items-center gap-2 px-5 py-3 rounded-tl-lg rounded-br-xl bg-primary-200 group-hover:bg-primary-700 transition-colors">
-              <span className="text-white font-medium text-sm">{readMoreText}</span>
+              <span className="text-white font-medium text-sm">{readMoreLabel}</span>
               <ArrowRight className="w-4 h-4 text-white group-hover:translate-x-1 transition-transform" />
             </span>
           </div>

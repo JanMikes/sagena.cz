@@ -25,7 +25,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
           <Link
             href={`/${locale}/`}
             className="text-gray-600 hover:text-primary-600 transition-colors"
-            aria-label="Domů"
+            aria-label={locale === 'en' ? 'Home' : 'Domů'}
           >
             <Home className="w-4 h-4" />
           </Link>

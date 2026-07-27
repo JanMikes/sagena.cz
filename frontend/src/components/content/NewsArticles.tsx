@@ -69,6 +69,7 @@ const NewsArticles: React.FC<NewsArticlesProps> = ({
             imageAlt={article.imageAlt}
             tags={article.tags}
             readMoreUrl={`${articleBasePath}/${article.slug}/`}
+            locale={locale}
             compact={compact}
           />
         ))}

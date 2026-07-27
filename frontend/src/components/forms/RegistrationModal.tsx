@@ -20,7 +20,7 @@ const RegistrationModal: React.FC<RegistrationModalProps> = ({ locale }) => {
   const t = translations[locale];
 
   return (
-    <Modal isOpen={isOpen} onClose={closeModal} size="md" title={t.title}>
+    <Modal isOpen={isOpen} onClose={closeModal} size="md" title={t.title} locale={locale}>
       <RegistrationForm locale={locale} />
     </Modal>
   );

@@ -13,9 +13,16 @@ interface Photo {
 interface GallerySliderProps {
   photos: Photo[];
   compact?: boolean;
+  locale?: string;
 }
 
-const GallerySlider: React.FC<GallerySliderProps> = ({ photos, compact = false }) => {
+const translations = {
+  cs: { previous: 'Předchozí foto', next: 'Další foto' },
+  en: { previous: 'Previous photo', next: 'Next photo' },
+} as const;
+
+const GallerySlider: React.FC<GallerySliderProps> = ({ photos, compact = false, locale = 'cs' }) => {
+  const t = translations[locale as keyof typeof translations] || translations.cs;
   const [currentIndex, setCurrentIndex] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
@@ -102,7 +109,7 @@ const GallerySlider: React.FC<GallerySliderProps> = ({ photos, compact = false }
           className={`absolute top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-gray-900 rounded-full shadow-lg transition-all hover:scale-110 ${
             compact ? 'left-1 p-1.5' : 'left-0 p-2'
           }`}
-          aria-label="Předchozí foto"
+          aria-label={t.previous}
         >
           <ChevronLeft className={compact ? 'w-4 h-4' : 'w-5 h-5'} />
         </button>
@@ -114,7 +121,7 @@ const GallerySlider: React.FC<GallerySliderProps> = ({ photos, compact = false }
           className={`absolute top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-gray-900 rounded-full shadow-lg transition-all hover:scale-110 ${
             compact ? 'right-1 p-1.5' : 'right-0 p-2'
           }`}
-          aria-label="Další foto"
+          aria-label={t.next}
         >
           <ChevronRight className={compact ? 'w-4 h-4' : 'w-5 h-5'} />
         </button>

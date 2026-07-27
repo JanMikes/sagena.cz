@@ -195,6 +195,7 @@ async function renderComponent(
           link={resolvedLink}
           rememberDismissal={popupComponent.rememberDismissal ?? false}
           popupId={popupComponent.id}
+          locale={locale}
         />
       );
     }
@@ -227,6 +228,7 @@ async function renderComponent(
           links={links}
           layout={linksListComponent.layout || 'Grid'}
           compact={compact}
+          locale={locale}
         />
       );
     }
@@ -674,6 +676,7 @@ async function renderComponent(
           autoplay={sliderComponent.autoplay ?? undefined}
           autoplayInterval={sliderComponent.autoplay_interval ?? undefined}
           compact={compact}
+          locale={locale}
         />
       );
     }
@@ -699,6 +702,7 @@ async function renderComponent(
           key={`${__component}-${component.id || index}`}
           photos={photos}
           compact={compact}
+          locale={locale}
         />
       );
     }
@@ -1006,6 +1010,7 @@ async function renderComponent(
                 button={button}
                 openingHours={openingHours}
                 openingHoursLabel={openingHoursLabel}
+                locale={locale}
               />
             );
           })}
@@ -1212,6 +1217,7 @@ async function renderComponent(
           key={`${__component}-${component.id || index}`}
           cards={cards}
           columns={columns}
+          locale={locale}
         />
       );
 
@@ -1390,6 +1396,7 @@ const DynamicZone: React.FC<DynamicZoneProps> = async ({
             key={`error-${componentType}-${index}`}
             componentType={componentType}
             showDetails={process.env.NODE_ENV === 'development'}
+            locale={locale}
           />
         );
       }

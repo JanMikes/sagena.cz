@@ -15,7 +15,13 @@ interface PopupModalProps {
   } | null;
   rememberDismissal?: boolean;
   popupId?: number;
+  locale?: string;
 }
+
+const translations = {
+  cs: { close: 'Zavřít' },
+  en: { close: 'Close' },
+} as const;
 
 const PopupModal: React.FC<PopupModalProps> = ({
   title,
@@ -23,7 +29,10 @@ const PopupModal: React.FC<PopupModalProps> = ({
   link,
   rememberDismissal,
   popupId,
+  locale = 'cs',
 }) => {
+  const t = translations[locale as keyof typeof translations] || translations.cs;
+
   // Generate storage key using globally unique Strapi component ID
   const storageKey = popupId ? `popup-dismissed-${popupId}` : null;
 
@@ -97,7 +106,7 @@ const PopupModal: React.FC<PopupModalProps> = ({
             <button
               onClick={handleClose}
               className="p-2 text-white/80 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
-              aria-label="Zavřít"
+              aria-label={t.close}
             >
               <X className="w-5 h-5" />
             </button>
@@ -109,7 +118,7 @@ const PopupModal: React.FC<PopupModalProps> = ({
           <button
             onClick={handleClose}
             className="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors z-10"
-            aria-label="Zavřít"
+            aria-label={t.close}
           >
             <X className="w-5 h-5" />
           </button>

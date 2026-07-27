@@ -26,11 +26,24 @@ interface LocationCardData {
 interface LocationCardsProps {
   cards: LocationCardData[];
   columns?: 2 | 3 | 4;
+  locale?: string;
 }
 
-const LocationCard: React.FC<{ card: LocationCardData }> = ({ card }) => {
+const translations = {
+  cs: {
+    openingHours: 'Ordinační hodiny',
+    back: 'Zpět',
+  },
+  en: {
+    openingHours: 'Opening hours',
+    back: 'Back',
+  },
+} as const;
+
+const LocationCard: React.FC<{ card: LocationCardData; locale: string }> = ({ card, locale }) => {
   const [isFlipped, setIsFlipped] = useState(false);
   const hasOpeningHours = card.openingHours && card.openingHours.length > 0;
+  const t = translations[locale as keyof typeof translations] || translations.cs;
 
   return (
     <div
@@ -130,7 +143,7 @@ const LocationCard: React.FC<{ card: LocationCardData }> = ({ card }) => {
                   className="mt-4 flex items-center justify-center gap-2 w-full py-2 bg-primary-600 text-white font-medium text-sm transition-colors border border-primary-600 rounded-lg hover:bg-primary-700 hover:border-primary-700"
                 >
                   <Clock className="w-4 h-4 text-white" />
-                  <span>Ordinační hodiny</span>
+                  <span>{t.openingHours}</span>
                 </button>
               )}
 
@@ -158,7 +171,7 @@ const LocationCard: React.FC<{ card: LocationCardData }> = ({ card }) => {
           style={{ backfaceVisibility: 'hidden' }}
         >
           <div className="bg-primary-600 text-white rounded-xl p-6 h-full flex flex-col">
-            <h4 className="text-xl font-bold mb-4">Ordinační hodiny</h4>
+            <h4 className="text-xl font-bold mb-4">{t.openingHours}</h4>
             {card.title && (
               <p className="text-primary-100 mb-4">{card.title}</p>
             )}
@@ -186,7 +199,7 @@ const LocationCard: React.FC<{ card: LocationCardData }> = ({ card }) => {
               onClick={() => setIsFlipped(false)}
               className="mt-3 w-full py-1.5 bg-white text-primary-600 rounded text-xs hover:bg-primary-50 transition-colors"
             >
-              Zpět
+              {t.back}
             </button>
           </div>
         </div>
@@ -198,6 +211,7 @@ const LocationCard: React.FC<{ card: LocationCardData }> = ({ card }) => {
 const LocationCards: React.FC<LocationCardsProps> = ({
   cards,
   columns = 3,
+  locale = 'cs',
 }) => {
   const gridCols = {
     2: 'md:grid-cols-2',
@@ -208,7 +222,7 @@ const LocationCards: React.FC<LocationCardsProps> = ({
   return (
     <div className={`grid grid-cols-1 ${gridCols[columns]} gap-6`}>
       {cards.map((card, index) => (
-        <LocationCard key={index} card={card} />
+        <LocationCard key={index} card={card} locale={locale} />
       ))}
     </div>
   );

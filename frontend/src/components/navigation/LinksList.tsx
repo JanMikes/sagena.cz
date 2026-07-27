@@ -14,10 +14,17 @@ interface LinksListProps {
   links: LinkItem[];
   layout?: 'Grid' | 'Rows';
   compact?: boolean;
+  locale?: string;
 }
 
-const LinksList: React.FC<LinksListProps> = ({ links, layout = 'Grid', compact = false }) => {
+const translations = {
+  cs: { unavailable: 'Nedostupné' },
+  en: { unavailable: 'Unavailable' },
+} as const;
+
+const LinksList: React.FC<LinksListProps> = ({ links, layout = 'Grid', compact = false, locale = 'cs' }) => {
   const isGrid = layout === 'Grid';
+  const t = translations[locale as keyof typeof translations] || translations.cs;
 
   // In compact mode (sidebar), use single column; otherwise use responsive grid
   const containerClass = isGrid
@@ -67,7 +74,7 @@ const LinksList: React.FC<LinksListProps> = ({ links, layout = 'Grid', compact =
                     </div>
                   </div>
                   <span className="text-xs font-semibold text-gray-500 bg-gray-200 px-3 py-1 rounded-full">
-                    Nedostupné
+                    {t.unavailable}
                   </span>
                 </>
               )}

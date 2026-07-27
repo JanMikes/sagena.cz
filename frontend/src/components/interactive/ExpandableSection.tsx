@@ -136,7 +136,7 @@ const ExpandableSection: React.FC<ExpandableSectionProps> = ({
 
               {photos.length > 0 && (
                 <div className="pt-4">
-                  <GallerySlider photos={photos} />
+                  <GallerySlider photos={photos} locale={locale} />
                 </div>
               )}
 

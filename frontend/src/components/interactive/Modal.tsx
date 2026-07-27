@@ -10,7 +10,13 @@ interface ModalProps {
   children: React.ReactNode;
   showOnLoad?: boolean;
   size?: 'sm' | 'md' | 'lg' | 'xl';
+  locale?: string;
 }
+
+const translations = {
+  cs: { close: 'Zavřít' },
+  en: { close: 'Close' },
+} as const;
 
 const Modal: React.FC<ModalProps> = ({
   isOpen,
@@ -18,7 +24,10 @@ const Modal: React.FC<ModalProps> = ({
   title,
   children,
   size = 'md',
+  locale = 'cs',
 }) => {
+  const t = translations[locale as keyof typeof translations] || translations.cs;
+
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
@@ -58,7 +67,7 @@ const Modal: React.FC<ModalProps> = ({
             <button
               onClick={onClose}
               className="p-2 text-white/80 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
-              aria-label="Zavřít"
+              aria-label={t.close}
             >
               <X className="w-5 h-5" />
             </button>
@@ -70,7 +79,7 @@ const Modal: React.FC<ModalProps> = ({
           <button
             onClick={onClose}
             className="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors z-10"
-            aria-label="Zavřít"
+            aria-label={t.close}
           >
             <X className="w-5 h-5" />
           </button>

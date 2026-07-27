@@ -53,7 +53,29 @@ interface AmbulanceCardProps {
   button?: { text: string; url: string };
   openingHours?: OpeningHoursGroup[];
   openingHoursLabel?: string;
+  locale?: string;
 }
+
+const translations = {
+  cs: {
+    openingHours: 'Ordinační hodiny',
+    doctor: 'Doktor',
+    unknown: 'Neznámý',
+    holiday: 'Dovolená',
+    nurses: 'Sestry',
+    document: 'Dokument',
+    back: 'Zpět',
+  },
+  en: {
+    openingHours: 'Opening hours',
+    doctor: 'Doctor',
+    unknown: 'Unknown',
+    holiday: 'Holiday',
+    nurses: 'Nurses',
+    document: 'Document',
+    back: 'Back',
+  },
+} as const;
 
 const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
   name = '',
@@ -68,8 +90,10 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
   button,
   openingHours = [],
   openingHoursLabel,
+  locale = 'cs',
 }) => {
-  const hoursLabel = openingHoursLabel || 'Ordinační hodiny';
+  const t = translations[locale as keyof typeof translations] || translations.cs;
+  const hoursLabel = openingHoursLabel || t.openingHours;
   const [isFlipped, setIsFlipped] = useState(false);
 
   const getSurname = (fullName?: string): string => {
@@ -217,7 +241,7 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
                           {doctor.photo ? (
                             <img
                               src={doctor.photo}
-                              alt={doctor.name || 'Doktor'}
+                              alt={doctor.name || t.doctor}
                               className="w-10 h-10 rounded-full object-cover flex-shrink-0"
                             />
                           ) : (
@@ -228,7 +252,7 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
 
                           {/* Info - pt-2 aligns name with avatar center (40px avatar, ~24px line height) */}
                           <div className="flex-1 min-w-0 pt-2">
-                            <div className="font-semibold text-primary-600">{doctor.name || 'Neznámý'}</div>
+                            <div className="font-semibold text-primary-600">{doctor.name || t.unknown}</div>
                             {doctor.function && (
                               <span className="inline-block text-xs text-gray-600 bg-gray-100 px-2 py-0.5 rounded-full mt-2">
                                 {doctor.function}
@@ -238,7 +262,7 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
                             {getRelevantHolidays(doctor.holidays).map((holiday, holidayIndex) => (
                               <div key={holidayIndex} className="flex items-center gap-2 text-sm text-yellow-800 bg-yellow-100 px-3 py-2 rounded-lg mt-3">
                                 <Plane className="w-4 h-4 flex-shrink-0 text-yellow-600" />
-                                <span>Dovolená: {formatDate(holiday.from)} – {formatDate(holiday.to)}</span>
+                                <span>{t.holiday}: {formatDate(holiday.from)} – {formatDate(holiday.to)}</span>
                               </div>
                             ))}
                             {(doctor.phone || doctor.email) && (
@@ -275,7 +299,7 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
               {(nurses.length > 0 || nursesPhones.length > 0 || nursesEmail) && (
                 <div className={description || documents.filter(doc => doc.url).length > 0 || button || hasOpeningHours ? 'mb-4' : ''}>
                   {nurses.length > 0 && (
-                    <h4 className="text-sm font-semibold text-gray-900 mb-2">Sestry</h4>
+                    <h4 className="text-sm font-semibold text-gray-900 mb-2">{t.nurses}</h4>
                   )}
                   {nurses.length > 0 && (
                     <div className="flex flex-wrap gap-1.5">
@@ -287,7 +311,7 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
                               ? 'bg-yellow-100 text-yellow-700'
                               : 'bg-primary-100 text-primary-600'
                           }`}
-                          title={isOnHoliday(nurse.holidays) ? getActiveHolidays(nurse.holidays).map(h => `Dovolená: ${formatDate(h.from)} – ${formatDate(h.to)}`).join(', ') : undefined}
+                          title={isOnHoliday(nurse.holidays) ? getActiveHolidays(nurse.holidays).map(h => `${t.holiday}: ${formatDate(h.from)} – ${formatDate(h.to)}`).join(', ') : undefined}
                         >
                           {getSurname(nurse.name)}
                           {isOnHoliday(nurse.holidays) && (
@@ -348,7 +372,7 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
                         </div>
                         <div className="flex-1 min-w-0">
                           <span className="text-sm font-medium text-primary-600 group-hover:text-primary-700 truncate block">
-                            {doc.name || 'Dokument'}
+                            {doc.name || t.document}
                           </span>
                           <span className={`inline-block text-xs font-semibold px-1.5 py-0.5 rounded mt-1 ${getExtensionColor(ext)}`}>
                             {ext.toUpperCase()}
@@ -418,7 +442,7 @@ const AmbulanceCard: React.FC<AmbulanceCardProps> = ({
                 onClick={() => setIsFlipped(false)}
                 className="mt-4 w-full py-2 bg-white text-primary-600 rounded-lg font-medium hover:bg-primary-50 transition-colors"
               >
-                Zpět
+                {t.back}
               </button>
             </div>
           </div>

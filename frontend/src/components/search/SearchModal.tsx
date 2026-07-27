@@ -20,6 +20,23 @@ interface SearchModalProps {
   searchableContent?: SearchableItem[];
 }
 
+const translations = {
+  cs: {
+    placeholder: 'Co hledáte?',
+    quickLinks: 'Rychlé odkazy',
+    navigate: 'navigace',
+    open: 'otevřít',
+    close: 'zavřít',
+  },
+  en: {
+    placeholder: 'What are you looking for?',
+    quickLinks: 'Quick links',
+    navigate: 'navigate',
+    open: 'open',
+    close: 'close',
+  },
+} as const;
+
 /**
  * Search modal with live search functionality
  *
@@ -42,12 +59,13 @@ const SearchModal: React.FC<SearchModalProps> = ({
   const inputRef = useRef<HTMLInputElement>(null);
   const [query, setQuery] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const t = translations[locale as keyof typeof translations] || translations.cs;
 
   // Debounce the query
   const debouncedQuery = useDebounce(query, 300);
 
   // Use the search hook with pre-fetched data (no API calls)
-  const { results, totalCount } = useSearch(debouncedQuery, searchableContent);
+  const { results, totalCount } = useSearch(debouncedQuery, searchableContent, locale);
 
   // Reset state when modal opens/closes
   useEffect(() => {
@@ -114,7 +132,7 @@ const SearchModal: React.FC<SearchModalProps> = ({
   const isDebouncing = query !== debouncedQuery && query.trim().length >= 2;
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="lg">
+    <Modal isOpen={isOpen} onClose={onClose} size="lg" locale={locale}>
       <div className="py-4" onKeyDown={handleKeyDown}>
         {/* Search Input */}
         <div className="relative mb-6">
@@ -124,7 +142,7 @@ const SearchModal: React.FC<SearchModalProps> = ({
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Co hledáte?"
+            placeholder={t.placeholder}
             className="w-full pl-14 pr-12 py-4 text-lg border-2 border-gray-300 rounded-xl focus:border-primary-500 focus:ring-4 focus:ring-primary-100 outline-none transition-all"
             autoComplete="off"
           />
@@ -147,13 +165,13 @@ const SearchModal: React.FC<SearchModalProps> = ({
         )}
 
         {/* Empty state */}
-        {showEmpty && <SearchEmptyState query={debouncedQuery} />}
+        {showEmpty && <SearchEmptyState query={debouncedQuery} locale={locale} />}
 
         {/* Quick Links (when no query) */}
         {showQuickLinks && searchData?.quick_links && searchData.quick_links.length > 0 && (
           <div>
             <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">
-              Rychlé odkazy
+              {t.quickLinks}
             </h3>
             <div className="space-y-1">
               {searchData.quick_links.map((link, index) => {
@@ -189,13 +207,13 @@ const SearchModal: React.FC<SearchModalProps> = ({
         {showResults && (
           <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-center gap-4 text-xs text-gray-400">
             <span>
-              <kbd className="px-1.5 py-0.5 bg-gray-100 rounded text-gray-500">↑↓</kbd> navigace
+              <kbd className="px-1.5 py-0.5 bg-gray-100 rounded text-gray-500">↑↓</kbd> {t.navigate}
             </span>
             <span>
-              <kbd className="px-1.5 py-0.5 bg-gray-100 rounded text-gray-500">Enter</kbd> otevřít
+              <kbd className="px-1.5 py-0.5 bg-gray-100 rounded text-gray-500">Enter</kbd> {t.open}
             </span>
             <span>
-              <kbd className="px-1.5 py-0.5 bg-gray-100 rounded text-gray-500">Esc</kbd> zavřít
+              <kbd className="px-1.5 py-0.5 bg-gray-100 rounded text-gray-500">Esc</kbd> {t.close}
             </span>
           </div>
         )}

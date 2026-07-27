@@ -9,6 +9,19 @@ interface UseSearchResult {
   totalCount: number;
 }
 
+const groupLabelTranslations = {
+  cs: {
+    page: 'Stránky',
+    news: 'Aktuality',
+    navigation: 'Menu',
+  },
+  en: {
+    page: 'Pages',
+    news: 'News',
+    navigation: 'Menu',
+  },
+} as const;
+
 /**
  * Custom hook for client-side search functionality
  *
@@ -19,10 +32,12 @@ interface UseSearchResult {
  *
  * @param query - Search query (should be debounced)
  * @param searchIndex - Pre-fetched searchable items from server
+ * @param locale - Current locale, used for the result group labels
  */
 export function useSearch(
   query: string,
-  searchIndex: SearchableItem[]
+  searchIndex: SearchableItem[],
+  locale: string = 'cs'
 ): UseSearchResult {
   // Filter and group results (minimum 2 characters required)
   const { results, totalCount } = useMemo(() => {
@@ -49,11 +64,9 @@ export function useSearch(
     }
 
     // Create result groups with labels (only non-empty groups)
-    const groupLabels: Record<string, string> = {
-      page: 'Stránky',
-      news: 'Aktuality',
-      navigation: 'Menu',
-    };
+    const groupLabels =
+      groupLabelTranslations[locale as keyof typeof groupLabelTranslations] ||
+      groupLabelTranslations.cs;
 
     const resultGroups: SearchResultGroup[] = [];
 
@@ -71,7 +84,7 @@ export function useSearch(
       results: resultGroups,
       totalCount: matched.length,
     };
-  }, [query, searchIndex]);
+  }, [query, searchIndex, locale]);
 
   return {
     results,

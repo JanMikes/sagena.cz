@@ -45,6 +45,7 @@ interface PageHeaderClientProps {
   serviceCardsProps: ServiceCardsPropsData | null;
   hasSlider: boolean;
   hasServiceCards: boolean;
+  locale?: string;
 }
 
 const PageHeaderClient: React.FC<PageHeaderClientProps> = ({
@@ -52,6 +53,7 @@ const PageHeaderClient: React.FC<PageHeaderClientProps> = ({
   serviceCardsProps,
   hasSlider,
   hasServiceCards,
+  locale = 'cs',
 }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const slidesCount = sliderProps?.slides.length ?? 0;
@@ -70,6 +72,7 @@ const PageHeaderClient: React.FC<PageHeaderClientProps> = ({
             currentSlide={shouldRenderExternalNav ? currentSlide : undefined}
             onSlideChange={shouldRenderExternalNav ? setCurrentSlide : undefined}
             hideNavigation={shouldRenderExternalNav}
+            locale={locale}
           />
         </div>
       )}

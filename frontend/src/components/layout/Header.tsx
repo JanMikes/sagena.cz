@@ -15,6 +15,21 @@ import { useReservationModal } from '@/contexts/ReservationModalContext';
 // TEMPORARY: set back to `true` to restore the "Objednat se" button in the header
 const SHOW_ORDER_BUTTON = false;
 
+const translations = {
+  cs: {
+    order: 'Objednat se',
+    search: 'Vyhledávání',
+    home: 'Domů',
+    language: 'Jazyk',
+  },
+  en: {
+    order: 'Make an appointment',
+    search: 'Search',
+    home: 'Home',
+    language: 'Language',
+  },
+} as const;
+
 interface HeaderProps {
   navigation?: NavigationItem[];
   currentLocale?: Locale;
@@ -39,6 +54,7 @@ const Header: React.FC<HeaderProps> = ({
   const pathname = usePathname();
   const { alternateLocaleUrl } = useLocaleContext();
   const { openModal: openReservationModal } = useReservationModal();
+  const t = translations[currentLocale as keyof typeof translations] || translations.cs;
 
   // Global keyboard shortcut: Cmd/Ctrl + K to open search
   useEffect(() => {
@@ -130,7 +146,7 @@ const Header: React.FC<HeaderProps> = ({
             </a>
             {SHOW_ORDER_BUTTON && (
               <Button onClick={openReservationModal} size="sm">
-                Objednat se
+                {t.order}
               </Button>
             )}
             {/* Search & Language Switcher */}
@@ -138,7 +154,7 @@ const Header: React.FC<HeaderProps> = ({
               <button
                 onClick={() => setSearchModalOpen(true)}
                 className="p-2 text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
-                aria-label="Vyhledávání"
+                aria-label={t.search}
               >
                 <SearchIcon className="w-5 h-5" />
               </button>
@@ -182,7 +198,7 @@ const Header: React.FC<HeaderProps> = ({
                   ? 'text-primary-600 bg-primary-50'
                   : 'text-gray-700 hover:text-primary-600 hover:bg-primary-50'
               }`}
-              aria-label={currentLocale === 'cs' ? 'Domů' : 'Home'}
+              aria-label={t.home}
             >
               <Home className="w-5 h-5" />
             </Link>
@@ -236,7 +252,7 @@ const Header: React.FC<HeaderProps> = ({
                 onClick={() => setMobileMenuOpen(false)}
               >
                 <Home className="w-5 h-5" />
-                <span>{currentLocale === 'cs' ? 'Domů' : 'Home'}</span>
+                <span>{t.home}</span>
               </Link>
               {!hideNavigation && navigation.map((item) => {
                 const isActive = normalizePath(pathname) === normalizePath(item.href);
@@ -262,16 +278,16 @@ const Header: React.FC<HeaderProps> = ({
                     setMobileMenuOpen(false);
                   }}
                   className="flex items-center space-x-2 px-4 py-3 text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors text-left"
-                  aria-label="Vyhledávání"
+                  aria-label={t.search}
                 >
                   <SearchIcon className="w-5 h-5" />
-                  <span className="font-medium">Vyhledávání</span>
+                  <span className="font-medium">{t.search}</span>
                 </button>
               )}
               {/* Mobile Language Switcher */}
               <div className="px-4 py-2">
                 <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
-                  {currentLocale === 'cs' ? 'Jazyk' : 'Language'}
+                  {t.language}
                 </div>
                 <div className="flex items-center space-x-2">
                   <span className="flex items-center space-x-2 px-3 py-2 bg-primary-50 text-primary-700 rounded-lg text-sm font-medium">
@@ -291,7 +307,7 @@ const Header: React.FC<HeaderProps> = ({
               {SHOW_ORDER_BUTTON && (
                 <div className="px-4 pt-2">
                   <Button onClick={() => { openReservationModal(); setMobileMenuOpen(false); }} className="w-full">
-                    Objednat se
+                    {t.order}
                   </Button>
                 </div>
               )}

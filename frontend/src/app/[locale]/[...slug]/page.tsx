@@ -53,7 +53,7 @@ export async function generateMetadata({
 
     if (!page || !hierarchy) {
       return {
-        title: 'Stránka nenalezena',
+        title: locale === 'en' ? 'Page not found' : 'Stránka nenalezena',
       };
     }
 
