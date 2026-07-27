@@ -12,6 +12,9 @@ import { type Locale } from '@/i18n/config';
 import { useLocaleContext } from '@/contexts/LocaleContext';
 import { useReservationModal } from '@/contexts/ReservationModalContext';
 
+// TEMPORARY: set back to `true` to restore the "Objednat se" button in the header
+const SHOW_ORDER_BUTTON = false;
+
 interface HeaderProps {
   navigation?: NavigationItem[];
   currentLocale?: Locale;
@@ -125,9 +128,11 @@ const Header: React.FC<HeaderProps> = ({
               <Phone className="w-5 h-5" />
               <span className="font-medium">+420 553 030 830</span>
             </a>
-            <Button onClick={openReservationModal} size="sm">
-              Objednat se
-            </Button>
+            {SHOW_ORDER_BUTTON && (
+              <Button onClick={openReservationModal} size="sm">
+                Objednat se
+              </Button>
+            )}
             {/* Search & Language Switcher */}
             {!hideNavigation && (
               <button
@@ -283,11 +288,13 @@ const Header: React.FC<HeaderProps> = ({
                   </a>
                 </div>
               </div>
-              <div className="px-4 pt-2">
-                <Button onClick={() => { openReservationModal(); setMobileMenuOpen(false); }} className="w-full">
-                  Objednat se
-                </Button>
-              </div>
+              {SHOW_ORDER_BUTTON && (
+                <div className="px-4 pt-2">
+                  <Button onClick={() => { openReservationModal(); setMobileMenuOpen(false); }} className="w-full">
+                    Objednat se
+                  </Button>
+                </div>
+              )}
             </div>
           </div>
         </div>
